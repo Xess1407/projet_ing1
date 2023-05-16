@@ -2,16 +2,25 @@
 
 ## Dependence
 
-In api directory:
-``` 
+```bash
+sudo apt install npm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+nvm install --lts
+```
 
+```bash
+sudo apt install sqlite3
 ```
 
 
 In front directory
 
-```
-npm i
+```bash
 npm i
 ```
 
+In API directory
+
+```bash
+npm i
+```
