@@ -3,9 +3,13 @@
 ## Dependence
 
 In api directory:
-``` npm install express  ```
+``` 
+npm install express  
+```
+
 
 In front directory
+
 ```
 npm install solid-js
 npm install @kobalte/core
