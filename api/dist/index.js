@@ -47,7 +47,7 @@ var App = class {
   }
   listen() {
     this.app.listen(this.port, () => {
-      console.log(`[INFO] Project Api started on port ${this.port}`);
+      console.log(`[INFO] MAGGLE API started on port ${this.port}`);
       this.app.use("/", import_express.default.static("../front/dist/"));
       this.app.get("*", function(_req, res) {
         res.redirect("/");
@@ -56,6 +56,10 @@ var App = class {
   }
 };
 var app_default = App;
+
+// src/manager.ts
+var import_express3 = require("express");
+var import_sqlite32 = require("sqlite3");
 
 // src/user.ts
 var import_express2 = require("express");
@@ -89,6 +93,17 @@ var _UserController = class {
         resolve(rows);
       })
     );
+  }
+  static async exist_user(id) {
+    let res = false;
+    await _UserController.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.rowid == id) {
+          res = true;
+        }
+      })
+    );
+    return res;
   }
   async get(req, res) {
     let { email, password } = req.body;
@@ -272,9 +287,173 @@ var UserEntry = class {
   }
 };
 
+// src/manager.ts
+var _ManagerController = class {
+  constructor() {
+    this.router = new import_express3.Router();
+    this.router.post(_ManagerController.path, this.post);
+  }
+  static get_values() {
+    const db = new import_sqlite32.Database("maggle.db");
+    const sql = "SELECT rowid, * FROM manager";
+    return new Promise(
+      (resolve, reject) => db.all(sql, [], (err, rows) => {
+        if (err) {
+          console.log(err);
+        }
+        resolve(rows);
+      })
+    );
+  }
+  static get_manager_by_user_id(user_id) {
+    const db = new import_sqlite32.Database("maggle.db");
+    const sql = "SELECT rowid, * FROM manager WHERE user_id = ?";
+    let params = [user_id];
+    return new Promise(
+      (resolve, reject) => db.all(sql, [], (err, rows) => {
+        if (err) {
+          console.log(err);
+        }
+        resolve(rows);
+      })
+    );
+  }
+  static async exist_manager(user_id) {
+    let res = false;
+    await _ManagerController.get_manager_by_user_id(user_id).then((rows) => {
+      if (rows.length > 0) {
+        res = true;
+      }
+    });
+    return res;
+  }
+  static async post_new(p, res, id) {
+    let sql;
+    let data;
+    const db = new import_sqlite32.Database("maggle.db");
+    const exist = await this.exist_manager(p.user_id);
+    if (exist) {
+      res.status(400).send();
+      return;
+    }
+    const existUser = await user_default.exist_user(p.user_id);
+    if (!existUser) {
+      res.status(400).send();
+      return;
+    }
+    if (typeof id !== "undefined") {
+      res.status(400).send();
+      return;
+    } else {
+      sql = "INSERT INTO manager VALUES(?,?,?,?)";
+      data = [
+        p.user_id,
+        p.company,
+        p.activationDate,
+        p.deactivationDate
+      ];
+    }
+    let e;
+    db.run(sql, data, (err) => e = err);
+    if (e) {
+      console.log(
+        "[ERROR][POST] sql error " + _ManagerController.path + " : " + JSON.stringify(p)
+      );
+      console.error(e.message);
+      res.status(500).send();
+      return;
+    }
+    db.close();
+    console.log(
+      "[INFO][POST] data added on " + _ManagerController.path + " : " + JSON.stringify(p)
+    );
+    res.status(200).send();
+  }
+  static async post_modify(p, res) {
+    const db = new import_sqlite32.Database("maggle.db");
+    const exist = await this.exist_manager(p.user_id);
+    if (!exist) {
+      res.status(400).send();
+      return;
+    }
+    const sql = `UPDATE manager SET
+    company = ?, activationDate = ?, deactivationDate = ?
+    WHERE rowid = ?`;
+    const data = [
+      p.company,
+      p.activationDate,
+      p.deactivationDate
+    ];
+    let e;
+    db.run(sql, data, (err) => e = err);
+    if (e) {
+      console.log(
+        "[ERROR][POST] sql error " + _ManagerController.path + " : " + JSON.stringify(p)
+      );
+      console.error(e.message);
+      res.status(500).send();
+      return;
+    }
+    db.close();
+    console.log(
+      "[INFO][POST] data updated on " + _ManagerController.path + " : " + JSON.stringify(p)
+    );
+    res.status(200).send();
+  }
+  async post(req, res) {
+    let { id, user_id, company, activationDate, deactivationDate } = req.body;
+    if (!user_id || !company || !activationDate || !deactivationDate) {
+      console.log(
+        "[ERROR][POST] wrong data on " + _ManagerController.path + " : " + JSON.stringify(req.body)
+      );
+      res.status(400).send();
+      return;
+    }
+    if (!id) {
+      const element = new Manager(
+        user_id,
+        company,
+        activationDate,
+        deactivationDate
+      );
+      _ManagerController.post_new(element, res);
+    } else {
+      const element = new ManagerEntry(
+        id,
+        user_id,
+        company,
+        activationDate,
+        deactivationDate
+      );
+      _ManagerController.post_modify(element, res);
+    }
+  }
+};
+var ManagerController = _ManagerController;
+ManagerController.path = "/manager";
+var manager_default = ManagerController;
+var Manager = class {
+  constructor(user_id, company, activationDate, deactivationDate) {
+    this.user_id = user_id;
+    this.company = company;
+    this.activationDate = activationDate;
+    this.deactivationDate = deactivationDate;
+  }
+};
+var ManagerEntry = class {
+  constructor(id, user_id, company, activationDate, deactivationDate) {
+    this.id = id;
+    this.user_id = user_id;
+    this.company = company;
+    this.activationDate = activationDate;
+    this.deactivationDate = deactivationDate;
+  }
+};
+
 // src/index.ts
 var controllers = [
-  new user_default()
+  new user_default(),
+  new manager_default()
 ];
 var app = new app_default(
   controllers,

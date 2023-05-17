@@ -1,8 +1,10 @@
 import App from "./app";
+import ManagerController from "./manager";
 import UserController from "./user";
 
 const controllers = [
   new UserController(),
+  new ManagerController(),
 ];
 
 const app = new App(

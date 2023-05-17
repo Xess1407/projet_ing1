@@ -41,6 +41,19 @@ class UserController implements Controller {
     );
   }
 
+  static async exist_user(id: number): bool {
+    let res = false;
+    await UserController.get_values().then((rows) =>
+      rows.forEach((row) => {
+        if ((row.rowid) == id) {
+          res = true;
+        }
+      })
+    );
+
+    return res;
+  }
+
   async get(req: Request, res: Response) {
     let { email, password } = req.body;
 
