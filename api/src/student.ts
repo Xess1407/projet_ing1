@@ -2,6 +2,7 @@ import Controller from "./controller";
 import { Request, Response, Router } from "express";
 import { Database } from "sqlite3";
 import UserController from "./user";
+import { log } from "console";
 
 class StudentController implements Controller {
   static path = "/student";
@@ -39,6 +40,33 @@ class StudentController implements Controller {
     return id
   }
 
+  static get_student_by_user_id(user_id: number) {
+    const db = new Database("maggle.db");
+    const sql = "SELECT rowid, * FROM student WHERE user_id = ?";
+
+    let params = [user_id];
+
+    return new Promise((resolve, reject) =>
+      db.all(sql, params, (err, rows) => {
+        if (err) {
+          console.log(err);
+        }
+        resolve(rows);
+      })
+    );
+  }
+
+  static async exist_student(user_id: number): Promise<boolean> {
+    let res = false;
+    await StudentController.get_student_by_user_id(user_id).then((rows: any) => {
+        if(rows.length > 0) {
+          res = true;
+        }
+    });
+
+    return res;
+  }
+
   async get(req: Request, res: Response) {
     let { user_id, password } = req.body;
 
@@ -46,7 +74,7 @@ class StudentController implements Controller {
 
     if (!password || !user_id) {
       console.log(
-        "[ERROR][POST] wrong data on " + StudentController.path + ": " +
+        "[ERROR][POST] wrong data on " + StudentController.path + "/get: " +
           JSON.stringify(req.body),
       );
       res.status(400).send();
@@ -91,14 +119,20 @@ class StudentController implements Controller {
     }
   }
 
-  static async post_new(p: Student, res: Response, id?: number) {
+  static async post_new(p: Student, res: Response) {
     let sql;
     let data;
     const db = new Database("maggle.db");
 
-    const exist = await UserController.exist_student_user(p.user_id);
-    if (!exist) {
+    const exist_user = await UserController.exist_student_user(p.user_id);
+    if (!exist_user) {
       res.status(400).send("[POST][NEW] User doesn't exist!");
+      return;
+    }
+
+    const exist_student = await this.exist_student(p.user_id)
+    if (exist_student) {
+      res.status(400).send("[POST][NEW] Student already exist!");
       return;
     }
     
@@ -112,7 +146,7 @@ class StudentController implements Controller {
     ];
     
     /* Run query */
-    let e, d = -1;
+    let e;
     db.run(sql, data, function (err) {
       if (err) {
         console.log(

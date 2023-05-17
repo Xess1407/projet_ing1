@@ -494,12 +494,34 @@ var _StudentController = class {
     );
     return id;
   }
+  static get_student_by_user_id(user_id) {
+    const db = new import_sqlite33.Database("maggle.db");
+    const sql = "SELECT rowid, * FROM student WHERE user_id = ?";
+    let params = [user_id];
+    return new Promise(
+      (resolve, reject) => db.all(sql, params, (err, rows) => {
+        if (err) {
+          console.log(err);
+        }
+        resolve(rows);
+      })
+    );
+  }
+  static async exist_student(user_id) {
+    let res = false;
+    await _StudentController.get_student_by_user_id(user_id).then((rows) => {
+      if (rows.length > 0) {
+        res = true;
+      }
+    });
+    return res;
+  }
   async get(req, res) {
     let { user_id, password } = req.body;
     let r;
     if (!password || !user_id) {
       console.log(
-        "[ERROR][POST] wrong data on " + _StudentController.path + ": " + JSON.stringify(req.body)
+        "[ERROR][POST] wrong data on " + _StudentController.path + "/get: " + JSON.stringify(req.body)
       );
       res.status(400).send();
       return;
@@ -538,13 +560,18 @@ var _StudentController = class {
       res.status(400).send();
     }
   }
-  static async post_new(p, res, id) {
+  static async post_new(p, res) {
     let sql;
     let data;
     const db = new import_sqlite33.Database("maggle.db");
-    const exist = await user_default.exist_student_user(p.user_id);
-    if (!exist) {
+    const exist_user = await user_default.exist_student_user(p.user_id);
+    if (!exist_user) {
       res.status(400).send("[POST][NEW] User doesn't exist!");
+      return;
+    }
+    const exist_student = await this.exist_student(p.user_id);
+    if (exist_student) {
+      res.status(400).send("[POST][NEW] Student already exist!");
       return;
     }
     sql = "INSERT INTO student VALUES(?,?,?,?)";
@@ -554,7 +581,7 @@ var _StudentController = class {
       p.school,
       p.city
     ];
-    let e, d = -1;
+    let e;
     db.run(sql, data, function(err) {
       if (err) {
         console.log(
