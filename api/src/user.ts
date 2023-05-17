@@ -201,6 +201,7 @@ class UserController implements Controller {
       telephone_number = "";
     }
 
+    /* No ID implie creating the user otherwise modify it */
     if (!id) {
       const element: User = new User(
         name,
