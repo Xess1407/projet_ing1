@@ -685,6 +685,18 @@ var _StudentController = class {
       res.status(400).send();
       return;
     }
+    let identified = false;
+    await user_default.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.rowid == user_id && row.password == password) {
+          identified = true;
+        }
+      })
+    );
+    if (!identified) {
+      res.status(400).send("Wrong password!");
+      return;
+    }
     if (!id) {
       const element = new Student(
         user_id,

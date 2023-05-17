@@ -221,6 +221,18 @@ class StudentController implements Controller {
     }
 
     /* Check identifiers */
+    let identified = false;
+    await UserController.get_values().then((rows: any) =>
+    rows.forEach((row) => {
+        if (row.rowid == user_id && row.password == password) {
+          identified = true;
+        }
+      })
+    )
+    if (!identified) {
+      res.status(400).send("Wrong password!");
+      return;
+    }
 
     /* No ID of student implie creating the user otherwise modify it */
     if (!id) {
