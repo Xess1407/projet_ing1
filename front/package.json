@@ -10,10 +10,13 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "typescript": "^4.9.5",
     "vite": "^4.1.1",
     "vite-plugin-solid": "^2.5.0"
   },
   "dependencies": {
+    "@kobalte/core": "^0.9.6",
+    "@solidjs/router": "^0.8.2",
     "solid-js": "^1.6.10"
   }
 }
