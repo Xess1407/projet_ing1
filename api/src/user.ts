@@ -1,7 +1,6 @@
 import Controller from "./controller";
 import { Request, Response, Router } from "express";
 import { Database } from "sqlite3";
-import { log } from "console";
 
 class UserController implements Controller {
   static path = "/user";

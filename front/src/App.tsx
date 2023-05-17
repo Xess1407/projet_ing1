@@ -4,12 +4,14 @@ import Home from './pages/Home'
 import logo from './logo.svg';
 import styles from './App.module.css';
 import { Route, Routes } from '@solidjs/router';
+import Connect from './pages/Connect';
 
 const App: Component = () => {
   return (
     <div>
       <Routes>
         <Route path="/" element={<Home/>}/>
+        <Route path="/connect" element={<Connect/>}/>
         <Route path="*" element={<div><p>404 Error</p></div>}/>
       </Routes>
     </div>
