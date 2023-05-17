@@ -94,11 +94,11 @@ var _UserController = class {
       })
     );
   }
-  static async exist_user(id) {
+  static async exist_manager_user(id) {
     let res = false;
     await _UserController.get_values().then(
       (rows) => rows.forEach((row) => {
-        if (row.rowid == id) {
+        if (row.rowid == id && row.role == "manager") {
           res = true;
         }
       })
@@ -331,13 +331,13 @@ var _ManagerController = class {
     let sql;
     let data;
     const db = new import_sqlite32.Database("maggle.db");
-    const exist = await this.exist_manager(p.user_id);
-    if (exist) {
+    const existManagerUser = await user_default.exist_manager_user(p.user_id);
+    if (!existManagerUser) {
       res.status(400).send();
       return;
     }
-    const existUser = await user_default.exist_user(p.user_id);
-    if (!existUser) {
+    const exist = await this.exist_manager(p.user_id);
+    if (exist) {
       res.status(400).send();
       return;
     }

@@ -41,11 +41,11 @@ class UserController implements Controller {
     );
   }
 
-  static async exist_user(id: number): bool {
+  static async exist_manager_user(id: number): bool {
     let res = false;
     await UserController.get_values().then((rows) =>
       rows.forEach((row) => {
-        if ((row.rowid) == id) {
+        if ((row.rowid) == id && (row.role) == "manager") {
           res = true;
         }
       })

@@ -59,8 +59,8 @@ class ManagerController implements Controller {
     let data;
     const db = new Database("maggle.db");
 
-    const existUser = await UserController.exist_user(p.user_id);
-    if (!existUser) {
+    const existManagerUser = await UserController.exist_manager_user(p.user_id);
+    if (!existManagerUser) {
         res.status(400).send();
         return;
     }
