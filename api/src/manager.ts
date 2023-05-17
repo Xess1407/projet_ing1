@@ -11,6 +11,7 @@ class ManagerController implements Controller {
   constructor() {
     this.router = new Router();
     this.router.post(ManagerController.path, this.post);
+    this.router.post(ManagerController.path + "/get", this.get);
   }
 
   static get_values() {
@@ -34,7 +35,7 @@ class ManagerController implements Controller {
     let params = [user_id];
 
     return new Promise((resolve, reject) =>
-      db.all(sql, [], (err, rows) => {
+      db.all(sql, params, (err, rows) => {
         if (err) {
           console.log(err);
         }
@@ -52,6 +53,58 @@ class ManagerController implements Controller {
     });
 
     return res;
+  }
+
+  async get(req: Request, res: Response) {
+    let { user_id, password } = req.body;
+
+    let r;
+
+    if (!password || !user_id) {
+      console.log (
+        "[ERROR][POST] wrong data on " + ManagerController.path + ": " +
+          JSON.stringify(req.body),
+      );
+      res.status(400).send();
+      return;
+    }
+
+    /* Identify the ID to the user */
+    let identified = false;
+    await UserController.get_values().then((rows: any) =>
+    rows.forEach((row) => {
+        if (row.rowid == user_id && row.password == password) {
+          identified = true;
+        }
+      })
+    )
+
+    let found = false;
+    if (identified) {
+      await ManagerController.get_values().then((rows: any) =>
+        rows.forEach((row) => {
+          if (row.user_id == user_id) {
+            found = true;
+            r = new ManagerEntry(
+              row.rowid,
+              row.user_id,
+              row.company,
+              row.activation_date,
+              row.deactivation_date
+            );
+          }
+        })
+      );
+    }
+
+    if (found) {
+      console.log(
+        "[INFO][POST] " + ManagerController.path + ": " + user_id,
+      );
+      res.send(JSON.stringify(r));
+    } else {
+      res.status(400).send();
+    }
   }
 
   static async post_new(p: Manager, res: Response) {

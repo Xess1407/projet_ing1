@@ -309,6 +309,7 @@ var _ManagerController = class {
   constructor() {
     this.router = new import_express3.Router();
     this.router.post(_ManagerController.path, this.post);
+    this.router.post(_ManagerController.path + "/get", this.get);
   }
   static get_values() {
     const db = new import_sqlite32.Database("maggle.db");
@@ -327,7 +328,7 @@ var _ManagerController = class {
     const sql = "SELECT rowid, * FROM manager WHERE user_id = ?";
     let params = [user_id];
     return new Promise(
-      (resolve, reject) => db.all(sql, [], (err, rows) => {
+      (resolve, reject) => db.all(sql, params, (err, rows) => {
         if (err) {
           console.log(err);
         }
@@ -343,6 +344,50 @@ var _ManagerController = class {
       }
     });
     return res;
+  }
+  async get(req, res) {
+    let { user_id, password } = req.body;
+    let r;
+    if (!password || !user_id) {
+      console.log(
+        "[ERROR][POST] wrong data on " + _ManagerController.path + ": " + JSON.stringify(req.body)
+      );
+      res.status(400).send();
+      return;
+    }
+    let identified = false;
+    await user_default.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.rowid == user_id && row.password == password) {
+          identified = true;
+        }
+      })
+    );
+    let found = false;
+    if (identified) {
+      await _ManagerController.get_values().then(
+        (rows) => rows.forEach((row) => {
+          if (row.user_id == user_id) {
+            found = true;
+            r = new ManagerEntry(
+              row.rowid,
+              row.user_id,
+              row.company,
+              row.activation_date,
+              row.deactivation_date
+            );
+          }
+        })
+      );
+    }
+    if (found) {
+      console.log(
+        "[INFO][POST] " + _ManagerController.path + ": " + user_id
+      );
+      res.send(JSON.stringify(r));
+    } else {
+      res.status(400).send();
+    }
   }
   static async post_new(p, res) {
     let sql;
