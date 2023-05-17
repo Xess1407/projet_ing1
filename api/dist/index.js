@@ -331,8 +331,8 @@ var _ManagerController = class {
     let sql;
     let data;
     const db = new import_sqlite32.Database("maggle.db");
-    const existManagerUser = await user_default.exist_manager_user(p.user_id);
-    if (!existManagerUser) {
+    const exist_manager_user = await user_default.exist_manager_user(p.user_id);
+    if (!exist_manager_user) {
       res.status(400).send();
       return;
     }
@@ -349,8 +349,8 @@ var _ManagerController = class {
       data = [
         p.user_id,
         p.company,
-        p.activationDate,
-        p.deactivationDate
+        p.activation_date,
+        p.deactivation_date
       ];
     }
     let e;
@@ -377,12 +377,12 @@ var _ManagerController = class {
       return;
     }
     const sql = `UPDATE manager SET
-    company = ?, activationDate = ?, deactivationDate = ?
+    company = ?, activation_date = ?, deactivation_date = ?
     WHERE rowid = ?`;
     const data = [
       p.company,
-      p.activationDate,
-      p.deactivationDate
+      p.activation_date,
+      p.deactivation_date
     ];
     let e;
     db.run(sql, data, (err) => e = err);
@@ -401,8 +401,8 @@ var _ManagerController = class {
     res.status(200).send();
   }
   async post(req, res) {
-    let { id, user_id, company, activationDate, deactivationDate } = req.body;
-    if (!user_id || !company || !activationDate || !deactivationDate) {
+    let { id, user_id, company, activation_date, deactivation_date } = req.body;
+    if (!user_id || !company || !activation_date || !deactivation_date) {
       console.log(
         "[ERROR][POST] wrong data on " + _ManagerController.path + " : " + JSON.stringify(req.body)
       );
@@ -413,8 +413,8 @@ var _ManagerController = class {
       const element = new Manager(
         user_id,
         company,
-        activationDate,
-        deactivationDate
+        activation_date,
+        deactivation_date
       );
       _ManagerController.post_new(element, res);
     } else {
@@ -422,8 +422,8 @@ var _ManagerController = class {
         id,
         user_id,
         company,
-        activationDate,
-        deactivationDate
+        activation_date,
+        deactivation_date
       );
       _ManagerController.post_modify(element, res);
     }
@@ -433,20 +433,20 @@ var ManagerController = _ManagerController;
 ManagerController.path = "/manager";
 var manager_default = ManagerController;
 var Manager = class {
-  constructor(user_id, company, activationDate, deactivationDate) {
+  constructor(user_id, company, activation_date, deactivation_date) {
     this.user_id = user_id;
     this.company = company;
-    this.activationDate = activationDate;
-    this.deactivationDate = deactivationDate;
+    this.activation_date = activation_date;
+    this.deactivation_date = deactivation_date;
   }
 };
 var ManagerEntry = class {
-  constructor(id, user_id, company, activationDate, deactivationDate) {
+  constructor(id, user_id, company, activation_date, deactivation_date) {
     this.id = id;
     this.user_id = user_id;
     this.company = company;
-    this.activationDate = activationDate;
-    this.deactivationDate = deactivationDate;
+    this.activation_date = activation_date;
+    this.deactivation_date = deactivation_date;
   }
 };
 

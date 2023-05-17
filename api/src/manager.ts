@@ -59,8 +59,8 @@ class ManagerController implements Controller {
     let data;
     const db = new Database("maggle.db");
 
-    const existManagerUser = await UserController.exist_manager_user(p.user_id);
-    if (!existManagerUser) {
+    const exist_manager_user = await UserController.exist_manager_user(p.user_id);
+    if (!exist_manager_user) {
         res.status(400).send();
         return;
     }
@@ -80,8 +80,8 @@ class ManagerController implements Controller {
       data = [
         p.user_id,
         p.company,
-        p.activationDate,
-        p.deactivationDate
+        p.activation_date,
+        p.deactivation_date
       ];
     }
 
@@ -116,12 +116,12 @@ class ManagerController implements Controller {
     }
 
     const sql = `UPDATE manager SET
-    company = ?, activationDate = ?, deactivationDate = ?
+    company = ?, activation_date = ?, deactivation_date = ?
     WHERE rowid = ?`;
     const data = [
       p.company,
-      p.activationDate,
-      p.deactivationDate,
+      p.activation_date,
+      p.deactivation_date,
     ];
 
     let e;
@@ -145,10 +145,10 @@ class ManagerController implements Controller {
   }
 
   async post(req: Request, res: Response) {
-    let { id, user_id, company, activationDate, deactivationDate } = req.body;
+    let { id, user_id, company, activation_date, deactivation_date } = req.body;
 
     if (
-      !user_id || !company || !activationDate || !deactivationDate
+      !user_id || !company || !activation_date || !deactivation_date
     ) {
       console.log(
         "[ERROR][POST] wrong data on " + ManagerController.path + " : " +
@@ -163,8 +163,8 @@ class ManagerController implements Controller {
       const element: Manager = new Manager(
         user_id,
         company,
-        activationDate,
-        deactivationDate
+        activation_date,
+        deactivation_date
       );
       ManagerController.post_new(element, res);
     } else {
@@ -172,8 +172,8 @@ class ManagerController implements Controller {
         id,
         user_id,
         company,
-        activationDate,
-        deactivationDate
+        activation_date,
+        deactivation_date
       );
       ManagerController.post_modify(element, res);
     }
@@ -185,19 +185,19 @@ export default ManagerController;
 class Manager {
     user_id: number;
     company: string;
-    activationDate: Date;
-    deactivationDate: Date;
+    activation_date: Date;
+    deactivation_date: Date;
 
     constructor(
         user_id: number,
         company: string,
-        activationDate: Date,
-        deactivationDate: Date
+        activation_date: Date,
+        deactivation_date: Date
     ) {
         this.user_id = user_id;
         this.company = company;
-        this.activationDate = activationDate;
-        this.deactivationDate = deactivationDate;
+        this.activation_date = activation_date;
+        this.deactivation_date = deactivation_date;
     }
 }
 
@@ -205,20 +205,20 @@ class ManagerEntry {
     id: number;
     user_id: number;
     company: string;
-    activationDate: Date;
-    deactivationDate: Date;
+    activation_date: Date;
+    deactivation_date: Date;
 
     constructor(
         id: number,
         user_id: number,
         company: string,
-        activationDate: Date,
-        deactivationDate: Date
+        activation_date: Date,
+        deactivation_date: Date
     ) {
         this.id = id;
         this.user_id = user_id;
         this.company = company;
-        this.activationDate = activationDate;
-        this.deactivationDate = deactivationDate;
+        this.activation_date = activation_date;
+        this.deactivation_date = deactivation_date;
     }
 }

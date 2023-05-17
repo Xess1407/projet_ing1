@@ -7,4 +7,4 @@ curl -X POST -H "Content-Type: application/json" -d '{"name":"admin","family_nam
 curl -X POST -H "Content-Type: application/json" -d '{"name":"man","family_name":"man","email":"man@man","password":"man","telephone_number":2987391,"role":"manager"}' localhost:8080/api/user
 
 
-curl -X POST -H "Content-Type: application/json" -d '{"user_id":3, "company":"renault", "activationDate":"2023-05-17", "deactivationDate":"2023-05-18"}' localhost:8080/api/manager
+curl -X POST -H "Content-Type: application/json" -d '{"user_id":3, "company":"renault", "activation_date":"2023-05-17", "deactivation_date":"2023-05-18"}' localhost:8080/api/manager
