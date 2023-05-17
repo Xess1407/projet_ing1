@@ -40,11 +40,24 @@ class UserController implements Controller {
     );
   }
 
+  static async exist_user_id(user_id: number): bool {
+    let res = false;
+    await UserController.get_values().then((rows: any) =>
+      rows.forEach((row) => {
+        if (row.rowid == user_id) {
+          res = true;
+        }
+      })
+    );
+
+    return res;
+  }
+
   static async exist_manager_user(id: number): bool {
     let res = false;
-    await UserController.get_values().then((rows) =>
+    await UserController.get_values().then((rows: any) =>
       rows.forEach((row) => {
-        if ((row.rowid) == id && (row.role) == "manager") {
+        if (row.rowid == id && row.role == "manager") {
           res = true;
         }
       })
@@ -68,7 +81,7 @@ class UserController implements Controller {
     }
 
     let found = false;
-    await UserController.get_values().then((rows) =>
+    await UserController.get_values().then((rows: any) =>
       rows.forEach((row) => {
         if (row.email == email && row.password == password) {
           found = true;
@@ -184,7 +197,7 @@ class UserController implements Controller {
 
   static async exist_email(email: string): bool {
     let res = false;
-    await UserController.get_emails().then((rows) =>
+    await UserController.get_emails().then((rows: any) =>
       rows.forEach((row) => {
         if ((row.email) == email) {
           res = true;

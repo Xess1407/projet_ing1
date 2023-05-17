@@ -26,19 +26,6 @@ class StudentController implements Controller {
       })
     );
   }
-
-  static async exist_user_id(user_id: number): bool {
-    let res = false;
-    await UserController.get_user_id().then((rows: any) =>
-      rows.forEach((row) => {
-        if ((row.rowid) == user_id) {
-          res = true;
-        }
-      })
-    );
-
-    return res;
-  }
   
 
   async get(req: Request, res: Response) {
@@ -98,7 +85,7 @@ class StudentController implements Controller {
     let data;
     const db = new Database("maggle.db");
 
-    const exist = await this.exist_user_id(p.user_id);
+    const exist = await UserController.exist_user_id(p.user_id);
     if (exist) {
       res.status(400).send();
       return;
@@ -140,7 +127,7 @@ class StudentController implements Controller {
   static async post_modify(p: StudentEntry, res: Response) {
     const db = new Database("maggle.db");
 
-    const exist = await this.exist_user_id(p.user_id);
+    const exist = await UserController.exist_user_id(p.user_id);
     if (!exist) {
       res.status(400).send();
       return;

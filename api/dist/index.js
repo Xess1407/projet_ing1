@@ -94,6 +94,17 @@ var _UserController = class {
       })
     );
   }
+  static async exist_user_id(user_id) {
+    let res = false;
+    await _UserController.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.rowid == user_id) {
+          res = true;
+        }
+      })
+    );
+    return res;
+  }
   static async exist_manager_user(id) {
     let res = false;
     await _UserController.get_values().then(
@@ -450,9 +461,195 @@ var ManagerEntry = class {
   }
 };
 
+// src/student.ts
+var import_express4 = require("express");
+var import_sqlite33 = require("sqlite3");
+var _StudentController = class {
+  constructor() {
+    this.router = new import_express4.Router();
+    this.router.post(_StudentController.path, this.post);
+    this.router.post(_StudentController.path, this.get);
+  }
+  static get_values() {
+    const db = new import_sqlite33.Database("maggle.db");
+    const sql = "SELECT rowid, * FROM student";
+    return new Promise(
+      (resolve, reject) => db.all(sql, [], (err, rows) => {
+        if (err) {
+          console.log(err);
+        }
+        resolve(rows);
+      })
+    );
+  }
+  async get(req, res) {
+    let { user_id, password } = req.body;
+    let r;
+    if (!password || !user_id) {
+      console.log(
+        "[ERROR][POST] wrong data on " + _StudentController.path + ": " + JSON.stringify(req.body)
+      );
+      res.status(400).send();
+      return;
+    }
+    let identified = false;
+    await _StudentController.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.rowid == user_id && row.password == password) {
+          identified = true;
+        }
+      })
+    );
+    let found = false;
+    if (identified) {
+      await _StudentController.get_values().then(
+        (rows) => rows.forEach((row) => {
+          if (row.user_id == user_id) {
+            found = true;
+            r = new StudentEntry(
+              row.rowid,
+              row.user_id,
+              row.school_level,
+              row.school,
+              row.city
+            );
+          }
+        })
+      );
+    }
+    if (found) {
+      console.log(
+        "[INFO][POST] " + _StudentController.path + ": " + user_id
+      );
+      res.send(JSON.stringify(r));
+    } else {
+      res.status(400).send();
+    }
+  }
+  static async post_new(p, res, id) {
+    let sql;
+    let data;
+    const db = new import_sqlite33.Database("maggle.db");
+    const exist = await user_default.exist_user_id(p.user_id);
+    if (exist) {
+      res.status(400).send();
+      return;
+    }
+    if (typeof id !== "undefined") {
+      res.status(400).send();
+      return;
+    } else {
+      sql = "INSERT INTO student VALUES(?,?,?,?,?,?)";
+      data = [
+        p.user_id,
+        p.school_level,
+        p.school,
+        p.city
+      ];
+    }
+    let e;
+    db.run(sql, data, (err) => e = err);
+    if (e) {
+      console.log(
+        "[ERROR][POST] sql error " + _StudentController.path + " : " + JSON.stringify(p)
+      );
+      console.error(e.message);
+      res.status(500).send();
+      return;
+    }
+    db.close();
+    console.log(
+      "[INFO][POST] data added on " + _StudentController.path + " : " + JSON.stringify(p)
+    );
+    res.status(200).send();
+  }
+  static async post_modify(p, res) {
+    const db = new import_sqlite33.Database("maggle.db");
+    const exist = await user_default.exist_user_id(p.user_id);
+    if (!exist) {
+      res.status(400).send();
+      return;
+    }
+    const sql = `UPDATE student SET
+    user_id = ?, school_level = ?, school = ?, city = ?
+    WHERE rowid = ?`;
+    const data = [
+      p.user_id,
+      p.school_level,
+      p.school,
+      p.city,
+      p.id
+    ];
+    let e;
+    db.run(sql, data, (err) => e = err);
+    if (e) {
+      console.log(
+        "[ERROR][POST] sql error " + _StudentController.path + " : " + JSON.stringify(p)
+      );
+      console.error(e.message);
+      res.status(500).send();
+      return;
+    }
+    db.close();
+    console.log(
+      "[INFO][POST] data updated on " + _StudentController.path + " : " + JSON.stringify(p)
+    );
+    res.status(200).send();
+  }
+  async post(req, res) {
+    let { id, user_id, school_level, school, city, password } = req.body;
+    if (!user_id || !school_level || !school || !city || !password) {
+      console.log(
+        "[ERROR][POST] wrong data on " + _StudentController.path + " : " + JSON.stringify(req.body)
+      );
+      res.status(400).send();
+      return;
+    }
+    if (!id) {
+      const element = new Student(
+        user_id,
+        school_level,
+        school,
+        city
+      );
+      _StudentController.post_new(element, res);
+    } else {
+      const element = new StudentEntry(
+        id,
+        user_id,
+        school,
+        school_level,
+        city
+      );
+      _StudentController.post_modify(element, res);
+    }
+  }
+};
+var StudentController = _StudentController;
+StudentController.path = "/student";
+var student_default = StudentController;
+var Student = class {
+  constructor(user_id, school_level, school, city) {
+    this.user_id = user_id;
+    this.school_level = school_level;
+    this.school = school;
+    this.city = city;
+  }
+};
+var StudentEntry = class {
+  constructor(id, user_id, school_level, school, city) {
+    this.id = id;
+    this.user_id = user_id;
+    this.school_level = school_level;
+    this.school = school;
+    this.city = city;
+  }
+};
+
 // src/index.ts
 var controllers = [
   new user_default(),
+  new student_default(),
   new manager_default()
 ];
 var app = new app_default(
