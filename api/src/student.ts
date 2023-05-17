@@ -10,7 +10,7 @@ class StudentController implements Controller {
   constructor() {
     this.router = new Router();
     this.router.post(StudentController.path, this.post);
-    this.router.post(StudentController.path, this.get);
+    this.router.post(StudentController.path + "/get", this.get);
   }
 
   static get_values() {
@@ -27,6 +27,17 @@ class StudentController implements Controller {
     );
   }
   
+  static async get_rowid(user_id: number) {
+    let id = -1;
+    await StudentController.get_values().then((rows: any) =>
+    rows.forEach((row) => {
+        if (row.user_id == user_id) {
+          id = row.user_id;
+        }
+      })
+    )
+    return id
+  }
 
   async get(req: Request, res: Response) {
     let { user_id, password } = req.body;
@@ -44,7 +55,7 @@ class StudentController implements Controller {
 
     /* Identify the ID to the user */
     let identified = false;
-    await StudentController.get_values().then((rows: any) =>
+    await UserController.get_values().then((rows: any) =>
     rows.forEach((row) => {
         if (row.rowid == user_id && row.password == password) {
           identified = true;
@@ -85,43 +96,42 @@ class StudentController implements Controller {
     let data;
     const db = new Database("maggle.db");
 
-    const exist = await UserController.exist_user_id(p.user_id);
-    if (exist) {
-      res.status(400).send();
+    const exist = await UserController.exist_student_user(p.user_id);
+    if (!exist) {
+      res.status(400).send("[POST][NEW] User doesn't exist!");
       return;
     }
+    
+    /* Define query */
+    sql = "INSERT INTO student VALUES(?,?,?,?)";
+    data = [
+      p.user_id,
+      p.school_level,
+      p.school,
+      p.city
+    ];
+    
+    /* Run query */
+    let e, d = -1;
+    db.run(sql, data, function (err) {
+      if (err) {
+        console.log(
+          "[ERROR][POST] sql error " + StudentController.path + " : " +
+            JSON.stringify(p),
+        );
+        console.error(e.message);
+        res.status(500).send();
+        return;
+      }
 
-    if (typeof id !== "undefined") {
-      res.status(400).send();
-      return;
-    } else {
-      sql = "INSERT INTO student VALUES(?,?,?,?,?,?)";
-      data = [
-        p.user_id,
-        p.school_level,
-        p.school,
-        p.city
-      ];
-    }
-
-    let e;
-    db.run(sql, data, (err) => e = err);
-    if (e) {
       console.log(
-        "[ERROR][POST] sql error " + StudentController.path + " : " +
+        "[INFO][POST] data added on " + StudentController.path + " : " +
           JSON.stringify(p),
       );
-      console.error(e.message);
-      res.status(500).send();
-      return;
-    }
+  
+      res.status(200).send(JSON.stringify({"id:":this.lastID}));
+    });
     db.close();
-
-    console.log(
-      "[INFO][POST] data added on " + StudentController.path + " : " +
-        JSON.stringify(p),
-    );
-    res.status(200).send();
   }
 
   static async post_modify(p: StudentEntry, res: Response) {
@@ -129,7 +139,7 @@ class StudentController implements Controller {
 
     const exist = await UserController.exist_user_id(p.user_id);
     if (!exist) {
-      res.status(400).send();
+      res.status(400).send("[POST][MODIFY]User doesn't exist!");
       return;
     }
 
@@ -192,8 +202,8 @@ class StudentController implements Controller {
       const element: StudentEntry = new StudentEntry(
         id,
         user_id,
-        school,
         school_level,
+        school,
         city
       );
       StudentController.post_modify(element, res);

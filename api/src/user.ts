@@ -53,6 +53,19 @@ class UserController implements Controller {
     return res;
   }
 
+  static async exist_student_user(user_id: number): bool {
+    let res = false;
+    await UserController.get_values().then((rows: any) =>
+      rows.forEach((row) => {
+        if (row.rowid == user_id && row.role == "student") {
+          res = true;
+        }
+      })
+    );
+
+    return res;
+  }
+
   static async exist_manager_user(id: number): bool {
     let res = false;
     await UserController.get_values().then((rows: any) =>
@@ -108,7 +121,7 @@ class UserController implements Controller {
     }
   }
 
-  static async post_new(p: User, res: Response, id?: number) {
+  static async post_new(p: User, res: Response) {
     let sql;
     let data;
     const db = new Database("maggle.db");
@@ -118,20 +131,15 @@ class UserController implements Controller {
       return;
     }
 
-    if (typeof id !== "undefined") {
-      res.status(400).send();
-      return;
-    } else {
-      sql = "INSERT INTO user VALUES(?,?,?,?,?,?)";
-      data = [
-        p.name,
-        p.family_name,
-        p.email,
-        p.password,
-        p.telephone_number,
-        p.role
-      ];
-    }
+    sql = "INSERT INTO user VALUES(?,?,?,?,?,?)";
+    data = [
+      p.name,
+      p.family_name,
+      p.email,
+      p.password,
+      p.telephone_number,
+      p.role
+    ];
 
     let e;
     db.run(sql, data, (err) => e = err);

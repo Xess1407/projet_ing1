@@ -105,6 +105,17 @@ var _UserController = class {
     );
     return res;
   }
+  static async exist_student_user(user_id) {
+    let res = false;
+    await _UserController.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.rowid == user_id && row.role == "student") {
+          res = true;
+        }
+      })
+    );
+    return res;
+  }
   static async exist_manager_user(id) {
     let res = false;
     await _UserController.get_values().then(
@@ -152,7 +163,7 @@ var _UserController = class {
       res.status(400).send();
     }
   }
-  static async post_new(p, res, id) {
+  static async post_new(p, res) {
     let sql;
     let data;
     const db = new import_sqlite3.Database("maggle.db");
@@ -161,20 +172,15 @@ var _UserController = class {
       res.status(400).send();
       return;
     }
-    if (typeof id !== "undefined") {
-      res.status(400).send();
-      return;
-    } else {
-      sql = "INSERT INTO user VALUES(?,?,?,?,?,?)";
-      data = [
-        p.name,
-        p.family_name,
-        p.email,
-        p.password,
-        p.telephone_number,
-        p.role
-      ];
-    }
+    sql = "INSERT INTO user VALUES(?,?,?,?,?,?)";
+    data = [
+      p.name,
+      p.family_name,
+      p.email,
+      p.password,
+      p.telephone_number,
+      p.role
+    ];
     let e;
     db.run(sql, data, (err) => e = err);
     if (e) {
@@ -338,7 +344,7 @@ var _ManagerController = class {
     });
     return res;
   }
-  static async post_new(p, res, id) {
+  static async post_new(p, res) {
     let sql;
     let data;
     const db = new import_sqlite32.Database("maggle.db");
@@ -352,18 +358,13 @@ var _ManagerController = class {
       res.status(400).send();
       return;
     }
-    if (typeof id !== "undefined") {
-      res.status(400).send();
-      return;
-    } else {
-      sql = "INSERT INTO manager VALUES(?,?,?,?)";
-      data = [
-        p.user_id,
-        p.company,
-        p.activation_date,
-        p.deactivation_date
-      ];
-    }
+    sql = "INSERT INTO manager VALUES(?,?,?,?)";
+    data = [
+      p.user_id,
+      p.company,
+      p.activation_date,
+      p.deactivation_date
+    ];
     let e;
     db.run(sql, data, (err) => e = err);
     if (e) {
@@ -468,7 +469,7 @@ var _StudentController = class {
   constructor() {
     this.router = new import_express4.Router();
     this.router.post(_StudentController.path, this.post);
-    this.router.post(_StudentController.path, this.get);
+    this.router.post(_StudentController.path + "/get", this.get);
   }
   static get_values() {
     const db = new import_sqlite33.Database("maggle.db");
@@ -482,6 +483,17 @@ var _StudentController = class {
       })
     );
   }
+  static async get_rowid(user_id) {
+    let id = -1;
+    await _StudentController.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.user_id == user_id) {
+          id = row.user_id;
+        }
+      })
+    );
+    return id;
+  }
   async get(req, res) {
     let { user_id, password } = req.body;
     let r;
@@ -493,7 +505,7 @@ var _StudentController = class {
       return;
     }
     let identified = false;
-    await _StudentController.get_values().then(
+    await user_default.get_values().then(
       (rows) => rows.forEach((row) => {
         if (row.rowid == user_id && row.password == password) {
           identified = true;
@@ -530,44 +542,40 @@ var _StudentController = class {
     let sql;
     let data;
     const db = new import_sqlite33.Database("maggle.db");
-    const exist = await user_default.exist_user_id(p.user_id);
-    if (exist) {
-      res.status(400).send();
+    const exist = await user_default.exist_student_user(p.user_id);
+    if (!exist) {
+      res.status(400).send("[POST][NEW] User doesn't exist!");
       return;
     }
-    if (typeof id !== "undefined") {
-      res.status(400).send();
-      return;
-    } else {
-      sql = "INSERT INTO student VALUES(?,?,?,?,?,?)";
-      data = [
-        p.user_id,
-        p.school_level,
-        p.school,
-        p.city
-      ];
-    }
-    let e;
-    db.run(sql, data, (err) => e = err);
-    if (e) {
+    sql = "INSERT INTO student VALUES(?,?,?,?)";
+    data = [
+      p.user_id,
+      p.school_level,
+      p.school,
+      p.city
+    ];
+    let e, d = -1;
+    db.run(sql, data, function(err) {
+      if (err) {
+        console.log(
+          "[ERROR][POST] sql error " + _StudentController.path + " : " + JSON.stringify(p)
+        );
+        console.error(e.message);
+        res.status(500).send();
+        return;
+      }
       console.log(
-        "[ERROR][POST] sql error " + _StudentController.path + " : " + JSON.stringify(p)
+        "[INFO][POST] data added on " + _StudentController.path + " : " + JSON.stringify(p)
       );
-      console.error(e.message);
-      res.status(500).send();
-      return;
-    }
+      res.status(200).send(JSON.stringify({ "id:": this.lastID }));
+    });
     db.close();
-    console.log(
-      "[INFO][POST] data added on " + _StudentController.path + " : " + JSON.stringify(p)
-    );
-    res.status(200).send();
   }
   static async post_modify(p, res) {
     const db = new import_sqlite33.Database("maggle.db");
     const exist = await user_default.exist_user_id(p.user_id);
     if (!exist) {
-      res.status(400).send();
+      res.status(400).send("[POST][MODIFY]User doesn't exist!");
       return;
     }
     const sql = `UPDATE student SET
@@ -617,8 +625,8 @@ var _StudentController = class {
       const element = new StudentEntry(
         id,
         user_id,
-        school,
         school_level,
+        school,
         city
       );
       _StudentController.post_modify(element, res);

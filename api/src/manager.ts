@@ -45,7 +45,7 @@ class ManagerController implements Controller {
 
   static async exist_manager(user_id: number): bool {
     let res = false;
-    await ManagerController.get_manager_by_user_id(user_id).then((rows) => {
+    await ManagerController.get_manager_by_user_id(user_id).then((rows: any) => {
         if(rows.length > 0) {
         res = true;
         }
@@ -54,7 +54,7 @@ class ManagerController implements Controller {
     return res;
   }
 
-  static async post_new(p: Manager, res: Response, id?: number) {
+  static async post_new(p: Manager, res: Response) {
     let sql;
     let data;
     const db = new Database("maggle.db");
@@ -71,19 +71,13 @@ class ManagerController implements Controller {
       return;
     }
     
-
-    if (typeof id !== "undefined") {
-      res.status(400).send();
-      return;
-    } else {
-      sql = "INSERT INTO manager VALUES(?,?,?,?)";
-      data = [
-        p.user_id,
-        p.company,
-        p.activation_date,
-        p.deactivation_date
-      ];
-    }
+    sql = "INSERT INTO manager VALUES(?,?,?,?)";
+    data = [
+      p.user_id,
+      p.company,
+      p.activation_date,
+      p.deactivation_date
+    ];
 
     let e;
     db.run(sql, data, (err) => e = err);
