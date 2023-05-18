@@ -91,23 +91,26 @@ class StudentController implements Controller {
       })
     )
 
-    let found = false;
-    if (identified) {
-      await StudentController.get_values().then((rows: any) =>
-        rows.forEach((row) => {
-          if (row.user_id == user_id) {
-            found = true;
-            r = new StudentEntry(
-              row.rowid,
-              row.user_id,
-              row.school_level,
-              row.school,
-              row.city
-            );
-          }
-        })
-      );
+    if (!identified) {
+      res.status(401).send("Wrong password!");
+      return;
     }
+
+    let found = false;
+    await StudentController.get_values().then((rows: any) =>
+      rows.forEach((row) => {
+        if (row.user_id == user_id) {
+          found = true;
+          r = new StudentEntry(
+            row.rowid,
+            row.user_id,
+            row.school_level,
+            row.school,
+            row.city
+          );
+        }
+      })
+    );
 
     if (found) {
       console.log(
@@ -230,7 +233,7 @@ class StudentController implements Controller {
       })
     )
     if (!identified) {
-      res.status(400).send("Wrong password!");
+      res.status(401).send("Wrong password!");
       return;
     }
 

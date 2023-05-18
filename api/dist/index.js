@@ -579,23 +579,25 @@ var _StudentController = class {
         }
       })
     );
-    let found = false;
-    if (identified) {
-      await _StudentController.get_values().then(
-        (rows) => rows.forEach((row) => {
-          if (row.user_id == user_id) {
-            found = true;
-            r = new StudentEntry(
-              row.rowid,
-              row.user_id,
-              row.school_level,
-              row.school,
-              row.city
-            );
-          }
-        })
-      );
+    if (!identified) {
+      res.status(401).send("Wrong password!");
+      return;
     }
+    let found = false;
+    await _StudentController.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.user_id == user_id) {
+          found = true;
+          r = new StudentEntry(
+            row.rowid,
+            row.user_id,
+            row.school_level,
+            row.school,
+            row.city
+          );
+        }
+      })
+    );
     if (found) {
       console.log(
         "[INFO][POST] " + _StudentController.path + ": " + user_id
@@ -694,7 +696,7 @@ var _StudentController = class {
       })
     );
     if (!identified) {
-      res.status(400).send("Wrong password!");
+      res.status(401).send("Wrong password!");
       return;
     }
     if (!id) {
