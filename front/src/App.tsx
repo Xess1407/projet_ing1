@@ -5,10 +5,12 @@ import logo from './logo.svg';
 import styles from './App.module.css';
 import { Route, Routes } from '@solidjs/router';
 import Connect from './pages/Connect';
+import Header from './components/Header';
 
 const App: Component = () => {
   return (
     <div>
+      <Header/>
       <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path="/connect" element={<Connect/>}/>

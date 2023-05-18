@@ -1,5 +1,5 @@
-import { Component, For } from "solid-js";
-import style_parser from "./StyleParser";
+import { For } from "solid-js";
+import style_parser from "../StyleParser";
 
 const Flex = (props: any) => {
     const children = Array.isArray(props.children)

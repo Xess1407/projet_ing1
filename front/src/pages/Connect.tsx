@@ -2,7 +2,7 @@ import { Component } from "solid-js";
 
 const Connect: Component = () => {
     return (
-        <div>Connection</div>
+        <div>Connexion</div>
     )
 }
 
