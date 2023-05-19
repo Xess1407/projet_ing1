@@ -5,8 +5,8 @@ import ButtonCustom from "./generals/ButtonCustom"
 
 const Header: Component = () => {
     return (
-        <Flex>
-            <A href="/connect">Connexion</A>
+        <Flex justify="center" m="100px">
+            <ButtonCustom text="click"/>
         </Flex>
     )
 }

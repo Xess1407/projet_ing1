@@ -10,6 +10,8 @@ const Flex = (props: any) => {
     let s = style_parser(props) + "display: flex;"
     if (props.direction !== "undefined")
         s += "flex-direction:" + props.direction + ";"
+    if (props.justify !== "undefined")
+        s += "justify-content:" + props.justify + ";"
     
     return (
         <div style={s}>
