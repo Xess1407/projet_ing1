@@ -38,7 +38,6 @@ var App = class {
     this.app.use((0, import_cors.default)());
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
-    this.app.use("/files", import_express.default.static("files"));
   }
   initializeControllers(controllers2) {
     controllers2.forEach((controller) => {
@@ -57,16 +56,71 @@ var App = class {
 };
 var app_default = App;
 
+// src/file.ts
+var import_multer = __toESM(require("multer"));
+var fs = __toESM(require("fs"));
+var import_express2 = require("express");
+var sharp = require("sharp");
+var storageEngine = import_multer.default.diskStorage({
+  destination: "./files/",
+  filename: (req, file, cb) => {
+    cb(null, `${file.originalname}`);
+  }
+});
+var upload = (0, import_multer.default)({
+  limits: { fileSize: 1e6 },
+  storage: storageEngine
+});
+var uploadFiles = async (req, res) => {
+  try {
+    await sharp(`./files/${req.file.originalname}`).resize({ width: 250, height: 250 }).png().toFile(`./files/m${req.file.originalname}`);
+    fs.rm(`./files/${req.file.originalname}`, (err) => {
+      if (err)
+        console.error(err.message);
+    });
+    res.status(201).send("Image uploaded succesfully");
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error);
+  }
+};
+var _FileController = class {
+  constructor() {
+    this.router = new import_express2.Router();
+    this.router.get(_FileController.path + "/:name", this.download);
+    this.router.post(
+      _FileController.path,
+      upload.single("file"),
+      uploadFiles
+    );
+  }
+  download(req, res) {
+    const fileName = req.params.name;
+    const directoryPath = "files/";
+    res.download(directoryPath + fileName, fileName, (err) => {
+      console.log("[INFO][GET] file : " + fileName);
+      if (err) {
+        res.status(500).send({
+          message: "Could not download the file. " + err
+        });
+      }
+    });
+  }
+};
+var FileController = _FileController;
+FileController.path = "/file";
+var file_default = FileController;
+
 // src/manager.ts
-var import_express3 = require("express");
+var import_express4 = require("express");
 var import_sqlite32 = require("sqlite3");
 
 // src/user.ts
-var import_express2 = require("express");
+var import_express3 = require("express");
 var import_sqlite3 = require("sqlite3");
 var _UserController = class {
   constructor() {
-    this.router = new import_express2.Router();
+    this.router = new import_express3.Router();
     this.router.post(_UserController.path, this.post);
     this.router.post(_UserController.path + "/connect", this.get);
   }
@@ -307,7 +361,7 @@ var UserEntry = class {
 // src/manager.ts
 var _ManagerController = class {
   constructor() {
-    this.router = new import_express3.Router();
+    this.router = new import_express4.Router();
     this.router.post(_ManagerController.path, this.post);
     this.router.post(_ManagerController.path + "/get", this.get);
   }
@@ -508,11 +562,11 @@ var ManagerEntry = class {
 };
 
 // src/student.ts
-var import_express4 = require("express");
+var import_express5 = require("express");
 var import_sqlite33 = require("sqlite3");
 var _StudentController = class {
   constructor() {
-    this.router = new import_express4.Router();
+    this.router = new import_express5.Router();
     this.router.post(_StudentController.path, this.post);
     this.router.post(_StudentController.path + "/get", this.get);
   }
@@ -744,7 +798,8 @@ var StudentEntry = class {
 var controllers = [
   new user_default(),
   new student_default(),
-  new manager_default()
+  new manager_default(),
+  new file_default()
 ];
 var app = new app_default(
   controllers,

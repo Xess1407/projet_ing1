@@ -1,2 +1,4 @@
 dist
+files
+node_modules
 maggle.db
