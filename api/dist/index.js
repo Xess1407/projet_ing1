@@ -38,6 +38,7 @@ var App = class {
     this.app.use((0, import_cors.default)());
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
+    this.app.use("/files", import_express.default.static("files"));
   }
   initializeControllers(controllers2) {
     controllers2.forEach((controller) => {

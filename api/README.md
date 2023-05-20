@@ -26,11 +26,11 @@ Table Student use a foreign key: user_id who refer to id from User
 
 Save new Student
 - POST request
-- Form-data: user_id, school_level, school, city
+- Form-data: user_id, school_level, school, city, password
 
 Modify existing Student
 - POST request
-- Form-data: id, user_id, school_level, school, city
+- Form-data: id, user_id, school_level, school, city, password
 
 #### /get 
 
