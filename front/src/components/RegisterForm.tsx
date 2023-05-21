@@ -70,7 +70,7 @@ export const [form, setForm] = createStore<RegisterFormFields>({
   telephone_number: "",
   role:"student",
   school: "",
-  school_level: "",
+  school_level: "L1",
   city: "",
 });
 
