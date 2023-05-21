@@ -1,4 +1,4 @@
-function style_parser(props: any): string {
+export default function style_space_parser(props: any): string {
     let s: string = "";
 
     /* Margin */
@@ -50,4 +50,34 @@ function style_parser(props: any): string {
     return s
 }
 
-export default style_parser
+export function style_box_parser(props: any):string {
+    let s: string = "";
+
+    if (props.ai !== "undefined")
+        s += "align-items:" + props.ai + ";"
+    if (props.ac !== "undefined")
+        s += "align-content:" + props.ac + ";"
+    if (props.ji !== "undefined")
+        s += "justify-items:" + props.ji + ";"
+    if (props.jc !== "undefined")
+        s += "justify-content:" + props.jc + ";"
+    
+    return s
+}
+
+export function style_border_parser(props: any):string {
+    let s: string = "";
+
+    if (props.b !== "undefined")
+        s += "border:" + props.b + ";"
+    if (props.bs !== "undefined")
+        s += "border-style:" + props.bs + ";"
+    if (props.bw !== "undefined")
+        s += "border-width:" + props.bw + ";"
+    if (props.bc !== "undefined")
+        s += "border-color:" + props.bc + ";"
+    if (props.br !== "undefined")
+        s += "border-radius:" + props.br + ";"
+    
+    return s
+}

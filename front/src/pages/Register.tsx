@@ -25,7 +25,7 @@ const Register: Component = () => {
     }
     
     return (
-        <Flex>
+        <Flex b="1px solid" br="16px" ac="center" jc="center">
             <h3>Inscription</h3>
                 <form onSubmit={ handle_submit }>
                     <Flex direction="column" m="0 0 15px 0">

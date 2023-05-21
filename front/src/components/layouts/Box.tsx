@@ -1,15 +1,17 @@
 import { For } from "solid-js";
-import style_space_parser, { style_box_parser, style_border_parser } from "../StyleParser";
+import style_space_parser, { style_box_parser, style_border_parser} from "../StyleParser";
 
-const Flex = (props: any) => {
+const Box = (props: any) => {
     const children = Array.isArray(props.children)
     ? props.children
     : [props.children];
 
     /* Apply style */
-    let s = style_space_parser(props) + "display: flex;" + style_box_parser(props) + style_border_parser(props)
+    let s = style_space_parser(props) + style_box_parser(props) + style_border_parser(props)
     if (props.direction !== "undefined")
-        s += "flex-direction:" + props.direction + ";"
+        s += "Box-direction:" + props.direction + ";"
+    if (props.justify !== "undefined")
+        s += "justify-content:" + props.justify + ";"
     
     return (
         <div style={s}>
@@ -22,4 +24,4 @@ const Flex = (props: any) => {
     );
 }
 
-export default Flex
+export default Box

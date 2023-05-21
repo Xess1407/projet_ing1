@@ -2,6 +2,8 @@
 
 ## Style Parser
 
+### Space
+
 Props | CSS
 m, margin
 mt, margin-top
@@ -25,6 +27,21 @@ minW, min-width
 maxW, max-width
 minH, min-height
 maxH, max-height
+
+### Box
+
+ai	align-items
+ac	align-content
+ji	justify-items
+jc	justify-content
+
+### Border
+
+b	border
+bs	border-style
+bw	border-width
+bc	border-color
+br  border-radius
 
 ## Flex
 
