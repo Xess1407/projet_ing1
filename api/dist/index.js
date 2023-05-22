@@ -814,7 +814,9 @@ var controllers = [
   new user_default(),
   new student_default(),
   new manager_default(),
-  new file_default()
+  new file_default(),
+  new DataChallengeController(),
+  new DataProjectController()
 ];
 var app = new app_default(
   controllers,
