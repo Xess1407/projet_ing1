@@ -163,12 +163,14 @@ class ManagerController implements Controller {
     }
 
     const sql = `UPDATE manager SET
-    company = ?, activation_date = ?, deactivation_date = ?
+    user_id = ?, company = ?, activation_date = ?, deactivation_date = ?
     WHERE rowid = ?`;
     const data = [
+      p.user_id,
       p.company,
       p.activation_date,
       p.deactivation_date,
+      p.id
     ];
 
     let e;
@@ -192,7 +194,7 @@ class ManagerController implements Controller {
   }
 
   async post(req: Request, res: Response) {
-    let { id, user_id, company, activation_date, deactivation_date } = req.body;
+    let { id, user_id, company, activation_date, deactivation_date, password } = req.body;
 
     if (
       !user_id || !company || !activation_date || !deactivation_date
@@ -202,6 +204,20 @@ class ManagerController implements Controller {
           JSON.stringify(req.body),
       );
       res.status(400).send();
+      return;
+    }
+
+    /* Check identifiers */
+    let identified = false;
+    await UserController.get_values().then((rows: any) =>
+    rows.forEach((row) => {
+        if (row.rowid == user_id && row.password == password) {
+          identified = true;
+        }
+      })
+    )
+    if (!identified) {
+      res.status(401).send("Wrong password!");
       return;
     }
 

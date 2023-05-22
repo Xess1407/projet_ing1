@@ -35,8 +35,26 @@ Modify existing Student
 #### /get 
 
 - POST request
-- Form-data: email, password
-- Response: user_id, password
+- Form-data: user_id, password
+- Response: id, user_id, school_level, school, city
+
+### /manager
+
+Table Manager use a foreign key: user_id who refer to id from User
+
+Save new Manager
+- POST request
+- Form-data: user_id, company, activation_date, deactivation_date, password
+
+Modify existing Manager
+- POST request
+- Form-data: id, user_id, company, activation_date, deactivation_date, password
+
+#### /get 
+
+- POST request
+- Form-data: user_id, password
+- Response: id, user_id, company, activation_date, deactivation_date
 
 ### /file
 
