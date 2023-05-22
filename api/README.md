@@ -20,6 +20,8 @@ Modify existing User
 - Form-data: email, password
 - Response: id, name, family_name, email, password, telephone_number, role
 
+---
+
 ### /student
 
 Table Student use a foreign key: user_id who refer to id from User
@@ -37,6 +39,8 @@ Modify existing Student
 - POST request
 - Form-data: user_id, password
 - Response: id, user_id, school_level, school, city
+
+---
 
 ### /manager
 
@@ -56,6 +60,8 @@ Modify existing Manager
 - Form-data: user_id, password
 - Response: id, user_id, company, activation_date, deactivation_date
 
+---
+
 ### /file
 
 Upload file:
@@ -67,6 +73,8 @@ Upload file:
 Download file:
 - GET request 
 - name of the file
+
+---
 
 ### /challenge
 
@@ -92,6 +100,8 @@ Get one DataChallenge
 - GET request 
 - Response: id, name, date_time_start, date_time_end
 
+---
+
 ### /project
 
 Save new DataProject
@@ -115,3 +125,57 @@ Get all DataProject
 Get one DataProject
 - GET request 
 - Response: id, data_challenge_id, name, description, image
+
+---
+
+### /resource-challenge
+
+Save new ResourceChallenge
+- POST request
+- Form-data: data_challenge_id, name, url
+- Response: id
+
+Modify existing ResourceChallenge
+- POST request
+- Form-data: id, data_challenge_id, name, url, password
+
+Delete existing ResourceChallenge
+- DELETE request
+- Form-data: id, password
+
+Get all ResourceChallenge
+- GET request 
+- Response: List all Resource Challenge
+
+#### /:id
+Get one ResourceChallenge
+- GET request 
+- Response: id, data_challenge_id, name, url
+
+---
+
+### /resource-project
+
+Save new ResourceProject
+- POST request
+- Form-data: data_project_id, name, url
+- Response: id
+
+Modify existing ResourceProject
+- POST request
+- Form-data: id, data_project_id, name, url, password
+
+Delete existing ResourceProject
+- DELETE request
+- Form-data: id, password
+
+Get all ResourceProject
+- GET request 
+- Response: List all Resource Project
+
+#### /:id
+Get one ResourceProject
+- GET request 
+- Response: id, data_project_id, name, url
+
+---
