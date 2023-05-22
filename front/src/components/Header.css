@@ -1,0 +1,14 @@
+.link {
+    font-weight: 600;
+    color: hsl(201 96% 32%);
+}
+.link:hover {
+    text-decoration: underline;
+}
+.link[data-disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.link[data-disabled]:hover {
+    text-decoration: none;
+}
