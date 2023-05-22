@@ -44,7 +44,7 @@ const Register: Component = () => {
 
                     </Flex>
                     <Flex direction="column" m="0 0 15px 0">
-                        <label for="family_name">Prenom <span class="red">*</span>:</label>
+                        <label for="family_name">Prénom <span class="red">*</span>:</label>
                         <input
                         type="text"
                         id="surname"
@@ -64,7 +64,7 @@ const Register: Component = () => {
                         />
                     </Flex>
                     <Flex direction="column" m="0 0 15px 0">
-                        <label for="school">Ecole <span class="red">*</span>:</label>
+                        <label for="school">École <span class="red">*</span>:</label>
                         <input
                         type="text"
                         id="school"
@@ -74,11 +74,11 @@ const Register: Component = () => {
                         />
                     </Flex>
                     <Flex direction="column" m="0 0 15px 0">
-                        <label for="school_level">Niveau scolaire <span class="red">*</span>:</label>
+                        <label for="school_level">Niveau d'étude <span class="red">*</span>:</label>
                         <select id="school_level" onChange={update_form_field("school_level")} required>
-                            <option value="L1">License 1</option>
-                            <option value="L2">License 2</option>
-                            <option value="L3">License 3</option>
+                            <option value="L1">Licence 1</option>
+                            <option value="L2">Licence 2</option>
+                            <option value="L3">Licence 3</option>
                             <option value="M1">Master 1</option>
                             <option value="M2">Master 2</option>
                             <option value="D">Doctorat</option>
