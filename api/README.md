@@ -67,3 +67,27 @@ Upload file:
 Download file:
 - GET request 
 - name of the file
+
+### /challenge
+
+Save new DataChallenge
+- POST request
+- Form-data: name, date_time_start, date_time_end, password
+- Response: id
+
+Modify existing DataChallenge
+- POST request
+- Form-data: id, name, date_time_start, date_time_end, password
+
+Delete existing DataChallenge
+- DELETE request
+- Form-data: id, password
+
+Get all DataChallenge
+- GET request 
+- Response: List all Data Challenges
+
+#### /:id
+Get one DataChallenge
+- GET request 
+- Response: id, name, date_time_start, date_time_end
