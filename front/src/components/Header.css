@@ -1,9 +1,11 @@
 .link {
     font-weight: 600;
     color: hsl(201 96% 32%);
+    text-decoration: none;
+    transition: font-size 0.1s;
 }
 .link:hover {
-    text-decoration: underline;
+    font-size: 20px;
 }
 .link[data-disabled] {
     opacity: 0.5;
