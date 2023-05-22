@@ -831,6 +831,17 @@ var _DataChallengeController = class {
       })
     );
   }
+  static async exist_data_challenge(data_challenge_id) {
+    let res = false;
+    await _DataChallengeController.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.rowid == data_challenge_id) {
+          res = true;
+        }
+      })
+    );
+    return res;
+  }
   async get_all(req, res) {
     let r = new Array();
     await _DataChallengeController.get_values().then(
@@ -983,14 +994,203 @@ var DataChallengeEntry = class {
   }
 };
 
+// src/data_project.ts
+var import_express7 = require("express");
+var import_sqlite35 = require("sqlite3");
+var _DataProjectController = class {
+  constructor() {
+    this.router = new import_express7.Router();
+    this.router.post(_DataProjectController.path, this.post);
+    this.router.get(_DataProjectController.path, this.get_all);
+    this.router.get(_DataProjectController.path + "/:id", this.get);
+  }
+  static get_values() {
+    const db = new import_sqlite35.Database("maggle.db");
+    const sql = "SELECT rowid, * FROM data_project";
+    return new Promise(
+      (resolve, reject) => db.all(sql, [], (err, rows) => {
+        if (err) {
+          console.log(err);
+        }
+        resolve(rows);
+      })
+    );
+  }
+  async get(req, res) {
+    let id = req.params.id;
+    let r;
+    if (!id) {
+      console.log(
+        "[ERROR][GET] wrong data on " + _DataProjectController.path + "/" + id + ": " + JSON.stringify(req.body)
+      );
+      res.status(400).send();
+      return;
+    }
+    let found = false;
+    await _DataProjectController.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.rowid == id) {
+          found = true;
+          r = new DataProjectEntry(
+            row.rowid,
+            row.data_challenge_id,
+            row.name,
+            row.description,
+            row.image
+          );
+        }
+      })
+    );
+    if (found) {
+      console.log(
+        "[INFO][GET] " + _DataProjectController.path + "/" + id + ": "
+      );
+      res.send(JSON.stringify(r));
+    } else {
+      res.status(400).send();
+    }
+  }
+  async get_all(req, res) {
+    let r = new Array();
+    await _DataProjectController.get_values().then(
+      (rows) => rows.forEach((row) => {
+        r.push(new DataProjectEntry(
+          row.rowid,
+          row.data_challenge_id,
+          row.name,
+          row.description,
+          row.image
+        ));
+      })
+    );
+    console.log(
+      "[INFO][GET] " + _DataProjectController.path + ": "
+    );
+    res.send(JSON.stringify(r));
+  }
+  static async post_new(p, res) {
+    let sql;
+    let data;
+    const db = new import_sqlite35.Database("maggle.db");
+    const exist = await data_challenge_default.exist_data_challenge(p.data_challenge_id);
+    if (!exist) {
+      res.status(400).send();
+      return;
+    }
+    sql = "INSERT INTO data_project VALUES(?,?,?,?)";
+    data = [
+      p.data_challenge_id,
+      p.name,
+      p.description,
+      p.image
+    ];
+    let e;
+    db.run(sql, data, (err) => e = err);
+    if (e) {
+      console.log(
+        "[ERROR][POST] sql error " + _DataProjectController.path + " : " + JSON.stringify(p)
+      );
+      console.error(e.message);
+      res.status(500).send();
+      return;
+    }
+    db.close();
+    console.log(
+      "[INFO][POST] data added on " + _DataProjectController.path + " : " + JSON.stringify(p)
+    );
+    res.status(200).send();
+  }
+  static async post_modify(p, res) {
+    const db = new import_sqlite35.Database("maggle.db");
+    const exist = await data_challenge_default.exist_data_challenge(p.data_challenge_id);
+    if (!exist) {
+      res.status(400).send();
+      return;
+    }
+    const sql = `UPDATE data_project SET
+        data_challenge_id = ?, name = ?, description = ?, image = ?
+        WHERE rowid = ?`;
+    const data = [
+      p.data_challenge_id,
+      p.name,
+      p.description,
+      p.image,
+      p.id
+    ];
+    let e;
+    db.run(sql, data, (err) => e = err);
+    if (e) {
+      console.log(
+        "[ERROR][POST] sql error " + _DataProjectController.path + " : " + JSON.stringify(p)
+      );
+      console.error(e.message);
+      res.status(500).send();
+      return;
+    }
+    db.close();
+    console.log(
+      "[INFO][POST] data updated on " + _DataProjectController.path + " : " + JSON.stringify(p)
+    );
+    res.status(200).send();
+  }
+  async post(req, res) {
+    let { id, data_challenge_id, name, description, image } = req.body;
+    if (!data_challenge_id || !name || !description || !image) {
+      console.log(
+        "[ERROR][POST] wrong data on " + _DataProjectController.path + " : " + JSON.stringify(req.body)
+      );
+      res.status(400).send();
+      return;
+    }
+    if (!id) {
+      const element = new DataProject(
+        data_challenge_id,
+        name,
+        description,
+        image
+      );
+      _DataProjectController.post_new(element, res);
+    } else {
+      const element = new DataProjectEntry(
+        id,
+        data_challenge_id,
+        name,
+        description,
+        image
+      );
+      _DataProjectController.post_modify(element, res);
+    }
+  }
+};
+var DataProjectController = _DataProjectController;
+DataProjectController.path = "/project";
+var data_project_default = DataProjectController;
+var DataProject = class {
+  constructor(data_challenge_id, name, description, image) {
+    this.data_challenge_id = data_challenge_id;
+    this.name = name;
+    this.description = description;
+    this.image = image;
+  }
+};
+var DataProjectEntry = class {
+  constructor(id, data_challenge_id, name, description, image) {
+    this.id = id;
+    this.data_challenge_id = data_challenge_id;
+    this.name = name;
+    this.description = description;
+    this.image = image;
+  }
+};
+
 // src/index.ts
 var controllers = [
   new user_default(),
   new student_default(),
   new manager_default(),
   new file_default(),
-  new data_challenge_default()
-  //new DataProjectController(),
+  new data_challenge_default(),
+  new data_project_default()
 ];
 var app = new app_default(
   controllers,

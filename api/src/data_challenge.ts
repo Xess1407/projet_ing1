@@ -28,6 +28,19 @@ class DataChallengeController implements Controller {
         );
     }
 
+    static async exist_data_challenge(data_challenge_id: number): bool {
+      let res = false;
+      await DataChallengeController.get_values().then((rows: any) =>
+        rows.forEach((row) => {
+          if (row.rowid == data_challenge_id) {
+            res = true;
+          }
+        })
+      );
+  
+      return res;
+    }
+
     async get_all(req: Request, res: Response) {
         let r = new Array<DataChallengeEntry>();
     
