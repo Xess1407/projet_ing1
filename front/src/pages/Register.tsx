@@ -27,117 +27,121 @@ const Register: Component = () => {
     
     return (
 
-        <Flex ac="center" jc="center" bg="#111111 no-repeat right/calc(100vh - 240px) url('src/assets/code.jpg')" h="calc(100vh - 240px)" direction="row">
+        <Flex ac="center" jc="center" bg="#111111 no-repeat right/calc(100vh - 100px) url('src/assets/code.jpg')" h="calc(100vh - 100px)" direction="row">
             <Box w="50vw" br="50px" m="2vh" bgc="#3E3E3E" opt="90%" p="1em 3em" c="white">
-            <h3>Inscription</h3>
+                <h3>Inscription</h3>
                 <form onSubmit={ handle_submit }>
                     <Flex direction="row">
-                    <Flex direction="column" w="30em" mr="3em">
-                        <Flex direction="column" m="0 0 15px 0">
+                        <Flex direction="column" w="30em" mr="3em">
+                            <Flex direction="column" m="0 0 15px 0">
 
-                            <label for="name">Nom <span class="red">*</span></label>
-                            <input
-                            type="text"
-                            id="name"
-                            width="auto"
-                            onChange={update_form_field("name")}
-                            required
-                            />
-
-                        </Flex>
-                        <Flex direction="column" m="0 0 15px 0">
-                            <label for="mail">Email <span class="red">*</span></label>
-                            <input
-                                type="email"
-                                id="email"
-                                width="auto"
-                                onChange={update_form_field("email")}
-                                required
-                            />
-                        </Flex>
-                        <Flex direction="column" m="0 0 15px 0">
-                            <label for="telephone_number">Numéro de téléphone <span class="red">*</span></label>
-                            <input
-                            type="text"
-                            id="telephone_number"
-                            width="auto"
-                            onChange={update_form_field("telephone_number")}
-                            required
-                            />
-                        </Flex>
-
-
-
-
-
-                        <Flex direction="column" m="0 0 15px 0">
-                            <label for="password_1">Mot de passe <span class="red">*</span></label>
-                            <input
-                            type="password"
-                            id="password_1"
-                            width="auto"
-                            onChange={update_form_field("password")}
-                            required
-                            />
-                        </Flex>
-                        <Flex direction="column" m="0 0 15px 0">
-                            <label for="password_2">Confirmer le mot de passe <span class="red">*</span></label>
-                            <input
-                            type="password"
-                            id="password_2"
-                            width="auto"
-                            required
-                            />
-                        </Flex>
-                        <span id="form-not-same-password-message"></span>
-                    </Flex>
-                    <Flex direction="column" w="30em">
-                        <Flex direction="column" m="0 0 15px 0">
-                            <label for="family_name">Prénom <span class="red">*</span></label>
-                            <input
+                                <label for="name">Nom <span class="red">*</span></label>
+                                <input
                                 type="text"
-                                id="surname"
+                                id="name"
                                 width="auto"
-                                onChange={update_form_field("family_name")}
+                                onChange={update_form_field("name")}
                                 required
-                            />
-                        </Flex>
-                        <Flex direction="column" m="0 0 15px 0">
-                            <label for="school_level">Niveau d'étude <span class="red">*</span></label>
-                            <select id="school_level" onChange={update_form_field("school_level")} required>
-                                <option value="L1">Licence 1</option>
-                                <option value="L2">Licence 2</option>
-                                <option value="L3">Licence 3</option>
-                                <option value="M1">Master 1</option>
-                                <option value="M2">Master 2</option>
-                                <option value="D">Doctorat</option>
-                            </select>
-                        </Flex>
-                        <Flex direction="column" m="0 0 15px 0">
-                            <label for="school">École <span class="red">*</span></label>
-                            <input
-                                type="text"
-                                id="school"
-                                width="auto"
-                                onChange={update_form_field("school")}
-                                required
-                            />
-                        </Flex>
-                        <Flex direction="column" m="0 0 15px 0">
-                            <label for="city">Ville <span class="red">*</span></label>
-                            <input
-                                type="text"
-                                id="city"
-                                width="auto"
-                                onChange={update_form_field("city")}
-                                required
-                            />
-                        </Flex>
-                        <ButtonCustom class="form-submit" type="submit" value="submit" m="0 0 20px 0" text="Validation"></ButtonCustom>
-                    </Flex>
-                    </Flex>
+                                />
 
-            </form>
+                            </Flex>
+                            <Flex direction="column" m="0 0 15px 0">
+                                <label for="mail">Email <span class="red">*</span></label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    width="auto"
+                                    onChange={update_form_field("email")}
+                                    required
+                                />
+                            </Flex>
+                            <Flex direction="column" m="0 0 15px 0">
+                                <label for="telephone_number">Numéro de téléphone <span class="red">*</span></label>
+                                <input
+                                type="text"
+                                id="telephone_number"
+                                width="auto"
+                                onChange={update_form_field("telephone_number")}
+                                required
+                                />
+                            </Flex>
+
+
+
+
+
+                            <Flex direction="column" m="0 0 15px 0">
+                                <label for="password_1">Mot de passe <span class="red">*</span></label>
+                                <input
+                                type="password"
+                                id="password_1"
+                                width="auto"
+                                onChange={update_form_field("password")}
+                                required
+                                />
+                            </Flex>
+
+                        </Flex>
+                        <Flex direction="column" w="30em">
+                            <Flex direction="column" m="0 0 15px 0">
+                                <label for="family_name">Prénom <span class="red">*</span></label>
+                                <input
+                                    type="text"
+                                    id="surname"
+                                    width="auto"
+                                    onChange={update_form_field("family_name")}
+                                    required
+                                />
+                            </Flex>
+                            <Flex direction="row">
+                                <Flex direction="column" m="0 2.9em 15px 0">
+                                    <label for="school_level">Niveau d'étude <span class="red">*</span></label>
+                                    <select id="school_level" onChange={update_form_field("school_level")} required>
+                                        <option value="L1">Licence 1</option>
+                                        <option value="L2">Licence 2</option>
+                                        <option value="L3">Licence 3</option>
+                                        <option value="M1">Master 1</option>
+                                        <option value="M2">Master 2</option>
+                                        <option value="D">Doctorat</option>
+                                    </select>
+                                </Flex>
+                                <Flex direction="column" m="0 0 15px 0" w="17em">
+                                    <label for="school">École <span class="red">*</span></label>
+                                    <input
+                                        type="text"
+                                        id="school"
+                                        width="auto"
+                                        onChange={update_form_field("school")}
+                                        required
+                                    />
+                                </Flex>
+                            </Flex>
+                            <Flex direction="column" m="0 0 15px 0">
+                                <label for="city">Ville <span class="red">*</span></label>
+                                <input
+                                    type="text"
+                                    id="city"
+                                    width="auto"
+                                    onChange={update_form_field("city")}
+                                    required
+                                />
+                            </Flex>
+                            <Flex direction="column" m="0 0 15px 0">
+                                <label for="password_2">Confirmer le mot de passe <span class="red">*</span></label>
+                                <input
+                                    type="password"
+                                    id="password_2"
+                                    width="auto"
+                                    required
+                                />
+                            </Flex>
+                            <span id="form-not-same-password-message"></span>
+                        </Flex>
+                    </Flex>
+                    <Flex jc="center" ai="center">
+                        <ButtonCustom class="form-submit" type="submit" value="submit" m="20px 0" w="12em" text="Validation"></ButtonCustom>
+                    </Flex>
+                </form>
             </Box>
         </Flex>
 
