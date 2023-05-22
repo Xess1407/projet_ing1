@@ -1057,6 +1057,17 @@ var _DataProjectController = class {
       })
     );
   }
+  static async exist_data_project(data_project_id) {
+    let res = false;
+    await _DataProjectController.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.rowid == data_project_id) {
+          res = true;
+        }
+      })
+    );
+    return res;
+  }
   async get(req, res) {
     let id = req.params.id;
     let r;
@@ -1275,19 +1286,20 @@ var DataProjectEntry = class {
   }
 };
 
-// src/resource_challenge.ts
+// src/resource_project.ts
 var import_express8 = require("express");
 var import_sqlite36 = require("sqlite3");
-var _ResourceChallengeController = class {
+var _ResourceProjectController = class {
   constructor() {
     this.router = new import_express8.Router();
-    this.router.post(_ResourceChallengeController.path, this.post);
-    this.router.get(_ResourceChallengeController.path, this.get_all);
-    this.router.get(_ResourceChallengeController.path + "/:id", this.get);
+    this.router.post(_ResourceProjectController.path, this.post);
+    this.router.get(_ResourceProjectController.path, this.get_all);
+    this.router.get(_ResourceProjectController.path + "/:id", this.get);
+    this.router.delete(_ResourceProjectController.path, this.delete);
   }
   static get_values() {
     const db = new import_sqlite36.Database("maggle.db");
-    const sql = "SELECT rowid, * FROM resource_challenge";
+    const sql = "SELECT rowid, * FROM resource_project";
     return new Promise(
       (resolve, reject) => db.all(sql, [], (err, rows) => {
         if (err) {
@@ -1302,19 +1314,19 @@ var _ResourceChallengeController = class {
     let r;
     if (!id) {
       console.log(
-        "[ERROR][GET] wrong data on " + _ResourceChallengeController.path + "/" + id + ": " + JSON.stringify(req.body)
+        "[ERROR][GET] wrong data on " + _ResourceProjectController.path + "/" + id + ": " + JSON.stringify(req.body)
       );
       res.status(400).send();
       return;
     }
     let found = false;
-    await _ResourceChallengeController.get_values().then(
+    await _ResourceProjectController.get_values().then(
       (rows) => rows.forEach((row) => {
         if (row.rowid == id) {
           found = true;
-          r = new ResourceChallengeEntry(
+          r = new ResourceProjectEntry(
             row.rowid,
-            row.data_challenge_id,
+            row.data_project_id,
             row.name,
             row.url
           );
@@ -1323,7 +1335,7 @@ var _ResourceChallengeController = class {
     );
     if (found) {
       console.log(
-        "[INFO][GET] " + _ResourceChallengeController.path + "/" + id + ": "
+        "[INFO][GET] " + _ResourceProjectController.path + "/" + id + ": "
       );
       res.send(JSON.stringify(r));
     } else {
@@ -1332,18 +1344,18 @@ var _ResourceChallengeController = class {
   }
   async get_all(req, res) {
     let r = new Array();
-    await _ResourceChallengeController.get_values().then(
+    await _ResourceProjectController.get_values().then(
       (rows) => rows.forEach((row) => {
-        r.push(new ResourceChallengeEntry(
+        r.push(new ResourceProjectEntry(
           row.rowid,
-          row.data_challenge_id,
+          row.data_project_id,
           row.name,
           row.url
         ));
       })
     );
     console.log(
-      "[INFO][GET] " + _ResourceChallengeController.path + ": "
+      "[INFO][GET] " + _ResourceProjectController.path + ": "
     );
     res.send(JSON.stringify(r));
   }
@@ -1351,14 +1363,14 @@ var _ResourceChallengeController = class {
     let sql;
     let data;
     const db = new import_sqlite36.Database("maggle.db");
-    const exist = await data_challenge_default.exist_data_challenge(p.data_challenge_id);
+    const exist = await data_project_default.exist_data_project(p.data_project_id);
     if (!exist) {
       res.status(400).send();
       return;
     }
-    sql = "INSERT INTO resource_challenge VALUES(?,?,?)";
+    sql = "INSERT INTO resource_project VALUES(?,?,?)";
     data = [
-      p.data_challenge_id,
+      p.data_project_id,
       p.name,
       p.url
     ];
@@ -1366,7 +1378,7 @@ var _ResourceChallengeController = class {
     db.run(sql, data, (err) => e = err);
     if (e) {
       console.log(
-        "[ERROR][POST] sql error " + _ResourceChallengeController.path + " : " + JSON.stringify(p)
+        "[ERROR][POST] sql error " + _ResourceProjectController.path + " : " + JSON.stringify(p)
       );
       console.error(e.message);
       res.status(500).send();
@@ -1374,30 +1386,31 @@ var _ResourceChallengeController = class {
     }
     db.close();
     console.log(
-      "[INFO][POST] data added on " + _ResourceChallengeController.path + " : " + JSON.stringify(p)
+      "[INFO][POST] data added on " + _ResourceProjectController.path + " : " + JSON.stringify(p)
     );
     res.status(200).send();
   }
   static async post_modify(p, res) {
     const db = new import_sqlite36.Database("maggle.db");
-    const exist = await data_challenge_default.exist_data_challenge(p.data_challenge_id);
+    const exist = await data_project_default.exist_data_project(p.data_project_id);
     if (!exist) {
       res.status(400).send();
       return;
     }
-    const sql = `UPDATE resource_challenge SET
-        data_challenge_id = ?, name = ?, url = ?
+    const sql = `UPDATE resource_project SET
+        data_project_id = ?, name = ?, url = ?
         WHERE rowid = ?`;
     const data = [
-      p.data_challenge_id,
+      p.data_project_id,
       p.name,
-      p.url
+      p.url,
+      p.id
     ];
     let e;
     db.run(sql, data, (err) => e = err);
     if (e) {
       console.log(
-        "[ERROR][POST] sql error " + _ResourceChallengeController.path + " : " + JSON.stringify(p)
+        "[ERROR][POST] sql error " + _ResourceProjectController.path + " : " + JSON.stringify(p)
       );
       console.error(e.message);
       res.status(500).send();
@@ -1405,15 +1418,15 @@ var _ResourceChallengeController = class {
     }
     db.close();
     console.log(
-      "[INFO][POST] data updated on " + _ResourceChallengeController.path + " : " + JSON.stringify(p)
+      "[INFO][POST] data updated on " + _ResourceProjectController.path + " : " + JSON.stringify(p)
     );
     res.status(200).send();
   }
   async post(req, res) {
-    let { id, data_challenge_id, name, url, password } = req.body;
-    if (!data_challenge_id || !name || !url || !password) {
+    let { id, data_project_id, name, url, password } = req.body;
+    if (!data_project_id || !name || !url || !password) {
       console.log(
-        "[ERROR][POST] wrong data on " + _ResourceChallengeController.path + " : " + JSON.stringify(req.body)
+        "[ERROR][POST] wrong data on " + _ResourceProjectController.path + " : " + JSON.stringify(req.body)
       );
       res.status(400).send();
       return;
@@ -1431,37 +1444,76 @@ var _ResourceChallengeController = class {
       return;
     }
     if (!id) {
-      const element = new ResourceChallenge(
-        data_challenge_id,
+      const element = new ResourceProject(
+        data_project_id,
         name,
         url
       );
-      _ResourceChallengeController.post_new(element, res);
+      _ResourceProjectController.post_new(element, res);
     } else {
-      const element = new ResourceChallengeEntry(
+      const element = new ResourceProjectEntry(
         id,
-        data_challenge_id,
+        data_project_id,
         name,
         url
       );
-      _ResourceChallengeController.post_modify(element, res);
+      _ResourceProjectController.post_modify(element, res);
     }
   }
+  async delete(req, res) {
+    const db = new import_sqlite36.Database("maggle.db");
+    const { id, password } = req.body;
+    if (!id || !password) {
+      console.log(
+        "[ERROR][DELETE] wrong data on " + _ResourceProjectController.path + " : " + JSON.stringify(req.body)
+      );
+    }
+    let identified = false;
+    await user_default.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.role == "admin" && row.password == password) {
+          identified = true;
+        }
+      })
+    );
+    if (!identified) {
+      res.status(401).send("Wrong password!");
+      return;
+    }
+    const sql = `DELETE FROM resource_project
+        WHERE rowid = ?`;
+    const data = [id];
+    let e;
+    db.run(sql, data, (err) => e = err);
+    if (e) {
+      console.log(
+        "[ERROR][DELETE] sql error " + _ResourceProjectController.path + " : " + JSON.stringify(id)
+      );
+      console.error(e.message);
+      res.status(500).send();
+      return;
+    }
+    db.close();
+    console.log(
+      "[INFO][DELETE] data deleted on " + _ResourceProjectController.path + " : " + JSON.stringify(id)
+    );
+    res.status(200).send();
+  }
 };
-var ResourceChallengeController = _ResourceChallengeController;
-ResourceChallengeController.path = "/resource-challenge";
-var resource_challenge_default = ResourceChallengeController;
-var ResourceChallenge = class {
-  constructor(data_challenge_id, name, url) {
-    this.data_challenge_id = data_challenge_id;
+var ResourceProjectController = _ResourceProjectController;
+ResourceProjectController.path = "/resource-project";
+var resource_project_default = ResourceProjectController;
+var ResourceProject = class {
+  constructor(data_project_id, name, url) {
+    this.data_project_id = data_project_id;
     this.name = name;
     this.url = url;
   }
 };
-var ResourceChallengeEntry = class {
-  constructor(id, data_challenge_id, name, url) {
+var ResourceProjectEntry = class {
+  constructor(id, data_project_id, name, url) {
     this.id = id;
-    this.data_challenge_id = data_challenge_id;
+    this.data_project_id = data_project_id;
     this.name = name;
     this.url = url;
   }
@@ -1475,7 +1527,8 @@ var controllers = [
   new file_default(),
   new data_challenge_default(),
   new data_project_default(),
-  new resource_challenge_default()
+  //new ResourceChallengeController(),
+  new resource_project_default()
 ];
 var app = new app_default(
   controllers,
