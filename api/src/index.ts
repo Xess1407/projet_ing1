@@ -5,6 +5,7 @@ import StudentController from "./student";
 import UserController from "./user";
 import DataChallengeController from "./data_challenge"
 import DataProjectController from "./data_project"
+import ResourceChallengeController from "./resource_challenge"
 
 const controllers = [
   new UserController(),
@@ -13,6 +14,7 @@ const controllers = [
   new FileController(),
   new DataChallengeController(),
   new DataProjectController(),
+  new ResourceChallengeController(),
 ];
 
 const app = new App(
