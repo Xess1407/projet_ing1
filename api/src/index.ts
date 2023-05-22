@@ -15,7 +15,7 @@ const controllers = [
   new FileController(),
   new DataChallengeController(),
   new DataProjectController(),
-  //new ResourceChallengeController(),
+  new ResourceChallengeController(),
   new ResourceProjectController(),
 ];
 
