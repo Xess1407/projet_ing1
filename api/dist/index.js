@@ -809,14 +809,188 @@ var StudentEntry = class {
   }
 };
 
+// src/data_challenge.ts
+var import_express6 = require("express");
+var import_sqlite34 = require("sqlite3");
+var _DataChallengeController = class {
+  constructor() {
+    this.router = new import_express6.Router();
+    this.router.post(_DataChallengeController.path, this.post);
+    this.router.get(_DataChallengeController.path, this.get_all);
+    this.router.get(_DataChallengeController.path + "/:id", this.get);
+  }
+  static get_values() {
+    const db = new import_sqlite34.Database("maggle.db");
+    const sql = "SELECT rowid, * FROM data_challenge";
+    return new Promise(
+      (resolve, reject) => db.all(sql, [], (err, rows) => {
+        if (err) {
+          console.log(err);
+        }
+        resolve(rows);
+      })
+    );
+  }
+  async get_all(req, res) {
+    let r = new Array();
+    await _DataChallengeController.get_values().then(
+      (rows) => rows.forEach((row) => {
+        r.push(new DataChallengeEntry(
+          row.rowid,
+          row.name,
+          row.date_time_start,
+          row.date_time_end
+        ));
+      })
+    );
+    res.send(JSON.stringify(r));
+  }
+  async get(req, res) {
+    let id = req.params.id;
+    let r;
+    let found = false;
+    await _DataChallengeController.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.rowid == id) {
+          found = true;
+          r = new DataChallengeEntry(
+            row.rowid,
+            row.name,
+            row.date_time_start,
+            row.date_time_end
+          );
+        }
+      })
+    );
+    if (found) {
+      console.log(
+        "[INFO][POST] " + _DataChallengeController.path + ": " + id
+      );
+      res.send(JSON.stringify(r));
+    } else {
+      res.status(400).send();
+    }
+  }
+  static async post_new(p, res) {
+    let sql;
+    let data;
+    const db = new import_sqlite34.Database("maggle.db");
+    sql = "INSERT INTO data_challenge VALUES(?,?,?)";
+    data = [
+      p.name,
+      p.date_time_start,
+      p.date_time_end
+    ];
+    let e;
+    db.run(sql, data, function(err) {
+      if (err) {
+        console.log(
+          "[ERROR][POST] sql error " + _DataChallengeController.path + " : " + JSON.stringify(p)
+        );
+        console.error(e.message);
+        res.status(500).send();
+        return;
+      }
+      console.log(
+        "[INFO][POST] data added on " + _DataChallengeController.path + " : " + JSON.stringify(p)
+      );
+      res.status(200).send(JSON.stringify({ "id:": this.lastID }));
+    });
+    db.close();
+  }
+  static async post_modify(p, res) {
+    const db = new import_sqlite34.Database("maggle.db");
+    const sql = `UPDATE data_challenge SET
+        name = ?, date_time_start = ?, date_time_end = ?
+        WHERE rowid = ?`;
+    const data = [
+      p.name,
+      p.date_time_start,
+      p.date_time_end,
+      p.id
+    ];
+    let e;
+    db.run(sql, data, (err) => e = err);
+    if (e) {
+      console.log(
+        "[ERROR][POST] sql error " + _DataChallengeController.path + " : " + JSON.stringify(p)
+      );
+      console.error(e.message);
+      res.status(500).send();
+      return;
+    }
+    db.close();
+    console.log(
+      "[INFO][POST] data updated on " + _DataChallengeController.path + " : " + JSON.stringify(p)
+    );
+    res.status(200).send();
+  }
+  async post(req, res) {
+    let { id, name, date_time_start, date_time_end, password } = req.body;
+    if (!name || !date_time_start || !date_time_end || !password) {
+      console.log(
+        "[ERROR][POST] wrong data on " + _DataChallengeController.path + " : " + JSON.stringify(req.body)
+      );
+      res.status(400).send();
+      return;
+    }
+    let identified = false;
+    await user_default.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.role == "admin" && row.password == password) {
+          identified = true;
+        }
+      })
+    );
+    if (!identified) {
+      res.status(401).send("Wrong password!");
+      return;
+    }
+    if (!id) {
+      const element = new DataChallenge(
+        name,
+        date_time_start,
+        date_time_end
+      );
+      _DataChallengeController.post_new(element, res);
+    } else {
+      const element = new DataChallengeEntry(
+        id,
+        name,
+        date_time_start,
+        date_time_end
+      );
+      _DataChallengeController.post_modify(element, res);
+    }
+  }
+};
+var DataChallengeController = _DataChallengeController;
+DataChallengeController.path = "/challenge";
+var data_challenge_default = DataChallengeController;
+var DataChallenge = class {
+  constructor(name, date_time_start, date_time_end) {
+    this.name = name;
+    this.date_time_start = date_time_start;
+    this.date_time_end = date_time_end;
+  }
+};
+var DataChallengeEntry = class {
+  constructor(id, name, date_time_start, date_time_end) {
+    this.id = id;
+    this.name = name;
+    this.date_time_start = date_time_start;
+    this.date_time_end = date_time_end;
+  }
+};
+
 // src/index.ts
 var controllers = [
   new user_default(),
   new student_default(),
   new manager_default(),
   new file_default(),
-  new DataChallengeController(),
-  new DataProjectController()
+  new data_challenge_default()
+  //new DataProjectController(),
 ];
 var app = new app_default(
   controllers,
