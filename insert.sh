@@ -17,4 +17,4 @@ curl -X POST -H "Content-Type: application/json" -d '{"name": "MegaChallengeDeLa
 
 # Insert Project
 
-curl -X POST -H "Content-Type: application/json" -d '{"data_challenge_id": 1, "name": "Lyoko", "description": "Un projet autour des données de XANA", "image": "identifiantDuneImage"}' localhost:8080/api/project
+curl -X POST -H "Content-Type: application/json" -d '{"data_challenge_id": 1, "name": "Lyoko", "description": "Un projet autour des données de XANA", "image": "identifiantDuneImage", "password": "admin"}' localhost:8080/api/project

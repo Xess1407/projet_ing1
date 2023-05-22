@@ -91,3 +91,27 @@ Get all DataChallenge
 Get one DataChallenge
 - GET request 
 - Response: id, name, date_time_start, date_time_end
+
+### /project
+
+Save new DataProject
+- POST request
+- Form-data: data_challenge_id, name, description, image
+- Response: id
+
+Modify existing DataProject
+- POST request
+- Form-data: id, data_challenge_id, name, description, image, password
+
+Delete existing DataProject
+- DELETE request
+- Form-data: id, password
+
+Get all DataProject
+- GET request 
+- Response: List all Data Projects
+
+#### /:id
+Get one DataProject
+- GET request 
+- Response: id, data_challenge_id, name, description, image

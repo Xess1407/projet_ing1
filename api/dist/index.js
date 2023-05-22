@@ -1043,6 +1043,7 @@ var _DataProjectController = class {
     this.router.post(_DataProjectController.path, this.post);
     this.router.get(_DataProjectController.path, this.get_all);
     this.router.get(_DataProjectController.path + "/:id", this.get);
+    this.router.delete(_DataProjectController.path, this.delete);
   }
   static get_values() {
     const db = new import_sqlite35.Database("maggle.db");
@@ -1174,12 +1175,24 @@ var _DataProjectController = class {
     res.status(200).send();
   }
   async post(req, res) {
-    let { id, data_challenge_id, name, description, image } = req.body;
-    if (!data_challenge_id || !name || !description || !image) {
+    let { id, data_challenge_id, name, description, image, password } = req.body;
+    if (!data_challenge_id || !name || !description || !image || !password) {
       console.log(
         "[ERROR][POST] wrong data on " + _DataProjectController.path + " : " + JSON.stringify(req.body)
       );
       res.status(400).send();
+      return;
+    }
+    let identified = false;
+    await user_default.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.role == "admin" && row.password == password) {
+          identified = true;
+        }
+      })
+    );
+    if (!identified) {
+      res.status(401).send("Wrong password!");
       return;
     }
     if (!id) {
@@ -1200,6 +1213,45 @@ var _DataProjectController = class {
       );
       _DataProjectController.post_modify(element, res);
     }
+  }
+  async delete(req, res) {
+    const db = new import_sqlite35.Database("maggle.db");
+    const { id, password } = req.body;
+    if (!id || !password) {
+      console.log(
+        "[ERROR][DELETE] wrong data on " + data_challenge_default.path + " : " + JSON.stringify(req.body)
+      );
+    }
+    let identified = false;
+    await user_default.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.role == "admin" && row.password == password) {
+          identified = true;
+        }
+      })
+    );
+    if (!identified) {
+      res.status(401).send("Wrong password!");
+      return;
+    }
+    const sql = `DELETE FROM data_project
+        WHERE rowid = ?`;
+    const data = [id];
+    let e;
+    db.run(sql, data, (err) => e = err);
+    if (e) {
+      console.log(
+        "[ERROR][DELETE] sql error " + _DataProjectController.path + " : " + JSON.stringify(id)
+      );
+      console.error(e.message);
+      res.status(500).send();
+      return;
+    }
+    db.close();
+    console.log(
+      "[INFO][DELETE] data deleted on " + _DataProjectController.path + " : " + JSON.stringify(id)
+    );
+    res.status(200).send();
   }
 };
 var DataProjectController = _DataProjectController;

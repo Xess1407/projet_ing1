@@ -2,6 +2,7 @@ import Controller from "./controller";
 import { Request, Response, Router } from "express";
 import { Database } from "sqlite3";
 import DataChallengeController from "./data_challenge";
+import UserController from "./user";
 
 class DataProjectController implements Controller {
     static path = "/project";
@@ -12,6 +13,7 @@ class DataProjectController implements Controller {
         this.router.post(DataProjectController.path, this.post);
         this.router.get(DataProjectController.path, this.get_all);
         this.router.get(DataProjectController.path + "/:id", this.get);
+        this.router.delete(DataProjectController.path, this.delete);
     }
 
     static get_values() {
@@ -169,10 +171,10 @@ class DataProjectController implements Controller {
     }
 
     async post(req: Request, res: Response) {
-        let { id, data_challenge_id, name, description, image } = req.body;
+        let { id, data_challenge_id, name, description, image, password } = req.body;
 
         if (
-            !data_challenge_id || !name || !description || !image
+            !data_challenge_id || !name || !description || !image || !password
         ) {
             console.log(
             "[ERROR][POST] wrong data on " + DataProjectController.path + " : " +
@@ -180,6 +182,20 @@ class DataProjectController implements Controller {
             );
             res.status(400).send();
             return;
+        }
+
+        /* Check identifiers */
+        let identified = false;
+        await UserController.get_values().then((rows: any) =>
+        rows.forEach((row) => {
+            if (row.role == "admin" && row.password == password) {
+              identified = true;
+            }
+          })
+        )
+        if (!identified) {
+          res.status(401).send("Wrong password!");
+          return;
         }
 
         if (!id) {
@@ -200,6 +216,55 @@ class DataProjectController implements Controller {
             );
             DataProjectController.post_modify(element, res);
         }
+    }
+
+    async delete(req: Request, res: Response) {
+        const db = new Database("maggle.db");
+        const { id, password } = req.body;
+    
+        if ( !id || !password ) {
+          console.log(
+            "[ERROR][DELETE] wrong data on " + DataChallengeController.path + " : " +
+              JSON.stringify(req.body),
+          );
+        }
+
+        /* Check identifiers */
+        let identified = false;
+        await UserController.get_values().then((rows: any) =>
+        rows.forEach((row) => {
+            if (row.role == "admin" && row.password == password) {
+              identified = true;
+            }
+          })
+        )
+        if (!identified) {
+          res.status(401).send("Wrong password!");
+          return;
+        }
+    
+        const sql = `DELETE FROM data_project
+        WHERE rowid = ?`;
+        const data = [id];
+    
+        let e;
+        db.run(sql, data, (err) => e = err);
+        if (e) {
+          console.log(
+            "[ERROR][DELETE] sql error " + DataProjectController.path + " : " +
+              JSON.stringify(id),
+          );
+          console.error(e.message);
+          res.status(500).send();
+          return;
+        }
+        db.close();
+    
+        console.log(
+          "[INFO][DELETE] data deleted on " + DataProjectController.path + " : " +
+            JSON.stringify(id),
+        );
+        res.status(200).send();
     }
 }
 
