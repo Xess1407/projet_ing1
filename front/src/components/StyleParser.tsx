@@ -46,7 +46,7 @@ export default function style_space_parser(props: any): string {
         s += "max-width:" + props.maxW + ";"
     if (props.maxH !== "undefined")
         s += "max-height:" + props.maxH + ";"
-    
+
     return s
 }
 
@@ -81,3 +81,84 @@ export function style_border_parser(props: any):string {
     
     return s
 }
+
+export function style_color_parser(props: any):string {
+    let s: string = "";
+
+    /* Color */
+    if (props.c !== "undefined")
+        s += "color:" + props.c + ";"
+    if (props.bg !== "undefined")
+        s += "background:" + props.bg + ";"
+    if (props.bgc !== "undefined")
+        s += "background-color:" + props.bgc + ";"
+    if (props.opt !== "undefined")
+        s += "opacity:" + props.opt + ";"
+
+    return s
+}
+
+export function style_font_parser(props: any):string {
+    let s: string = "";
+
+    /* Color */
+    if (props.ff !== "undefined")
+        s += "font-family:" + props.ff + ";"
+    if (props.fsz !== "undefined")
+        s += "font-size:" + props.fsz + ";"
+    if (props.fw !== "undefined")
+        s += "font-weight:" + props.fw + ";"
+    if (props.lh !== "undefined")
+        s += "line-height:" + props.lh + ";"
+    if (props.ls !== "undefined")
+        s += "letter-spacing:" + props.ls + ";"
+    if (props.ta !== "undefined")
+        s += "text-align:" + props.ta + ";"
+    if (props.fst !== "undefined")
+        s += "font-style:" + props.fst + ";"
+    if (props.tt !== "undefined")
+        s += "text-transform:" + props.tt + ";"
+    if (props.td !== "undefined")
+        s += "text-decoration:" + props.td + ";"
+
+    return s
+}
+
+export function style_layout_parser(props: any):string {
+    let s: string = "";
+
+    /* Color */
+    if (props.d !== "undefined")
+        s += "display:" + props.d + ";"
+    if (props.va !== "undefined")
+        s += "vertical-align:" + props.va + ";"
+    if (props.ov !== "undefined")
+        s += "overflow:" + props.ov + ";"
+    if (props.ovx !== "undefined")
+        s += "overflow-x:" + props.ovx + ";"
+    if (props.ovy !== "undefined")
+        s += "overflow-y:" + props.ovy + ";"
+
+    return s
+}
+
+export function style_position_parser(props: any):string {
+    let s: string = "";
+
+    /* Color */
+    if (props.pos !== "undefined")
+        s += "position:" + props.pos + ";"
+    if (props.zi !== "undefined")
+        s += "z-index:" + props.zi + ";"
+    if (props.tp !== "undefined")
+        s += "top:" + props.tp + ";"
+    if (props.rt !== "undefined")
+        s += "right:" + props.rt + ";"
+    if (props.bm !== "undefined")
+        s += "bottom:" + props.bm + ";"
+    if (props.lt !== "undefined")
+        s += "left:" + props.lt + ";"
+
+    return s
+}
+

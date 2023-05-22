@@ -2,6 +2,7 @@ import { Component, createEffect, createSignal } from "solid-js";
 import Flex from "../components/layouts/Flex";
 import ButtonCustom from "../components/generals/ButtonCustom";
 import { submit, form, update_form_field, setForm } from "../components/RegisterForm";
+import Box from "../components/layouts/Box";
 
 const [school_level, setSchool_level] = createSignal("none");
 createEffect(() => {
@@ -25,10 +26,13 @@ const Register: Component = () => {
     }
     
     return (
-        <Flex b="1px solid" br="16px" ac="center" jc="center">
+
+        <Flex ac="center" jc="center">
+            <Box b="1px solid" br="16px" hv={{ color:"blue" }}>
             <h3>Inscription</h3>
                 <form onSubmit={ handle_submit }>
                     <Flex direction="column" m="0 0 15px 0">
+
                         <label for="name">Nom <span class="red">*</span>:</label>
                         <input
                         type="text"
@@ -37,6 +41,7 @@ const Register: Component = () => {
                         onChange={update_form_field("name")}
                         required
                         />
+
                     </Flex>
                     <Flex direction="column" m="0 0 15px 0">
                         <label for="family_name">Prenom <span class="red">*</span>:</label>
@@ -121,7 +126,9 @@ const Register: Component = () => {
                     </Flex>
                 <ButtonCustom class="form-submit" type="submit" value="submit" m="0 0 20px 0">Inscription</ButtonCustom>
             </form>
+            </Box>
         </Flex>
+
     )
 }
 

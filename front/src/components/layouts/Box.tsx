@@ -1,5 +1,13 @@
 import { For } from "solid-js";
-import style_space_parser, { style_box_parser, style_border_parser} from "../StyleParser";
+import style_space_parser, {
+    style_box_parser,
+    style_border_parser,
+    style_color_parser,
+    style_font_parser,
+    style_layout_parser,
+    style_position_parser,
+
+} from "../StyleParser";
 
 const Box = (props: any) => {
     const children = Array.isArray(props.children)
@@ -7,7 +15,7 @@ const Box = (props: any) => {
     : [props.children];
 
     /* Apply style */
-    let s = style_space_parser(props) + style_box_parser(props) + style_border_parser(props)
+    let s = style_space_parser(props) + style_box_parser(props) + style_border_parser(props) + style_color_parser(props) + style_font_parser(props) + style_layout_parser(props) + style_position_parser(props)
     if (props.direction !== "undefined")
         s += "Box-direction:" + props.direction + ";"
     if (props.justify !== "undefined")

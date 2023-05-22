@@ -43,6 +43,42 @@ bw	border-width
 bc	border-color
 br  border-radius
 
-## Flex
+### Flex
 
 direction, flex-direction
+
+### Color
+
+c   color
+bg  background
+bgc background-color
+opt opacity
+
+### Font
+
+ff  font-family
+fsz font-size
+fw  font-weight
+lh  line-height
+ls  letter-spacing
+ta  text-align
+fst font-style
+tt  text-transform
+td  text-decoration
+
+### Layout
+
+d   display
+va  vertical-align
+ov  overflow
+ovx overflow-x
+ovy overflow-y
+
+### Position
+
+pos position
+zi  z-index
+tp  top
+rt  right
+bm  bottom
+lt  left
