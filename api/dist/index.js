@@ -818,6 +818,7 @@ var _DataChallengeController = class {
     this.router.post(_DataChallengeController.path, this.post);
     this.router.get(_DataChallengeController.path, this.get_all);
     this.router.get(_DataChallengeController.path + "/:id", this.get);
+    this.router.delete(_DataChallengeController.path, this.delete);
   }
   static get_values() {
     const db = new import_sqlite34.Database("maggle.db");
@@ -973,6 +974,45 @@ var _DataChallengeController = class {
       );
       _DataChallengeController.post_modify(element, res);
     }
+  }
+  async delete(req, res) {
+    const db = new import_sqlite34.Database("maggle.db");
+    const { id, password } = req.body;
+    if (!id || !password) {
+      console.log(
+        "[ERROR][DELETE] wrong data on " + _DataChallengeController.path + " : " + JSON.stringify(req.body)
+      );
+    }
+    let identified = false;
+    await user_default.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.role == "admin" && row.password == password) {
+          identified = true;
+        }
+      })
+    );
+    if (!identified) {
+      res.status(401).send("Wrong password!");
+      return;
+    }
+    const sql = `DELETE FROM data_challenge
+        WHERE rowid = ?`;
+    const data = [id];
+    let e;
+    db.run(sql, data, (err) => e = err);
+    if (e) {
+      console.log(
+        "[ERROR][DELETE] sql error " + _DataChallengeController.path + " : " + JSON.stringify(id)
+      );
+      console.error(e.message);
+      res.status(500).send();
+      return;
+    }
+    db.close();
+    console.log(
+      "[INFO][DELETE] data deleted on " + _DataChallengeController.path + " : " + JSON.stringify(id)
+    );
+    res.status(200).send();
   }
 };
 var DataChallengeController = _DataChallengeController;
