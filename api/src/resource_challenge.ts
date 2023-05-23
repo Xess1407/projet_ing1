@@ -214,6 +214,8 @@ class ResourceChallengeController implements Controller {
             "[ERROR][DELETE] wrong data on " + ResourceChallengeController.path + " : " +
               JSON.stringify(req.body),
           );
+          res.status(400).send();
+          return;
         }
 
         /* Check identifiers */

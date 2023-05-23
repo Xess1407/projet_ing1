@@ -204,6 +204,8 @@ class DataChallengeController implements Controller {
             "[ERROR][DELETE] wrong data on " + DataChallengeController.path + " : " +
               JSON.stringify(req.body),
           );
+          res.status(400).send();
+          return;
         }
 
         /* Check identifiers */

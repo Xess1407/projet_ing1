@@ -214,6 +214,8 @@ class ResourceProjectController implements Controller {
             "[ERROR][DELETE] wrong data on " + ResourceProjectController.path + " : " +
               JSON.stringify(req.body),
           );
+          res.status(400).send();
+          return;
         }
 
         /* Check identifiers */
