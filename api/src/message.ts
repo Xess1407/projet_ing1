@@ -153,7 +153,7 @@ class MessageController implements Controller {
         const db = new Database("maggle.db");
 
         const sql = `UPDATE message SET
-        data_project_id = ?, team_id = ?, score = ?
+        emitter = ?, receiver = ?, content = ?, date = ?
         WHERE rowid = ?`;
         const data = [
             p.emitter,
