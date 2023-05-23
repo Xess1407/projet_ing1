@@ -237,21 +237,20 @@ var _UserController = class {
       p.role
     ];
     let e;
-    db.run(sql, data, function(err) {
-      if (err) {
-        console.log(
-          "[ERROR][POST] sql error " + _UserController.path + " : " + JSON.stringify(p)
-        );
-        console.error(e.message);
-        res.status(500).send();
-        return;
-      }
+    db.run(sql, data, (err) => e = err);
+    if (e) {
       console.log(
-        "[INFO][POST] data added on " + _UserController.path + " : " + JSON.stringify(p)
+        "[ERROR][POST] sql error " + _UserController.path + " : " + JSON.stringify(p)
       );
-      res.status(200).send(JSON.stringify({ "id:": this.lastID }));
-    });
+      console.error(e.message);
+      res.status(500).send();
+      return;
+    }
     db.close();
+    console.log(
+      "[INFO][POST] data added on " + _UserController.path + " : " + JSON.stringify(p)
+    );
+    res.status(200).send();
   }
   static async post_modify(p, res) {
     const db = new import_sqlite3.Database("maggle.db");
@@ -467,21 +466,20 @@ var _ManagerController = class {
       p.deactivation_date
     ];
     let e;
-    db.run(sql, data, function(err) {
-      if (err) {
-        console.log(
-          "[ERROR][POST] sql error " + _ManagerController.path + " : " + JSON.stringify(p)
-        );
-        console.error(e.message);
-        res.status(500).send();
-        return;
-      }
+    db.run(sql, data, (err) => e = err);
+    if (e) {
       console.log(
-        "[INFO][POST] data added on " + _ManagerController.path + " : " + JSON.stringify(p)
+        "[ERROR][POST] sql error " + _ManagerController.path + " : " + JSON.stringify(p)
       );
-      res.status(200).send(JSON.stringify({ "id:": this.lastID }));
-    });
+      console.error(e.message);
+      res.status(500).send();
+      return;
+    }
     db.close();
+    console.log(
+      "[INFO][POST] data added on " + _ManagerController.path + " : " + JSON.stringify(p)
+    );
+    res.status(200).send();
   }
   static async post_modify(p, res) {
     const db = new import_sqlite32.Database("maggle.db");
@@ -1378,21 +1376,20 @@ var _ResourceChallengeController = class {
       p.url
     ];
     let e;
-    db.run(sql, data, function(err) {
-      if (err) {
-        console.log(
-          "[ERROR][POST] sql error " + _ResourceChallengeController.path + " : " + JSON.stringify(p)
-        );
-        console.error(e.message);
-        res.status(500).send();
-        return;
-      }
+    db.run(sql, data, (err) => e = err);
+    if (e) {
       console.log(
-        "[INFO][POST] data added on " + _ResourceChallengeController.path + " : " + JSON.stringify(p)
+        "[ERROR][POST] sql error " + _ResourceChallengeController.path + " : " + JSON.stringify(p)
       );
-      res.status(200).send(JSON.stringify({ "id:": this.lastID }));
-    });
+      console.error(e.message);
+      res.status(500).send();
+      return;
+    }
     db.close();
+    console.log(
+      "[INFO][POST] data added on " + _ResourceChallengeController.path + " : " + JSON.stringify(p)
+    );
+    res.status(200).send();
   }
   static async post_modify(p, res) {
     const db = new import_sqlite36.Database("maggle.db");
@@ -1611,21 +1608,20 @@ var _ResourceProjectController = class {
       p.url
     ];
     let e;
-    db.run(sql, data, function(err) {
-      if (err) {
-        console.log(
-          "[ERROR][POST] sql error " + _ResourceProjectController.path + " : " + JSON.stringify(p)
-        );
-        console.error(e.message);
-        res.status(500).send();
-        return;
-      }
+    db.run(sql, data, (err) => e = err);
+    if (e) {
       console.log(
-        "[INFO][POST] data added on " + _ResourceProjectController.path + " : " + JSON.stringify(p)
+        "[ERROR][POST] sql error " + _ResourceProjectController.path + " : " + JSON.stringify(p)
       );
-      res.status(200).send(JSON.stringify({ "id:": this.lastID }));
-    });
+      console.error(e.message);
+      res.status(500).send();
+      return;
+    }
     db.close();
+    console.log(
+      "[INFO][POST] data added on " + _ResourceProjectController.path + " : " + JSON.stringify(p)
+    );
+    res.status(200).send();
   }
   static async post_modify(p, res) {
     const db = new import_sqlite37.Database("maggle.db");
@@ -1756,6 +1752,268 @@ var ResourceProjectEntry = class {
   }
 };
 
+// src/member.ts
+var import_express10 = require("express");
+var import_sqlite38 = require("sqlite3");
+var MemberController = class {
+  constructor() {
+    this.router = new import_express10.Router();
+  }
+  static get_values() {
+    const db = new import_sqlite38.Database("maggle.db");
+    const sql = "SELECT rowid, * FROM member";
+    return new Promise(
+      (resolve, reject) => db.all(sql, [], (err, rows) => {
+        if (err) {
+          console.log(err);
+        }
+        resolve(rows);
+      })
+    );
+  }
+};
+MemberController.path = "/resource-challenge";
+var member_default = MemberController;
+
+// src/team.ts
+var import_express11 = require("express");
+var import_sqlite39 = require("sqlite3");
+var _TeamController = class {
+  constructor() {
+    this.router = new import_express11.Router();
+    this.router.post(_TeamController.path, this.post);
+    this.router.get(_TeamController.path, this.get_all);
+    this.router.get(_TeamController.path + "/:id", this.get);
+    this.router.delete(_TeamController.path, this.delete);
+    this.router.get(_TeamController.path + "/test/:teamid", this.getcap);
+  }
+  static get_values() {
+    const db = new import_sqlite39.Database("maggle.db");
+    const sql = "SELECT rowid, * FROM team";
+    return new Promise(
+      (resolve, reject) => db.all(sql, [], (err, rows) => {
+        if (err) {
+          console.log(err);
+        }
+        resolve(rows);
+      })
+    );
+  }
+  static get_user_captain_id_by_team_id(team_id) {
+    const db = new import_sqlite39.Database("maggle.db");
+    const sql = "SELECT user_captain_id FROM team WHERE rowid = ?";
+    let params = [team_id];
+    return new Promise(
+      (resolve, reject) => db.get(sql, params, (err, row) => {
+        if (err) {
+          console.log(err);
+        }
+        resolve(row.user_captain_id);
+      })
+    );
+  }
+  async getcap(req, res) {
+    let teamid = parseInt(req.params.teamid);
+    await _TeamController.get_user_captain_id_by_team_id(teamid).then((row) => {
+      res = row;
+    });
+    console.log(res);
+  }
+  async get(req, res) {
+    let id = req.params.id;
+    let r;
+    if (!id) {
+      console.log(
+        "[ERROR][GET] wrong data on " + _TeamController.path + "/" + id + ": " + JSON.stringify(req.body)
+      );
+      res.status(400).send();
+      return;
+    }
+    let found = false;
+    await _TeamController.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.rowid == id) {
+          found = true;
+          r = new TeamEntry(
+            row.rowid,
+            row.user_captain_id,
+            row.data_project_id
+          );
+        }
+      })
+    );
+    if (found) {
+      console.log(
+        "[INFO][GET] " + _TeamController.path + "/" + id + ": "
+      );
+      res.send(JSON.stringify(r));
+    } else {
+      res.status(400).send();
+    }
+  }
+  async get_all(req, res) {
+    let r = new Array();
+    await _TeamController.get_values().then(
+      (rows) => rows.forEach((row) => {
+        r.push(new TeamEntry(
+          row.rowid,
+          row.user_captain_id,
+          row.data_project_id
+        ));
+      })
+    );
+    console.log(
+      "[INFO][GET] " + _TeamController.path + ": "
+    );
+    res.send(JSON.stringify(r));
+  }
+  static async post_new(p, res) {
+    let sql;
+    let data;
+    const db = new import_sqlite39.Database("maggle.db");
+    sql = "INSERT INTO team VALUES(?,?)";
+    data = [
+      p.user_captain_id,
+      p.data_project_id
+    ];
+    let e;
+    db.run(sql, data, function(err) {
+      if (err) {
+        console.log(
+          "[ERROR][POST] sql error " + _TeamController.path + " : " + JSON.stringify(p)
+        );
+        console.error(e.message);
+        res.status(500).send();
+        return;
+      }
+      console.log(
+        "[INFO][POST] data added on " + _TeamController.path + " : " + JSON.stringify(p)
+      );
+      res.status(200).send(JSON.stringify({ "id:": this.lastID }));
+    });
+    db.close();
+  }
+  static async post_modify(p, res) {
+    const db = new import_sqlite39.Database("maggle.db");
+    const sql = `UPDATE team SET
+        user_captain_id = ?, data_project_id = ?
+        WHERE rowid = ?`;
+    const data = [
+      p.user_captain_id,
+      p.data_project_id,
+      p.id
+    ];
+    let e;
+    db.run(sql, data, (err) => e = err);
+    if (e) {
+      console.log(
+        "[ERROR][POST] sql error " + _TeamController.path + " : " + JSON.stringify(p)
+      );
+      console.error(e.message);
+      res.status(500).send();
+      return;
+    }
+    db.close();
+    console.log(
+      "[INFO][POST] data updated on " + _TeamController.path + " : " + JSON.stringify(p)
+    );
+    res.status(200).send();
+  }
+  async post(req, res) {
+    let { id, email, data_project_id, password } = req.body;
+    if (!email || !data_project_id || !password) {
+      console.log(
+        "[ERROR][POST] wrong data on " + _TeamController.path + " : " + JSON.stringify(req.body)
+      );
+      res.status(400).send();
+      return;
+    }
+    let user_captain_id;
+    let identified = false;
+    await user_default.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.role == "student" && row.email == email && row.password == password) {
+          identified = true;
+          user_captain_id = row.rowid;
+        }
+      })
+    );
+    if (!identified) {
+      res.status(401).send("Wrong password!");
+      return;
+    }
+    if (!id) {
+      const element = new Team(
+        user_captain_id,
+        data_project_id
+      );
+      _TeamController.post_new(element, res);
+    } else {
+      const element = new TeamEntry(
+        id,
+        user_captain_id,
+        data_project_id
+      );
+      _TeamController.post_modify(element, res);
+    }
+  }
+  async delete(req, res) {
+    const db = new import_sqlite39.Database("maggle.db");
+    const { id, email, password } = req.body;
+    if (!id || !password) {
+      console.log(
+        "[ERROR][DELETE] wrong data on " + _TeamController.path + " : " + JSON.stringify(req.body)
+      );
+    }
+    let identified = false;
+    await user_default.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.role == "student" && row.email == email && row.password == password) {
+          identified = true;
+        }
+      })
+    );
+    if (!identified) {
+      res.status(401).send("Wrong password!");
+      return;
+    }
+    const sql = `DELETE FROM team
+        WHERE rowid = ?`;
+    const data = [id];
+    let e;
+    db.run(sql, data, (err) => e = err);
+    if (e) {
+      console.log(
+        "[ERROR][DELETE] sql error " + _TeamController.path + " : " + JSON.stringify(id)
+      );
+      console.error(e.message);
+      res.status(500).send();
+      return;
+    }
+    db.close();
+    console.log(
+      "[INFO][DELETE] data deleted on " + _TeamController.path + " : " + JSON.stringify(id)
+    );
+    res.status(200).send();
+  }
+};
+var TeamController = _TeamController;
+TeamController.path = "/team";
+var team_default = TeamController;
+var Team = class {
+  constructor(user_captain_id, data_project_id) {
+    this.user_captain_id = user_captain_id;
+    this.data_project_id = data_project_id;
+  }
+};
+var TeamEntry = class {
+  constructor(id, user_captain_id, data_project_id) {
+    this.id = id;
+    this.user_captain_id = user_captain_id;
+    this.data_project_id = data_project_id;
+  }
+};
+
 // src/index.ts
 var controllers = [
   new user_default(),
@@ -1765,7 +2023,9 @@ var controllers = [
   new data_challenge_default(),
   new data_project_default(),
   new resource_challenge_default(),
-  new resource_project_default()
+  new resource_project_default(),
+  new member_default(),
+  new team_default()
 ];
 var app = new app_default(
   controllers,

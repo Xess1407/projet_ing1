@@ -11,3 +11,4 @@ cat migrations/data_project.sql | sqlite3 maggle.db
 cat migrations/resource_challenge.sql | sqlite3 maggle.db
 cat migrations/resource_project.sql | sqlite3 maggle.db
 cat migrations/member.sql | sqlite3 maggle.db
+cat migrations/team.sql | sqlite3 maggle.db
