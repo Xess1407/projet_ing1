@@ -237,20 +237,21 @@ var _UserController = class {
       p.role
     ];
     let e;
-    db.run(sql, data, (err) => e = err);
-    if (e) {
+    db.run(sql, data, function(err) {
+      if (err) {
+        console.log(
+          "[ERROR][POST] sql error " + _UserController.path + " : " + JSON.stringify(p)
+        );
+        console.error(e.message);
+        res.status(500).send();
+        return;
+      }
       console.log(
-        "[ERROR][POST] sql error " + _UserController.path + " : " + JSON.stringify(p)
+        "[INFO][POST] data added on " + _UserController.path + " : " + JSON.stringify(p)
       );
-      console.error(e.message);
-      res.status(500).send();
-      return;
-    }
+      res.status(200).send(JSON.stringify({ "id:": this.lastID }));
+    });
     db.close();
-    console.log(
-      "[INFO][POST] data added on " + _UserController.path + " : " + JSON.stringify(p)
-    );
-    res.status(200).send();
   }
   static async post_modify(p, res) {
     const db = new import_sqlite3.Database("maggle.db");
@@ -466,20 +467,21 @@ var _ManagerController = class {
       p.deactivation_date
     ];
     let e;
-    db.run(sql, data, (err) => e = err);
-    if (e) {
+    db.run(sql, data, function(err) {
+      if (err) {
+        console.log(
+          "[ERROR][POST] sql error " + _ManagerController.path + " : " + JSON.stringify(p)
+        );
+        console.error(e.message);
+        res.status(500).send();
+        return;
+      }
       console.log(
-        "[ERROR][POST] sql error " + _ManagerController.path + " : " + JSON.stringify(p)
+        "[INFO][POST] data added on " + _ManagerController.path + " : " + JSON.stringify(p)
       );
-      console.error(e.message);
-      res.status(500).send();
-      return;
-    }
+      res.status(200).send(JSON.stringify({ "id:": this.lastID }));
+    });
     db.close();
-    console.log(
-      "[INFO][POST] data added on " + _ManagerController.path + " : " + JSON.stringify(p)
-    );
-    res.status(200).send();
   }
   static async post_modify(p, res) {
     const db = new import_sqlite32.Database("maggle.db");
@@ -1137,20 +1139,21 @@ var _DataProjectController = class {
       p.image
     ];
     let e;
-    db.run(sql, data, (err) => e = err);
-    if (e) {
+    db.run(sql, data, function(err) {
+      if (err) {
+        console.log(
+          "[ERROR][POST] sql error " + _DataProjectController.path + " : " + JSON.stringify(p)
+        );
+        console.error(e.message);
+        res.status(500).send();
+        return;
+      }
       console.log(
-        "[ERROR][POST] sql error " + _DataProjectController.path + " : " + JSON.stringify(p)
+        "[INFO][POST] data added on " + _DataProjectController.path + " : " + JSON.stringify(p)
       );
-      console.error(e.message);
-      res.status(500).send();
-      return;
-    }
+      res.status(200).send(JSON.stringify({ "id:": this.lastID }));
+    });
     db.close();
-    console.log(
-      "[INFO][POST] data added on " + _DataProjectController.path + " : " + JSON.stringify(p)
-    );
-    res.status(200).send();
   }
   static async post_modify(p, res) {
     const db = new import_sqlite35.Database("maggle.db");
@@ -1375,20 +1378,21 @@ var _ResourceChallengeController = class {
       p.url
     ];
     let e;
-    db.run(sql, data, (err) => e = err);
-    if (e) {
+    db.run(sql, data, function(err) {
+      if (err) {
+        console.log(
+          "[ERROR][POST] sql error " + _ResourceChallengeController.path + " : " + JSON.stringify(p)
+        );
+        console.error(e.message);
+        res.status(500).send();
+        return;
+      }
       console.log(
-        "[ERROR][POST] sql error " + _ResourceChallengeController.path + " : " + JSON.stringify(p)
+        "[INFO][POST] data added on " + _ResourceChallengeController.path + " : " + JSON.stringify(p)
       );
-      console.error(e.message);
-      res.status(500).send();
-      return;
-    }
+      res.status(200).send(JSON.stringify({ "id:": this.lastID }));
+    });
     db.close();
-    console.log(
-      "[INFO][POST] data added on " + _ResourceChallengeController.path + " : " + JSON.stringify(p)
-    );
-    res.status(200).send();
   }
   static async post_modify(p, res) {
     const db = new import_sqlite36.Database("maggle.db");
@@ -1607,20 +1611,21 @@ var _ResourceProjectController = class {
       p.url
     ];
     let e;
-    db.run(sql, data, (err) => e = err);
-    if (e) {
+    db.run(sql, data, function(err) {
+      if (err) {
+        console.log(
+          "[ERROR][POST] sql error " + _ResourceProjectController.path + " : " + JSON.stringify(p)
+        );
+        console.error(e.message);
+        res.status(500).send();
+        return;
+      }
       console.log(
-        "[ERROR][POST] sql error " + _ResourceProjectController.path + " : " + JSON.stringify(p)
+        "[INFO][POST] data added on " + _ResourceProjectController.path + " : " + JSON.stringify(p)
       );
-      console.error(e.message);
-      res.status(500).send();
-      return;
-    }
+      res.status(200).send(JSON.stringify({ "id:": this.lastID }));
+    });
     db.close();
-    console.log(
-      "[INFO][POST] data added on " + _ResourceProjectController.path + " : " + JSON.stringify(p)
-    );
-    res.status(200).send();
   }
   static async post_modify(p, res) {
     const db = new import_sqlite37.Database("maggle.db");

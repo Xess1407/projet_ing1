@@ -123,24 +123,27 @@ class DataProjectController implements Controller {
           p.image
         ];
     
+        /* Run query */
         let e;
-        db.run(sql, data, (err) => e = err);
-        if (e) {
+        db.run(sql, data, function (err) {
+          if (err) {
+            console.log(
+              "[ERROR][POST] sql error " + DataProjectController.path + " : " +
+                JSON.stringify(p),
+            );
+            console.error(e.message);
+            res.status(500).send();
+            return;
+          }
+    
           console.log(
-            "[ERROR][POST] sql error " + DataProjectController.path + " : " +
+            "[INFO][POST] data added on " + DataProjectController.path + " : " +
               JSON.stringify(p),
           );
-          console.error(e.message);
-          res.status(500).send();
-          return;
-        }
+      
+          res.status(200).send(JSON.stringify({"id:":this.lastID}));
+        });
         db.close();
-    
-        console.log(
-          "[INFO][POST] data added on " + DataProjectController.path + " : " +
-            JSON.stringify(p),
-        );
-        res.status(200).send();
     }
     
     static async post_modify(p: DataProjectEntry, res: Response) {
