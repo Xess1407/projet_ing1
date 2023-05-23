@@ -36,7 +36,14 @@ curl -X POST -H "Content-Type: application/json" -d '{"team_id":1, "user_id": 2,
 curl -X POST -H "Content-Type: application/json" -d '{"data_project_id":1, "name":"Super questionnaire", "date_time_start":"2023-05-23", "date_time_end":"2023-05-24", "user_id": 4, "password": "man"}' localhost:8080/api/questionnaire
 
 # Insert Question
-# Insert Questionnaire
 curl -X POST -H "Content-Type: application/json" -d '{"questionnaire_id":1, "name":"Quel âge avez-vous ?", "user_id": 4, "password": "man"}' localhost:8080/api/question
 curl -X POST -H "Content-Type: application/json" -d '{"questionnaire_id":1, "name":"Quelle est votre couleur préférée ?", "user_id": 4, "password": "man"}' localhost:8080/api/question
-curl -X POST -H "Content-Type: application/json" -d '{"questionnaire_id":1, "name":"Est-ce que c'est bon pour vous ?", "user_id": 4, "password": "man"}' localhost:8080/api/question
+curl -X POST -H "Content-Type: application/json" -d '{"questionnaire_id":1, "name":"Est-ce que c est bon pour vous ?", "user_id": 4, "password": "man"}' localhost:8080/api/question
+
+# Insert Answer
+curl -X POST -H "Content-Type: application/json" -d '{"question_id":1, "team_id":1, "content":"19", "user_id":1, "password":"test"}' localhost:8080/api/answer
+curl -X POST -H "Content-Type: application/json" -d '{"question_id":2, "team_id":1, "content":"Violet", "user_id":1, "password":"test"}' localhost:8080/api/answer
+curl -X POST -H "Content-Type: application/json" -d '{"question_id":3, "team_id":1, "content":"Plutôt oui", "user_id":1, "password":"test"}' localhost:8080/api/answer
+
+# Grading an Answer
+curl -X POST -H "Content-Type: application/json" -d '{"question_id":1, "team_id":1, "content":"19", "score":4, "user_id":4, "password":"man"}' localhost:8080/api/answer

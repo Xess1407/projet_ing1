@@ -124,14 +124,13 @@ class DataProjectController implements Controller {
         ];
     
         /* Run query */
-        let e;
         db.run(sql, data, function (err) {
           if (err) {
             console.log(
               "[ERROR][POST] sql error " + DataProjectController.path + " : " +
                 JSON.stringify(p),
             );
-            console.error(e.message);
+            console.error(err.message);
             res.status(500).send();
             return;
           }

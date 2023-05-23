@@ -30,6 +30,19 @@ class QuestionController implements Controller {
         );
     }
 
+    static async exist_question_id(question_id: number) {
+        let res = false;
+        await QuestionController.get_values().then((rows: any) =>
+          rows.forEach((row) => {
+            if (row.rowid == question_id) {
+              res = true;
+            }
+          })
+        );
+    
+        return res;
+    }
+
     async get(req: Request, res: Response) {
         let id = req.params.id;
     
@@ -106,14 +119,13 @@ class QuestionController implements Controller {
         ];
         
         /* Run query */
-        let e;
         db.run(sql, data, function (err) {
           if (err) {
             console.log(
               "[ERROR][POST] sql error " + QuestionController.path + " : " +
                 JSON.stringify(p),
             );
-            console.error(e.message);
+            console.error(err.message);
             res.status(500).send();
             return;
           }
