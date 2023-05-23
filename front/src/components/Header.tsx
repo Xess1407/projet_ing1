@@ -2,7 +2,7 @@ import { Component } from "solid-js";
 import Flex from "./layouts/Flex";
 import Box from "./layouts/Box";
 import linkItems from "./linkItems";
-import "./Header.css"
+import "./css/Header.css"
 import dMenuInit from "./dropdownMenu";
 
 

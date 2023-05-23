@@ -1,6 +1,6 @@
 import {DropdownMenu} from "@kobalte/core"
 import linkItems from "./linkItems";
-import "./Header.css"
+import "./css/Header.css"
 
 function dropdownMenu(s: string, link: string){
     return(
