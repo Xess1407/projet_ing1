@@ -29,6 +29,19 @@ class QuestionnaireController implements Controller {
         );
     }
 
+    static async exist_questionnaire_id(questionnaire_id: number) {
+        let res = false;
+        await QuestionnaireController.get_values().then((rows: any) =>
+          rows.forEach((row) => {
+            if (row.rowid == questionnaire_id) {
+              res = true;
+            }
+          })
+        );
+    
+        return res;
+    }
+
     async get_all(req: Request, res: Response) {
         let r = new Array<QuestionnaireEntry>();
     

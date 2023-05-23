@@ -10,6 +10,7 @@ import ResourceProjectController from "./resource_project";
 import MemberController from "./member";
 import TeamController from "./team";
 import QuestionnaireController from "./questionnaire";
+import QuestionController from "./question";
 
 const controllers = [
   new UserController(),
@@ -23,6 +24,7 @@ const controllers = [
   new MemberController(),
   new TeamController(),
   new QuestionnaireController(),
+  new QuestionController(),
 ];
 
 const app = new App(

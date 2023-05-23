@@ -232,3 +232,56 @@ Get all Member from one team  (where id = team_id)
 - Response: List all members from team
 
 ---
+
+### /questionnaire
+
+Save new Questionnaire
+- POST request
+- Form-data: data_project_id, name, date_time_start, date_time_end, user_id, password
+- Response: id
+
+Modify existing Questionnaire
+- POST request
+- Form-data: id, data_project_id, name, date_time_start, date_time_end, user_id, password
+
+Delete existing Questionnaire
+- DELETE request
+- Form-data: id, user_id, password
+
+Get all Questionnaire
+- GET request 
+- Response: List all Questionnaire
+
+#### /:id
+Get one Questionnaire
+- GET request 
+- Response: id, data_project_id, name, date_time_start, date_time_end
+
+---
+
+### /question
+
+Save new Question
+- POST request
+- Form-data: questionnaire_id, name, user_id, password
+- Response: id
+
+Modify existing Question
+- POST request
+- Form-data: id, questionnaire_id, name, user_id, password
+
+Delete existing Question
+- DELETE request
+- Form-data: id, user_id, password
+
+Get all Question from all Questionnaire
+- GET request 
+- Response: List all Question
+
+#### /:id
+
+Get all Question from one Questionnaire (where id = questionnaire_id)
+- GET request 
+- Response: List all Question from Questionnaire
+
+---
