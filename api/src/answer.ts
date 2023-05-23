@@ -51,11 +51,12 @@ class AnswerController implements Controller {
             rows.forEach((row) => {
                 if (row.question_id == id) {
                     found = true;
-                    r.push(new QuestionEntry(
+                    r.push(new AnswerEntry(
                         row.rowid,
                         row.question_id,
                         row.team_id,
-                        row.content
+                        row.content,
+                        row.score
                     ));
                 }
             })
@@ -80,7 +81,8 @@ class AnswerController implements Controller {
                     row.rowid,
                     row.question_id,
                     row.team_id,
-                    row.content
+                    row.content,
+                    row.score
                 ));
             })
         );
