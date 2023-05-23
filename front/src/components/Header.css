@@ -1,6 +1,6 @@
 .link {
-    font-weight: 600;
-    color: hsl(201, 78%, 44%);
+    font-weight: 500;
+    color: hsl(0, 8%, 81%);
     text-decoration: none;
     transition: font-size 0.1s;
     font-size: 18px;
@@ -19,11 +19,11 @@
 
 .dropdown-menu__trigger {
     appearance: none;
-    display: inline-flex;
+    display: grid;
     justify-content: center;
     align-items: center;
     height: 40px;
-    width: 180px;
+    width: 45px;
     outline: none;
     border-radius: 6px;
     padding: 0 16px;
@@ -45,19 +45,20 @@
     background-color: hsl(201 90% 27%);
 }
 .dropdown-menu__trigger-icon {
-    height: 3px;
+    height: 15px;
     width: 20px;
     flex: 0 0 20px;
-    transition: transform 250ms;
+    transition: transform 20ms;
 }
 .dropdown-menu__trigger-icon[data-expanded] {
-    transform: rotate(180deg);
+    transform: rotate(180deg) translateY(15px);
+
 }
 .dropdown-menu__content,
 .dropdown-menu__sub-content {
     min-width: 220px;
     padding: 8px;
-    background-color: white;
+    background-color: #1c1c1c;
     border-radius: 6px;
     border: 1px solid hsl(240 6% 90%);
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);

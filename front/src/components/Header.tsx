@@ -10,15 +10,14 @@ import dMenuInit from "./dropdownMenu";
 const Header: Component = () => {
     return (
         <Box b="1px solid" bgc="black" opt="89%" >
-            <Flex justify="center" ml="23%">
+            <Flex justify="center" ml="20%">
                 <a href="http://localhost:3000"><img src="src/logo.png" alt="logo" height="100px"/></a>
                 <Flex ai="center" c="white" td="none">
                     <ul>{linkItems("Accueil" ,"")}</ul>
                     <ul>{linkItems("Profil", "connect")}</ul>
                     <ul>{linkItems("Equipe", "register")}</ul>
-                    <ul>
-                        {dMenuInit()}
-                    </ul>
+                    <ul>{linkItems("Data Challenges", "register")}</ul>
+                    <ul>{dMenuInit()}</ul>
                     <ul>{linkItems("Messagerie", "contact")}</ul>
                 </Flex>
             </Flex>
