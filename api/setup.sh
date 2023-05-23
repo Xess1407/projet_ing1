@@ -15,3 +15,4 @@ cat migrations/team.sql | sqlite3 maggle.db
 cat migrations/questionnaire.sql | sqlite3 maggle.db
 cat migrations/question.sql | sqlite3 maggle.db
 cat migrations/answer.sql | sqlite3 maggle.db
+cat migrations/rank.sql | sqlite3 maggle.db
