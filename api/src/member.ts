@@ -2,9 +2,10 @@ import Controller from "./controller";
 import { Request, Response, Router } from "express";
 import { Database } from "sqlite3";
 import UserController from "./user";
+import TeamController from "./team";
 
 class MemberController implements Controller {
-    static path = "/resource-challenge";
+    static path = "/member";
     router: Router;
 
     constructor() {
@@ -87,7 +88,7 @@ class MemberController implements Controller {
     }
 
     static async exist_team_member(p: Member): Promise<boolean> {
-        let res = true;
+        let res = false;
         const db = new Database("maggle.db");
         const sql = "SELECT rowid, * FROM member WHERE team_id = ? AND user_id = ?";
 
@@ -97,7 +98,7 @@ class MemberController implements Controller {
             if (err) {
                 console.log(err);
             }
-            if (rows.length > 1) res = false
+            if (rows.length > 1) res = true
         });
 
         db.close();
@@ -204,7 +205,7 @@ class MemberController implements Controller {
         }
     
         /* Check identifiers */
-        /*
+        let captain_id = await TeamController.get_user_captain_id_by_team_id(team_id)
         let identified = false;
         await UserController.get_values().then((rows: any) =>
         rows.forEach((row) => {
@@ -217,7 +218,7 @@ class MemberController implements Controller {
           res.status(401).send("Wrong password!");
           return;
         }
-        */
+        
     
         /* No ID of student implie creating the user otherwise modify it */
         if (!id) {
@@ -241,7 +242,7 @@ class MemberController implements Controller {
         const db = new Database("maggle.db");
         const { id, captain_id, password } = req.body;
     
-        if ( !id || !captain_id || !password ) {
+        if ( !id || !password ) {
           console.log(
             "[ERROR][DELETE] wrong data on " + MemberController.path + " : " +
               JSON.stringify(req.body),
@@ -249,11 +250,10 @@ class MemberController implements Controller {
         }
 
         /* Check identifiers */
-        /*
         let identified = false;
         await UserController.get_values().then((rows: any) =>
         rows.forEach((row) => {
-            if (row.role == "admin" && row.password == password) {
+            if (row.rowid = captain_id && row.password == password) {
               identified = true;
             }
           })
@@ -262,7 +262,7 @@ class MemberController implements Controller {
           res.status(401).send("Wrong password!");
           return;
         }
-        */
+        
     
         const sql = `DELETE FROM member
         WHERE rowid = ?`;
