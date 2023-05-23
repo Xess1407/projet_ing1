@@ -1,0 +1,32 @@
+.input_textfield {
+    appearance: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: auto;
+    outline: none;
+    border-radius: 8px;
+    padding: 0 16px;
+    border: 1px white solid;
+    background: none;
+    background-color: rgba(13, 201, 193, 0.46);
+    color: white;
+    font-size: 16px;
+    line-height: 0;
+    transition: 250ms background-color;
+}
+.input_textfield:hover {
+    background-color: hsl(177 96% 40%);
+}
+.input_textfield:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 2px;
+}
+.input_textfield:active {
+    background-color: hsl(177 90% 40%);
+}
+
+.input_textfield:invalid{
+    background-color: rgba(227, 100, 100, 0.46);
+}
