@@ -9,7 +9,7 @@ class TeamController implements Controller {
     router: Router;
 
     constructor() {
-        this.router = new Router();
+        this.router = Router();
         this.router.post(TeamController.path, this.post);
         this.router.get(TeamController.path, this.get_all);
         this.router.get(TeamController.path + "/:id", this.get);
@@ -30,7 +30,7 @@ class TeamController implements Controller {
         );
     }
 
-    static async exist_team_id(team_id: number): bool {
+    static async exist_team_id(team_id: number) {
         let res = false;
         await TeamController.get_values().then((rows: any) =>
           rows.forEach((row) => {

@@ -8,7 +8,7 @@ class DataChallengeController implements Controller {
     router: Router;
 
     constructor() {
-        this.router = new Router();
+        this.router = Router();
         this.router.post(DataChallengeController.path, this.post);
         this.router.get(DataChallengeController.path, this.get_all);
         this.router.get(DataChallengeController.path + "/:id", this.get);
@@ -29,7 +29,7 @@ class DataChallengeController implements Controller {
         );
     }
 
-    static async exist_data_challenge(data_challenge_id: number): bool {
+    static async exist_data_challenge(data_challenge_id: number) {
       let res = false;
       await DataChallengeController.get_values().then((rows: any) =>
         rows.forEach((row) => {

@@ -9,7 +9,7 @@ class ManagerController implements Controller {
   router: Router;
 
   constructor() {
-    this.router = new Router();
+    this.router = Router();
     this.router.post(ManagerController.path, this.post);
     this.router.post(ManagerController.path + "/get", this.get);
   }
@@ -44,7 +44,7 @@ class ManagerController implements Controller {
     );
   }
 
-  static async exist_manager(user_id: number): bool {
+  static async exist_manager(user_id: number) {
     let res = false;
     await ManagerController.get_manager_by_user_id(user_id).then((rows: any) => {
         if(rows.length > 0) {

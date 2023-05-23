@@ -7,7 +7,7 @@ class UserController implements Controller {
   router: Router;
 
   constructor() {
-    this.router = new Router();
+    this.router = Router();
     this.router.post(UserController.path, this.post);
     this.router.post(UserController.path + "/connect", this.get);
   }
@@ -40,7 +40,7 @@ class UserController implements Controller {
     );
   }
 
-  static async exist_user_id(user_id: number): bool {
+  static async exist_user_id(user_id: number) {
     let res = false;
     await UserController.get_values().then((rows: any) =>
       rows.forEach((row) => {
@@ -53,7 +53,7 @@ class UserController implements Controller {
     return res;
   }
 
-  static async exist_student_user(user_id: number): bool {
+  static async exist_student_user(user_id: number) {
     let res = false;
     await UserController.get_values().then((rows: any) =>
       rows.forEach((row) => {
@@ -66,7 +66,7 @@ class UserController implements Controller {
     return res;
   }
 
-  static async exist_manager_user(id: number): bool {
+  static async exist_manager_user(id: number) {
     let res = false;
     await UserController.get_values().then((rows: any) =>
       rows.forEach((row) => {
@@ -203,7 +203,7 @@ class UserController implements Controller {
     res.status(200).send();
   }
 
-  static async exist_email(email: string): bool {
+  static async exist_email(email: string) {
     let res = false;
     await UserController.get_emails().then((rows: any) =>
       rows.forEach((row) => {

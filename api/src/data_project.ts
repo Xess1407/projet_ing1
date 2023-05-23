@@ -9,7 +9,7 @@ class DataProjectController implements Controller {
     router: Router;
 
     constructor() {
-        this.router = new Router();
+        this.router = Router();
         this.router.post(DataProjectController.path, this.post);
         this.router.get(DataProjectController.path, this.get_all);
         this.router.get(DataProjectController.path + "/:id", this.get);
@@ -30,7 +30,7 @@ class DataProjectController implements Controller {
         );
     }
 
-    static async exist_data_project(data_project_id: number): bool {
+    static async exist_data_project(data_project_id: number) {
         let res = false;
         await DataProjectController.get_values().then((rows: any) =>
           rows.forEach((row) => {

@@ -9,7 +9,7 @@ class MemberController implements Controller {
     router: Router;
 
     constructor() {
-        this.router = new Router();
+        this.router = Router();
         this.router.post(MemberController.path, this.post);
         this.router.get(MemberController.path, this.get_all);
         this.router.get(MemberController.path + "/:id", this.get);
@@ -155,13 +155,18 @@ class MemberController implements Controller {
       static async post_modify(p: MemberEntry, res: Response) {
         const db = new Database("maggle.db");
     
-        const exist = await UserController.exist_user_id(p.user_id);
-        if (!exist) {
+        const exist_user = await UserController.exist_user_id(p.user_id);
+        if (!exist_user) {
           res.status(400).send("[POST][MODIFY] User doesn't exist!");
           return;
         }
 
         /* Check exist team */
+        const exist_team = await TeamController.exist_team_id(p.team_id);
+        if (!exist_team) {
+            res.status(400).send("[POST][MODIFY] User doesn't exist!");
+            return;
+        }
     
         const sql = `UPDATE member SET
         team_id = ?, user_id = ?
@@ -242,7 +247,7 @@ class MemberController implements Controller {
         const db = new Database("maggle.db");
         const { id, user_captain_id, password } = req.body;
     
-        if ( !id || !password ) {
+        if ( !id || !user_captain_id || !password ) {
           console.log(
             "[ERROR][DELETE] wrong data on " + MemberController.path + " : " +
               JSON.stringify(req.body),

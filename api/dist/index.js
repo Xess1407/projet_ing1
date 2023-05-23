@@ -87,7 +87,7 @@ var uploadFiles = async (req, res) => {
 };
 var _FileController = class {
   constructor() {
-    this.router = new import_express2.Router();
+    this.router = (0, import_express2.Router)();
     this.router.get(_FileController.path + "/:name", this.download);
     this.router.post(
       _FileController.path,
@@ -121,7 +121,7 @@ var import_express3 = require("express");
 var import_sqlite3 = require("sqlite3");
 var _UserController = class {
   constructor() {
-    this.router = new import_express3.Router();
+    this.router = (0, import_express3.Router)();
     this.router.post(_UserController.path, this.post);
     this.router.post(_UserController.path + "/connect", this.get);
   }
@@ -362,7 +362,7 @@ var UserEntry = class {
 // src/manager.ts
 var _ManagerController = class {
   constructor() {
-    this.router = new import_express4.Router();
+    this.router = (0, import_express4.Router)();
     this.router.post(_ManagerController.path, this.post);
     this.router.post(_ManagerController.path + "/get", this.get);
   }
@@ -581,7 +581,7 @@ var import_express5 = require("express");
 var import_sqlite33 = require("sqlite3");
 var _StudentController = class {
   constructor() {
-    this.router = new import_express5.Router();
+    this.router = (0, import_express5.Router)();
     this.router.post(_StudentController.path, this.post);
     this.router.post(_StudentController.path + "/get", this.get);
   }
@@ -814,7 +814,7 @@ var import_express6 = require("express");
 var import_sqlite34 = require("sqlite3");
 var _DataChallengeController = class {
   constructor() {
-    this.router = new import_express6.Router();
+    this.router = (0, import_express6.Router)();
     this.router.post(_DataChallengeController.path, this.post);
     this.router.get(_DataChallengeController.path, this.get_all);
     this.router.get(_DataChallengeController.path + "/:id", this.get);
@@ -1039,7 +1039,7 @@ var import_express7 = require("express");
 var import_sqlite35 = require("sqlite3");
 var _DataProjectController = class {
   constructor() {
-    this.router = new import_express7.Router();
+    this.router = (0, import_express7.Router)();
     this.router.post(_DataProjectController.path, this.post);
     this.router.get(_DataProjectController.path, this.get_all);
     this.router.get(_DataProjectController.path + "/:id", this.get);
@@ -1292,7 +1292,7 @@ var import_express8 = require("express");
 var import_sqlite36 = require("sqlite3");
 var _ResourceChallengeController = class {
   constructor() {
-    this.router = new import_express8.Router();
+    this.router = (0, import_express8.Router)();
     this.router.post(_ResourceChallengeController.path, this.post);
     this.router.get(_ResourceChallengeController.path, this.get_all);
     this.router.get(_ResourceChallengeController.path + "/:id", this.get);
@@ -1524,7 +1524,7 @@ var import_express9 = require("express");
 var import_sqlite37 = require("sqlite3");
 var _ResourceProjectController = class {
   constructor() {
-    this.router = new import_express9.Router();
+    this.router = (0, import_express9.Router)();
     this.router.post(_ResourceProjectController.path, this.post);
     this.router.get(_ResourceProjectController.path, this.get_all);
     this.router.get(_ResourceProjectController.path + "/:id", this.get);
@@ -1761,7 +1761,7 @@ var import_express10 = require("express");
 var import_sqlite38 = require("sqlite3");
 var _TeamController = class {
   constructor() {
-    this.router = new import_express10.Router();
+    this.router = (0, import_express10.Router)();
     this.router.post(_TeamController.path, this.post);
     this.router.get(_TeamController.path, this.get_all);
     this.router.get(_TeamController.path + "/:id", this.get);
@@ -2001,7 +2001,7 @@ var TeamEntry = class {
 // src/member.ts
 var _MemberController = class {
   constructor() {
-    this.router = new import_express11.Router();
+    this.router = (0, import_express11.Router)();
     this.router.post(_MemberController.path, this.post);
     this.router.get(_MemberController.path, this.get_all);
     this.router.get(_MemberController.path + "/:id", this.get);
@@ -2120,8 +2120,13 @@ var _MemberController = class {
   }
   static async post_modify(p, res) {
     const db = new import_sqlite39.Database("maggle.db");
-    const exist = await user_default.exist_user_id(p.user_id);
-    if (!exist) {
+    const exist_user = await user_default.exist_user_id(p.user_id);
+    if (!exist_user) {
+      res.status(400).send("[POST][MODIFY] User doesn't exist!");
+      return;
+    }
+    const exist_team = await team_default.exist_team_id(p.team_id);
+    if (!exist_team) {
       res.status(400).send("[POST][MODIFY] User doesn't exist!");
       return;
     }
@@ -2189,7 +2194,7 @@ var _MemberController = class {
   async delete(req, res) {
     const db = new import_sqlite39.Database("maggle.db");
     const { id, user_captain_id, password } = req.body;
-    if (!id || !password) {
+    if (!id || !user_captain_id || !password) {
       console.log(
         "[ERROR][DELETE] wrong data on " + _MemberController.path + " : " + JSON.stringify(req.body)
       );

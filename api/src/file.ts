@@ -36,7 +36,7 @@ class FileController implements Controller {
   router: Router;
 
   constructor() {
-    this.router = new Router();
+    this.router = Router();
     this.router.get(FileController.path + "/:name", this.download);
     this.router.post(
       FileController.path,

@@ -9,7 +9,7 @@ class StudentController implements Controller {
   router: Router;
 
   constructor() {
-    this.router = new Router();
+    this.router = Router();
     this.router.post(StudentController.path, this.post);
     this.router.post(StudentController.path + "/get", this.get);
   }

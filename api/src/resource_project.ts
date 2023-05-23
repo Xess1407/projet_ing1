@@ -9,7 +9,7 @@ class ResourceProjectController implements Controller {
     router: Router;
 
     constructor() {
-        this.router = new Router();
+        this.router = Router();
         this.router.post(ResourceProjectController.path, this.post);
         this.router.get(ResourceProjectController.path, this.get_all);
         this.router.get(ResourceProjectController.path + "/:id", this.get);

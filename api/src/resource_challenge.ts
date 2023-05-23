@@ -10,7 +10,7 @@ class ResourceChallengeController implements Controller {
     router: Router;
 
     constructor() {
-        this.router = new Router();
+        this.router = Router();
         this.router.post(ResourceChallengeController.path, this.post);
         this.router.get(ResourceChallengeController.path, this.get_all);
         this.router.get(ResourceChallengeController.path + "/:id", this.get);
