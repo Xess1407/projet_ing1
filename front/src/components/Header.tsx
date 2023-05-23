@@ -10,8 +10,8 @@ import dMenuInit from "./dropdownMenu";
 const Header: Component = () => {
     return (
         <Box b="1px solid" bgc="black" opt="89%" >
-            <Flex justify="center" ml="20%">
-                <a href="http://localhost:3000"><img src="src/logo.png" alt="logo" height="100px"/></a>
+            <Flex justify="center" ml="100px">
+                <img src="src/img/logo.png" alt="logo" height="100px"/>
                 <Flex ai="center" c="white" td="none">
                     <ul>{linkItems("Accueil" ,"")}</ul>
                     <ul>{linkItems("Profil", "connect")}</ul>

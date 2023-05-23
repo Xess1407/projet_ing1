@@ -1,0 +1,28 @@
+/* Définition de la nouvelle police */
+@font-face {
+    font-family: 'abel';
+    src: url('../font/abel.ttf') format('truetype');
+}
+
+.body {
+    height: scale(100vh-100px);
+    width: 100%;
+}
+
+.fond {
+    aspect-ratio: 2.112/1;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -9;
+    filter: brightness(67%);
+}
+
+.text {
+    color: #FFFFFF;
+    font-size: 96px;
+    font-family: "abel";
+    margin-left: 15%;
+    margin-top: 10%;
+}
