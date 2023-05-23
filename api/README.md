@@ -285,3 +285,33 @@ Get all Question from one Questionnaire (where id = questionnaire_id)
 - Response: List all Question from Questionnaire
 
 ---
+
+### /message
+
+Save new Message
+- POST request
+- Form-data: emitter, receiver, content, date
+- Response: id
+
+Modify existing Message
+- POST request
+- Form-data: id, emitter, receiver, content, date
+
+Delete existing Message
+- DELETE request
+- Form-data: id, user_id, password
+
+#### /contact
+Get all contacts from a user
+- POST request 
+- Form-data: user_id, password
+- Response: List names (string) of the contacts
+
+#### /chat
+
+Get all messages between a user and a contact
+- POST request 
+- Form-data: contact_id, user_id, password
+- Response: List of messages
+
+---

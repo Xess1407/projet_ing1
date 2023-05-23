@@ -13,6 +13,7 @@ import QuestionnaireController from "./questionnaire";
 import QuestionController from "./question";
 import AnswerController from "./answer";
 import RankController from "./rank";
+import MessageController from "./message";
 
 const controllers = [
   new UserController(),
@@ -27,8 +28,9 @@ const controllers = [
   new TeamController(),
   new QuestionnaireController(),
   new QuestionController(),
-  //new AnswerController(),
+  new AnswerController(),
   new RankController(),
+  new MessageController(),
 ];
 
 const app = new App(
