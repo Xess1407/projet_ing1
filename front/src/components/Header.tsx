@@ -3,23 +3,18 @@ import Flex from "./layouts/Flex";
 import Box from "./layouts/Box";
 import linkItems from "./linkItems";
 import "./css/Header.css"
-import dMenuInit from "./dropdownMenu";
-
 
 
 const Header: Component = () => {
     return (
-        <Box b="1px solid" bgc="black" opt="89%" >
-            <Flex justify="center" ml="23%">
-                <img src="src/img/logo.png" alt="logo" height="100px"/>
-                <Flex ai="center" c="white" td="none">
+        <Box b="1px solid" bgc="black" opt="90%" h="140px">
+            <Flex jc="center" h="100%" ai="center" c="#FFFFFF" td="none" ff="Roboto">
+                    <img src="src/img/logo.png" alt="logo" height="100px"/>
                     <ul>{linkItems("Accueil" ,"")}</ul>
                     <ul>{linkItems("Profil", "connect")}</ul>
                     <ul>{linkItems("Equipe", "register")}</ul>
                     <ul>{linkItems("Data Challenges", "register")}</ul>
-                    <ul>{dMenuInit()}</ul>
                     <ul>{linkItems("Messagerie", "contact")}</ul>
-                </Flex>
             </Flex>
         </Box>
     )
