@@ -11,6 +11,7 @@ import MemberController from "./member";
 import TeamController from "./team";
 import QuestionnaireController from "./questionnaire";
 import QuestionController from "./question";
+import AnswerController from "./answer";
 
 const controllers = [
   new UserController(),
@@ -25,6 +26,7 @@ const controllers = [
   new TeamController(),
   new QuestionnaireController(),
   new QuestionController(),
+  new AnswerController(),
 ];
 
 const app = new App(
