@@ -30,6 +30,19 @@ class TeamController implements Controller {
         );
     }
 
+    static async exist_team_id(team_id: number): bool {
+        let res = false;
+        await TeamController.get_values().then((rows: any) =>
+          rows.forEach((row) => {
+            if (row.rowid == team_id) {
+              res = true;
+            }
+          })
+        );
+    
+        return res;
+    }
+
     static get_user_captain_id_by_team_id(team_id: number) {
         const db = new Database("maggle.db");
         const sql = "SELECT user_captain_id FROM team WHERE rowid = ?";

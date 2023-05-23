@@ -205,11 +205,11 @@ class MemberController implements Controller {
         }
     
         /* Check identifiers */
-        let captain_id = await TeamController.get_user_captain_id_by_team_id(team_id)
+        let user_captain_id = await TeamController.get_user_captain_id_by_team_id(team_id)
         let identified = false;
         await UserController.get_values().then((rows: any) =>
         rows.forEach((row) => {
-            if (row.rowid == captain_id && row.password == password) {
+            if (row.rowid == user_captain_id && row.password == password) {
               identified = true;
             }
           })
@@ -240,7 +240,7 @@ class MemberController implements Controller {
 
     async delete(req: Request, res: Response) {
         const db = new Database("maggle.db");
-        const { id, captain_id, password } = req.body;
+        const { id, user_captain_id, password } = req.body;
     
         if ( !id || !password ) {
           console.log(
@@ -253,7 +253,7 @@ class MemberController implements Controller {
         let identified = false;
         await UserController.get_values().then((rows: any) =>
         rows.forEach((row) => {
-            if (row.rowid = captain_id && row.password == password) {
+            if (row.rowid = user_captain_id && row.password == password) {
               identified = true;
             }
           })

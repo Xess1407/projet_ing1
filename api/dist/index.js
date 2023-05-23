@@ -1753,42 +1753,22 @@ var ResourceProjectEntry = class {
 };
 
 // src/member.ts
-var import_express10 = require("express");
-var import_sqlite38 = require("sqlite3");
-var MemberController = class {
-  constructor() {
-    this.router = new import_express10.Router();
-  }
-  static get_values() {
-    const db = new import_sqlite38.Database("maggle.db");
-    const sql = "SELECT rowid, * FROM member";
-    return new Promise(
-      (resolve, reject) => db.all(sql, [], (err, rows) => {
-        if (err) {
-          console.log(err);
-        }
-        resolve(rows);
-      })
-    );
-  }
-};
-MemberController.path = "/resource-challenge";
-var member_default = MemberController;
-
-// src/team.ts
 var import_express11 = require("express");
 var import_sqlite39 = require("sqlite3");
+
+// src/team.ts
+var import_express10 = require("express");
+var import_sqlite38 = require("sqlite3");
 var _TeamController = class {
   constructor() {
-    this.router = new import_express11.Router();
+    this.router = new import_express10.Router();
     this.router.post(_TeamController.path, this.post);
     this.router.get(_TeamController.path, this.get_all);
     this.router.get(_TeamController.path + "/:id", this.get);
     this.router.delete(_TeamController.path, this.delete);
-    this.router.get(_TeamController.path + "/test/:teamid", this.getcap);
   }
   static get_values() {
-    const db = new import_sqlite39.Database("maggle.db");
+    const db = new import_sqlite38.Database("maggle.db");
     const sql = "SELECT rowid, * FROM team";
     return new Promise(
       (resolve, reject) => db.all(sql, [], (err, rows) => {
@@ -1799,8 +1779,19 @@ var _TeamController = class {
       })
     );
   }
+  static async exist_team_id(team_id) {
+    let res = false;
+    await _TeamController.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.rowid == team_id) {
+          res = true;
+        }
+      })
+    );
+    return res;
+  }
   static get_user_captain_id_by_team_id(team_id) {
-    const db = new import_sqlite39.Database("maggle.db");
+    const db = new import_sqlite38.Database("maggle.db");
     const sql = "SELECT user_captain_id FROM team WHERE rowid = ?";
     let params = [team_id];
     return new Promise(
@@ -1811,13 +1802,6 @@ var _TeamController = class {
         resolve(row.user_captain_id);
       })
     );
-  }
-  async getcap(req, res) {
-    let teamid = parseInt(req.params.teamid);
-    await _TeamController.get_user_captain_id_by_team_id(teamid).then((row) => {
-      res = row;
-    });
-    console.log(res);
   }
   async get(req, res) {
     let id = req.params.id;
@@ -1870,7 +1854,7 @@ var _TeamController = class {
   static async post_new(p, res) {
     let sql;
     let data;
-    const db = new import_sqlite39.Database("maggle.db");
+    const db = new import_sqlite38.Database("maggle.db");
     sql = "INSERT INTO team VALUES(?,?)";
     data = [
       p.user_captain_id,
@@ -1894,7 +1878,7 @@ var _TeamController = class {
     db.close();
   }
   static async post_modify(p, res) {
-    const db = new import_sqlite39.Database("maggle.db");
+    const db = new import_sqlite38.Database("maggle.db");
     const sql = `UPDATE team SET
         user_captain_id = ?, data_project_id = ?
         WHERE rowid = ?`;
@@ -1958,7 +1942,7 @@ var _TeamController = class {
     }
   }
   async delete(req, res) {
-    const db = new import_sqlite39.Database("maggle.db");
+    const db = new import_sqlite38.Database("maggle.db");
     const { id, email, password } = req.body;
     if (!id || !password) {
       console.log(
@@ -2011,6 +1995,251 @@ var TeamEntry = class {
     this.id = id;
     this.user_captain_id = user_captain_id;
     this.data_project_id = data_project_id;
+  }
+};
+
+// src/member.ts
+var _MemberController = class {
+  constructor() {
+    this.router = new import_express11.Router();
+    this.router.post(_MemberController.path, this.post);
+    this.router.get(_MemberController.path, this.get_all);
+    this.router.get(_MemberController.path + "/:id", this.get);
+    this.router.delete(_MemberController.path, this.delete);
+  }
+  static get_values() {
+    const db = new import_sqlite39.Database("maggle.db");
+    const sql = "SELECT rowid, * FROM member";
+    return new Promise(
+      (resolve, reject) => db.all(sql, [], (err, rows) => {
+        if (err) {
+          console.log(err);
+        }
+        resolve(rows);
+      })
+    );
+  }
+  async get(req, res) {
+    let id = req.params.id;
+    let r = new Array();
+    if (!id) {
+      console.log(
+        "[ERROR][GET] wrong data on " + _MemberController.path + "/" + id + ": " + JSON.stringify(req.body)
+      );
+      res.status(400).send();
+      return;
+    }
+    let found = false;
+    await _MemberController.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.team_id == id) {
+          found = true;
+          r.push(new MemberEntry(
+            row.rowid,
+            row.team_id,
+            row.user_id
+          ));
+        }
+      })
+    );
+    if (found) {
+      console.log(
+        "[INFO][GET] " + _MemberController.path + "/" + id + ": "
+      );
+      res.send(JSON.stringify(r));
+    } else {
+      res.status(400).send();
+    }
+  }
+  async get_all(req, res) {
+    let r = new Array();
+    await _MemberController.get_values().then(
+      (rows) => rows.forEach((row) => {
+        r.push(new MemberEntry(
+          row.rowid,
+          row.team_id,
+          row.user_id
+        ));
+      })
+    );
+    console.log(
+      "[INFO][GET] " + _MemberController.path + ": "
+    );
+    res.send(JSON.stringify(r));
+  }
+  static async exist_team_member(p) {
+    let res = false;
+    const db = new import_sqlite39.Database("maggle.db");
+    const sql = "SELECT rowid, * FROM member WHERE team_id = ? AND user_id = ?";
+    let params = [p.team_id, p.user_id];
+    db.all(sql, params, (err, rows) => {
+      if (err) {
+        console.log(err);
+      }
+      if (rows.length > 1)
+        res = true;
+    });
+    db.close();
+    return res;
+  }
+  static async post_new(p, res) {
+    let sql;
+    let data;
+    const db = new import_sqlite39.Database("maggle.db");
+    const exist_user = await user_default.exist_user_id(p.user_id);
+    if (!exist_user) {
+      res.status(400).send("[POST][NEW] User doesn't exist!");
+      return;
+    }
+    const exist_team_member = await this.exist_team_member(p);
+    if (exist_team_member) {
+      res.status(400).send("[POST][NEW] User already exist in this team!");
+      return;
+    }
+    sql = "INSERT INTO member VALUES(?,?)";
+    data = [
+      p.team_id,
+      p.user_id
+    ];
+    let e;
+    db.run(sql, data, function(err) {
+      if (err) {
+        console.log(
+          "[ERROR][POST] sql error " + _MemberController.path + " : " + JSON.stringify(p)
+        );
+        console.error(e.message);
+        res.status(500).send();
+        return;
+      }
+      console.log(
+        "[INFO][POST] data added on " + _MemberController.path + " : " + JSON.stringify(p)
+      );
+      res.status(200).send(JSON.stringify({ "id:": this.lastID }));
+    });
+    db.close();
+  }
+  static async post_modify(p, res) {
+    const db = new import_sqlite39.Database("maggle.db");
+    const exist = await user_default.exist_user_id(p.user_id);
+    if (!exist) {
+      res.status(400).send("[POST][MODIFY] User doesn't exist!");
+      return;
+    }
+    const sql = `UPDATE member SET
+        team_id = ?, user_id = ?
+        WHERE rowid = ?`;
+    const data = [
+      p.team_id,
+      p.user_id,
+      p.id
+    ];
+    let e;
+    db.run(sql, data, (err) => e = err);
+    if (e) {
+      console.log(
+        "[ERROR][POST] sql error " + _MemberController.path + " : " + JSON.stringify(p)
+      );
+      console.error(e.message);
+      res.status(500).send();
+      return;
+    }
+    db.close();
+    console.log(
+      "[INFO][POST] data updated on " + _MemberController.path + " : " + JSON.stringify(p)
+    );
+    res.status(200).send();
+  }
+  async post(req, res) {
+    let { id, team_id, user_id, password } = req.body;
+    if (!user_id || !team_id || !password) {
+      console.log(
+        "[ERROR][POST] wrong data on " + _MemberController.path + " : " + JSON.stringify(req.body)
+      );
+      res.status(400).send();
+      return;
+    }
+    let user_captain_id = await team_default.get_user_captain_id_by_team_id(team_id);
+    let identified = false;
+    await user_default.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.rowid == user_captain_id && row.password == password) {
+          identified = true;
+        }
+      })
+    );
+    if (!identified) {
+      res.status(401).send("Wrong password!");
+      return;
+    }
+    if (!id) {
+      const element = new Member(
+        team_id,
+        user_id
+      );
+      _MemberController.post_new(element, res);
+    } else {
+      const element = new MemberEntry(
+        id,
+        team_id,
+        user_id
+      );
+      _MemberController.post_modify(element, res);
+    }
+  }
+  async delete(req, res) {
+    const db = new import_sqlite39.Database("maggle.db");
+    const { id, user_captain_id, password } = req.body;
+    if (!id || !password) {
+      console.log(
+        "[ERROR][DELETE] wrong data on " + _MemberController.path + " : " + JSON.stringify(req.body)
+      );
+    }
+    let identified = false;
+    await user_default.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.rowid = user_captain_id && row.password == password) {
+          identified = true;
+        }
+      })
+    );
+    if (!identified) {
+      res.status(401).send("Wrong password!");
+      return;
+    }
+    const sql = `DELETE FROM member
+        WHERE rowid = ?`;
+    const data = [id];
+    let e;
+    db.run(sql, data, (err) => e = err);
+    if (e) {
+      console.log(
+        "[ERROR][DELETE] sql error " + _MemberController.path + " : " + JSON.stringify(id)
+      );
+      console.error(e.message);
+      res.status(500).send();
+      return;
+    }
+    db.close();
+    console.log(
+      "[INFO][DELETE] data deleted on " + _MemberController.path + " : " + JSON.stringify(id)
+    );
+    res.status(200).send();
+  }
+};
+var MemberController = _MemberController;
+MemberController.path = "/member";
+var member_default = MemberController;
+var Member = class {
+  constructor(team_id, user_id) {
+    this.team_id = team_id;
+    this.user_id = user_id;
+  }
+};
+var MemberEntry = class {
+  constructor(id, team_id, user_id) {
+    this.id = id;
+    this.team_id = team_id;
+    this.user_id = user_id;
   }
 };
 

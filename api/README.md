@@ -179,3 +179,55 @@ Get one ResourceProject
 - Response: id, data_project_id, name, url
 
 ---
+
+### /team
+
+Save new Team
+- POST request
+- Form-data: email, password, data_project_id
+- Response: id
+
+Modify existing Team
+- POST request
+- Form-data: id, email, password, data_project_id
+
+Delete existing Team
+- DELETE request
+- Form-data: id, email, password
+
+Get all Team
+- GET request 
+- Response: List all Team
+
+#### /:id
+Get one Team
+- GET request 
+- Response: id, user_captain_id, data_project_id
+
+---
+
+### /member
+
+Save new Member
+- POST request
+- Form-data: team_id, user_id, password
+- Response: id
+
+Modify existing Member
+- POST request
+- Form-data: id, team_id, user_id, password
+
+Delete existing Member
+- DELETE request
+- Form-data: id, user_captain_id, password
+
+Get all Member
+- GET request 
+- Response: List all Member
+
+#### /:id
+Get one Member
+- GET request 
+- Response: id, team_id, user_id
+
+---
