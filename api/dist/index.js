@@ -119,6 +119,7 @@ var import_sqlite32 = require("sqlite3");
 // src/user.ts
 var import_express3 = require("express");
 var import_sqlite3 = require("sqlite3");
+var import_bcrypt = __toESM(require("bcrypt"));
 var _UserController = class {
   constructor() {
     this.router = (0, import_express3.Router)();
@@ -148,6 +149,62 @@ var _UserController = class {
         resolve(rows);
       })
     );
+  }
+  static async identifyStudent(user_id, password) {
+    let res = false;
+    await _UserController.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.role == "student" && row.rowid == user_id) {
+          const match = import_bcrypt.default.compareSync(password, row.password);
+          if (match) {
+            res = true;
+          }
+        }
+      })
+    );
+    return res;
+  }
+  static async identifyAdmin(password) {
+    let res = false;
+    await _UserController.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.role == "admin") {
+          const match = import_bcrypt.default.compareSync(password, row.password);
+          if (match) {
+            res = true;
+          }
+        }
+      })
+    );
+    return res;
+  }
+  static async identifyManager(user_id, password) {
+    let res = false;
+    await _UserController.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.role == "manager" && row.rowid == user_id) {
+          const match = import_bcrypt.default.compareSync(password, row.password);
+          if (match) {
+            res = true;
+          }
+        }
+      })
+    );
+    return res;
+  }
+  static async identifyUser(user_id, password) {
+    let res = false;
+    await _UserController.get_values().then(
+      (rows) => rows.forEach((row) => {
+        if (row.rowid == user_id) {
+          const match = import_bcrypt.default.compareSync(password, row.password);
+          if (match) {
+            res = true;
+          }
+        }
+      })
+    );
+    return res;
   }
   static async exist_user_id(user_id) {
     let res = false;
@@ -227,6 +284,7 @@ var _UserController = class {
       res.status(400).send();
       return;
     }
+    p.password = import_bcrypt.default.hashSync(p.password, 10);
     sql = "INSERT INTO user VALUES(?,?,?,?,?,?)";
     data = [
       p.name,
@@ -259,6 +317,7 @@ var _UserController = class {
       res.status(400).send();
       return;
     }
+    p.password = import_bcrypt.default.hashSync(p.password, 10);
     const sql = `UPDATE user SET
     name = ?, family_name = ?, email = ?, password = ?, telephone_number = ?, role = ?
     WHERE rowid = ?`;
@@ -410,14 +469,7 @@ var _ManagerController = class {
       res.status(400).send();
       return;
     }
-    let identified = false;
-    await user_default.get_values().then(
-      (rows) => rows.forEach((row) => {
-        if (row.rowid == user_id && row.password == password) {
-          identified = true;
-        }
-      })
-    );
+    let identified = await user_default.identifyUser(user_id, password);
     let found = false;
     if (identified) {
       await _ManagerController.get_values().then(
@@ -523,14 +575,7 @@ var _ManagerController = class {
       res.status(400).send();
       return;
     }
-    let identified = false;
-    await user_default.get_values().then(
-      (rows) => rows.forEach((row) => {
-        if (row.rowid == user_id && row.password == password) {
-          identified = true;
-        }
-      })
-    );
+    let identified = await user_default.identifyUser(user_id, password);
     if (!identified) {
       res.status(401).send("Wrong password!");
       return;
@@ -640,14 +685,7 @@ var _StudentController = class {
       res.status(400).send();
       return;
     }
-    let identified = false;
-    await user_default.get_values().then(
-      (rows) => rows.forEach((row) => {
-        if (row.rowid == user_id && row.password == password) {
-          identified = true;
-        }
-      })
-    );
+    let identified = await user_default.identifyUser(user_id, password);
     if (!identified) {
       res.status(401).send("Wrong password!");
       return;
@@ -756,14 +794,7 @@ var _StudentController = class {
       res.status(400).send();
       return;
     }
-    let identified = false;
-    await user_default.get_values().then(
-      (rows) => rows.forEach((row) => {
-        if (row.rowid == user_id && row.password == password) {
-          identified = true;
-        }
-      })
-    );
+    let identified = await user_default.identifyUser(user_id, password);
     if (!identified) {
       res.status(401).send("Wrong password!");
       return;
@@ -946,14 +977,7 @@ var _DataChallengeController = class {
       res.status(400).send();
       return;
     }
-    let identified = false;
-    await user_default.get_values().then(
-      (rows) => rows.forEach((row) => {
-        if (row.role == "admin" && row.password == password) {
-          identified = true;
-        }
-      })
-    );
+    let identified = await user_default.identifyAdmin(password);
     if (!identified) {
       res.status(401).send("Wrong password!");
       return;
@@ -1195,14 +1219,7 @@ var _DataProjectController = class {
       res.status(400).send();
       return;
     }
-    let identified = false;
-    await user_default.get_values().then(
-      (rows) => rows.forEach((row) => {
-        if (row.role == "admin" && row.password == password) {
-          identified = true;
-        }
-      })
-    );
+    let identified = await user_default.identifyAdmin(password);
     if (!identified) {
       res.status(401).send("Wrong password!");
       return;
@@ -1234,14 +1251,7 @@ var _DataProjectController = class {
         "[ERROR][DELETE] wrong data on " + data_challenge_default.path + " : " + JSON.stringify(req.body)
       );
     }
-    let identified = false;
-    await user_default.get_values().then(
-      (rows) => rows.forEach((row) => {
-        if (row.role == "admin" && row.password == password) {
-          identified = true;
-        }
-      })
-    );
+    let identified = user_default.identifyAdmin(password);
     if (!identified) {
       res.status(401).send("Wrong password!");
       return;
@@ -1431,14 +1441,7 @@ var _ResourceChallengeController = class {
       res.status(400).send();
       return;
     }
-    let identified = false;
-    await user_default.get_values().then(
-      (rows) => rows.forEach((row) => {
-        if (row.role == "admin" && row.password == password) {
-          identified = true;
-        }
-      })
-    );
+    let identified = await user_default.identifyAdmin(password);
     if (!identified) {
       res.status(401).send("Wrong password!");
       return;
@@ -1468,14 +1471,7 @@ var _ResourceChallengeController = class {
         "[ERROR][DELETE] wrong data on " + _ResourceChallengeController.path + " : " + JSON.stringify(req.body)
       );
     }
-    let identified = false;
-    await user_default.get_values().then(
-      (rows) => rows.forEach((row) => {
-        if (row.role == "admin" && row.password == password) {
-          identified = true;
-        }
-      })
-    );
+    let identified = await user_default.identifyAdmin(password);
     if (!identified) {
       res.status(401).send("Wrong password!");
       return;
@@ -1664,14 +1660,7 @@ var _ResourceProjectController = class {
       res.status(400).send();
       return;
     }
-    let identified = false;
-    await user_default.get_values().then(
-      (rows) => rows.forEach((row) => {
-        if (row.role == "admin" && row.password == password) {
-          identified = true;
-        }
-      })
-    );
+    let identified = await user_default.identifyAdmin(password);
     if (!identified) {
       res.status(401).send("Wrong password!");
       return;
@@ -1701,14 +1690,7 @@ var _ResourceProjectController = class {
         "[ERROR][DELETE] wrong data on " + _ResourceProjectController.path + " : " + JSON.stringify(req.body)
       );
     }
-    let identified = false;
-    await user_default.get_values().then(
-      (rows) => rows.forEach((row) => {
-        if (row.role == "admin" && row.password == password) {
-          identified = true;
-        }
-      })
-    );
+    let identified = await user_default.identifyAdmin(password);
     if (!identified) {
       res.status(401).send("Wrong password!");
       return;
@@ -1904,24 +1886,15 @@ var _TeamController = class {
     res.status(200).send();
   }
   async post(req, res) {
-    let { id, email, data_project_id, password } = req.body;
-    if (!email || !data_project_id || !password) {
+    let { id, user_captain_id, data_project_id, password } = req.body;
+    if (!user_captain_id || !data_project_id || !password) {
       console.log(
         "[ERROR][POST] wrong data on " + _TeamController.path + " : " + JSON.stringify(req.body)
       );
       res.status(400).send();
       return;
     }
-    let user_captain_id;
-    let identified = false;
-    await user_default.get_values().then(
-      (rows) => rows.forEach((row) => {
-        if (row.role == "student" && row.email == email && row.password == password) {
-          identified = true;
-          user_captain_id = row.rowid;
-        }
-      })
-    );
+    let identified = await user_default.identifyStudent(user_captain_id, password);
     if (!identified) {
       res.status(401).send("Wrong password!");
       return;
@@ -1943,20 +1916,13 @@ var _TeamController = class {
   }
   async delete(req, res) {
     const db = new import_sqlite38.Database("maggle.db");
-    const { id, email, password } = req.body;
+    const { id, user_captain_id, password } = req.body;
     if (!id || !password) {
       console.log(
         "[ERROR][DELETE] wrong data on " + _TeamController.path + " : " + JSON.stringify(req.body)
       );
     }
-    let identified = false;
-    await user_default.get_values().then(
-      (rows) => rows.forEach((row) => {
-        if (row.role == "student" && row.email == email && row.password == password) {
-          identified = true;
-        }
-      })
-    );
+    let identified = await user_default.identifyStudent(user_captain_id, password);
     if (!identified) {
       res.status(401).send("Wrong password!");
       return;
@@ -2164,14 +2130,7 @@ var _MemberController = class {
       return;
     }
     let user_captain_id = await team_default.get_user_captain_id_by_team_id(team_id);
-    let identified = false;
-    await user_default.get_values().then(
-      (rows) => rows.forEach((row) => {
-        if (row.rowid == user_captain_id && row.password == password) {
-          identified = true;
-        }
-      })
-    );
+    let identified = await user_default.identifyUser(user_captain_id, password);
     if (!identified) {
       res.status(401).send("Wrong password!");
       return;
@@ -2199,14 +2158,7 @@ var _MemberController = class {
         "[ERROR][DELETE] wrong data on " + _MemberController.path + " : " + JSON.stringify(req.body)
       );
     }
-    let identified = false;
-    await user_default.get_values().then(
-      (rows) => rows.forEach((row) => {
-        if (row.rowid = user_captain_id && row.password == password) {
-          identified = true;
-        }
-      })
-    );
+    let identified = await user_default.identifyUser(user_captain_id, password);
     if (!identified) {
       res.status(401).send("Wrong password!");
       return;

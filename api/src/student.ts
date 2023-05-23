@@ -82,14 +82,7 @@ class StudentController implements Controller {
     }
 
     /* Identify the ID to the user */
-    let identified = false;
-    await UserController.get_values().then((rows: any) =>
-    rows.forEach((row) => {
-        if (row.rowid == user_id && row.password == password) {
-          identified = true;
-        }
-      })
-    )
+    let identified = await UserController.identifyUser(user_id, password);
 
     if (!identified) {
       res.status(401).send("Wrong password!");
@@ -224,14 +217,7 @@ class StudentController implements Controller {
     }
 
     /* Check identifiers */
-    let identified = false;
-    await UserController.get_values().then((rows: any) =>
-    rows.forEach((row) => {
-        if (row.rowid == user_id && row.password == password) {
-          identified = true;
-        }
-      })
-    )
+    let identified = await UserController.identifyUser(user_id, password);
     if (!identified) {
       res.status(401).send("Wrong password!");
       return;

@@ -1,6 +1,7 @@
 import Controller from "./controller";
 import { Request, Response, Router } from "express";
 import { Database } from "sqlite3";
+import Bcrypt from 'bcrypt';
 
 class UserController implements Controller {
   static path = "/user";
@@ -38,6 +39,70 @@ class UserController implements Controller {
         resolve(rows);
       })
     );
+  }
+
+  static async identifyStudent(user_id: number, password: string) {
+    let res = false;
+    await UserController.get_values().then((rows: any) =>
+      rows.forEach((row) => {
+        if (row.role == "student" && row.rowid == user_id) { 
+          const match = Bcrypt.compareSync(password, row.password);
+          if(match) {
+              res = true;
+          }
+        }
+      })
+    );
+
+    return res;
+  }
+
+  static async identifyAdmin(password: string) {
+    let res = false;
+    await UserController.get_values().then((rows: any) =>
+      rows.forEach((row) => {
+        if (row.role == "admin") { 
+          const match = Bcrypt.compareSync(password, row.password);
+          if(match) {
+              res = true;
+          }
+        }
+      })
+    );
+
+    return res;
+  }
+
+  static async identifyManager(user_id: number, password: string) {
+    let res = false;
+    await UserController.get_values().then((rows: any) =>
+      rows.forEach((row) => {
+        if (row.role == "manager" && row.rowid == user_id) { 
+          const match = Bcrypt.compareSync(password, row.password);
+          if(match) {
+              res = true;
+          }
+        }
+      })
+    );
+
+    return res;
+  }
+
+  static async identifyUser(user_id: number, password: string) {
+    let res = false;
+    await UserController.get_values().then((rows: any) =>
+      rows.forEach((row) => {
+        if (row.rowid == user_id) { 
+          const match = Bcrypt.compareSync(password, row.password);
+          if(match) {
+              res = true;
+          }
+        }
+      })
+    );
+
+    return res;
   }
 
   static async exist_user_id(user_id: number) {
@@ -131,6 +196,9 @@ class UserController implements Controller {
       return;
     }
 
+    // Hash password
+    p.password =  Bcrypt.hashSync(p.password, 10);
+
     sql = "INSERT INTO user VALUES(?,?,?,?,?,?)";
     data = [
       p.name,
@@ -169,6 +237,9 @@ class UserController implements Controller {
       res.status(400).send();
       return;
     }
+
+    // Hash password
+    p.password =  Bcrypt.hashSync(p.password, 10);
 
     const sql = `UPDATE user SET
     name = ?, family_name = ?, email = ?, password = ?, telephone_number = ?, role = ?

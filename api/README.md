@@ -184,16 +184,16 @@ Get one ResourceProject
 
 Save new Team
 - POST request
-- Form-data: email, password, data_project_id
+- Form-data: user_captain_id, password, data_project_id
 - Response: id
 
 Modify existing Team
 - POST request
-- Form-data: id, email, password, data_project_id
+- Form-data: id, user_captain_id, password, data_project_id
 
 Delete existing Team
 - DELETE request
-- Form-data: id, email, password
+- Form-data: id, user_captain_id, password
 
 Get all Team
 - GET request 

@@ -43,7 +43,7 @@ class TeamController implements Controller {
         return res;
     }
 
-    static get_user_captain_id_by_team_id(team_id: number) {
+    static get_user_captain_id_by_team_id(team_id: number): Promise<number> {
         const db = new Database("maggle.db");
         const sql = "SELECT user_captain_id FROM team WHERE rowid = ?";
     
@@ -183,10 +183,10 @@ class TeamController implements Controller {
     }
 
     async post(req: Request, res: Response) {
-        let { id, email, data_project_id, password } = req.body;
+        let { id, user_captain_id, data_project_id, password } = req.body;
 
         if (
-            !email || !data_project_id || !password
+            !user_captain_id || !data_project_id || !password
         ) {
             console.log(
             "[ERROR][POST] wrong data on " + TeamController.path + " : " +
@@ -197,16 +197,7 @@ class TeamController implements Controller {
         }
 
         /* Check identifiers */
-        let user_captain_id;
-        let identified = false;
-        await UserController.get_values().then((rows: any) =>
-        rows.forEach((row) => {
-            if (row.role == "student" && row.email == email && row.password == password) {
-              identified = true;
-              user_captain_id = row.rowid;
-            }
-          })
-        )
+        let identified = await UserController.identifyStudent(user_captain_id, password);
         if (!identified) {
           res.status(401).send("Wrong password!");
           return;
@@ -230,7 +221,7 @@ class TeamController implements Controller {
 
     async delete(req: Request, res: Response) {
         const db = new Database("maggle.db");
-        const { id, email, password } = req.body;
+        const { id, user_captain_id, password } = req.body;
     
         if ( !id || !password ) {
           console.log(
@@ -240,14 +231,7 @@ class TeamController implements Controller {
         }
 
         /* Check identifiers */
-        let identified = false;
-        await UserController.get_values().then((rows: any) =>
-        rows.forEach((row) => {
-            if (row.role == "student" && row.email == email && row.password == password) {
-              identified = true;
-            }
-          })
-        )
+        let identified = await UserController.identifyStudent(user_captain_id, password);
         if (!identified) {
           res.status(401).send("Wrong password!");
           return;

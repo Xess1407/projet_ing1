@@ -210,15 +210,8 @@ class MemberController implements Controller {
         }
     
         /* Check identifiers */
-        let user_captain_id = await TeamController.get_user_captain_id_by_team_id(team_id)
-        let identified = false;
-        await UserController.get_values().then((rows: any) =>
-        rows.forEach((row) => {
-            if (row.rowid == user_captain_id && row.password == password) {
-              identified = true;
-            }
-          })
-        )
+        let user_captain_id = await TeamController.get_user_captain_id_by_team_id(team_id);
+        let identified = await UserController.identifyUser(user_captain_id, password);
         if (!identified) {
           res.status(401).send("Wrong password!");
           return;
@@ -255,14 +248,7 @@ class MemberController implements Controller {
         }
 
         /* Check identifiers */
-        let identified = false;
-        await UserController.get_values().then((rows: any) =>
-        rows.forEach((row) => {
-            if (row.rowid = user_captain_id && row.password == password) {
-              identified = true;
-            }
-          })
-        )
+        let identified = await UserController.identifyUser(user_captain_id, password);
         if (!identified) {
           res.status(401).send("Wrong password!");
           return;

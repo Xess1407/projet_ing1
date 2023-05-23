@@ -27,7 +27,7 @@ curl -X POST -H "Content-Type: application/json" -d '{"data_challenge_id":1, "na
 curl -X POST -H "Content-Type: application/json" -d '{"data_project_id":1, "name":"Image", "url":"./blabla", "password": "admin"}' localhost:8080/api/resource-project
 
 # Insert Team
-curl -X POST -H "Content-Type: application/json" -d '{"email":"test@test", "password": "test", "data_project_id": 1}' localhost:8080/api/team
+curl -X POST -H "Content-Type: application/json" -d '{"user_captain_id": 1, "password": "test", "data_project_id": 1}' localhost:8080/api/team
 
 # Insert Member
 curl -X POST -H "Content-Type: application/json" -d '{"team_id":1, "user_id": 2, "password": "test"}' localhost:8080/api/member
