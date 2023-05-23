@@ -9,6 +9,7 @@ import ResourceChallengeController from "./resource_challenge"
 import ResourceProjectController from "./resource_project";
 import MemberController from "./member";
 import TeamController from "./team";
+import QuestionnaireController from "./questionnaire";
 
 const controllers = [
   new UserController(),
@@ -21,6 +22,7 @@ const controllers = [
   new ResourceProjectController(),
   new MemberController(),
   new TeamController(),
+  new QuestionnaireController(),
 ];
 
 const app = new App(
