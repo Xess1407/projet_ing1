@@ -207,14 +207,7 @@ class DataChallengeController implements Controller {
         }
 
         /* Check identifiers */
-        let identified = false;
-        await UserController.get_values().then((rows: any) =>
-        rows.forEach((row) => {
-            if (row.role == "admin" && row.password == password) {
-              identified = true;
-            }
-          })
-        )
+        let identified = await UserController.identifyAdmin(password);
         if (!identified) {
           res.status(401).send("Wrong password!");
           return;
