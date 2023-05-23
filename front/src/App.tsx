@@ -1,5 +1,6 @@
 import type { Component } from 'solid-js';
 import Home from './pages/Home'
+import Profil from "./pages/Profil";
 
 import logo from './logo.svg';
 import styles from './App.module.css';
@@ -16,6 +17,7 @@ const App: Component = () => {
         <Route path="/" element={<Home/>}/>
         <Route path="/connect" element={<Connect/>}/>
         <Route path="/register" element={<Register/>}/>
+        <Route path="/profil" element={<Profil/>}/>
         <Route path="*" element={<div><p>404 Error</p></div>}/>
       </Routes>
     </div>
