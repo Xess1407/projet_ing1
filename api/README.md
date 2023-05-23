@@ -221,13 +221,14 @@ Delete existing Member
 - DELETE request
 - Form-data: id, user_captain_id, password
 
-Get all Member
+Get all Member from all teams
 - GET request 
-- Response: List all Member
+- Response: List all Table
 
 #### /:id
-Get one Member
+
+Get all Member from one team  (where id = team_id)
 - GET request 
-- Response: id, team_id, user_id
+- Response: List all members from team
 
 ---

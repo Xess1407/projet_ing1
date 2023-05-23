@@ -21,6 +21,7 @@ const Register: Component = () => {
         if (handle_same_password()) {
             (document.getElementById("form-not-same-password-message") as HTMLInputElement).innerHTML = "";
             submit(form)
+            return
         }
         (document.getElementById("form-not-same-password-message") as HTMLInputElement).innerText = "Erreur: Les deux mots de passes ne sont pas identiques"; 
     }
