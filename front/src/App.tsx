@@ -1,7 +1,7 @@
 import type { Component } from 'solid-js';
 import Home from './pages/Home'
 
-import logo from './logo.svg';
+import logo from './logo.png';
 import styles from './App.module.css';
 import { Route, Routes } from '@solidjs/router';
 
