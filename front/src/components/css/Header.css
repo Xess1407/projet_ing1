@@ -22,8 +22,8 @@
     position: relative;
 }
 .data-project {
-    position: absolute;
-    top: 8%
+    margin-top: 0;
+    position: relative;
 }
 .down {
     filter: invert(100%);

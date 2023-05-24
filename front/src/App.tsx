@@ -8,6 +8,7 @@ import { Route, Routes } from '@solidjs/router';
 import Connect from './pages/Connect';
 import Header from './components/Header';
 import Register from './pages/Register';
+import Box from './components/layouts/Box';
 
 const App: Component = () => {
   return (
@@ -20,7 +21,7 @@ const App: Component = () => {
         <Route path="/profile" element={<Profile/>}/>
         <Route path="*" element={<div><p>404 Error</p></div>}/>
       </Routes>
-    </div>
+		</div>
   );
 };
 

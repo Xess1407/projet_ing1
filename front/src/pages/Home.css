@@ -4,19 +4,14 @@
     src: url('../font/abel.ttf') format('truetype');
 }
 
-.body {
-    height: scale(100vh-100px);
-    width: 100%;
-}
-
-.fond {
-    aspect-ratio: 2.112/1;
-    width: 100%;
+.background {
+    aspect-ratio: 2/1;
     position: absolute;
     top: 0;
     left: 0;
+    width: 100%;
     z-index: -9;
-    filter: brightness(67%);
+    filter: brightness(72%);    
 }
 
 .text {
