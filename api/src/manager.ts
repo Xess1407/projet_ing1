@@ -157,7 +157,7 @@ class ManagerController implements Controller {
 
     if (found) {
       console.log(
-        "[INFO][POST] " + ManagerController.path + ": " + res_user_json.user_id,
+        "[INFO][POST] " + ManagerController.path + ": " + res_user_json.id,
       );
       res.send(JSON.stringify(r));
     } else {
