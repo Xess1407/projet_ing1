@@ -67,6 +67,35 @@ $ npm run dev
 ```
 The front should run in localhost:3000
 
+#### Start Java API
+
+```bash
+$ cd java
+$ ./run.sh
+```
+
+Warining you may need to change the permission 
+
+```bash
+$ chmod +x run.sh
+```
+
+The API should be running in localhost:8001
+
+#### Try the calls
+
+```bash
+$ cd java
+$ ./call.sh
+```
+Same then for the API scripts you'll need the permission
+
+```bash
+$ chmod +x call.sh
+```
+
+The API should send you JSON responses
+
 ## Authors
 
 - ARRESSEGUET Yan
