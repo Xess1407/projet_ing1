@@ -13,7 +13,7 @@ const Home: Component = () => {
             </h1>
             <Flex direction="row">
                 <Flex direction="column" mt="2%" ml="15%">
-                    <a href="/connexion"><ButtonCustom text="SIGN-IN" ff="Roboto black" fsz="16px" w="183px" h="48px" br="16px" bgc="#3BCFA3" ></ButtonCustom></a>
+                    <a href="/connect"><ButtonCustom text="SIGN-IN" ff="Roboto black" fsz="16px" w="183px" h="48px" br="16px" bgc="#3BCFA3" ></ButtonCustom></a>
                     <a href="/register"><ButtonCustom text="SIGN-UP" ff="Roboto black" fsz="16px" w="183px" h="48px" br="16px" bgc="#3BCFA3"></ButtonCustom></a>
                 </Flex>
                 <Box c="#FFFFFF" w="37%" ml="30%" mt="2%" fsz="19px" ff="Roboto">
