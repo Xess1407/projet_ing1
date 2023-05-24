@@ -2,7 +2,7 @@ import { Component } from "solid-js";
 import Box from "../components/layouts/Box";
 import Flex from "../components/layouts/Flex";
 import { Image } from "@kobalte/core";
-import "./Profile.css";
+import "./css/Profile.css";
 import ButtonCustom from "../components/generals/ButtonCustom";
 import InputCustom from "../components/generals/InputCustom";
 
