@@ -9,8 +9,7 @@
     height: 250px;
     border-radius: 100%;
     background-color: hsl(0, 0%, 100%);
-    margin-right: 10%;
-    margin-top: 20px;
+    margin: 60px auto;
 }
 .image__img {
     width: 97%;

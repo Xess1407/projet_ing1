@@ -1,6 +1,6 @@
 import type { Component } from 'solid-js';
 import Home from './pages/Home'
-import Profile from "./pages/Profil";
+import Profile from "./pages/Profile";
 
 import logo from './logo.png';
 import styles from './App.module.css';
