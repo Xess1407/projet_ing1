@@ -6,12 +6,18 @@ import Box from "../components/layouts/Box";
 import InputCustom from "../components/generals/InputCustom";
 
 const Connect: Component = () => {
+    const handle_submit = (event: Event): void => {
+        event.preventDefault();
+        submit(form)
+    }
+
     return (
         <Flex ac="center" jc="center" bg="#111111 no-repeat right/calc(100vh - 142px) url('src/assets/code.jpg')" h="calc(100vh - 142px)" direction="row">
             <Box w="915px" h="661px" br="50px" m="2vh" bgc="#3E3E3E" opt="90%" p="1em 3em" c="white">
-                <h3>Connexion</h3>
+                <h2>Connexion</h2>
                 <form>
                     <Flex direction="row">
+                        <span></span>
                         <Flex direction="column" w="30em" mr="3em">
                             <Flex direction="column" m="0 0 15px 0">
                                 <InputCustom id="email" label="E-mail" type="email" placeholder="E-mail" ></InputCustom>
