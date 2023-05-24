@@ -378,7 +378,7 @@ class UserController implements Controller {
 
 export default UserController;
 
-class User {
+export class User {
   name: string;
   family_name: string;
   email: string;
