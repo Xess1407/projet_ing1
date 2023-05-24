@@ -210,24 +210,26 @@ class UserController implements Controller {
       p.role
     ];
 
-    let e;
-    db.run(sql, data, (err) => e = err);
-    if (e) {
+    /* Run query */
+    db.run(sql, data, function (err) {
+      if (err) {
+        console.log(
+          "[ERROR][POST] sql error " + UserController.path + " : " +
+            JSON.stringify(p),
+        );
+        console.error(err.message);
+        res.status(500).send();
+        return;
+      }
+
       console.log(
-        "[ERROR][POST] sql error " + UserController.path + " : " +
+        "[INFO][POST] data added on " + UserController.path + " : " +
           JSON.stringify(p),
       );
-      console.error(e.message);
-      res.status(500).send();
-      return;
-    }
+  
+      res.status(200).send(JSON.stringify({"id:":this.lastID}));
+    });
     db.close();
-
-    console.log(
-      "[INFO][POST] data added on " + UserController.path + " : " +
-        JSON.stringify(p),
-    );
-    res.status(200).send();
   }
 
   static async post_modify(p: UserEntry, res: Response) {
