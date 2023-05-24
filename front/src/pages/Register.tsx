@@ -50,7 +50,7 @@ const Register: Component = () => {
 
 
                             <Flex direction="column" m="0 0 15px 0">
-                                <InputCustom id="password" label="Mot de passe" type="password" placeholder="Mot de passe"></InputCustom>
+                                <InputCustom id="password_1" label="Mot de passe" type="password" placeholder="Mot de passe"></InputCustom>
                             </Flex>
 
                         </Flex>
