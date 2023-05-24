@@ -144,7 +144,7 @@ class TeamController implements Controller {
               JSON.stringify(p),
           );
       
-          res.status(200).send(JSON.stringify({"id:":this.lastID}));
+          res.status(200).send(JSON.stringify({"id":this.lastID}));
         });
         db.close();
     }
