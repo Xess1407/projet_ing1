@@ -2,7 +2,7 @@ import Controller from "./controller";
 import { Request, Response, Router } from "express";
 import { Database } from "sqlite3";
 import { log } from "console";
-import UserController from "./user";
+import UserController, { User } from "./user";
 
 class ManagerController implements Controller {
   static path = "/manager";
@@ -11,6 +11,7 @@ class ManagerController implements Controller {
   constructor() {
     this.router = Router();
     this.router.post(ManagerController.path, this.post);
+    this.router.post(ManagerController.path + "/full", this.post_full)
     this.router.post(ManagerController.path + "/get", this.get);
     this.router.delete(ManagerController.path, this.delete);
   }
@@ -187,11 +188,11 @@ class ManagerController implements Controller {
     res.status(200).send();
   }
 
-  async post(req: Request, res: Response) {
-    let { id, user_id, company, activation_date, deactivation_date, password } = req.body;
+  async post_full(req: Request, res: Response) {
+    let { name, family_name, email, password, telephone_number, role, company, activation_date, deactivation_date } = req.body;
 
     if (
-      !user_id || !company || !activation_date || !deactivation_date
+      !name || !family_name || !email || !password || !telephone_number || !role || !company || !activation_date || !deactivation_date
     ) {
       console.log(
         "[ERROR][POST] wrong data on " + ManagerController.path + " : " +
@@ -201,32 +202,48 @@ class ManagerController implements Controller {
       return;
     }
 
-    /* Check identifiers */
-    let identified = await UserController.identifyUser(user_id, password);
-    if (!identified) {
-      res.status(401).send("Wrong password!");
+    let res_user;
+    await UserController.post_new(new User(name, family_name, email, password, telephone_number, role), res_user)
+    if (await res_user.status != 200) {
+      console.log(
+        "[ERROR][POST] wrong data on " + ManagerController.path  + "/full" + " : " +
+          JSON.stringify(req.body),
+      );
+      res.status(400).send();
       return;
     }
+    let user_id = await res_user.json()
 
-    /* No ID implie creating the user otherwise modify it */
-    if (!id) {
-      const element: Manager = new Manager(
-        user_id,
-        company,
-        activation_date,
-        deactivation_date
+    let sql;
+    let data;
+    const db = new Database("maggle.db");
+    
+    sql = "INSERT INTO manager VALUES(?,?,?,?)";
+    data = [
+      user_id.id,
+      company,
+      activation_date,
+      deactivation_date
+    ];
+
+    let e;
+    db.run(sql, data, (err) => e = err);
+    if (e) {
+      console.log(
+        "[ERROR][POST] sql error " + ManagerController.path + " : " +
+          JSON.stringify(data),
       );
-      ManagerController.post_new(element, res);
-    } else {
-      const element: ManagerEntry = new ManagerEntry(
-        id,
-        user_id,
-        company,
-        activation_date,
-        deactivation_date
-      );
-      ManagerController.post_modify(element, res);
+      console.error(e.message);
+      res.status(500).send();
+      return;
     }
+    db.close();
+
+    console.log(
+      "[INFO][POST] data added on " + ManagerController.path + " : " +
+        JSON.stringify(data),
+    );
+    res.status(200).send();
   }
 
   async delete(req: Request, res: Response) {
