@@ -11,6 +11,7 @@ class UserController implements Controller {
     this.router = Router();
     this.router.post(UserController.path, this.post);
     this.router.post(UserController.path + "/connect", this.get);
+    this.router.delete(UserController.path, this.delete);
   }
 
   static get_values() {
@@ -329,6 +330,50 @@ class UserController implements Controller {
       UserController.post_modify(element, res);
     }
   }
+
+  async delete(req: Request, res: Response) {
+    const db = new Database("maggle.db");
+    const { id, password } = req.body;
+
+    if ( !id || !password ) {
+      console.log(
+        "[ERROR][DELETE] wrong data on " + UserController.path + " : " +
+          JSON.stringify(req.body),
+      );
+      res.status(400).send();
+      return;
+    }
+
+    /* Check identifiers */
+    let identified = await UserController.identifyUser(id, password);
+    if (!identified) {
+      res.status(401).send("Wrong password!");
+      return;
+    }
+
+    const sql = `DELETE FROM user
+    WHERE rowid = ?`;
+    const data = [id];
+
+    let e;
+    db.run(sql, data, (err) => e = err);
+    if (e) {
+      console.log(
+        "[ERROR][DELETE] sql error " + UserController.path + " : " +
+          JSON.stringify(id),
+      );
+      console.error(e.message);
+      res.status(500).send();
+      return;
+    }
+    db.close();
+
+    console.log(
+      "[INFO][DELETE] data deleted on " + UserController.path + " : " +
+        JSON.stringify(id),
+    );
+    res.status(200).send();
+}
 }
 
 export default UserController;
