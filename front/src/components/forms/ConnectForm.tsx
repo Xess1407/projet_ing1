@@ -1,15 +1,15 @@
 import { createStore } from "solid-js/store";
 
-type RegisterFormFields = {
+type connectFormFields = {
     email: string;
     password: string;
 };
 
-export const submit = async (form: RegisterFormFields) => {
+export const submit = async (form: connectFormFields) => {
     console.log(`submitting ${JSON.stringify(form)}`);
 
     // Fetch the Student & User parts
-    const res_register_student_user = await fetch(`http://localhost:8080/api/student/full`, {
+    const res_register_student_user = await fetch(`http://localhost:8080/api/user/connect`, {
     method: "POST",
     body: JSON.stringify({"email": form.email,
                             "password": form.password}),
@@ -19,12 +19,13 @@ export const submit = async (form: RegisterFormFields) => {
     let status = await res_register_student_user.status
     if (status != 200) {
         console.log("[ERROR] Couldn't connect student ! Status:" + status)
-        return status
+        return false
     }
+    return true
 };
 
 
-export const [form, setForm] = createStore<RegisterFormFields>({
+export const [form, setForm] = createStore<connectFormFields>({
     password: "",
     email: "",
 });

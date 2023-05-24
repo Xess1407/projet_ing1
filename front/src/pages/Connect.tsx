@@ -14,7 +14,7 @@ const Connect: Component = () => {
                     <Flex direction="row">
                         <Flex direction="column" w="30em" mr="3em">
                             <Flex direction="column" m="0 0 15px 0">
-                                <InputCustom id="email" label="E-mail" type="email" placeholder="E-mail" pattern=".+@[a-z]{2,32}\.[a-z]{2,10}"></InputCustom>
+                                <InputCustom id="email" label="E-mail" type="email" placeholder="E-mail" ></InputCustom>
                             </Flex>
                             <Flex direction="column" m="0 0 15px 0">
                                 <InputCustom id="password" label="Password" type="password" placeholder="Password"></InputCustom>
