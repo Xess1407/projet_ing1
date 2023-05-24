@@ -12,6 +12,7 @@ class ManagerController implements Controller {
     this.router = Router();
     this.router.post(ManagerController.path, this.post);
     this.router.post(ManagerController.path + "/full", this.post_full)
+    this.router.post(ManagerController.path + "/full/get", this.get_full)
     this.router.post(ManagerController.path + "/get", this.get);
     this.router.delete(ManagerController.path, this.delete);
   }
@@ -95,6 +96,68 @@ class ManagerController implements Controller {
     if (found) {
       console.log(
         "[INFO][POST] " + ManagerController.path + ": " + user_id,
+      );
+      res.send(JSON.stringify(r));
+    } else {
+      res.status(400).send();
+    }
+  }
+
+  async get_full(req: Request, res: Response) {
+    let { email, password } = req.body;
+
+    let r;
+
+    if (!password || !email) {
+      console.log (
+        "[ERROR][POST] wrong data on " + ManagerController.path + "/full/get" + ": " +
+          JSON.stringify(req.body),
+      );
+      res.status(400).send();
+      return;
+    }
+
+    const res_user = await fetch(`http://localhost:8080/api/user/connect`, {
+      method: "POST",
+      body: JSON.stringify({"email": email, "password": password }),
+      headers: {"Content-type": "application/json; charset=UTF-8"} 
+    });
+    if (await res_user.status != 200) {
+      console.log (
+        "[ERROR][POST] wrong data on " + ManagerController.path + "/full/get" + ": " +
+          JSON.stringify(req.body),
+      );
+      res.status(400).send();
+      return;
+    }
+    let res_user_json = await res_user.json()
+
+    let found = false;
+    await ManagerController.get_values().then((rows: any) =>
+      rows.forEach((row) => {
+        if (row.user_id == res_user_json.id) {
+          found = true;
+          r = new ManagerFull(
+            row.rowid,
+            row.user_id,
+            row.company,
+            row.activation_date,
+            row.deactivation_date,
+            res_user_json.name,
+            res_user_json.family_name,
+            res_user_json.email,
+            res_user_json.password,
+            res_user_json.telephone_number,
+            res_user_json.role
+            )
+          }
+        }
+      )
+    );
+
+    if (found) {
+      console.log(
+        "[INFO][POST] " + ManagerController.path + ": " + res_user_json.user_id,
       );
       res.send(JSON.stringify(r));
     } else {
@@ -373,4 +436,39 @@ class ManagerEntry {
         this.activation_date = activation_date;
         this.deactivation_date = deactivation_date;
     }
+}
+
+class ManagerFull extends User {
+  id: number;
+  user_id: number;
+  company: string;
+  activation_date: Date;
+  deactivation_date: Date;
+  name: string;
+  family_name: string;
+  email: string;
+  password: string;
+  telephone_number: number;
+  role: string;
+
+  constructor(
+      id: number,
+      user_id: number,
+      company: string,
+      activation_date: Date,
+      deactivation_date: Date,
+      name: string,
+      family_name: string,
+      email: string,
+      password: string,
+      telephone_number: number,
+      role: string
+  ) {
+      super(name, family_name, email, password, telephone_number, role)
+      this.id = id;
+      this.user_id = user_id;
+      this.company = company;
+      this.activation_date = activation_date;
+      this.deactivation_date = deactivation_date;
+  }
 }
