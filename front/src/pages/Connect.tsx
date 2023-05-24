@@ -1,7 +1,7 @@
 import { Component, createEffect, createSignal } from "solid-js";
 import Flex from "../components/layouts/Flex";
 import ButtonCustom from "../components/generals/ButtonCustom";
-import { submit, form, update_form_field, setForm } from "../components/ConnectForm";
+import { submit, form, update_form_field, setForm } from "../components/forms/ConnectForm";
 import Box from "../components/layouts/Box";
 import InputCustom from "../components/generals/InputCustom";
 
