@@ -1,4 +1,5 @@
 import { createStore } from "solid-js/store";
+import { sessionUser, setSessionUser } from "../Session";
 
 type connectFormFields = {
     email: string;
@@ -21,6 +22,17 @@ export const submit = async (form: connectFormFields) => {
         console.log("[ERROR] Couldn't connect student ! Status:" + status)
         return false
     }
+
+
+    let res = await res_register_student_user.json()
+    setSessionUser({user_id: res.id, 
+                    name: res.name, 
+                    family_name: res.family_name, 
+                    email: res.email, 
+                    password: res.password, 
+                    telephone_number: res.telephone_number,
+                    role: res.role
+                })
     return true
 };
 
