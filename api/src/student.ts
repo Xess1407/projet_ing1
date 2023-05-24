@@ -12,6 +12,7 @@ class StudentController implements Controller {
     this.router = Router();
     this.router.post(StudentController.path, this.post);
     this.router.post(StudentController.path + "/get", this.get);
+    this.router.delete(StudentController.path, this.delete);
   }
 
   static get_values() {
@@ -242,6 +243,51 @@ class StudentController implements Controller {
       );
       StudentController.post_modify(element, res);
     }
+  }
+
+  async delete(req: Request, res: Response) {
+    const db = new Database("maggle.db");
+    const { id, user_id, password } = req.body;
+
+    if (!id || !user_id || !password ) {
+      console.log(
+        "[ERROR][DELETE] wrong data on " + StudentController.path + " : " +
+          JSON.stringify(req.body),
+      );
+      res.status(400).send();
+      return;
+    }
+
+    /* Check identifiers */
+    let identified = await UserController.identifyStudent(user_id, password);
+    if (!identified) {
+      res.status(401).send("Wrong password!");
+      return;
+    }
+    
+
+    const sql = `DELETE FROM student
+    WHERE rowid = ?`;
+    const data = [id];
+
+    let e;
+    db.run(sql, data, (err) => e = err);
+    if (e) {
+      console.log(
+        "[ERROR][DELETE] sql error " + StudentController.path + " : " +
+          JSON.stringify(id),
+      );
+      console.error(e.message);
+      res.status(500).send();
+      return;
+    }
+    db.close();
+
+    console.log(
+      "[INFO][DELETE] data deleted on " + StudentController.path + " : " +
+        JSON.stringify(id),
+    );
+    res.status(200).send();
   }
 }
 
