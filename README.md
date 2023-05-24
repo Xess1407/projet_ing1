@@ -35,14 +35,15 @@ In the current directory
 #### Start API
 
 ```bash
-$ ./api/run.sh
+$ cd api
+$ ./run.sh
 ```
 
 Warining you may need to change the permission 
 
 ```bash
-$ chmod +x api/setup.sh
-$ chmod +x api/run.sh
+$ chmod +x setup.sh
+$ chmod +x run.sh
 ```
 
 The API should be running in localhost:8080

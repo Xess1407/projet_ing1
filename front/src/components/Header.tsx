@@ -1,41 +1,29 @@
-import { Component } from "solid-js";
-import { Breadcrumbs } from "@kobalte/core";
-import "./Header.css";
+import { Component, createSignal, Show } from "solid-js";
+import Flex from "./layouts/Flex";
+import Box from "./layouts/Box";
+import linkItems from "./linkItems";
+import "./css/Header.css"
+
 
 const Header: Component = () => {
-    return (<>
-            <div class="topNav">
-            <img src="src/logo.png" alt="logo" height="70px"/>
-            <Breadcrumbs.Root separator=" / ">
-                <ol class="breadcrumbs__list">
-                    <li class="breadcrumbs__item">
-                        <Breadcrumbs.Link href="/" class="breadcrumbs__link">
-                            Home
-                        </Breadcrumbs.Link>
-                        <Breadcrumbs.Separator class="breadcrumbs__separator" />
-                    </li>
-                    <li class="breadcrumbs__item">
-                        <Breadcrumbs.Link href="/components" class="breadcrumbs__link">
-                            Components
-                        </Breadcrumbs.Link>
-                        <Breadcrumbs.Separator class="breadcrumbs__separator" />
-                    </li>
-                    <li class="breadcrumbs__item">
-                        <Breadcrumbs.Link href="/" class="breadcrumbs__link">
-                            Home
-                        </Breadcrumbs.Link>
-                        <Breadcrumbs.Separator class="breadcrumbs__separator" />
-                    </li>
-                    <li class="breadcrumbs__item">
-                        <Breadcrumbs.Link href="/" class="breadcrumbs__link">
-                            Home
-                        </Breadcrumbs.Link>
-                        <Breadcrumbs.Separator class="breadcrumbs__separator" />
-                    </li>
-                </ol>
-            </Breadcrumbs.Root>
-            </div>
-        </>
+    const [boxData, setBoxData] = createSignal(false)
+    return (
+        <Box b="1px solid" bgc="black" opt="90%" h="140px">
+            <Flex jc="center" h="100%" ai="center" td="none" ff="Roboto">
+                    <img src="src/img/logo.png" alt="logo" height="100px"/>
+                    <ul>{linkItems("Accueil" ,"")}</ul>
+                    <ul>{linkItems("Profil", "connect")}</ul>
+                    <ul>{linkItems("Equipe", "register")}</ul>
+                    <Flex ff="Roboto" direction="column" >
+                        <ul class="data-challenge">{linkItems("Data Challenges", "")}</ul>
+                        <Show when={boxData()}>
+                            <ul class="data-project">{linkItems("Data Projects", "")}</ul>
+                        </Show>
+                    </Flex>
+                    <ul><img class="down" src="src/img/down.png" alt="down" onClick={() => {setBoxData(!boxData())}}/></ul>
+                    <ul>{linkItems("Messagerie", "contact")}</ul>
+            </Flex>
+        </Box>
     )
 }
 

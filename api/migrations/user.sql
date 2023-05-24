@@ -3,6 +3,6 @@ CREATE TABLE IF NOT EXISTS user (
 	family_name TEXT NOT NULL,
 	email TEXT NOT NULL,
 	password TEXT NOT NULL,
-	role TEXT NOT NULL,
-    telephone_number NUMBER NOT NULL
+    telephone_number NUMBER NOT NULL,
+	role TEXT NOT NULL
 );

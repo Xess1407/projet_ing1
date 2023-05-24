@@ -1,4 +1,5 @@
-import Router from "express"
+import { Router } from "express"
+
 
 interface Controller {
    router: Router

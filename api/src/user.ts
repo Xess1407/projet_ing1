@@ -1,16 +1,17 @@
 import Controller from "./controller";
 import { Request, Response, Router } from "express";
 import { Database } from "sqlite3";
-import { log } from "console";
+import Bcrypt from 'bcrypt';
 
 class UserController implements Controller {
   static path = "/user";
   router: Router;
 
   constructor() {
-    this.router = new Router();
+    this.router = Router();
     this.router.post(UserController.path, this.post);
     this.router.post(UserController.path + "/connect", this.get);
+    this.router.delete(UserController.path, this.delete);
   }
 
   static get_values() {
@@ -41,6 +42,109 @@ class UserController implements Controller {
     );
   }
 
+  static async identifyStudent(user_id: number, password: string) {
+    let res = false;
+    await UserController.get_values().then((rows: any) =>
+      rows.forEach((row) => {
+        if (row.role == "student" && row.rowid == user_id) { 
+          const match = Bcrypt.compareSync(password, row.password);
+          if(match) {
+              res = true;
+          }
+        }
+      })
+    );
+
+    return res;
+  }
+
+  static async identifyAdmin(password: string) {
+    let res = false;
+    await UserController.get_values().then((rows: any) =>
+      rows.forEach((row) => {
+        if (row.role == "admin") { 
+          const match = Bcrypt.compareSync(password, row.password);
+          if(match) {
+              res = true;
+          }
+        }
+      })
+    );
+
+    return res;
+  }
+
+  static async identifyManager(user_id: number, password: string) {
+    let res = false;
+    await UserController.get_values().then((rows: any) =>
+      rows.forEach((row) => {
+        if (row.role == "manager" && row.rowid == user_id) { 
+          const match = Bcrypt.compareSync(password, row.password);
+          if(match) {
+              res = true;
+          }
+        }
+      })
+    );
+
+    return res;
+  }
+
+  static async identifyUser(user_id: number, password: string) {
+    let res = false;
+    await UserController.get_values().then((rows: any) =>
+      rows.forEach((row) => {
+        if (row.rowid == user_id) { 
+          const match = Bcrypt.compareSync(password, row.password);
+          if(match) {
+              res = true;
+          }
+        }
+      })
+    );
+
+    return res;
+  }
+
+  static async exist_user_id(user_id: number) {
+    let res = false;
+    await UserController.get_values().then((rows: any) =>
+      rows.forEach((row) => {
+        if (row.rowid == user_id) {
+          res = true;
+        }
+      })
+    );
+
+    return res;
+  }
+
+  static async exist_student_user(user_id: number) {
+    let res = false;
+    await UserController.get_values().then((rows: any) =>
+      rows.forEach((row) => {
+        if (row.rowid == user_id && row.role == "student") {
+          res = true;
+        }
+      })
+    );
+
+    return res;
+  }
+
+  static async exist_manager_user(id: number) {
+    let res = false;
+    await UserController.get_values().then((rows: any) =>
+      rows.forEach((row) => {
+        if (row.rowid == id && row.role == "manager") {
+          res = true;
+        }
+      })
+    );
+
+    return res;
+  }
+
   async get(req: Request, res: Response) {
     let { email, password } = req.body;
 
@@ -56,7 +160,7 @@ class UserController implements Controller {
     }
 
     let found = false;
-    await UserController.get_values().then((rows) =>
+    await UserController.get_values().then((rows: any) =>
       rows.forEach((row) => {
         if (row.email == email && row.password == password) {
           found = true;
@@ -83,7 +187,7 @@ class UserController implements Controller {
     }
   }
 
-  static async post_new(p: User, res: Response, id?: number) {
+  static async post_new(p: User, res: Response) {
     let sql;
     let data;
     const db = new Database("maggle.db");
@@ -93,39 +197,39 @@ class UserController implements Controller {
       return;
     }
 
-    if (typeof id !== "undefined") {
-      res.status(400).send();
-      return;
-    } else {
-      sql = "INSERT INTO user VALUES(?,?,?,?,?,?)";
-      data = [
-        p.name,
-        p.family_name,
-        p.email,
-        p.password,
-        p.telephone_number,
-        p.role
-      ];
-    }
+    // Hash password
+    p.password =  Bcrypt.hashSync(p.password, 10);
 
-    let e;
-    db.run(sql, data, (err) => e = err);
-    if (e) {
+    sql = "INSERT INTO user VALUES(?,?,?,?,?,?)";
+    data = [
+      p.name,
+      p.family_name,
+      p.email,
+      p.password,
+      p.telephone_number,
+      p.role
+    ];
+
+    /* Run query */
+    db.run(sql, data, function (err) {
+      if (err) {
+        console.log(
+          "[ERROR][POST] sql error " + UserController.path + " : " +
+            JSON.stringify(p),
+        );
+        console.error(err.message);
+        res.status(500).send();
+        return;
+      }
+
       console.log(
-        "[ERROR][POST] sql error " + UserController.path + " : " +
+        "[INFO][POST] data added on " + UserController.path + " : " +
           JSON.stringify(p),
       );
-      console.error(e.message);
-      res.status(500).send();
-      return;
-    }
+  
+      res.status(200).send(JSON.stringify({"id:":this.lastID}));
+    });
     db.close();
-
-    console.log(
-      "[INFO][POST] data added on " + UserController.path + " : " +
-        JSON.stringify(p),
-    );
-    res.status(200).send();
   }
 
   static async post_modify(p: UserEntry, res: Response) {
@@ -136,6 +240,9 @@ class UserController implements Controller {
       res.status(400).send();
       return;
     }
+
+    // Hash password
+    p.password =  Bcrypt.hashSync(p.password, 10);
 
     const sql = `UPDATE user SET
     name = ?, family_name = ?, email = ?, password = ?, telephone_number = ?, role = ?
@@ -170,9 +277,9 @@ class UserController implements Controller {
     res.status(200).send();
   }
 
-  static async exist_email(email: string): bool {
+  static async exist_email(email: string) {
     let res = false;
-    await UserController.get_emails().then((rows) =>
+    await UserController.get_emails().then((rows: any) =>
       rows.forEach((row) => {
         if ((row.email) == email) {
           res = true;
@@ -225,11 +332,55 @@ class UserController implements Controller {
       UserController.post_modify(element, res);
     }
   }
+
+  async delete(req: Request, res: Response) {
+    const db = new Database("maggle.db");
+    const { id, password } = req.body;
+
+    if ( !id || !password ) {
+      console.log(
+        "[ERROR][DELETE] wrong data on " + UserController.path + " : " +
+          JSON.stringify(req.body),
+      );
+      res.status(400).send();
+      return;
+    }
+
+    /* Check identifiers */
+    let identified = await UserController.identifyUser(id, password);
+    if (!identified) {
+      res.status(401).send("Wrong password!");
+      return;
+    }
+
+    const sql = `DELETE FROM user
+    WHERE rowid = ?`;
+    const data = [id];
+
+    let e;
+    db.run(sql, data, (err) => e = err);
+    if (e) {
+      console.log(
+        "[ERROR][DELETE] sql error " + UserController.path + " : " +
+          JSON.stringify(id),
+      );
+      console.error(e.message);
+      res.status(500).send();
+      return;
+    }
+    db.close();
+
+    console.log(
+      "[INFO][DELETE] data deleted on " + UserController.path + " : " +
+        JSON.stringify(id),
+    );
+    res.status(200).send();
+}
 }
 
 export default UserController;
 
-class User {
+export class User {
   name: string;
   family_name: string;
   email: string;

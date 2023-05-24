@@ -1,0 +1,7 @@
+api/dist/
+api/files/
+api/node_modules/
+api/maggle.db
+
+front/node_modules/
+front/dist/

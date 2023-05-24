@@ -1,0 +1,35 @@
+.link {
+    font-weight: 500;
+    color: #FFFFFF;
+    text-decoration: none;
+    transition: font-size 0.1s;
+    font-size: 18px;
+    background-color: rgba(0, 0, 0, 0);
+}
+.link:hover {
+    box-shadow: 2px 2px 3px #3BCFA3;
+}
+.link[data-disabled] {
+    cursor: not-allowed;
+    background-color: none;
+}
+.link[data-disabled]:hover {
+    text-decoration: none;
+    background-color: none;
+}
+.data-challenge {
+    list-style: none;
+    position: relative;
+}
+.data-project {
+    margin-top: 0;
+    position: relative;
+}
+.down {
+    filter: invert(100%);
+    aspect-ratio: 1/1;
+    width: 25px;
+    position: absolute;
+    right: 36.5%;
+    top: 6.5%;
+}

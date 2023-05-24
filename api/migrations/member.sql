@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS member (
+    team_id NUMBER NOT NULL,
+    user_id NUMBER NOT NULL
+);
