@@ -1,7 +1,7 @@
 /* Définition de la nouvelle police */
 @font-face {
     font-family: 'abel';
-    src: url('../font/abel.ttf') format('truetype');
+    src: url('../../font/abel.ttf') format('truetype');
 }
 
 .background {

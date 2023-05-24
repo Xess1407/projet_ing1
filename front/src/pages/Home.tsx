@@ -1,7 +1,7 @@
 import { Component } from "solid-js";
 import Box from "../components/layouts/Box";
 import Flex from "../components/layouts/Flex";
-import "./Home.css"
+import "./css/Home.css"
 import ButtonCustom from "../components/generals/ButtonCustom";
 
 const Home: Component = () => {
