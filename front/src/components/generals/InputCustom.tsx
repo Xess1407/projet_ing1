@@ -1,7 +1,7 @@
 import { TextField } from "@kobalte/core"
 import style_parser from "../StyleParser"
 import './scss/inputCustom.css'
-import {update_form_field} from "../RegisterForm";
+import {update_form_field} from "../forms/RegisterForm";
 import {createSignal} from "solid-js";
 
 const InputCustom = (props: any) => {
