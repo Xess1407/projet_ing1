@@ -6,12 +6,12 @@
 
 .background {
     aspect-ratio: 2/1;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: -9;
-    filter: brightness(72%);    
+    filter: brightness(72%);   
 }
 
 .text {
@@ -19,5 +19,9 @@
     font-size: 96px;
     font-family: "abel";
     margin-left: 15%;
-    margin-top: 10%;
+    margin-top: 8%;
+}
+
+a {
+    margin-bottom: 13%;
 }

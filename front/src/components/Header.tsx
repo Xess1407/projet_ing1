@@ -8,7 +8,7 @@ import "./css/Header.css"
 const Header: Component = () => {
     const [boxData, setBoxData] = createSignal(false)
     return (
-        <Box b="1px solid" bgc="black" opt="90%" h="140px">
+        <Box b="1px solid" bgc="rgba(0, 0, 0, 0.7)" opt="" h="140px">
             <Flex jc="center" h="100%" ai="center" td="none" ff="Roboto">
                     <img src="src/img/logo.png" alt="logo" height="100px"/>
                     <ul>{linkItems("Accueil" ,"")}</ul>
