@@ -3,6 +3,7 @@ import { Request, Response, Router } from "express";
 import { Database } from "sqlite3";
 import DataChallengeController from "./data_challenge";
 import UserController from "./user";
+import MemberController from "./member";
 
 class TeamController implements Controller {
     static path = "/team";
@@ -12,7 +13,7 @@ class TeamController implements Controller {
         this.router = Router();
         this.router.post(TeamController.path, this.post);
         this.router.get(TeamController.path, this.get_all);
-        this.router.get(TeamController.path + "/:id", this.get);
+        this.router.get(TeamController.path + "/:user_id", this.get);
         this.router.delete(TeamController.path, this.delete);
     }
 
@@ -60,9 +61,10 @@ class TeamController implements Controller {
     }
 
     async get(req: Request, res: Response) {
-        let id = req.params.id;
+        let id = req.params.user_id;
     
-        let r;
+        let r = new Array<TeamEntry>();
+        let teams_id = new Array<number>();
     
         if (!id) {
           console.log (
@@ -72,29 +74,32 @@ class TeamController implements Controller {
           res.status(400).send();
           return;
         }
-    
-        let found = false;
-        await TeamController.get_values().then((rows: any) =>
-        rows.forEach((row) => {
-            if (row.rowid == id) {
-            found = true;
-            r = new TeamEntry(
-                row.rowid,
-                row.user_captain_id,
-                row.data_project_id
-            );
-            }
+
+        /* Get all teams id of the user */
+        await MemberController.get_values().then((rows: any) => {
+          rows.forEach((row) => {
+            if (row.user_id == id) teams_id.push(row.team_id)
+          })
         })
+        
+        /* Get all teams in teams_id */
+        await TeamController.get_values().then((rows: any) =>
+          rows.forEach((row) => {
+            teams_id.forEach((team_id) => {
+              if (row.rowid == team_id)
+                r.push(new TeamEntry(
+                    row.rowid,
+                    row.user_captain_id,
+                    row.data_project_id
+                ));
+            })
+          })
         );
-    
-        if (found) {
-          console.log(
-            "[INFO][GET] " + TeamController.path + "/" + id + ": ",
-          );
-          res.send(JSON.stringify(r));
-        } else {
-          res.status(400).send();
-        }
+
+      console.log(
+        "[INFO][GET] " + TeamController.path + "/" + id + ": ",
+      );
+      res.send(JSON.stringify(r));
     }
 
     async get_all(req: Request, res: Response) {
