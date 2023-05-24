@@ -22,18 +22,18 @@
     position: relative;
 }
 .data-project {
-    margin-top: 0;
-    position: relative;
+    top: 0.7%;
+    position: absolute;
 }
 .down {
     filter: invert(100%);
     aspect-ratio: 1/1;
     width: 25px;
-    position: absolute;
-    right: 36.5%;
-    top: 6.5%;
+    margin-left: -75%;
+    margin-top: 20%;
 }
-
 .down:hover {
     cursor: pointer;
+    filter: invert(60%);
+    transition: 0.5s;
 }
