@@ -202,8 +202,16 @@ class ManagerController implements Controller {
       return;
     }
 
-    let res_user;
-    await UserController.post_new(new User(name, family_name, email, password, telephone_number, role), res_user)
+    let res_user = await fetch(`http://localhost:8080/api/user`, {
+      method: "POST",
+      body: JSON.stringify({"name": name,
+                            "family_name": family_name,
+                            "email": email,
+                            "password": password,
+                            "telephone_number": telephone_number,
+                            "role": role}),
+      headers: {"Content-type": "application/json; charset=UTF-8"} 
+    });
     if (await res_user.status != 200) {
       console.log(
         "[ERROR][POST] wrong data on " + ManagerController.path  + "/full" + " : " +
@@ -288,6 +296,39 @@ class ManagerController implements Controller {
         JSON.stringify(id),
     );
     res.status(200).send();
+  }
+
+  async post(req: Request, res: Response) {
+    let { id, user_id, company, activation_date, deactivation_date } = req.body;
+    if (
+      !user_id || !company || !activation_date || !deactivation_date
+    ) {
+      console.log(
+        "[ERROR][POST] wrong data on " + ManagerController.path + " : " +
+          JSON.stringify(req.body),
+      );
+      res.status(400).send();
+      return;
+    }
+    /* No ID implie creating the user otherwise modify it */
+    if (!id) {
+      const element: Manager = new Manager(
+        user_id,
+        company,
+        activation_date,
+        deactivation_date
+      );
+      ManagerController.post_new(element, res);
+    } else {
+      const element: ManagerEntry = new ManagerEntry(
+        id,
+        user_id,
+        company,
+        activation_date,
+        deactivation_date
+      );
+      ManagerController.post_modify(element, res);
+    }
   }
 }
 
