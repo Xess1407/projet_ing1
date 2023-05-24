@@ -444,12 +444,6 @@ class ManagerFull extends User {
   company: string;
   activation_date: Date;
   deactivation_date: Date;
-  name: string;
-  family_name: string;
-  email: string;
-  password: string;
-  telephone_number: number;
-  role: string;
 
   constructor(
       id: number,
