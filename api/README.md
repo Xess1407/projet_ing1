@@ -199,10 +199,10 @@ Get all Team
 - GET request 
 - Response: List all Team
 
-#### /:id
-Get one Team
+#### /:user_id
+Get all teams of user_id
 - GET request 
-- Response: id, user_captain_id, data_project_id
+- Response: List of Team: id, user_captain_id, data_project_id
 
 ---
 

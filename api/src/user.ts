@@ -162,7 +162,7 @@ class UserController implements Controller {
     let found = false;
     await UserController.get_values().then((rows: any) =>
       rows.forEach((row) => {
-        if (row.email == email && row.password == password) {
+        if (row.email == email && Bcrypt.compareSync(password, row.password)) {
           found = true;
           r = new UserEntry(
             row.rowid,
@@ -227,7 +227,7 @@ class UserController implements Controller {
           JSON.stringify(p),
       );
   
-      res.status(200).send(JSON.stringify({"id:":this.lastID}));
+      res.status(200).send(JSON.stringify({"id":this.lastID}));
     });
     db.close();
   }

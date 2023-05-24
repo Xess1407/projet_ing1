@@ -1,7 +1,7 @@
 import { Component, createEffect, createSignal } from "solid-js";
 import Flex from "../components/layouts/Flex";
 import ButtonCustom from "../components/generals/ButtonCustom";
-import { submit, form, update_form_field, setForm } from "../components/RegisterForm";
+import { submit, form, setForm } from "../components/forms/RegisterForm";
 import Box from "../components/layouts/Box";
 import InputCustom from "../components/generals/InputCustom";
 
@@ -11,7 +11,7 @@ createEffect(() => {
 });
 
 function handle_same_password() {
-    let password_1 = (document.getElementById("password_1") as HTMLInputElement).value;
+    let password_1 = (document.getElementById("password") as HTMLInputElement).value;
     let password_2 = (document.getElementById("password_2") as HTMLInputElement).value;
     return password_1 == password_2;
 }
@@ -36,13 +36,13 @@ const Register: Component = () => {
                     <Flex direction="row">
                         <Flex direction="column" w="30em" mr="3em">
                             <Flex direction="column" m="0 0 15px 0">
-                                <InputCustom id="name" label="Nom" type="text" placeholder="Nom"></InputCustom>
+                                <InputCustom id="name" label="Nom" type="text" placeholder="Nom" update={setForm}/>
                             </Flex>
                             <Flex direction="column" m="0 0 15px 0">
-                                <InputCustom id="email" label="E-mail" type="email" placeholder="E-mail" pattern=".+@[a-z]{2,32}\.[a-z]{2,10}"></InputCustom>
+                                <InputCustom id="email" label="E-mail" type="email" placeholder="E-mail" pattern=".+@[a-z]{2,32}\.[a-z]{2,10}" update={setForm}/>
                             </Flex>
                             <Flex direction="column" m="0 0 15px 0">
-                                <InputCustom id="telephone_number" label="Téléphone" type="tel" placeholder="Téléphone" pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"></InputCustom>
+                                <InputCustom id="telephone_number" label="Téléphone" type="tel" placeholder="Téléphone" update={setForm} pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"></InputCustom>
                             </Flex>
 
 
@@ -50,68 +50,34 @@ const Register: Component = () => {
 
 
                             <Flex direction="column" m="0 0 15px 0">
-                                <InputCustom id="password" label="Mot de passe" type="password" placeholder="Mot de passe"></InputCustom>
+                                <InputCustom id="password" label="Mot de passe" type="password" placeholder="Mot de passe" update={setForm}/>
                             </Flex>
 
                         </Flex>
                         <Flex direction="column" w="30em">
                             <Flex direction="column" m="0 0 15px 0">
-                                <label for="family_name">Prénom <span class="red">*</span></label>
-                                <input
-                                    type="text"
-                                    id="surname"
-                                    width="auto"
-                                    onChange={update_form_field("family_name")}
-                                    required
-                                />
+                                <InputCustom id="family_name" label="Nom de famille" type="text" placeholder="Nom de famille" update={setForm}/>
                             </Flex>
                             <Flex direction="row">
                                 <Flex direction="column" m="0 2.9em 15px 0">
                                     <label for="school_level">Niveau d'étude <span class="red">*</span></label>
-                                    <select id="school_level" onChange={update_form_field("school_level")} required>
-                                        <option value="L1">Licence 1</option>
-                                        <option value="L2">Licence 2</option>
-                                        <option value="L3">Licence 3</option>
-                                        <option value="M1">Master 1</option>
-                                        <option value="M2">Master 2</option>
-                                        <option value="D">Doctorat</option>
-                                    </select>
                                 </Flex>
                                 <Flex direction="column" m="0 0 15px 0" w="17em">
-                                    <label for="school">École <span class="red">*</span></label>
-                                    <input
-                                        type="text"
-                                        id="school"
-                                        width="auto"
-                                        onChange={update_form_field("school")}
-                                        required
-                                    />
+                                    <InputCustom id="school" label="Ecole" type="text" placeholder="Ecole" update={setForm}/>
                                 </Flex>
                             </Flex>
                             <Flex direction="column" m="0 0 15px 0">
-                                <label for="city">Ville <span class="red">*</span></label>
-                                <input
-                                    type="text"
-                                    id="city"
-                                    width="auto"
-                                    onChange={update_form_field("city")}
-                                    required
-                                />
+                                <InputCustom id="city" label="Ville" type="text" placeholder="Ville" update={setForm}/>
+                                
                             </Flex>
                             <Flex direction="column" m="0 0 15px 0">
-                                <label for="password_2">Confirmer le mot de passe <span class="red">*</span></label>
-                                <input
-                                    type="password"
-                                    id="password_2"
-                                    width="auto"
-                                    required
-                                />
+                                <InputCustom id="password_2" label="Confirmer mot de passe" type="text" placeholder="Mot de passe" empty/>
                             </Flex>
                             <span id="form-not-same-password-message"></span>
                         </Flex>
                     </Flex>
                     <Flex jc="center" ai="center">
-                        <ButtonCustom class="form-submit" type="submit" value="submit" m="20px 0" w="12em" text="Validation"></ButtonCustom>
+                        <ButtonCustom class="form-submit" type="submit" value="submit" m="20px 0" w="12em" text="Validation" />
                     </Flex>
                 </form>
             </Box>

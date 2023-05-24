@@ -1,20 +1,20 @@
 import { Component } from "solid-js";
 import Box from "../components/layouts/Box";
 import Flex from "../components/layouts/Flex";
-import "./Home.css"
+import "./css/Home.css"
 import ButtonCustom from "../components/generals/ButtonCustom";
 
 const Home: Component = () => {
     return (
-        <Box w="100%" h="(100vh)" m="0" p="0">
+        <Box w="100%" m="0" p="0" ovy="hidden">
             <img src="src/img/fond.jpg" alt="background" class="background"/>
             <h1 class="text">
                 <span>Welcome to MAGGLE</span>
             </h1>
             <Flex direction="row">
                 <Flex direction="column" mt="2%" ml="15%">
-                    <ButtonCustom text="SIGN-IN" ff="Roboto black" fsz="16px" w="183px" h="48" br="16px" bgc="#3BCFA3" mb="10%"></ButtonCustom>
-                    <a href="/register"><ButtonCustom text="SIGN-UP" ff="Roboto black" fsz="16px" w="183px" h="48" br="16px" bgc="#3BCFA3"></ButtonCustom></a>
+                    <a href="/connect"><ButtonCustom text="SIGN-IN" ff="Roboto black" fsz="16px" w="183px" h="48px" br="16px" bgc="#3BCFA3" ></ButtonCustom></a>
+                    <a href="/register"><ButtonCustom text="SIGN-UP" ff="Roboto black" fsz="16px" w="183px" h="48px" br="16px" bgc="#3BCFA3"></ButtonCustom></a>
                 </Flex>
                 <Box c="#FFFFFF" w="37%" ml="30%" mt="2%" fsz="19px" ff="Roboto">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Arcu ac tortor dignissim convallis aenean et. 

@@ -4,10 +4,10 @@
     text-decoration: none;
     transition: font-size 0.1s;
     font-size: 18px;
-    background-color: rgba(0, 0, 0, 0);
 }
 .link:hover {
-    box-shadow: 2px 2px 3px #3BCFA3;
+    color: #02CDC0;
+    transition: 1s;
 }
 .link[data-disabled] {
     cursor: not-allowed;
@@ -32,4 +32,8 @@
     position: absolute;
     right: 36.5%;
     top: 6.5%;
+}
+
+.down:hover {
+    cursor: pointer;
 }
