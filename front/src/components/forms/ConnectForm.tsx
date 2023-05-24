@@ -8,7 +8,7 @@ type connectFormFields = {
 export const submit = async (form: connectFormFields) => {
     console.log(`submitting ${JSON.stringify(form)}`);
 
-    // Fetch the Student & User parts
+    // Try connection
     const res_register_student_user = await fetch(`http://localhost:8080/api/user/connect`, {
     method: "POST",
     body: JSON.stringify({"email": form.email,
@@ -27,10 +27,5 @@ export const submit = async (form: connectFormFields) => {
 
 export const [form, setForm] = createStore<connectFormFields>({
     password: "",
-    email: "",
+    email: ""
 });
-
-export const update_form_field = (fieldName: string) => (event: Event) => {
-    const inputElement = event.currentTarget as HTMLInputElement;
-    setForm({[fieldName]: inputElement.value });
-};

@@ -18,15 +18,7 @@ export const submit = async (form: RegisterFormFields) => {
   // Fetch the Student & User parts
   const res_register_student_user = await fetch(`http://localhost:8080/api/student/full`, {
     method: "POST",
-    body: JSON.stringify({"name": form.name,
-                          "family_name": form.family_name,
-                          "email": form.email,
-                          "password": form.password,
-                          "telephone_number": form.telephone_number,
-                          "role": form.role,
-                          "school_level": form.school_level,
-                          "school": form.school,
-                          "city": form.city}),
+    body: JSON.stringify(form),
     headers: {"Content-type": "application/json; charset=UTF-8"} 
   });
 
@@ -49,8 +41,3 @@ export const [form, setForm] = createStore<RegisterFormFields>({
   school_level: "L1",
   city: "",
 });
-
-export const update_form_field = (fieldName: string) => (event: Event) => {
-  const inputElement = event.currentTarget as HTMLInputElement;
-  setForm({[fieldName]: inputElement.value });
-};
