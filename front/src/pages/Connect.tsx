@@ -22,26 +22,26 @@ const Connect: Component = () => {
     })
 
     return (
-        <Flex ac="center" jc="center" bg="#111111 no-repeat right/calc(100vh - 142px) url('src/assets/code.jpg')" h="calc(100vh - 142px)" direction="row">
-            <Box w="915px" h="661px" br="50px" m="2vh" bgc="#3E3E3E" opt="90%" p="1em 3em" c="white">
-                <h2>Connexion</h2>
+        <Flex jc="center" ai="center" pos="absolute" bg="#111111 no-repeat right/calc(100vh - 142px) url('src/assets/code.jpg')" w="100%" h="calc(100vh - 140px)" m="0" p="0">
+            <Flex jc="space-evenly" ai="center" w="915px" h="661px" br="50px" m="2vh" bgc="#3E3E3E" opt="90%" p="1em 3em" c="white" direction="column" ff="Roboto">
+                <h1>Connexion</h1>
                 <form onSubmit={ handle_submit }>
                     <Flex direction="row">
                         <span id="form-invalid-identifiers"></span>
-                        <Flex direction="column" w="30em" mr="3em">
-                            <Flex direction="column" m="0 0 15px 0">
-                                <InputCustom id="email" label="E-mail" type="email" placeholder="E-mail" update={setForm} />
+                        <Flex direction="column" w="30em" jc="space-around" ai="center">
+                            <Flex direction="column" m="0 0 15px 0" ff="Roboto">
+                                <InputCustom ff="Roboto" id="email" type="email" placeholder="E-mail" update={setForm}/>
                             </Flex>
-                            <Flex direction="column" m="0 0 15px 0">
-                                <InputCustom id="password" label="Password" type="password" placeholder="Password" update={setForm}/>
+                            <Flex direction="column" m="0 0 15px 0" ff="Roboto">
+                                <InputCustom ff="Roboto" id="password" type="password" placeholder="Password" update={setForm}/>
                             </Flex>
                         </Flex>
                     </Flex>
-                    <Flex jc="center" ai="center">
-                        <ButtonCustom class="form-submit" type="submit" value="submit" m="20px 0" w="12em" text="Validation" />
+                    <Flex jc="center" ai="center" ff="Roboto">
+                        <ButtonCustom ff="Roboto" class="form-submit" type="submit" value="submit" m="20px 0" w="12em" text="Validation" />
                     </Flex>
                 </form>
-            </Box>
+            </Flex>
         </Flex>
     )
 }
