@@ -44,11 +44,6 @@ const Register: Component = () => {
                             <Flex direction="column" m="0 0 15px 0">
                                 <InputCustom id="telephone_number" label="Téléphone" type="tel" placeholder="Téléphone" update={setForm} pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"></InputCustom>
                             </Flex>
-
-
-
-
-
                             <Flex direction="column" m="0 0 15px 0">
                                 <InputCustom id="password" label="Mot de passe" type="password" placeholder="Mot de passe" update={setForm}/>
                             </Flex>
@@ -77,7 +72,7 @@ const Register: Component = () => {
                         </Flex>
                     </Flex>
                     <Flex jc="center" ai="center">
-                        <ButtonCustom class="form-submit" type="submit" value="submit" m="20px 0" w="12em" text="Validation" />
+                        <ButtonCustom class="form-submit" type="submit" value="submit" m="20px 0"  text="Validation" />
                     </Flex>
                 </form>
             </Box>
