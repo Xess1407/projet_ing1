@@ -22,11 +22,11 @@ const Profile: Component = () => {
                 </Flex>
                 <Flex w="100%" h="100%" jc="space-around">
                     <Box h="262px" w="309px" c="white">
-                        Team
+                        <h3>Team</h3>
                         <Box b="2px solid white" h="100%" br="8px"></Box>
                     </Box>
                     <Box h="262px" w="309px" c="white">
-                        Challenges
+                        <h3>Challenges</h3>
                         <Box b="2px solid white" h="100%" br="8px"></Box>
                     </Box>
                 </Flex>
@@ -35,18 +35,18 @@ const Profile: Component = () => {
                 <Flex direction="row" jc="space-around" h="600px">
                     <Flex c="white" mb="20%">
                         <Flex direction="column" jc="space-around">
-                            <InputCustom id="surname" label="Surname" type="text" placeholder="Surname"></InputCustom>
-                            <InputCustom id="email" label="Email" type="text" placeholder="Email"></InputCustom>
-                            <InputCustom id="phoneNumber" label="Phone number" type="text" placeholder="Phone number"></InputCustom>
-                            <InputCustom id="name" label="Password" type="password" placeholder="Password"></InputCustom>
+                            <InputCustom id="family_name" label="Nom de famille" type="text" placeholder="Nom de famille"/>
+                            <InputCustom id="email" label="Email" type="text" placeholder="Email"/>
+                            <InputCustom id="telephone_number" label="Télephone" type="text" placeholder="Télephone" pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"/>
+                            <InputCustom id="password" label="Mot de passe" type="password" placeholder="Mot de passe"/>
                         </Flex>
                     </Flex>
                     <Flex c="white" mb="20%">
                         <Flex direction="column" jc="space-around">
-                            <InputCustom id="firstName" label="First name" type="text" placeholder="First name"></InputCustom>
-                            <InputCustom id="studyLevel" label="Study level" type="text" placeholder="Study level"></InputCustom>
-                            <InputCustom id="establishment" label="Establishment" type="text" placeholder="Establishment"></InputCustom>
-                            <InputCustom id="city" label="City" type="text" placeholder="City"></InputCustom>
+                            <InputCustom id="name" label="Prénom" type="text" placeholder="prénom"/>
+                            <InputCustom id="school_level" label="Niveau d'étude" type="text" placeholder="Niveau d'étude"/>
+                            <InputCustom id="school" label="Ecole" type="text" placeholder="Ecole"/>
+                            <InputCustom id="city" label="Ville" placeholder="Ville"/>
                         </Flex>
                     </Flex>
                 </Flex>
