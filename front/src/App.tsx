@@ -9,6 +9,7 @@ import Connect from './pages/Connect';
 import Header from './components/Header';
 import Register from './pages/Register';
 import Box from './components/layouts/Box';
+import Team from './pages/Team';
 
 const App: Component = () => {
   return (
@@ -19,6 +20,7 @@ const App: Component = () => {
         <Route path="/connect" element={<Connect/>}/>
         <Route path="/register" element={<Register/>}/>
         <Route path="/profile" element={<Profile/>}/>
+        <Route path="/team" element={<Team/>}/>
         <Route path="*" element={<div><p>404 Error</p></div>}/>
       </Routes>
 		</div>

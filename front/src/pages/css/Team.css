@@ -1,0 +1,15 @@
+.text {
+    color: #000000;
+    margin-left: 30%;
+}
+
+.search {
+    width: 80%;
+    height: 3em;
+    border-radius: 50px;
+}
+
+label {
+    margin-right: 70%;
+    text-justify: left;
+}
