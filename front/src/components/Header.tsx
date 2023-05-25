@@ -20,7 +20,7 @@ const Header: Component = () => {
     };
 
     return (
-        <Box bgc="rgba(0, 0, 0, 0.9)" h="140px" m="0" p="0">
+        <Box bgc="#000000" h="140px" m="0" p="0">
             <Flex jc="center" w="100%" m="0" p="0" h="100%" ai="center" td="none" ff="Roboto">
                 <img src="src/img/logo.png" alt="logo" height="100px" />
                 <ul>{linkItems("Accueil", "")}</ul>

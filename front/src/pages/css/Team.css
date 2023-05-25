@@ -1,15 +1,33 @@
 .text {
-    color: #000000;
+    color: #FFFFFF;
     margin-left: 30%;
 }
 
+h1, label{
+    color: #FFFFFF;
+}
+h1 {
+    font-family: 'Roboto';
+}
 .search {
     width: 80%;
-    height: 3em;
+    height: 1.5em;
     border-radius: 50px;
+    border-style: none;
+    font-size: 16px;
 }
 
 label {
-    margin-right: 70%;
-    text-justify: left;
+    margin-bottom: 1.5%;
+    margin-right: 65%;
+}
+
+input {
+    width: 80%;
+    height: 3.5em;
+    border-radius: 10px;
+    border: 1px solid #000000;
+    background-color: #000000;
+    color: #FFFFFF;
+    text-indent: 4ch;
 }
