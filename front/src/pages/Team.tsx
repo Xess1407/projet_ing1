@@ -16,7 +16,7 @@ const Team: Component = () => {
                 <h1 class="text">
                     <span>Your Team</span>
                 </h1>
-                <Flex direction="column" ml="30%">
+                <Flex direction="column" ml="15%">
                     <Box ff="Roboto" fsz="18px" mb="5%" c="#FFFFFF">You don't have a team yet, create it !</Box>
                     <ButtonCustom text="CREATE YOUR TEAM" ff="Roboto black" fsz="16px" w="300px" h="60px" br="16px" bgc="#3BCFA3"/>
                 </Flex>
