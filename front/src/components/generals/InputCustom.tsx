@@ -3,9 +3,17 @@ import style_parser from "../StyleParser"
 import './scss/inputCustom.css'
 import {createEffect, createSignal} from "solid-js";
 
+/* WARNING an input without an update func must be declare with empty */
 const InputCustom = (props: any) => {
     let s = ""+style_parser(props)
-    const [value, setValue] = createSignal("");
+
+    /* Default value */
+    let v = ""
+    if (props.default !== "undefined")
+        v = props.default
+    const [value, setValue] = createSignal(v);
+
+    /* Update the attribut id of the form given */
     if (!props.empty) {
         createEffect(() => {
             props.update(props.id, value())
