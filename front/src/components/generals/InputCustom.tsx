@@ -22,8 +22,8 @@ const InputCustom = (props: any) => {
     
     // @ts-ignore
     return <TextField.Root class="input" id={props.id} style={s} value={value()} onChange={setValue} validationState={value() !== props.check ? "invalid" : "valid"}>
-        <TextField.Label class="input_label" for={props.id}>{props.label}</TextField.Label>
         <TextField.Input class="input_textfield" type={props.type} id={props.id} placeholder={props.placeholder} required pattern={props.pattern}/>
+        <TextField.Label class="input_label" for={props.id}>{props.label}</TextField.Label>
         <TextField.Description>{props.description}</TextField.Description>
         <TextField.ErrorMessage />
     </TextField.Root>

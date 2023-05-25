@@ -29,12 +29,12 @@ const Register: Component = () => {
     
     return (
 
-        <Flex ac="center" jc="center" bg="#111111 no-repeat right/calc(100vh - 142px) url('src/assets/code.jpg')" h="calc(100vh - 142px)" direction="row">
-            <Box w="50vw" br="50px" m="2vh" bgc="#3E3E3E" opt="90%" p="1em 3em" c="white">
+        <Flex ai="center" jc="center" bg="#111111 no-repeat right/calc(100vh - 142px) url('src/assets/code.jpg')" h="calc(100vh - 142px)" direction="row">
+            <Flex direction="column" jc="center" ai="center" w="1063px" h="799px" br="50px" m="2vh" bgc="#3E3E3E" opt="90%" c="white">
                 <h3>Inscription</h3>
                 <form onSubmit={ handle_submit }>
-                    <Flex direction="row">
-                        <Flex direction="column" w="30em" mr="3em">
+                    <Flex direction="row" jc="space-between" ai="center" w="100%" h="80%">
+                        <Flex direction="column" w="45%">
                             <Flex direction="column" m="0 0 15px 0">
                                 <InputCustom id="name" label="Nom" type="text" placeholder="Nom" update={setForm}/>
                             </Flex>
@@ -49,7 +49,7 @@ const Register: Component = () => {
                             </Flex>
 
                         </Flex>
-                        <Flex direction="column" w="30em">
+                        <Flex direction="column" w="45%">
                             <Flex direction="column" m="0 0 15px 0">
                                 <InputCustom id="family_name" label="Nom de famille" type="text" placeholder="Nom de famille" update={setForm}/>
                             </Flex>
@@ -72,10 +72,10 @@ const Register: Component = () => {
                         </Flex>
                     </Flex>
                     <Flex jc="center" ai="center">
-                        <ButtonCustom class="form-submit" type="submit" value="submit" m="20px 0"  text="Validation" />
+                        <ButtonCustom class="form-submit" type="submit" value="submit" m="20px 0" h="71px" w="373px"  text="Validation" />
                     </Flex>
                 </form>
-            </Box>
+            </Flex>
         </Flex>
 
     )

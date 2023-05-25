@@ -3,9 +3,8 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    height: 71px;
-    width: 373px;
-
+    height: 7vh;
+    width: 100%;
     outline: none;
     border-radius: 8px;
     padding: 0 16px;
@@ -30,4 +29,22 @@
 
 .input_textfield:invalid{
     background-color: rgba(227, 100, 100, 0.46);
+}
+
+.input_label {
+    display: block;
+    transition: all 0.3s;
+    transform: translateY(-6rem);
+}
+
+.input_textfield:placeholder-shown + .input_label{
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transform: translateY(-3rem);
+    transform: translateY(-3rem);
+}
+
+.input_textfield::placeholder{
+    text-decoration: none;
+    text-align: justify;
 }

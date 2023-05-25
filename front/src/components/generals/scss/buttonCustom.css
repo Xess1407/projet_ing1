@@ -3,8 +3,8 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  height: 71px;
-  width: 373px;
+  height: 40px;
+  width: auto;
   outline: none;
   border-radius: 6px;
   padding: 0 16px;
@@ -18,6 +18,7 @@
 }
 .button:hover {
   background-color: hsl(177 96% 40%);
+  cursor: pointer;
 }
 .button:focus-visible {
   outline: 2px solid hsl(176 98% 42%);
