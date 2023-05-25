@@ -23,9 +23,9 @@ const Header: Component = () => {
         <Box bgc="#000000" h="140px" m="0" p="0">
             <Flex jc="center" w="100%" m="0" p="0" h="100%" ai="center" td="none" ff="Roboto">
                 <img src="src/img/logo.png" alt="logo" height="100px" />
-                <ul>{linkItems("Accueil", "")}</ul>
+                <ul>{linkItems("HomePage", "")}</ul>
                 <ul>{linkItems("Profile", "profile")}</ul>
-                <ul>{linkItems("Equipe", "team")}</ul>
+                <ul>{linkItems("Team", "team")}</ul>
                 <Flex ff="Roboto" direction="column">
                     <ul classList={{ "data-challenge": true, active: boxData() }}>
                         {linkItems("Data Challenges", "")}
@@ -39,7 +39,7 @@ const Header: Component = () => {
                 <ul>
                     <img class="down" id="down" src="src/img/down.png" alt="down" onClick={handle}/>
                 </ul>
-                <ul>{linkItems("Messagerie", "contact")}</ul>
+                <ul>{linkItems("Messaging", "")}</ul>
             </Flex>
         </Box>
     );

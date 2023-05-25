@@ -10,6 +10,7 @@ import Header from './components/Header';
 import Register from './pages/Register';
 import Box from './components/layouts/Box';
 import Team from './pages/Team';
+import YourTeam from './pages/YourTeam';
 
 const App: Component = () => {
   return (
@@ -21,6 +22,7 @@ const App: Component = () => {
         <Route path="/register" element={<Register/>}/>
         <Route path="/profile" element={<Profile/>}/>
         <Route path="/team" element={<Team/>}/>
+        <Route path="/yourteam" element={<YourTeam/>}/>
         <Route path="*" element={<div><p>404 Error</p></div>}/>
       </Routes>
 		</div>
