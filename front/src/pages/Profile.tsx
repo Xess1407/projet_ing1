@@ -5,6 +5,7 @@ import { Image } from "@kobalte/core";
 import "./css/Profile.css";
 import ButtonCustom from "../components/generals/ButtonCustom";
 import InputCustom from "../components/generals/InputCustom";
+import { form } from "../components/forms/ProfileForm";
 
 const Profile: Component = () => {
     return (/*#222222*/
@@ -34,16 +35,16 @@ const Profile: Component = () => {
             <Box w="50%" >
                 <Flex direction="row" jc="space-around" h="600px">
                     <Flex jc="space-evenly" ai="center" c="white" direction="column">
-                            <InputCustom id="family_name" label="Surname" type="text" placeholder="Surname"/>
-                            <InputCustom id="email" label="Email" type="text" placeholder="Email"/>
-                            <InputCustom id="phone" label="Phone" type="text" placeholder="Phone number" pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"/>
+                            <InputCustom id="family_name" label="Surname" type="text" placeholder="Surname" default={form.family_name}/>
+                            <InputCustom id="email" label="Email" type="text" placeholder="Email" default={form.email}/>
+                            <InputCustom id="phone" label="Phone" type="text" placeholder="Phone number" default={form.telephone_number} pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"/>
                             <InputCustom id="password" label="Password" type="password" placeholder="Password"/>
                     </Flex>
                     <Flex jc="space-evenly" ai="center" c="white" direction="column">
-                            <InputCustom id="name" label="first-name" type="text" placeholder="First name"/>
-                            <InputCustom id="school_level" label="Study level" type="text" placeholder="Study level"/>
-                            <InputCustom id="school" label="Etablishment" type="text" placeholder="Etablishment"/>
-                            <InputCustom id="city" label="City" placeholder="City"/>
+                            <InputCustom id="name" label="first-name" type="text" placeholder="First name" default={form.name}/>
+                            <InputCustom id="school_level" label="Study level" type="text" placeholder="Study level" default={form.school_level}/>
+                            <InputCustom id="school" label="Etablishment" type="text" placeholder="Etablishment" default={form.school}/>
+                            <InputCustom id="city" label="City" placeholder="City" default={form.city}/>
                     </Flex>
                 </Flex>
                 <Flex jc="center">
