@@ -24,7 +24,7 @@ const Header: Component = () => {
             <Flex jc="center" w="100%" m="0" p="0" h="100%" ai="center" td="none" ff="Roboto">
                 <img src="src/img/logo.png" alt="logo" height="100px" />
                 <ul>{linkItems("Accueil", "")}</ul>
-                <ul>{linkItems("Profil", "connect")}</ul>
+                <ul>{linkItems("Profile", "profile")}</ul>
                 <ul>{linkItems("Equipe", "team")}</ul>
                 <Flex ff="Roboto" direction="column">
                     <ul classList={{ "data-challenge": true, active: boxData() }}>
