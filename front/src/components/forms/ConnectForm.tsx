@@ -36,6 +36,17 @@ export const submit = async (form: connectFormFields) => {
     return true
 };
 
+export const deconnection = () => {
+    setSessionUser({user_id: undefined, 
+        name: "", 
+        family_name: "", 
+        email: "", 
+        password: "", 
+        telephone_number: undefined,
+        role: ""
+    })
+}
+
 
 export const [form, setForm] = createStore<connectFormFields>({
     password: "",
