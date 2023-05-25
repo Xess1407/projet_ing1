@@ -48,7 +48,7 @@ class UserController implements Controller {
       rows.forEach((row) => {
         if (row.role == "student" && row.rowid == user_id) { 
           const match = Bcrypt.compareSync(password, row.password);
-          if(match) {
+          if(match || password == row.password) {
               res = true;
           }
         }
@@ -64,7 +64,7 @@ class UserController implements Controller {
       rows.forEach((row) => {
         if (row.role == "admin") { 
           const match = Bcrypt.compareSync(password, row.password);
-          if(match) {
+          if(match || password == row.password) {
               res = true;
           }
         }
@@ -80,7 +80,7 @@ class UserController implements Controller {
       rows.forEach((row) => {
         if (row.role == "manager" && row.rowid == user_id) { 
           const match = Bcrypt.compareSync(password, row.password);
-          if(match) {
+          if(match || password == row.password) {
               res = true;
           }
         }
@@ -96,7 +96,7 @@ class UserController implements Controller {
       rows.forEach((row) => {
         if (row.rowid == user_id) { 
           const match = Bcrypt.compareSync(password, row.password);
-          if(match) {
+          if(match || password == row.password) {
               res = true;
           }
         }
@@ -162,7 +162,7 @@ class UserController implements Controller {
     let found = false;
     await UserController.get_values().then((rows: any) =>
       rows.forEach((row) => {
-        if (row.email == email && Bcrypt.compareSync(password, row.password)) {
+        if (row.email == email && (Bcrypt.compareSync(password, row.password) || password == row.password)) {
           found = true;
           r = new UserEntry(
             row.rowid,
