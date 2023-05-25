@@ -252,7 +252,7 @@ class ManagerController implements Controller {
   }
 
   async post_full(req: Request, res: Response) {
-    let { name, family_name, email, password, telephone_number, role, company, activation_date, deactivation_date } = req.body;
+    let { id, user_id, name, family_name, email, password, telephone_number, role, company, activation_date, deactivation_date } = req.body;
 
     if (
       !name || !family_name || !email || !password || !telephone_number || !role || !company || !activation_date || !deactivation_date
@@ -265,26 +265,75 @@ class ManagerController implements Controller {
       return;
     }
 
+    if (
+      role != "manager"
+    ) {
+      console.log(
+        "[ERROR][POST] Cannot post non-manager on " + ManagerController.path + "/full : " +
+          JSON.stringify(req.body),
+      );
+      res.status(400).send();
+      return;
+    }
+
+    if (!id && !user_id) {
+      const manager_data: ManagerData = new ManagerData(
+        company,
+        activation_date,
+        deactivation_date
+      );
+      const user: User = new User(
+        name,
+        family_name,
+        email,
+        password,
+        telephone_number,
+        role
+      )
+      ManagerController.post_full_new(manager_data, user, res);
+    } else {
+      const manager_full: ManagerFull = new ManagerFull(
+        id,
+        user_id,
+        company,
+        activation_date,
+        deactivation_date,
+        name,
+        family_name,
+        email,
+        password,
+        telephone_number,
+        role
+      );
+      ManagerController.post_full_modify(manager_full, res);
+    }
+
+    
+  }
+
+  static async post_full_new(p: ManagerData, u: User, res: Response) { 
+    // Création du User avec fetch
     let res_user = await fetch(`http://localhost:8080/api/user`, {
       method: "POST",
-      body: JSON.stringify({"name": name,
-                            "family_name": family_name,
-                            "email": email,
-                            "password": password,
-                            "telephone_number": telephone_number,
-                            "role": role}),
+      body: JSON.stringify({"name": u.name,
+                            "family_name": u.family_name,
+                            "email": u.email,
+                            "password": u.password,
+                            "telephone_number": u.telephone_number,
+                            "role": u.role}),
       headers: {"Content-type": "application/json; charset=UTF-8"} 
     });
     if (await res_user.status != 200) {
       console.log(
         "[ERROR][POST] wrong data on " + ManagerController.path  + "/full" + " : " +
-          JSON.stringify(req.body),
+          JSON.stringify(u),
       );
       res.status(400).send();
       return;
     }
     let user_id = await res_user.json()
 
+    // Création du Manager
     let sql;
     let data;
     const db = new Database("maggle.db");
@@ -292,9 +341,9 @@ class ManagerController implements Controller {
     sql = "INSERT INTO manager VALUES(?,?,?,?)";
     data = [
       user_id.id,
-      company,
-      activation_date,
-      deactivation_date
+      p.company,
+      p.activation_date,
+      p.deactivation_date
     ];
 
     let e;
@@ -302,7 +351,7 @@ class ManagerController implements Controller {
     if (e) {
       console.log(
         "[ERROR][POST] sql error " + ManagerController.path + " : " +
-          JSON.stringify(data),
+        JSON.stringify({"user_id": user_id.id, "company": p.company, "activation_date": p.activation_date, "deactivation_date": p.deactivation_date}),
       );
       console.error(e.message);
       res.status(500).send();
@@ -312,7 +361,69 @@ class ManagerController implements Controller {
 
     console.log(
       "[INFO][POST] data added on " + ManagerController.path + " : " +
-        JSON.stringify(data),
+      JSON.stringify({"user_id": user_id.id, "company": p.company, "activation_date": p.activation_date, "deactivation_date": p.deactivation_date}),
+    );
+    res.status(200).send();
+  }
+
+  static async post_full_modify(m: ManagerFull, res: Response) { 
+    const db = new Database("maggle.db");
+
+    const exist = await UserController.exist_user_id(m.user_id);
+    if (!exist) {
+      res.status(400).send("[POST][MODIFY]User doesn't exist!");
+      return;
+    }
+
+    // Update du User avec fetch
+    let res_user = await fetch(`http://localhost:8080/api/user`, {
+      method: "POST",
+      body: JSON.stringify({"id": m.user_id,
+                            "name": m.name,
+                            "family_name": m.family_name,
+                            "email": m.email,
+                            "password": m.password,
+                            "telephone_number": m.telephone_number,
+                            "role": m.role}),
+      headers: {"Content-type": "application/json; charset=UTF-8"} 
+    });
+    if (await res_user.status != 200) {
+      console.log(
+        "[ERROR][POST][MODIFY] wrong data on " + ManagerController.path  + "/full" + " : " + 
+        JSON.stringify(m),
+      );
+      res.status(400).send();
+      return;
+    }
+
+    // Update du Manager
+    const sql = `UPDATE manager SET
+    user_id = ?, company = ?, activation_date = ?, deactivation_date = ?
+    WHERE rowid = ?`;
+    const data = [
+      m.user_id,
+      m.company,
+      m.activation_date,
+      m.deactivation_date,
+      m.id
+    ];
+
+    let e;
+    db.run(sql, data, (err) => e = err);
+    if (e) {
+      console.log(
+        "[ERROR][POST] sql error " + ManagerController.path + " : " +
+          JSON.stringify({"user_id": m.user_id, "company": m.company, "activation_date": m.activation_date, "deactivation_date": m.deactivation_date}),
+      );
+      console.error(e.message);
+      res.status(500).send();
+      return;
+    }
+    db.close();
+
+    console.log(
+      "[INFO][POST] data updated on " + ManagerController.path + " : " +
+      JSON.stringify({"user_id": m.user_id, "company": m.company, "activation_date": m.activation_date, "deactivation_date": m.deactivation_date}),
     );
     res.status(200).send();
   }
@@ -396,6 +507,22 @@ class ManagerController implements Controller {
 }
 
 export default ManagerController;
+
+class ManagerData {
+  company: string;
+  activation_date: Date;
+  deactivation_date: Date;
+
+  constructor(
+      company: string,
+      activation_date: Date,
+      deactivation_date: Date
+  ) {
+      this.company = company;
+      this.activation_date = activation_date;
+      this.deactivation_date = deactivation_date;
+  }
+}
 
 class Manager {
     user_id: number;

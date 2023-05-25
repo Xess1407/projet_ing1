@@ -148,8 +148,32 @@ class TeamController implements Controller {
             "[INFO][POST] data added on " + TeamController.path + " : " +
               JSON.stringify(p),
           );
+
+          // On ajoute le captaine en tant que membre de sa propre équipe
+          sql = "INSERT INTO member VALUES(?,?)";
+          data = [
+            this.lastID,
+            p.user_captain_id,
+          ];
+          
+          let e;
+          db.run(sql, data, (err) => e = err);
+          if (e) {
+            console.log(
+              "[ERROR][POST] sql error " + MemberController.path + " : " +
+                JSON.stringify({"team_id": this.lastID, "user_id": p.user_captain_id}),
+            );
+            console.error(e.message);
+            res.status(500).send();
+            return;
+          }
+
+          console.log(
+            "[INFO][POST] data added on " + MemberController.path + " : " +
+            JSON.stringify({"team_id": this.lastID, "user_id": p.user_captain_id}),
+          );
       
-          res.status(200).send(JSON.stringify({"id":this.lastID}));
+          res.status(200).send();
         });
         db.close();
     }

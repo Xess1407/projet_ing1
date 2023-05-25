@@ -181,13 +181,13 @@ class StudentController implements Controller {
   }
 
   async post_full(req: Request, res: Response) {
-    let { name, family_name, email, password, telephone_number, role, school_level, school, city } = req.body;
+    let { id, user_id, name, family_name, email, password, telephone_number, role, school_level, school, city } = req.body;
 
     if (
       !name || !family_name || !email || !password || !telephone_number || !role || !school_level || !school || !city
     ) {
       console.log(
-        "[ERROR][POST] wrong data on " + StudentController.path + "/full : " +
+        "[ERROR][POST] ratio wrong data on " + StudentController.path + "/full : " +
           JSON.stringify(req.body),
       );
       res.status(400).send();
@@ -205,20 +205,55 @@ class StudentController implements Controller {
       return;
     }
 
+    if (!id && !user_id) {
+      const student_data: StudentData = new StudentData(
+        school_level,
+        school,
+        city
+      );
+      const user: User = new User(
+        name,
+        family_name,
+        email,
+        password,
+        telephone_number,
+        role
+      )
+      StudentController.post_full_new(student_data, user, res);
+    } else {
+      const student_full: StudentFull = new StudentFull(
+        id,
+        user_id,
+        school_level,
+        school,
+        city,
+        name,
+        family_name,
+        email,
+        password,
+        telephone_number,
+        role
+      );
+      StudentController.post_full_modify(student_full, res);
+    }
+  }
+
+  static async post_full_new(p: StudentData, u: User, res: Response) { 
+    // Création du User avec fetch
     let res_user = await fetch(`http://localhost:8080/api/user`, {
       method: "POST",
-      body: JSON.stringify({"name": name,
-                            "family_name": family_name,
-                            "email": email,
-                            "password": password,
-                            "telephone_number": telephone_number,
-                            "role": role}),
+      body: JSON.stringify({"name": u.name,
+                            "family_name": u.family_name,
+                            "email": u.email,
+                            "password": u.password,
+                            "telephone_number": u.telephone_number,
+                            "role": u.role}),
       headers: {"Content-type": "application/json; charset=UTF-8"} 
     });
     if (await res_user.status != 200) {
       console.log(
         "[ERROR][POST] wrong data on " + StudentController.path  + "/full" + " : " +
-          JSON.stringify(req.body),
+        JSON.stringify(u),
       );
       res.status(400).send();
       return;
@@ -226,6 +261,7 @@ class StudentController implements Controller {
 
     let user_id = await res_user.json();
 
+    // Création du Student
     let sql;
     let data;
     const db = new Database("maggle.db");
@@ -233,9 +269,9 @@ class StudentController implements Controller {
     sql = "INSERT INTO student VALUES(?,?,?,?)";
     data = [
       user_id.id,
-      school_level,
-      school,
-      city
+      p.school_level,
+      p.school,
+      p.city
     ];
 
     let e;
@@ -243,7 +279,7 @@ class StudentController implements Controller {
     if (e) {
       console.log(
         "[ERROR][POST] sql error " + StudentController.path + " : " +
-          JSON.stringify(data),
+          JSON.stringify({"user_id": user_id.id, "school_level": p.school_level, "school": p.school, "city": p.city}),
       );
       console.error(e.message);
       res.status(500).send();
@@ -253,7 +289,69 @@ class StudentController implements Controller {
 
     console.log(
       "[INFO][POST] data added on " + StudentController.path + " : " +
-        JSON.stringify(data),
+      JSON.stringify({"user_id": user_id.id, "school_level": p.school_level, "school": p.school, "city": p.city}),
+    );
+    res.status(200).send();
+  }
+
+  static async post_full_modify(s: StudentFull, res: Response) { 
+    const db = new Database("maggle.db");
+
+    const exist = await UserController.exist_user_id(s.user_id);
+    if (!exist) {
+      res.status(400).send("[POST][MODIFY]User doesn't exist!");
+      return;
+    }
+
+    // Update du User avec fetch
+    let res_user = await fetch(`http://localhost:8080/api/user`, {
+      method: "POST",
+      body: JSON.stringify({"id": s.user_id,
+                            "name": s.name,
+                            "family_name": s.family_name,
+                            "email": s.email,
+                            "password": s.password,
+                            "telephone_number": s.telephone_number,
+                            "role": s.role}),
+      headers: {"Content-type": "application/json; charset=UTF-8"} 
+    });
+    if (await res_user.status != 200) {
+      console.log(
+        "[ERROR][POST][MODIFY] wrong data on " + StudentController.path  + "/full" + " : " + 
+        JSON.stringify(s),
+      );
+      res.status(400).send();
+      return;
+    }
+
+    // Update du Student
+    const sql = `UPDATE student SET
+    user_id = ?, school_level = ?, school = ?, city = ?
+    WHERE rowid = ?`;
+    const data = [
+      s.user_id,
+      s.school_level,
+      s.school,
+      s.city,
+      s.id
+    ];
+
+    let e;
+    db.run(sql, data, (err) => e = err);
+    if (e) {
+      console.log(
+        "[ERROR][POST] sql error " + StudentController.path + " : " +
+        JSON.stringify({"user_id": s.user_id, "school_level": s.school_level, "school": s.school, "city": s.city}),
+      );
+      console.error(e.message);
+      res.status(500).send();
+      return;
+    }
+    db.close();
+
+    console.log(
+      "[INFO][POST] data updated on " + StudentController.path + " : " +
+        JSON.stringify({"user_id": s.user_id, "school_level": s.school_level, "school": s.school, "city": s.city}),
     );
     res.status(200).send();
   }
@@ -435,6 +533,22 @@ class StudentController implements Controller {
 
 export default StudentController;
 
+class StudentData {
+  school_level: string;
+  school: string;
+  city: string;
+
+  constructor(
+      school_level: string,
+      school: string,
+      city: string
+  ) {
+      this.school_level = school_level;
+      this.school = school;
+      this.city = city;
+  }
+}
+
 class Student {
   user_id: number;
   school_level: string;
@@ -496,7 +610,7 @@ class StudentFull extends User {
       telephone_number: number,
       role: string
   ) {
-      super(name, family_name, email, password, telephone_number, role)
+      super(name, family_name, email, password, telephone_number, role);
       this.id = id;
       this.user_id = user_id;
       this.school_level = school_level;
