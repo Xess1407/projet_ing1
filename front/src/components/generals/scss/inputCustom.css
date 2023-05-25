@@ -40,7 +40,7 @@
 .input_textfield:placeholder-shown + .input_label{
     opacity: 0;
     visibility: hidden;
-    -webkit-transform: translateY(-3rem);
+    --webkit-transform: translateY(-3rem);
     transform: translateY(-3rem);
 }
 

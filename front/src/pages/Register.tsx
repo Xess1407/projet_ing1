@@ -2,7 +2,6 @@ import { Component, createEffect, createSignal } from "solid-js";
 import Flex from "../components/layouts/Flex";
 import ButtonCustom from "../components/generals/ButtonCustom";
 import { submit, form, setForm } from "../components/forms/RegisterForm";
-import Box from "../components/layouts/Box";
 import InputCustom from "../components/generals/InputCustom";
 
 const [school_level, setSchool_level] = createSignal("none");
