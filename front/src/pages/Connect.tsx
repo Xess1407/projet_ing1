@@ -28,17 +28,17 @@ const Connect: Component = () => {
                 <form onSubmit={ handle_submit }>
                     <Flex direction="row">
                         <span id="form-invalid-identifiers"></span>
-                        <Flex direction="column" w="30em" jc="space-around" ai="center">
-                            <Flex direction="column" m="0 0 15px 0" ff="Roboto">
+                        <Flex direction="column" jc="space-evenly" ai="center">
+                            <Flex direction="column" m="0 0 50px 0" ff="Roboto">
                                 <InputCustom ff="Roboto" id="email" type="email" placeholder="E-mail" update={setForm}/>
                             </Flex>
-                            <Flex direction="column" m="0 0 15px 0" ff="Roboto">
+                            <Flex direction="column" m="0 0 100px 0" ff="Roboto">
                                 <InputCustom ff="Roboto" id="password" type="password" placeholder="Password" update={setForm}/>
                             </Flex>
                         </Flex>
                     </Flex>
                     <Flex jc="center" ai="center" ff="Roboto">
-                        <ButtonCustom ff="Roboto" class="form-submit" type="submit" value="submit" m="20px 0" w="12em" text="Validation" />
+                        <ButtonCustom bgc="#11A9A2" ff="Roboto" w="23.3em" h="4.4em" class="form-submit" type="submit" value="submit" text="Validation" />
                     </Flex>
                 </form>
             </Flex>
