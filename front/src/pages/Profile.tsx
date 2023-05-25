@@ -8,7 +8,7 @@ import InputCustom from "../components/generals/InputCustom";
 
 const Profile: Component = () => {
     return (/*#222222*/
-        <Flex bgc="#111111" direction="row" w="100%" h="100vh">
+        <Flex bgc="#111111" direction="row" w="100%" h="calc(100vh - 140px)">
             <Flex direction="column" w="50%" h="100%">
                 <Flex w="100%" jc="center">
                     <Image.Root fallbackDelay={600} class="image">
