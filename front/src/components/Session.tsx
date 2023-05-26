@@ -45,3 +45,7 @@ export function getSessionUser(): SessionUser | null {
         role: role
     }
 }
+
+export const isConnected = (): boolean => {
+    return window.localStorage.getItem("user_id") !== null
+}
