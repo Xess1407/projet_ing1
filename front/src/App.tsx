@@ -1,4 +1,4 @@
-import type { Component } from 'solid-js';
+import { Component, Suspense, lazy } from 'solid-js';
 import Home from './pages/Home'
 import Profile from "./pages/Profile";
 

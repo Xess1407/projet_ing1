@@ -14,24 +14,6 @@ type ProfileFormFields = {
     city?: string;
 };
 
-export const get_student_profile = async () => {
-    let user;
-    // Fetch the Student
-    const res_student_profile = await fetch(`http://localhost:8080/api/student/get`, {
-        method: "POST",
-        body: JSON.stringify(user),
-        headers: {"Content-type": "application/json; charset=UTF-8"} 
-    });
-
-    let status = await res_student_profile.status
-    if (status != 200) {
-        console.log("[ERROR] Couldn't get student information! Status:" + status)
-        return
-    }
-    let res = await res_student_profile.json()
-    setForm({school: res.school, school_level: res.school_level, city: res.city})
-}
-
 
 export const submit = async (form: ProfileFormFields) => {
   console.log(`submitting ${JSON.stringify(form)}`);
@@ -63,5 +45,3 @@ export const [form, setForm] = createStore<ProfileFormFields>({
     school_level: "L1",
     city: "",
 });
-
-

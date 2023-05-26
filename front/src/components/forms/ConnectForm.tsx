@@ -1,5 +1,5 @@
 import { createStore } from "solid-js/store";
-import { setSessionUser } from "../Session";
+import { clearSessionUser, setSessionUser } from "../Session";
 
 type connectFormFields = {
     email: string;
@@ -46,7 +46,7 @@ export const submit = async (form: connectFormFields) => {
 };
 
 export const deconnection = () => {
-   
+   clearSessionUser()
 }
 
 
