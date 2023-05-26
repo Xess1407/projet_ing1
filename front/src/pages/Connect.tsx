@@ -4,14 +4,22 @@ import ButtonCustom from "../components/generals/ButtonCustom";
 import { submit, form, setForm } from "../components/forms/ConnectForm";
 import Box from "../components/layouts/Box";
 import InputCustom from "../components/generals/InputCustom";
+import { useNavigate } from "@solidjs/router";
+import { setConnected } from "../components/Header";
 
 const [stat, setStat] = createSignal(true)
 
 
 const Connect: Component = () => {
+    const nav = useNavigate()
+    
     const handle_submit = async (event: Event) => {
         event.preventDefault();
         setStat(await submit(form))
+        if (stat()) {
+            setConnected(true)
+            nav("/redirect", {replace: true})
+        }
     }
 
     createEffect(() => {

@@ -7,10 +7,12 @@ import { isConnected } from "./Session";
 import { deconnection } from "./forms/ConnectForm";
 import { useNavigate } from "@solidjs/router";
 
+export const [connected, setConnected] = createSignal(isConnected())
+
 const Header: Component = () => {
     const [boxData, setBoxData] = createSignal(false);
     const nav = useNavigate()
-
+    
     const handle = () => {
         setBoxData(!boxData());
         const img = document.getElementById("down")
@@ -45,7 +47,7 @@ const Header: Component = () => {
                     <img class="down" id="down" src="src/img/down.png" alt="down" onClick={handle}/>
                 </ul>
                 <ul>{linkItems("Messaging", "")}</ul>
-                <ul><Show when={isConnected()}><button onclick={() => {deconnection(); nav("/", { replace: true }); }}>Deconnexion</button></Show></ul>
+                <ul><Show when={connected()}><button onclick={() => {deconnection(); setConnected(false); nav("/redirect", { replace: true }); }}>Deconnexion</button></Show></ul>
             </Flex>
         </Box>
     );
