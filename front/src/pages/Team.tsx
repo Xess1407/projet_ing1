@@ -6,7 +6,7 @@ import ButtonCustom from "../components/generals/ButtonCustom";
 import InputCustom from "../components/generals/InputCustom";
 
 const Team: Component = () => {
-    const [boxData, setBoxData] = createSignal(false);
+    const [createTeam, setCreateTeam] = createSignal(false);
 
     // Fonction à faire pour faire apparaître le form de recherche pour créer son équipe
     
@@ -18,10 +18,11 @@ const Team: Component = () => {
                 </h1>
                 <Flex direction="column" ml="15%">
                     <Box ff="Roboto" fsz="18px" mb="5%" c="#FFFFFF">You don't have a team yet, create it !</Box>
-                    <ButtonCustom text="CREATE YOUR TEAM" ff="Roboto black" fsz="16px" w="300px" h="60px" br="16px" bgc="#3BCFA3"/>
+                    <ButtonCustom text="CREATE YOUR TEAM" ff="Roboto black" fsz="16px" w="300px" h="60px" br="16px" bgc="#3BCFA3" onclick={() => setCreateTeam(!createTeam())} />
                 </Flex>
             </Box>
             <Flex w="55%" jc="center" ai="center" m="0">
+                <Show when={createTeam()} >
                     <Flex bgc="#555555" w="80%" h="90%" direction="column" jc="space-evenly" ai="center" br="10px">
                         <h1>CREATION</h1>
                         <Flex direction="column" jc="center" ai="center" w="100%">
@@ -37,6 +38,7 @@ const Team: Component = () => {
                             <ButtonCustom text="CREATE" ff="Roboto black" fsz="16px" w="230px" h="70px" br="16px" bgc="#8DCEB0" mt="4%"/>
                         </Flex>
                     </Flex>
+                </Show>
             </Flex>
         </Flex>
     )
