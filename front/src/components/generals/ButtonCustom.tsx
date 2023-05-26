@@ -5,7 +5,7 @@ import './scss/buttonCustom.css'
 
 const ButtonCustom = (props: any) => {
     let s = style_space_parser(props) + style_box_parser(props) + style_border_parser(props) + style_color_parser(props) + style_font_parser(props) + style_layout_parser(props) + style_position_parser(props)
-    return <Button.Root class="button" style={s} type={props.type} value={props.value}>
+    return <Button.Root class="button" style={s} type={props.type} value={props.value} onClick={props.onclick}>
         {props.text}
     </Button.Root>
 }

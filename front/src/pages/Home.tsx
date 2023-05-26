@@ -4,8 +4,12 @@ import Flex from "../components/layouts/Flex";
 import "./css/Home.css"
 import ButtonCustom from "../components/generals/ButtonCustom";
 import { isConnected } from "../components/Session";
+import { useNavigate } from "@solidjs/router";
 
 const Home: Component = () => {
+    const nav = useNavigate()
+
+
     return (
         <Box w="100%" h="calc(100vh - 140px)" m="0" p="0" ovy="hidden">
             <img src="src/img/fond.jpg" alt="background" class="background"/>
@@ -15,8 +19,8 @@ const Home: Component = () => {
             <Flex direction="row">
                 <Flex direction="column" mt="2%" ml="15%">
                     <Show when={!isConnected()}>
-                        <a href="/connect"><ButtonCustom text="SIGN-IN" ff="Roboto black" fsz="16px" w="183px" h="48px" br="16px" bgc="#3BCFA3" ></ButtonCustom></a>
-                        <a href="/register"><ButtonCustom text="SIGN-UP" ff="Roboto black" fsz="16px" w="183px" h="48px" br="16px" bgc="#3BCFA3"></ButtonCustom></a>
+                        <ButtonCustom text="SIGN-IN" ff="Roboto black" fsz="16px" w="183px" h="48px" br="16px" bgc="#3BCFA3" onclick={() => {nav("/connect", {replace: true})}}/>
+                        <ButtonCustom text="SIGN-UP" ff="Roboto black" fsz="16px" w="183px" h="48px" br="16px" bgc="#3BCFA3" onclick={() => {nav("/register", {replace: true})}}/>
                     </Show>
                 </Flex>
                 <Box c="#FFFFFF" w="37%" ml="30%" mt="2%" fsz="19px" ff="Roboto">
