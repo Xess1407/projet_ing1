@@ -13,6 +13,7 @@ import Team from './pages/Team';
 import YourTeam from './pages/YourTeam';
 import Dashboard from './pages/Dashboard';
 import Redirect from './pages/Redirect';
+import DataChallenges from "./pages/DataChallenges";
 
 const App: Component = () => {
   return (
@@ -27,6 +28,7 @@ const App: Component = () => {
         <Route path="/yourteam" element={<YourTeam/>}/>
         <Route path="/dashboard" element={<Dashboard/>}/>
         <Route path="/redirect" element={<Redirect/>} />
+        <Route path="/datachallenges" element={<DataChallenges/>} />
         <Route path="*" element={<div><p>404 Error</p></div>}/>
       </Routes>
 		</div>
