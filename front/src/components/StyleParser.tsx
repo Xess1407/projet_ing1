@@ -47,6 +47,10 @@ export default function style_space_parser(props: any): string {
     if (props.maxH !== "undefined")
         s += "max-height:" + props.maxH + ";"
 
+    /* Flex */
+    if (props.fw !== "undefined")
+        s += "flex-wrap:" + props.fw + ";"
+
     return s
 }
 
