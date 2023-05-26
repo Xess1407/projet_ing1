@@ -3,6 +3,7 @@ import Flex from "../components/layouts/Flex";
 import ButtonCustom from "../components/generals/ButtonCustom";
 import { submit, form, setForm } from "../components/forms/RegisterForm";
 import InputCustom from "../components/generals/InputCustom";
+import SelectCustom from "../components/generals/SelectCustom";
 
 const [school_level, setSchool_level] = createSignal("none");
 createEffect(() => {
@@ -55,6 +56,7 @@ const Register: Component = () => {
                             <Flex direction="row">
                                 <Flex direction="column" m="0 2.9em 15px 0">
                                     <label for="school_level">Niveau d'étude <span class="red">*</span></label>
+
                                 </Flex>
                                 <Flex direction="column" m="0 0 15px 0" w="17em">
                                     <InputCustom id="school" label="Ecole" type="text" placeholder="Ecole" update={setForm}/>
