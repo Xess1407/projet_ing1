@@ -34,6 +34,22 @@ Modify existing Student
 - POST request
 - Form-data: id, user_id, school_level, school, city, password
 
+#### /full
+
+Save new Student and User
+- POST request
+- Form-data: name, family_name, email, password, telephone_number, role, school_level, school, city
+
+Modify existing Student and User
+- POST request
+- Form-data: id, user_id, name, family_name, email, password, telephone_number, role, school_level, school, city
+
+#### /full/get 
+
+- POST request
+- Form-data: user_id, password
+- Response: id, user_id, school_level, school, city, name, family_name, email, password, telephone_number, role
+
 #### /get 
 
 - POST request
@@ -53,6 +69,22 @@ Save new Manager
 Modify existing Manager
 - POST request
 - Form-data: id, user_id, company, activation_date, deactivation_date, password
+
+#### /full
+
+Save new Manager and User
+- POST request
+- Form-data: name, family_name, email, password, telephone_number, role, company, activation_date, deactivation_date
+
+Modify existing Manager and User
+- POST request
+- Form-data: id, user_id, name, family_name, email, password, telephone_number, role, company, activation_date, deactivation_date
+
+#### /full/get 
+
+- POST request
+- Form-data: user_id, password
+- Response: id, user_id, company, activation_date, deactivation_date, name, family_name, email, password, telephone_number, role
 
 #### /get 
 
