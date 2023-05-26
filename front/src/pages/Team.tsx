@@ -11,11 +11,13 @@ import { getSessionUser } from "../components/Session";
 
 const Team: Component = () => {
     const [createTeam, setCreateTeam] = createSignal(false)
-    const [searchValue, setSearchValue] = createSignal("t")
+    const [searchValue, setSearchValue] = createSignal("")
     const [studentsNames, setStudentNames] = createSignal<string[]>([])
 
     function searching(ele: string): boolean {
-        console.log("Searching: " + ele +  "value" + searchValue());
+        console.log("Searching: " + ele +  "value: " + searchValue());
+        console.log(ele.toLowerCase().includes(searchValue().toLowerCase()));
+        
         
         return ele.toLowerCase().includes(searchValue().toLowerCase())
     }
@@ -49,7 +51,7 @@ const Team: Component = () => {
     })
 
     createEffect(() => {
-        console.log(studentsNames());
+        console.log(searchValue());
         
     })
 
@@ -71,7 +73,7 @@ const Team: Component = () => {
                         <Flex direction="column" jc="center" ai="center" w="100%">
                             <label>Search student</label>
                             {/* Call à la bdd pour trouver le joueur recherché */}
-                            <input id="search" type="text" placeholder="Name of student" value={searchValue()} onChange={setSearchValue}/>
+                            <input id="search" type="text" placeholder="Name of student" onInput={() => {setSearchValue((document.getElementById("search") as HTMLInputElement).value)}}/>
                             <For each={studentsNames()}>
                                 {(element: string) => (
                                     <Show when={searching(element)}>
