@@ -29,3 +29,41 @@
     line-height: 1;
     font-weight: 500;
 }
+
+#school, #city {
+    appearance: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 7vh;
+    width: 100%;
+    outline: none;
+    border-radius: 8px;
+    border: 1px white solid;
+    background: none;
+    background-color: rgba(13, 201, 193, 0.46);
+    color: white;
+    font-size: 16px;
+    line-height: 0;
+    transition: 250ms background-color;
+}
+
+#school:hover, #city:hover {
+    background-color: hsl(177 96% 40%);
+}
+#school:focus-visible, #city:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 2px;
+}
+#school:active, #city:active{
+    background-color: hsl(177 90% 40%);
+}
+
+#school:invalid, #city:invalid{
+    background-color: rgba(227, 100, 100, 0.46);
+}
+
+#school::placeholder, #city::placeholder {
+    text-decoration: none;
+    text-align: justify;
+}

@@ -57,7 +57,7 @@ const Profile = ()=> {
             </Flex>
             <Box w="50%" >
                 <h1>{form.city}</h1>
-                <Flex direction="row" jc="space-around" h="600px">
+                <Flex direction="row" jc="space-around" ai="center" h="600px">
                     <Flex jc="space-evenly" ai="center" c="white" direction="column">
                             <InputCustom id="family_name" label="Surname" type="text" placeholder="Surname" empty default={form.family_name}/>
                             <InputCustom id="email" label="Email" type="text" placeholder="Email" empty default={form.email}/>
@@ -65,10 +65,22 @@ const Profile = ()=> {
                             <InputCustom id="password" label="Password" type="password" placeholder="Password" empty/>
                     </Flex>
                     <Flex jc="space-evenly" ai="center" c="white" direction="column">
-                            <InputCustom id="name" label="first-name" type="text" placeholder="First name" empty default={form.name}/>
-                            <InputCustom id="school_level" label="Study level" type="text" placeholder="Study level" empty default={form.school_level}/>
-                            <input id="school" type="text" placeholder="Etablishment"  value={form.school}/>
-                            <input id="city" placeholder="City"  value={form.city} />
+                        <InputCustom id="name" label="first-name" type="text" placeholder="First name" empty default={form.name}/>
+                        <Flex direction="row">
+                            <Flex direction="column" w="100%">
+                                <select id="school_level" required>
+                                    <option value="" disabled selected hidden>Study level</option>
+                                    <option value="L1">Licence 1</option>
+                                    <option value="L2">Licence 2</option>
+                                    <option value="L3">Licence 3</option>
+                                    <option value="M1">Master 1</option>
+                                    <option value="M2">Master 2</option>
+                                    <option value="D">Doctorate</option>
+                                </select>
+                            </Flex>                            
+                        </Flex>
+                        <input id="school" type="text" placeholder="Etablishment"  value={form.school}/>
+                        <input id="city" placeholder="City"  value={form.city} />
                     </Flex>
                 </Flex>
                 <Flex jc="center">

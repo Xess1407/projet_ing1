@@ -19,8 +19,8 @@ const Home: Component = () => {
             <Flex direction="row">
                 <Flex direction="column" mt="2%" ml="15%">
                     <Show when={!isConnected()}>
-                        <ButtonCustom text="SIGN-IN" ff="Roboto black" fsz="16px" w="183px" h="48px" br="16px" bgc="#3BCFA3" onclick={() => {nav("/connect", {replace: true})}}/>
-                        <ButtonCustom text="SIGN-UP" ff="Roboto black" fsz="16px" w="183px" h="48px" br="16px" bgc="#3BCFA3" onclick={() => {nav("/register", {replace: true})}}/>
+                        <ButtonCustom text="SIGN-IN" ff="Roboto black" fsz="16px" w="183px" h="48px" br="16px" bgc="#3BCFA3" mb="10%" onclick={() => {nav("/connect", {replace: true})}}/>
+                        <ButtonCustom text="SIGN-UP" ff="Roboto black" fsz="16px" w="183px" h="48px" br="16px" bgc="#3BCFA3" mb="10%" onclick={() => {nav("/register", {replace: true})}}/>
                     </Show>
                 </Flex>
                 <Box c="#FFFFFF" w="37%" ml="30%" mt="2%" fsz="19px" ff="Roboto">
