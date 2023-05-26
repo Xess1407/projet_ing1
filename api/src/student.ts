@@ -11,6 +11,7 @@ class StudentController implements Controller {
 
   constructor() {
     this.router = Router();
+    this.router.get(StudentController.path, this.get_all);
     this.router.post(StudentController.path, this.post);
     this.router.post(StudentController.path + "/full", this.post_full);
     this.router.post(StudentController.path + "/full/get", this.get_full);
@@ -70,6 +71,27 @@ class StudentController implements Controller {
 
     return res;
   }
+
+  async get_all(req: Request, res: Response) {
+    let r = new Array<StudentEntry>;
+
+    await StudentController.get_values().then((rows: any) =>
+        rows.forEach((row) => {
+            r.push(new StudentEntry(
+                row.rowid,
+                row.user_id,
+                row.school_level,
+                row.school,
+                row.city
+            ));
+        })
+    );
+
+    console.log(
+    "[INFO][GET] " + StudentController.path + ": ",
+    );
+    res.send(JSON.stringify(r));
+}
 
   async get(req: Request, res: Response) {
     let { user_id, password } = req.body;

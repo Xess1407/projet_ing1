@@ -26,6 +26,10 @@ Modify existing User
 
 Table Student use a foreign key: user_id who refer to id from User
 
+Get all Student
+- GET request
+- Response: List all Student
+
 Save new Student
 - POST request
 - Form-data: user_id, school_level, school, city, password
