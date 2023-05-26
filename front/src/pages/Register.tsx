@@ -3,7 +3,6 @@ import Flex from "../components/layouts/Flex";
 import ButtonCustom from "../components/generals/ButtonCustom";
 import { submit, form, setForm } from "../components/forms/RegisterForm";
 import InputCustom from "../components/generals/InputCustom";
-import SelectCustom from "../components/generals/SelectCustom";
 
 const [school_level, setSchool_level] = createSignal("none");
 createEffect(() => {
