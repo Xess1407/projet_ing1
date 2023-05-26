@@ -1,11 +1,15 @@
-import { Component, createSignal, Show} from "solid-js";
+import { Component, createEffect, createSignal, Show} from "solid-js";
 import Flex from "./layouts/Flex";
 import Box from "./layouts/Box";
 import linkItems from "./linkItems";
 import "./css/Header.css";
+import { isConnected } from "./Session";
+import { deconnection } from "./forms/ConnectForm";
+import { useNavigate } from "@solidjs/router";
 
 const Header: Component = () => {
     const [boxData, setBoxData] = createSignal(false);
+    const nav = useNavigate()
 
     const handle = () => {
         setBoxData(!boxData());
@@ -18,6 +22,7 @@ const Header: Component = () => {
             }
         }
     };
+
 
     return (
         <Box bgc="#000000" h="140px" m="0" p="0">
@@ -40,6 +45,7 @@ const Header: Component = () => {
                     <img class="down" id="down" src="src/img/down.png" alt="down" onClick={handle}/>
                 </ul>
                 <ul>{linkItems("Messaging", "")}</ul>
+                <ul><Show when={isConnected()}><button onclick={() => {deconnection(); nav("/", { replace: true }); }}>Deconnexion</button></Show></ul>
             </Flex>
         </Box>
     );
