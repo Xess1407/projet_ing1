@@ -13,7 +13,8 @@ class UserController implements Controller {
   constructor() {
     this.router = Router();
     this.router.post(UserController.path, this.post);
-    this.router.post(UserController.path + "/connect", this.get);
+    this.router.get(UserController.path + "/:id", this.get);
+    this.router.post(UserController.path + "/connect", this.connect);
     this.router.delete(UserController.path, this.delete);
   }
 
@@ -149,6 +150,38 @@ class UserController implements Controller {
   }
 
   async get(req: Request, res: Response) {
+    let id = req.params.id
+    let r;
+    
+    let found = false;
+    await UserController.get_values().then((rows: any) =>
+        rows.forEach((row) => {
+            if (row.rowid == id) {
+                found = true;
+                r = new UserEntry(
+                    row.rowid,
+                    row.name,
+                    row.family_name,
+                    row.email,
+                    row.password,
+                    row.telephone_number,
+                    row.role
+                );
+            }
+        })
+    )
+    
+    if (found) {
+        console.log(
+          "[INFO][GET] " + UserController.path + "/" + id + ": ",
+        );
+        res.send(JSON.stringify(r));
+    } else {
+        res.status(400).send();
+    }
+}
+
+  async connect(req: Request, res: Response) {
     let { email, password } = req.body;
 
     let r;
