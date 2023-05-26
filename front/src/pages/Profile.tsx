@@ -61,14 +61,14 @@ const Profile = ()=> {
                     <Flex jc="space-evenly" ai="center" c="white" direction="column">
                             <InputCustom id="family_name" label="Surname" type="text" placeholder="Surname" empty default={form.family_name}/>
                             <InputCustom id="email" label="Email" type="text" placeholder="Email" empty default={form.email}/>
-                            <InputCustom id="phone" label="Phone" type="text" placeholder="Phone number" empty default={form.telephone_number} pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"/>
+                            <InputCustom id="phone" label="Phone number" type="text" placeholder="Phone number" empty default={form.telephone_number} pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"/>
                             <InputCustom id="password" label="Password" type="password" placeholder="Password" empty/>
                     </Flex>
                     <Flex jc="space-evenly" ai="center" c="white" direction="column">
-                        <InputCustom id="name" label="first-name" type="text" placeholder="First name" empty default={form.name}/>
+                        <InputCustom id="name" label="First name" type="text" placeholder="First name" empty default={form.name}/>
                         <Flex direction="row">
                             <Flex direction="column" w="100%">
-                                <select id="school_level" required>
+                                <select id="school_level" value={form.school_level} required>
                                     <option value="" disabled selected hidden>Study level</option>
                                     <option value="L1">Licence 1</option>
                                     <option value="L2">Licence 2</option>
