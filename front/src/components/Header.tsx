@@ -28,7 +28,7 @@ const Header: Component = () => {
         <Box bgc="#000000" h="140px" m="0" p="0">
             <Flex jc="center" w="100%" m="0" p="0" h="100%" ai="center" td="none" ff="Roboto">
                 <img src="src/img/logo.png" alt="logo" height="100px" />
-                <ul>{linkItems("HomePage", "")}</ul>
+                <ul>{linkItems("Home", "")}</ul>
                 <ul>{linkItems("Profile", "profile")}</ul>
                 <ul>{linkItems("Team", "team")}</ul>
                 <Flex ff="Roboto" direction="column">
