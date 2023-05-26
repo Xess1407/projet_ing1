@@ -46,6 +46,8 @@ export default function style_space_parser(props: any): string {
         s += "max-width:" + props.maxW + ";"
     if (props.maxH !== "undefined")
         s += "max-height:" + props.maxH + ";"
+    if (props.bxSz !== "undefined")
+        s += "box-sizing:" + props.bxSz + ";"
 
     /* Flex */
     if (props.fw !== "undefined")

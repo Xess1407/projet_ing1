@@ -65,12 +65,12 @@ const Dashboard: Component = () => {
                     </Flex>
                 </Flex>
             </Flex>
-            <Flex bgc="#444444" br="10px" w="40%" h="80%">
+            <Flex bgc="#444444" br="10px" w="40%" h="80%" jc="center" ai="center">
                 <form onSubmit={ handle_submit }>
-                    <Flex direction="row" jc="space-around" ai="center" w="100%" h="70%" mt="5%">
-                        <Flex direction="column" w="40%" jc="space-around" ai="center">
-                            <Flex direction="column" m="0 0 30px 0">
-                                <InputCustom id="family-name" label="Surname" type="text" placeholder="Surname" update={setForm}/>
+                    <Flex direction="row" jc="space-around" w="100%" h="70%" mt="5%">
+                        <Flex direction="column" w="45%" jc="space-around" ai="center">
+                            <Flex direction="column" m="0 0 30px 0" w="100%"> 
+                                <InputCustom id="family-name" label="Surname" type="text" placeholder="Surname" update={setForm} />
                             </Flex>
                             <Flex direction="column" m="0 0 30px 0">
                                 <InputCustom id="email" label="E-mail" type="email" placeholder="E-mail" pattern=".+@[a-z]{2,32}\.[a-z]{2,10}" update={setForm}/>
@@ -79,15 +79,24 @@ const Dashboard: Component = () => {
                                 <InputCustom id="telephone_number" label="Number" type="tel" placeholder="Number" update={setForm} pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"></InputCustom>
                             </Flex>
                         </Flex>
-                        <Flex direction="column" w="40%" jc="space-around">
+                        <Flex direction="column" w="45%" jc="space-around">
                             <Flex direction="column" m="0 0 30px 0">
                                 <InputCustom id="firstname" label="Firstname" type="text" placeholder="Firstname" update={setForm}/>
                             </Flex>
-                            <Flex direction="row">
-                                <Flex direction="column" m="0 2.9em 15px 0">
-                                    <label for="school_level">Study Level<span class="red"></span></label>
+                            <Flex direction="row" w="100%" jc="space-between">
+                                <Flex direction="column" w="45%">
+                                    <select id="school_level" required>
+                                        <option value="" disabled selected hidden>Study level</option>
+                                        <option value="L1">Licence 1</option>
+                                        <option value="L2">Licence 2</option>
+                                        <option value="L3">Licence 3</option>
+                                        <option value="M1">Master 1</option>
+                                        <option value="M2">Master 2</option>
+                                        <option value="D">Doctorate</option>
+                                    </select>
+                                    <label for="school_level" class="school_level_label">Level</label>
                                 </Flex>
-                                <Flex direction="column" m="0 0 30px 0" w="17em">
+                                <Flex direction="column" m="0 0 30px 0" w="50%">
                                     <InputCustom id="school" label="Etablishment" type="text" placeholder="Etablishement" update={setForm}/>
                                 </Flex>
                             </Flex>
