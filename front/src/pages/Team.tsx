@@ -1,15 +1,58 @@
-import { Component, createSignal, Show} from "solid-js";
+import { Component, createEffect, createSignal, For, onMount, Show} from "solid-js";
 import Box from "../components/layouts/Box";
 import Flex from "../components/layouts/Flex";
 import "./css/Team.css"
 import ButtonCustom from "../components/generals/ButtonCustom";
 import InputCustom from "../components/generals/InputCustom";
+import { getSessionUser } from "../components/Session";
+
+
+
 
 const Team: Component = () => {
-    const [createTeam, setCreateTeam] = createSignal(false);
+    const [createTeam, setCreateTeam] = createSignal(false)
+    const [searchValue, setSearchValue] = createSignal("t")
+    const [studentsNames, setStudentNames] = createSignal<string[]>([])
+
+    function searching(ele: string): boolean {
+        console.log("Searching: " + ele +  "value" + searchValue());
+        
+        return ele.toLowerCase().includes(searchValue().toLowerCase())
+    }
+    
 
     // Fonction à faire pour faire apparaître le form de recherche pour créer son équipe
-    
+    const get_student = async () => {
+        let user = getSessionUser()
+        // Fetch the Student
+        const res_students = await fetch(`http://localhost:8080/api/student/full`, {
+          method: "GET"
+        });
+      
+        let status = await res_students.status
+        if (status != 200) {
+          console.log("[ERROR] Couldn't register the student! Status:" + status)
+          return
+        }
+        let res = await res_students.json()
+        res.forEach((element: any) => {
+            let s: string[] = studentsNames()
+            s.push(element.name)
+            setStudentNames(s) 
+        });
+        console.log(res);
+        console.log(studentsNames());   
+    }
+
+    onMount(async () => {
+        await get_student()
+    })
+
+    createEffect(() => {
+        console.log(studentsNames());
+        
+    })
+
     return (
         <Flex direction="row" w="100%" h="calc(100vh - 140px)" m="0" p="0" ovy="hidden" bgc="#111111"> 
             <Box w="45%">
@@ -28,7 +71,14 @@ const Team: Component = () => {
                         <Flex direction="column" jc="center" ai="center" w="100%">
                             <label>Search student</label>
                             {/* Call à la bdd pour trouver le joueur recherché */}
-                            <input type="search" placeholder="Name of student"/>
+                            <input id="search" type="text" placeholder="Name of student" value={searchValue()} onChange={setSearchValue}/>
+                            <For each={studentsNames()}>
+                                {(element: string) => (
+                                    <Show when={searching(element)}>
+                                        <li>{element}</li>
+                                    </Show>
+                                )}
+                            </For>
                         </Flex>
                         <Flex direction="column" ai="center" w="100%" h="60%">
                             <label>Your Teammates</label>
