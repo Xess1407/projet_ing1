@@ -36,13 +36,13 @@ const Register: Component = () => {
                     <Flex direction="row" jc="space-between" ai="center" w="100%" h="80%">
                         <Flex direction="column" w="45%">
                             <Flex direction="column" mb="15px">
-                                <InputCustom id="name" label="Name" type="text" placeholder="First name" update={setForm}/>
+                                <InputCustom id="name" label="First name" type="text" placeholder="First name" update={setForm}/>
                             </Flex>
                             <Flex direction="column" mb="15px">
                                 <InputCustom id="email" label="E-mail" type="email" placeholder="E-mail" update={setForm}/>
                             </Flex>
                             <Flex direction="column" mb="15px">
-                                <InputCustom id="telephone_number" label="Phone" type="tel" placeholder="Phone number" update={setForm} pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"></InputCustom>
+                                <InputCustom id="telephone_number" label="Phone number" type="tel" placeholder="Phone number" update={setForm} pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"></InputCustom>
                             </Flex>
                             <Flex direction="column" mb="15px">
                                 <InputCustom id="password" label="Password" type="password" placeholder="Password" update={setForm}/>
@@ -56,7 +56,7 @@ const Register: Component = () => {
                             <Flex direction="row" mb="15px">
                                 <Flex direction="column" m="0 2.9em 0 0" w="16em">
                                     <select id="school_level" required>
-                                        <option value="" disabled selected hidden>Study level</option>
+                                        <option id="default-select" value="" disabled selected hidden>Study level</option>
                                         <option value="L1">Licence 1</option>
                                         <option value="L2">Licence 2</option>
                                         <option value="L3">Licence 3</option>
@@ -75,7 +75,7 @@ const Register: Component = () => {
                                 
                             </Flex>
                             <Flex direction="column" mb="15px">
-                                <InputCustom id="password_2" label="Confirmation" type="text" placeholder="Password confirmation" empty/>
+                                <InputCustom id="password_2" label="Password confirmation" type="text" placeholder="Password confirmation" empty/>
                             </Flex>
                             <span id="form-not-same-password-message"></span>
                         </Flex>

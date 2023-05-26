@@ -15,9 +15,7 @@
     line-height: 0;
     transition: 250ms background-color;
 }
-.input_textfield:hover {
-    background-color: hsl(177 96% 40%);
-}
+
 .input_textfield:focus-visible {
     outline: 2px solid white;
     outline-offset: 2px;
@@ -29,7 +27,9 @@
 .input_textfield:invalid{
     background-color: rgba(227, 100, 100, 0.46);
 }
-
+.input_textfield:hover {
+    background-color: hsl(177 96% 40%);
+}
 .input_label {
     display: block;
     width: 12em;
