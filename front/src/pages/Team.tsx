@@ -14,10 +14,11 @@ const Team: Component = () => {
     const [searchValue, setSearchValue] = createSignal("")
     const [students, setStudent] = createSignal<any>([])
     const [studentsNames, setStudentNames] = createSignal<string[]>([])
-    const [teams, setTeams] = createSignal<any>(undefined)
+    const [teams, setTeams] = createSignal<any>([])
     const [projects, setProjects] = createSignal<any>([])
-    const [members, setMembers] = createSignal([])
+    const [members, setMembers] = createSignal<any>([])
     const [selectedProject, setSelectedProject] = createSignal(1)
+    const [selectedTeam, setSelectedTeam] = createSignal(1)
 
     function searching(ele: string): boolean { return ele.toLowerCase().includes(searchValue().toLowerCase()) }
     
@@ -44,8 +45,16 @@ const Team: Component = () => {
             s.push(element.name)
             setStudentNames(s) 
         });
-        console.log(students());
-        console.log(studentsNames());   
+        //console.log(students());
+        //console.log(studentsNames());   
+    }
+
+    const getIdFromName = (name: string) => {
+        let v = -1
+        students().forEach((element: any) => {
+            if(element.name == name) v = element.user_id
+        });
+        return v
     }
 
     const addToTeam = async () => {
@@ -57,10 +66,16 @@ const Team: Component = () => {
         }
 
         let user = getSessionUser()
+        let user_to_add_id = getIdFromName(searchValue())
+        if (user_to_add_id == -1) {
+            console.log("Utilisateur inconnue");
+            return
+        }
         
-        const res_team = await fetch(`http://localhost:8080/api/team`, {
+        
+        const res_team = await fetch(`http://localhost:8080/api/member`, {
             method: "POST",
-            body: JSON.stringify({user_capitain_id: user?.user_id, password: user?.password, data_project_id: teams().data_project_id}),
+            body: JSON.stringify({team_id: teams().id, user_id: user_to_add_id, password: user?.password}),
             headers: {"Content-type": "application/json; charset=UTF-8"} 
         });
 
@@ -69,8 +84,6 @@ const Team: Component = () => {
             console.log("[ERROR] Couldn't register the student! Status:" + status)
             return
         }
-
-
     }
 
     /* Get team associeted to the selected data project */
@@ -90,7 +103,7 @@ const Team: Component = () => {
     }
 
     /* Get team associeted to the selected data project */
-    const getTeam = async () => {
+    const getTeams = async () => {
         let user = getSessionUser()
         const res_team = await fetch(`http://localhost:8080/api/team/${user?.user_id}`, {
             method: "GET",
@@ -101,12 +114,18 @@ const Team: Component = () => {
             console.log("[ERROR] Couldn't get the team! Status:" + status)
             return
         }
-        let teams = await res_team.json()        
-        teams.forEach((element: any) => {
+        let res_t = await res_team.json()
+        //console.log("Select project:" + selectedProject());
+
+        /* Reset the team */
+        let t: any[] = []
+        /* Get all team of the data project  */
+        res_t.forEach((element: any) => {
             if (element.data_project_id == selectedProject()) {
-                setTeams(element)
+                t.push(element)
             }
         });
+        setTeams(t)
     }
 
     /* Get all members from a team_id */
@@ -121,27 +140,43 @@ const Team: Component = () => {
             return
         }
         let members = await res_member.json()
-        setMembers(members)
+        /* Reset the membres */
+        let m: any[] = []
+        /* Get all smembres of the team selected  */
+        members.forEach((element: any) => {
+            if (element.team_id == selectedTeam()) m.push(element)
+        });
+        setMembers(m)
     }
 
+    const handleChangeTeam = async () => {
+        /* Get the team */
+        await getTeams()
+    }
+
+    const handleChangeMember = async () => {
+        console.log(selectedTeam());
+        console.log(teams());
+        
+        setMembers([])
+        /* Get the members of the team if found */
+        if (teams().length != 0) {
+            //console.log("Il y a des teams");
+            await getMembersFromTeam(selectedTeam())
+        }
+        console.log(members());
+    }
+    
     onMount(async () => {
         await getStudents()
         await getDataProject()
+        await handleChangeTeam()
+        await handleChangeMember()
     })
 
-    const handleChangeTeam = async () => {
-        /* Reset the team */
-        setTeams(undefined)
-        /* Get the team */
-        await getTeam()
-        /* Reset the members */
-        setMembers([])
-        /* Get the members of the team if found */
-        if (teams() !== undefined) await getMembersFromTeam(teams().id)
-        if (members().length != 0) console.log(members());
-    }
 
-    handleChangeTeam()
+    createEffect(() => {
+    })
 
     return (
         <Flex direction="row" w="100%" h="calc(100vh - 140px)" m="0" p="0" ovy="hidden" bgc="#111111"> 
@@ -172,10 +207,17 @@ const Team: Component = () => {
                                     )}
                                 </For>
                             </Flex>
-                            <select name="data_project" id="data_project" onChange={(e) => { setSelectedProject(Number(e.currentTarget.value)); handleChangeTeam()}}>
+                            <select name="data_project" id="data_project" onChange={async (e) => { setSelectedProject(Number(e.currentTarget.value)); await handleChangeTeam(); if(teams().length != 0) {setSelectedTeam(1);} else {setSelectedTeam(-1); }handleChangeMember()}}>
                                 <For each={projects()}>
                                     {(element) => (
                                         <option value={element.id}>{element.name}</option>
+                                    )}
+                                </For>
+                            </select>
+                            <select name="teams" id="teams" onChange={(e) => { setSelectedTeam(Number(e.currentTarget.value)); handleChangeMember()}}>
+                                <For each={teams()}>
+                                    {(element) => (
+                                        <option value={element.id}>{element.id}</option>
                                     )}
                                 </For>
                             </select>
