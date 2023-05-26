@@ -12,10 +12,12 @@ import { getSessionUser } from "../components/Session";
 const Team: Component = () => {
     const [createTeam, setCreateTeam] = createSignal(false)
     const [searchValue, setSearchValue] = createSignal("")
+    const [students, setStudent] = createSignal<any>([])
     const [studentsNames, setStudentNames] = createSignal<string[]>([])
-    const [teams, setTeams] = createSignal<any>()
+    const [teams, setTeams] = createSignal<any>(undefined)
+    const [projects, setProjects] = createSignal<any>([])
     const [members, setMembers] = createSignal([])
-    const [selectedProject, setSelectedTeam] = createSignal(-1)
+    const [selectedProject, setSelectedProject] = createSignal(1)
 
     function searching(ele: string): boolean { return ele.toLowerCase().includes(searchValue().toLowerCase()) }
     
@@ -32,12 +34,17 @@ const Team: Component = () => {
           return
         }
         let res = await res_students.json()
+        
         res.forEach((element: any) => {
+            let s_all:any[] = students()
+            s_all.push({name: element.name, user_id: element.user_id})
+            setStudent(s_all)
+            /* Get only the names of the students */
             let s: string[] = studentsNames()
             s.push(element.name)
             setStudentNames(s) 
         });
-        console.log(res);
+        console.log(students());
         console.log(studentsNames());   
     }
 
@@ -67,6 +74,22 @@ const Team: Component = () => {
     }
 
     /* Get team associeted to the selected data project */
+    const getDataProject = async () => {
+        let user = getSessionUser()
+        const res_project = await fetch(`http://localhost:8080/api/project`, {
+            method: "GET",
+        });
+
+        let status = await res_project.status
+        if (status != 200) {
+            console.log("[ERROR] Couldn't register the student! Status:" + status)
+            return
+        }
+        let projects = await res_project.json()
+        setProjects(projects)
+    }
+
+    /* Get team associeted to the selected data project */
     const getTeam = async () => {
         let user = getSessionUser()
         const res_team = await fetch(`http://localhost:8080/api/team/${user?.user_id}`, {
@@ -75,15 +98,15 @@ const Team: Component = () => {
 
         let status = await res_team.status
         if (status != 200) {
-            console.log("[ERROR] Couldn't register the student! Status:" + status)
+            console.log("[ERROR] Couldn't get the team! Status:" + status)
             return
         }
-        let teams = await res_team.json()
+        let teams = await res_team.json()        
         teams.forEach((element: any) => {
-            if (element.data_project_id == selectedProject)
+            if (element.data_project_id == selectedProject()) {
                 setTeams(element)
+            }
         });
-        
     }
 
     /* Get all members from a team_id */
@@ -94,7 +117,7 @@ const Team: Component = () => {
 
         let status = await res_member.status
         if (status != 200) {
-            console.log("[ERROR] Couldn't register the student! Status:" + status)
+            console.log("[ERROR] Couldn't get the members of the team! Status:" + status)
             return
         }
         let members = await res_member.json()
@@ -103,7 +126,22 @@ const Team: Component = () => {
 
     onMount(async () => {
         await getStudents()
+        await getDataProject()
     })
+
+    const handleChangeTeam = async () => {
+        /* Reset the team */
+        setTeams(undefined)
+        /* Get the team */
+        await getTeam()
+        /* Reset the members */
+        setMembers([])
+        /* Get the members of the team if found */
+        if (teams() !== undefined) await getMembersFromTeam(teams().id)
+        if (members().length != 0) console.log(members());
+    }
+
+    handleChangeTeam()
 
     return (
         <Flex direction="row" w="100%" h="calc(100vh - 140px)" m="0" p="0" ovy="hidden" bgc="#111111"> 
@@ -120,23 +158,38 @@ const Team: Component = () => {
                 <Show when={createTeam()} >
                     <Flex bgc="#555555" w="80%" h="90%" direction="column" jc="space-evenly" ai="center" br="10px">
                         <h1>CREATION</h1>
-                        <Flex direction="column" jc="center" ai="center" w="100%">
+                        <Flex>
                             <label>Search student</label>
-                            {/* Call à la bdd pour trouver le joueur recherché */}
-                            <input id="search" type="text" placeholder="Name of student" onInput={() => {setSearchValue((document.getElementById("search") as HTMLInputElement).value)}}/>
+                            <Flex direction="column" jc="center" ai="center" w="100%">
+                                {/* Call à la bdd pour trouver le joueur recherché */}
+                                <input id="search" type="text" placeholder="Name of student" onInput={() => {setSearchValue((document.getElementById("search") as HTMLInputElement).value)}}/>
+                                
+                                <For each={studentsNames()}>
+                                    {(element: string) => (
+                                        <Show when={searching(element)}>
+                                            <li>{element}</li>
+                                        </Show>
+                                    )}
+                                </For>
+                            </Flex>
+                            <select name="data_project" id="data_project" onChange={(e) => { setSelectedProject(Number(e.currentTarget.value)); handleChangeTeam()}}>
+                                <For each={projects()}>
+                                    {(element) => (
+                                        <option value={element.id}>{element.name}</option>
+                                    )}
+                                </For>
+                            </select>
                             <ButtonCustom text="Ajouter" onclick={addToTeam}/>
-                            <For each={studentsNames()}>
-                                {(element: string) => (
-                                    <Show when={searching(element)}>
-                                        <li>{element}</li>
-                                    </Show>
-                                )}
-                            </For>
                         </Flex>
                         <Flex direction="column" ai="center" w="100%" h="60%">
                             <label>Your Teammates</label>
                             <Box w="80%" h="100%" b="2px solid #FFFFFF" br="10px">
                                 {/* Requête pour récupérer le joueur recherché */}
+                                <For each={members()}>
+                                    {(element:any) => (
+                                        <p>{element.user_id}</p>
+                                    )}
+                                </For>
                             </Box>
                             <ButtonCustom text="CREATE" ff="Roboto black" fsz="16px" w="230px" h="70px" br="16px" bgc="#8DCEB0" mt="4%"/>
                         </Flex>
