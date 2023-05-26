@@ -7,7 +7,7 @@ import { isConnected } from "../components/Session";
 
 const Home: Component = () => {
     return (
-        <Box w="100%" m="0" p="0" ovy="hidden">
+        <Box w="100%" h="calc(100vh - 140px)" m="0" p="0" ovy="hidden">
             <img src="src/img/fond.jpg" alt="background" class="background"/>
             <h1 class="text">
                 <span>Welcome to MAGGLE</span>
