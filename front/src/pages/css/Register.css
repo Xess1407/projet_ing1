@@ -1,4 +1,4 @@
-.input_textfield {
+#school_level{
     appearance: none;
     display: inline-flex;
     justify-content: center;
@@ -16,36 +16,36 @@
     line-height: 0;
     transition: 250ms background-color;
 }
-.input_textfield:hover {
+
+#school_level:hover {
     background-color: hsl(177 96% 40%);
 }
-.input_textfield:focus-visible {
+#school_level:focus-visible {
     outline: 2px solid white;
     outline-offset: 2px;
 }
-.input_textfield:active {
+#school_level:active {
     background-color: hsl(177 90% 40%);
 }
 
-.input_textfield:invalid{
+#school_level:invalid{
     background-color: rgba(227, 100, 100, 0.46);
 }
 
-.input_label {
+.school_level_label {
     display: block;
-    width: 12em;
     transition: all 0.3s;
     transform: translateY(-6rem);
 }
 
-.input_textfield:placeholder-shown + .input_label{
+#school_level + .school_level_label{
     opacity: 0;
     visibility: hidden;
     --webkit-transform: translateY(-3rem);
     transform: translateY(-3rem);
 }
 
-.input_textfield::placeholder{
-    text-decoration: none;
-    text-align: justify;
+#signup-title{
+    margin-bottom: 70px;
+    font-size: xx-large;
 }

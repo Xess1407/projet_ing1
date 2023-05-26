@@ -3,6 +3,7 @@ import Flex from "../components/layouts/Flex";
 import ButtonCustom from "../components/generals/ButtonCustom";
 import { submit, form, setForm } from "../components/forms/RegisterForm";
 import InputCustom from "../components/generals/InputCustom";
+import './css/Register.css';
 
 const [school_level, setSchool_level] = createSignal("none");
 createEffect(() => {
@@ -30,43 +31,51 @@ const Register: Component = () => {
 
         <Flex ai="center" jc="center" bg="#111111 no-repeat right/calc(100vh - 142px) url('src/assets/code.jpg')" h="calc(100vh - 142px)" direction="row">
             <Flex direction="column" jc="center" ai="center" w="1063px" h="799px" br="50px" m="2vh" bgc="#3E3E3E" opt="90%" c="white">
-                <h3>Inscription</h3>
+                <h3 id="signup-title">Sign up</h3>
                 <form onSubmit={ handle_submit }>
                     <Flex direction="row" jc="space-between" ai="center" w="100%" h="80%">
                         <Flex direction="column" w="45%">
-                            <Flex direction="column" m="0 0 15px 0">
-                                <InputCustom id="name" label="Nom" type="text" placeholder="Nom" update={setForm}/>
+                            <Flex direction="column" mb="15px">
+                                <InputCustom id="name" label="Name" type="text" placeholder="First name" update={setForm}/>
                             </Flex>
-                            <Flex direction="column" m="0 0 15px 0">
-                                <InputCustom id="email" label="E-mail" type="email" placeholder="E-mail" pattern=".+@[a-z]{2,32}\.[a-z]{2,10}" update={setForm}/>
+                            <Flex direction="column" mb="15px">
+                                <InputCustom id="email" label="E-mail" type="email" placeholder="E-mail" update={setForm}/>
                             </Flex>
-                            <Flex direction="column" m="0 0 15px 0">
-                                <InputCustom id="telephone_number" label="Téléphone" type="tel" placeholder="Téléphone" update={setForm} pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"></InputCustom>
+                            <Flex direction="column" mb="15px">
+                                <InputCustom id="telephone_number" label="Phone" type="tel" placeholder="Phone number" update={setForm} pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"></InputCustom>
                             </Flex>
-                            <Flex direction="column" m="0 0 15px 0">
-                                <InputCustom id="password" label="Mot de passe" type="password" placeholder="Mot de passe" update={setForm}/>
+                            <Flex direction="column" mb="15px">
+                                <InputCustom id="password" label="Password" type="password" placeholder="Password" update={setForm}/>
                             </Flex>
 
                         </Flex>
                         <Flex direction="column" w="45%">
-                            <Flex direction="column" m="0 0 15px 0">
-                                <InputCustom id="family_name" label="Nom de famille" type="text" placeholder="Nom de famille" update={setForm}/>
+                            <Flex direction="column" mb="15px">
+                                <InputCustom id="family_name" label="Surname" type="text" placeholder="Surname" update={setForm}/>
                             </Flex>
-                            <Flex direction="row">
-                                <Flex direction="column" m="0 2.9em 15px 0">
-                                    <label for="school_level">Niveau d'étude <span class="red">*</span></label>
-
+                            <Flex direction="row" mb="15px">
+                                <Flex direction="column" m="0 2.9em 0 0" w="16em">
+                                    <select id="school_level" required>
+                                        <option value="" disabled selected hidden>Study level</option>
+                                        <option value="L1">Licence 1</option>
+                                        <option value="L2">Licence 2</option>
+                                        <option value="L3">Licence 3</option>
+                                        <option value="M1">Master 1</option>
+                                        <option value="M2">Master 2</option>
+                                        <option value="D">Doctorate</option>
+                                    </select>
+                                    <label for="school_level" class="school_level_label">Level</label>
                                 </Flex>
-                                <Flex direction="column" m="0 0 15px 0" w="17em">
-                                    <InputCustom id="school" label="Ecole" type="text" placeholder="Ecole" update={setForm}/>
+                                <Flex direction="column" mb="5px" w="17em">
+                                    <InputCustom id="school" label="School" type="text" placeholder="School" update={setForm}/>
                                 </Flex>
                             </Flex>
-                            <Flex direction="column" m="0 0 15px 0">
-                                <InputCustom id="city" label="Ville" type="text" placeholder="Ville" update={setForm}/>
+                            <Flex direction="column" mb="15px">
+                                <InputCustom id="city" label="City" type="text" placeholder="City" update={setForm}/>
                                 
                             </Flex>
-                            <Flex direction="column" m="0 0 15px 0">
-                                <InputCustom id="password_2" label="Confirmer mot de passe" type="text" placeholder="Mot de passe" empty/>
+                            <Flex direction="column" mb="15px">
+                                <InputCustom id="password_2" label="Confirmation" type="text" placeholder="Password confirmation" empty/>
                             </Flex>
                             <span id="form-not-same-password-message"></span>
                         </Flex>
