@@ -1,12 +1,11 @@
 import { Component, createEffect, createSignal, Show} from "solid-js";
 import Flex from "./layouts/Flex";
 import Box from "./layouts/Box";
-import linkItems from "./linkItems";
 import "./css/Header.css";
 import { isConnected } from "./Session";
 import { deconnection } from "./forms/ConnectForm";
 import { useNavigate } from "@solidjs/router";
-import LinkItems from "./linkItems";
+import LinkItems from "./LinkItems";
 
 export const [connected, setConnected] = createSignal(isConnected())
 
