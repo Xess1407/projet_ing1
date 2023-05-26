@@ -13,19 +13,14 @@ const Team: Component = () => {
     const [createTeam, setCreateTeam] = createSignal(false)
     const [searchValue, setSearchValue] = createSignal("")
     const [studentsNames, setStudentNames] = createSignal<string[]>([])
+    const [teams, setTeams] = createSignal<any>()
+    const [members, setMembers] = createSignal([])
+    const [selectedProject, setSelectedTeam] = createSignal(-1)
 
-    function searching(ele: string): boolean {
-        console.log("Searching: " + ele +  "value: " + searchValue());
-        console.log(ele.toLowerCase().includes(searchValue().toLowerCase()));
-        
-        
-        return ele.toLowerCase().includes(searchValue().toLowerCase())
-    }
+    function searching(ele: string): boolean { return ele.toLowerCase().includes(searchValue().toLowerCase()) }
     
-
     // Fonction à faire pour faire apparaître le form de recherche pour créer son équipe
-    const get_student = async () => {
-        let user = getSessionUser()
+    const getStudents = async () => {
         // Fetch the Student
         const res_students = await fetch(`http://localhost:8080/api/student/full`, {
           method: "GET"
@@ -46,13 +41,68 @@ const Team: Component = () => {
         console.log(studentsNames());   
     }
 
-    onMount(async () => {
-        await get_student()
-    })
+    const addToTeam = async () => {
+        let name = studentsNames().find((nom) => { return nom == searchValue()})
+        if (name === undefined) {
+            console.log("Non trouvé");
+            /** Afficher erreur */
+            return
+        }
 
-    createEffect(() => {
-        console.log(searchValue());
+        let user = getSessionUser()
         
+        const res_team = await fetch(`http://localhost:8080/api/team`, {
+            method: "POST",
+            body: JSON.stringify({user_capitain_id: user?.user_id, password: user?.password, data_project_id: teams().data_project_id}),
+            headers: {"Content-type": "application/json; charset=UTF-8"} 
+        });
+
+        let status = await res_team.status
+        if (status != 200) {
+            console.log("[ERROR] Couldn't register the student! Status:" + status)
+            return
+        }
+
+
+    }
+
+    /* Get team associeted to the selected data project */
+    const getTeam = async () => {
+        let user = getSessionUser()
+        const res_team = await fetch(`http://localhost:8080/api/team/${user?.user_id}`, {
+            method: "GET",
+        });
+
+        let status = await res_team.status
+        if (status != 200) {
+            console.log("[ERROR] Couldn't register the student! Status:" + status)
+            return
+        }
+        let teams = await res_team.json()
+        teams.forEach((element: any) => {
+            if (element.data_project_id == selectedProject)
+                setTeams(element)
+        });
+        
+    }
+
+    /* Get all members from a team_id */
+    const getMembersFromTeam = async (team_id: any) => {
+        const res_member = await fetch(`http://localhost:8080/api/member/${team_id}`, {
+            method: "GET",
+        });
+
+        let status = await res_member.status
+        if (status != 200) {
+            console.log("[ERROR] Couldn't register the student! Status:" + status)
+            return
+        }
+        let members = await res_member.json()
+        setMembers(members)
+    }
+
+    onMount(async () => {
+        await getStudents()
     })
 
     return (
@@ -74,6 +124,7 @@ const Team: Component = () => {
                             <label>Search student</label>
                             {/* Call à la bdd pour trouver le joueur recherché */}
                             <input id="search" type="text" placeholder="Name of student" onInput={() => {setSearchValue((document.getElementById("search") as HTMLInputElement).value)}}/>
+                            <ButtonCustom text="Ajouter" onclick={addToTeam}/>
                             <For each={studentsNames()}>
                                 {(element: string) => (
                                     <Show when={searching(element)}>
