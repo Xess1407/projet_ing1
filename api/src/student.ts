@@ -1,7 +1,8 @@
 import Controller from "./controller";
 import { Request, Response, Router } from "express";
 import { Database } from "sqlite3";
-import UserController, { User } from "./user";
+import UserController from "./user";
+import { User } from "./user_class";
 import { log } from "console";
 
 class StudentController implements Controller {

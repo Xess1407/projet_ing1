@@ -2,7 +2,8 @@ import Controller from "./controller";
 import { Request, Response, Router } from "express";
 import { Database } from "sqlite3";
 import { log } from "console";
-import UserController, { User } from "./user";
+import UserController from "./user";
+import { User } from "./user_class";
 
 class ManagerController implements Controller {
   static path = "/manager";
@@ -29,6 +30,18 @@ class ManagerController implements Controller {
         resolve(rows);
       })
     );
+  }
+
+  static async get_rowid(user_id: number) {
+    let id = -1;
+    await ManagerController.get_values().then((rows: any) =>
+    rows.forEach((row) => {
+        if (row.user_id == user_id) {
+          id = row.user_id;
+        }
+      })
+    )
+    return id
   }
 
   static get_manager_by_user_id(user_id: number) {

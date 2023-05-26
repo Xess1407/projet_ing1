@@ -2,6 +2,9 @@ import Controller from "./controller";
 import { Request, Response, Router } from "express";
 import { Database } from "sqlite3";
 import Bcrypt from 'bcrypt';
+import { User, UserEntry } from "./user_class";
+import StudentController from "./student";
+import ManagerController from "./manager";
 
 class UserController implements Controller {
   static path = "/user";
@@ -353,6 +356,61 @@ class UserController implements Controller {
       return;
     }
 
+    let is_student = await UserController.identifyStudent(id, password);
+    let is_manager = await UserController.identifyManager(id, password);
+
+    // On delete en cascade le User ou le Manager associé s'il y en a
+    if(is_student) {
+      // Suppression du Student
+      let row_id = await StudentController.get_rowid(id);
+
+      const sql = `DELETE FROM student
+      WHERE rowid = ?`;
+      const data = [row_id];
+
+      let e;
+      db.run(sql, data, (err) => e = err);
+      if (e) {
+        console.log(
+          "[ERROR][DELETE] sql error " + StudentController.path + " : " +
+            JSON.stringify(row_id),
+        );
+        console.error(e.message);
+        res.status(500).send();
+        return;
+      }
+
+      console.log(
+        "[INFO][DELETE] data deleted on " + StudentController.path + " : " +
+          JSON.stringify(row_id),
+      );
+    } else if(is_manager) {
+      // Suppression du Manager
+      let row_id = await ManagerController.get_rowid(id);
+
+      const sql = `DELETE FROM manager
+      WHERE rowid = ?`;
+      const data = [row_id];
+
+      let e;
+      db.run(sql, data, (err) => e = err);
+      if (e) {
+        console.log(
+          "[ERROR][DELETE] sql error " + ManagerController.path + " : " +
+            JSON.stringify(row_id),
+        );
+        console.error(e.message);
+        res.status(500).send();
+        return;
+      }
+
+      console.log(
+        "[INFO][DELETE] data deleted on " + ManagerController.path + " : " +
+          JSON.stringify(row_id),
+      );
+    }
+
+    // On supprime le User
     const sql = `DELETE FROM user
     WHERE rowid = ?`;
     const data = [id];
@@ -368,67 +426,16 @@ class UserController implements Controller {
       res.status(500).send();
       return;
     }
-    db.close();
 
     console.log(
       "[INFO][DELETE] data deleted on " + UserController.path + " : " +
         JSON.stringify(id),
     );
+
+    db.close();
+
     res.status(200).send();
-}
+  }
 }
 
 export default UserController;
-
-export class User {
-  name: string;
-  family_name: string;
-  email: string;
-  password: string;
-  telephone_number: number;
-  role: string;
-
-  constructor(
-    name: string,
-    family_name: string,
-    email: string,
-    password: string,
-    telephone_number: number,
-    role: string
-  ) {
-    this.name = name;
-    this.family_name = family_name;
-    this.email = email;
-    this.password = password;
-    this.telephone_number = telephone_number;
-    this.role = role;
-  }
-}
-
-class UserEntry {
-  id: number;
-  name: string;
-  family_name: string;
-  email: string;
-  password: string;
-  telephone_number: number;
-  role: string;
-
-  constructor(
-    id: number,
-    name: string,
-    family_name: string,
-    email: string,
-    password: string,
-    telephone_number: number,
-    role: string,
-  ) {
-    this.id = id;
-    this.name = name;
-    this.family_name = family_name;
-    this.email = email;
-    this.password = password;
-    this.telephone_number = telephone_number;
-    this.role = role;
-  }
-}
