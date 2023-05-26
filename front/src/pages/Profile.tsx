@@ -38,18 +38,18 @@ const Profile = ()=> {
                     <Image.Root fallbackDelay={600} class="image">
                         <Image.Img
                             class="image__img"
-                            src="/img/profil.jpg"
+                            src="src/img/profil.jpg"
                             alt="PP"
                         />
                         <Image.Fallback class="image__fallback">MG</Image.Fallback>
                     </Image.Root>
                 </Flex>
                 <Flex w="100%" h="100%" jc="space-around">
-                    <Box h="262px" w="309px" c="white">
+                    <Box h="262px" w="309px" c="white" ff="Roboto">
                         <h3>Team</h3>
                         <Box b="2px solid white" h="100%" br="8px"></Box>
                     </Box>
-                    <Box h="262px" w="309px" c="white">
+                    <Box h="262px" w="309px" c="white" ff="Roboto">
                         <h3>Challenges</h3>
                         <Box b="2px solid white" h="100%" br="8px"></Box>
                     </Box>
@@ -72,7 +72,7 @@ const Profile = ()=> {
                     </Flex>
                 </Flex>
                 <Flex jc="center">
-                    <ButtonCustom class="profile-submit" type="submit" value="submit" m="20px 0" w="30%" h="3.5em" text="Edit profile"></ButtonCustom>
+                    <ButtonCustom ff="Roboto" class="profile-submit" type="submit" value="submit" m="20px 0" w="30%" h="3.5em" text="Edit profile"></ButtonCustom>
                 </Flex>
             </Box>
         </Flex>

@@ -11,6 +11,7 @@ import Register from './pages/Register';
 import Box from './components/layouts/Box';
 import Team from './pages/Team';
 import YourTeam from './pages/YourTeam';
+import Dashboard from './pages/Dashboard';
 
 const App: Component = () => {
   return (
@@ -23,6 +24,7 @@ const App: Component = () => {
         <Route path="/profile" element={<Profile/>}/>
         <Route path="/team" element={<Team/>}/>
         <Route path="/yourteam" element={<YourTeam/>}/>
+        <Route path="/dashboard" element={<Dashboard/>}/>
         <Route path="*" element={<div><p>404 Error</p></div>}/>
       </Routes>
 		</div>
