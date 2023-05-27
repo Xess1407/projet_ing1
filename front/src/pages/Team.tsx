@@ -88,7 +88,7 @@ const Team: Component = () => {
 
         let status = await res_team.status
         if (status != 200) {
-            console.log("[ERROR] Couldn't register the student! Status:" + status)
+            console.log("[ERROR] Couldn't register the member! Status:" + status)
             return
         }
 
@@ -104,7 +104,7 @@ const Team: Component = () => {
 
         let status = await res_project.status
         if (status != 200) {
-            console.log("[ERROR] Couldn't register the student! Status:" + status)
+            console.log("[ERROR] Couldn't get the data project! Status:" + status)
             return
         }
         let projects = await res_project.json()
@@ -174,6 +174,45 @@ const Team: Component = () => {
             await getMembersFromTeam(selectedTeam())
         }
         console.log(members());
+    }
+
+    /* Creation new team */
+    const [newMembers, setNewMembers] = createSignal<any>([])
+    const [newSelectedProject, setNewSelectedProject] = createSignal(1)
+
+    const createNewTeam = async () => {
+        let user = getSessionUser()
+        /* Create the team */
+        const res_new_team = await fetch(`http://localhost:8080/api/team`, {
+            method: "POST",
+            body: JSON.stringify({user_captain_id: user?.user_id, password: user?.password, data_project: newSelectedProject()}),
+            headers: {"Content-type": "application/json; charset=UTF-8"} 
+        });
+
+        let status = await res_new_team.status
+        if (status != 200) {
+            console.log("[ERROR] Couldn't register the new team! Status:" + status)
+            return
+        }
+
+        let res = await res_new_team.json()
+        let team_id = res.id
+        /* Add all the members to the new team */
+        newMembers().forEach(async (element: any) => {
+            let data = {team_id: team_id, user_id: element.user_id, password: user?.password}
+            const res_team = await fetch(`http://localhost:8080/api/member`, {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {"Content-type": "application/json; charset=UTF-8"} 
+            });
+
+            let status = await res_team.status
+            if (status != 200) {
+                console.log("[ERROR] Couldn't register the member! Status:" + status)
+                return
+            }
+        });
+        handleChangeMember()
     }
     
     onMount(async () => {
