@@ -28,27 +28,27 @@ const DataChallenges: Component = () => {
     })
 
     return (
-        <Flex bgc="#222222" direction="column" w="100%" h="120vh">
-            <Box b="1px solid black" h="100px" w="300px" ml="10%" fsz="20px" jc="center" ff="Roboto">
-                <h1>Data Challenges </h1>
-            </Box>
+        <Flex bgc="#222222" direction="column" w="100%" h="100vh">
+            <Flex h="25%" w="50%" ml="10%" fsz="56px" c="#FFFFFF" ai="center">
+                <h1 class="text">Data Challenges</h1>
+            </Flex>
             <For each={challenges()}>
                 {(element: any) => (
-                    <Flex fw="wrap" b="1px solid red" direction="row" ml="10%" mr="10%" h="800px" jc="space-around">
-                        <Flex h="270px" w="350px" br="10px" bgc="#3E3E3EFF" mt="15px" direction="column">
-                            <Flex c="white" h="50%" jc="center" ai="center">
+                    <Flex fw="wrap" direction="row" ml="10%" mr="10%" h="75%" jc="space-around">
+                        <Flex h="270px" w="350px" br="10px" bgc="#3E3E3E" mt="15px" direction="column">
+                            <Flex c="white" h="50%" jc="center" ai="center" ff="Roboto">
                                 <h3>{element.name}</h3>
                             </Flex>
                         <Flex c="white" h="50%">
-                            <Flex c="white" w="50%" direction="column" ai="center" >
+                            <Flex c="white" w="50%" direction="column" ai="center" ff="Roboto">
                                 <h3>Start date</h3>
-                                <Flex bgc="#111111FF" h="40%" w="70%" br="8px" ai="center" jc="center">
+                                <Flex bgc="#111111FF" h="40%" w="70%" br="8px" ai="center" jc="center" ff="Roboto">
                                     <span>{element.date_time_start}</span>
                                 </Flex>
                             </Flex>
-                            <Flex c="white" w="50%" direction="column" ai="center" >
+                            <Flex c="white" w="50%" direction="column" ai="center" ff="Roboto">
                                 <h3>End date</h3>
-                                    <Flex bgc="#111111FF" h="40%" w="70%" br="8px" ai="center" jc="center">
+                                    <Flex bgc="#111111FF" h="40%" w="70%" br="8px" ai="center" jc="center" ff="Roboto" >
                                         <span>{element.date_time_end}</span>
                                     </Flex>
                             </Flex>

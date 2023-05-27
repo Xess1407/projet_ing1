@@ -84,7 +84,7 @@ const Profile = ()=> {
                         </Box>
                     </Box>
                     <Box h="262px" w="309px" c="white" ff="Roboto">
-                        <h3>Challenges</h3>
+                        <h3>Data Projects</h3>
                         <Box b="2px solid white" h="100%" br="8px"></Box>
                     </Box>
                 </Flex>
