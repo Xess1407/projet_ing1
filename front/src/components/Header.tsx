@@ -6,6 +6,7 @@ import { isConnected } from "./Session";
 import { deconnection } from "./forms/ConnectForm";
 import { useNavigate } from "@solidjs/router";
 import LinkItems from "./LinkItems";
+import Dashboard from "../pages/Dashboard";
 
 export const [connected, setConnected] = createSignal(isConnected())
 
@@ -44,6 +45,7 @@ const Header: Component = () => {
                 <ul>
                     <img class="down" id="down" src="src/img/down.png" alt="down" onClick={handle}/>
                 </ul>
+                <ul><LinkItems path="/dashboard" text={"Dashboard"} /></ul>
                 <ul><LinkItems path="/chat" text={"Chat"} /></ul>
                 <ul><Show when={connected()}><button onclick={() => {deconnection(); setConnected(false); nav("/redirect", { replace: true }); }}>Deconnexion</button></Show></ul>
             </Flex>
