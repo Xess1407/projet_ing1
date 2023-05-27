@@ -8,6 +8,8 @@ import createDCBox from "../components/createDCBox";
 
 const DataChallenges: Component = () => {
     const [challenges, setChallenges] = createSignal<any>([])
+    const [resources, setResources] = createSignal<any[]>([])
+
     /* Get all challenges */
     const getChallenges = async () => {
         const res_project = await fetch(`http://localhost:8080/api/challenge`, {
@@ -23,8 +25,23 @@ const DataChallenges: Component = () => {
         setChallenges(clg)
     }
 
+    const getResources = async () => {
+        const res_resource = await fetch(`http://localhost:8080/api/resource-challenge`, {
+            method: "GET",
+        });
+
+        let status = await res_resource.status
+        if (status != 200) {
+            console.log("[ERROR] Couldn't get challenges! Status:" + status)
+            return
+        }
+        let res = await res_resource.json()
+        setResources(res)
+    }
+
     onMount(async () => {
         await getChallenges()
+        await getResources()
     })
 
     return (
@@ -36,22 +53,28 @@ const DataChallenges: Component = () => {
                 {(element: any) => (
                     <Flex fw="wrap" direction="row" ml="10%" mr="10%" h="75%" jc="space-around">
                         <Flex h="270px" w="350px" br="10px" bgc="#3E3E3E" mt="15px" direction="column">
-                            <Flex c="white" h="50%" jc="center" ai="center" ff="Roboto">
-                                <h3>{element.name}</h3>
-                            </Flex>
-                        <Flex c="white" h="50%">
-                            <Flex c="white" w="50%" direction="column" ai="center" ff="Roboto">
-                                <h3>Start date</h3>
-                                <Flex bgc="#111111FF" h="40%" w="70%" br="8px" ai="center" jc="center" ff="Roboto">
-                                    <span>{element.date_time_start}</span>
+                                <Flex c="white" h="50%" jc="center" ai="center" ff="Roboto">
+                                    <h3>{element.name}</h3>
                                 </Flex>
-                            </Flex>
-                            <Flex c="white" w="50%" direction="column" ai="center" ff="Roboto">
-                                <h3>End date</h3>
+                                <Flex c="white" h="50%">
+                                    <Flex c="white" w="50%" direction="column" ai="center" ff="Roboto">
+                                        <h3>Start date</h3>
+                                        <Flex bgc="#111111FF" h="40%" w="70%" br="8px" ai="center" jc="center" ff="Roboto">
+                                            <span>{element.date_time_start}</span>
+                                        </Flex>
+                                </Flex>
+                                <Flex c="white" w="50%" direction="column" ai="center" ff="Roboto">
+                                    <h3>End date</h3>
                                     <Flex bgc="#111111FF" h="40%" w="70%" br="8px" ai="center" jc="center" ff="Roboto" >
                                         <span>{element.date_time_end}</span>
                                     </Flex>
+                                </Flex>
                             </Flex>
+                            <Flex>
+                                <h4>Resources</h4>
+                                <For each={resources().filter((ele) => {return ele.data_challenge_id == element.id})}>
+                                    {(rse: any) => (<Box><span>{rse.name}: {rse.url}</span></Box>)}
+                                </For>
                             </Flex>
                         </Flex>               
                     </Flex>
