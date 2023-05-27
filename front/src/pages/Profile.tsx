@@ -1,4 +1,4 @@
-import { Component, Suspense, createEffect, createResource, createSignal, lazy, onMount } from "solid-js";
+import { Component, For, Suspense, createEffect, createResource, createSignal, lazy, onMount } from "solid-js";
 import Box from "../components/layouts/Box";
 import Flex from "../components/layouts/Flex";
 import { Image } from "@kobalte/core";
@@ -10,6 +10,8 @@ import { getSessionUser } from "../components/Session";
 
 
 const Profile = ()=> {
+    const [teams, setTeams] = createSignal<any>([])
+
     const get_student_profile = async () => {
         let user = {user_id: getSessionUser()?.user_id, password: getSessionUser()?.password};
         // Fetch the Student
@@ -29,7 +31,32 @@ const Profile = ()=> {
         return form
     }
 
-    get_student_profile()
+    const get_teams = async () => {
+        let user = getSessionUser()
+        const res_team = await fetch(`http://localhost:8080/api/team/${user?.user_id}`, {
+            method: "GET",
+        });
+
+        let status = await res_team.status
+        if (status != 200) {
+            console.log("[ERROR] Couldn't get the team! Status:" + status)
+            return
+        }
+        let res_t = await res_team.json()
+        /* Reset the team */
+        let t: any[] = []
+        /* Get all team */
+        res_t.forEach((element: any) => {
+            t.push(element)
+        });
+        setTeams(t)
+    }
+
+    onMount(async () => {
+        await get_student_profile()
+        await get_teams()
+    })
+    
 
     return (/*#222222*/
         <Flex bgc="#111111" direction="row" w="100%" h="calc(100vh - 140px)">
@@ -47,7 +74,13 @@ const Profile = ()=> {
                 <Flex w="100%" h="100%" jc="space-around">
                     <Box h="262px" w="309px" c="white" ff="Roboto">
                         <h3>Team</h3>
-                        <Box b="2px solid white" h="100%" br="8px"></Box>
+                        <Box b="2px solid white" h="100%" br="8px">
+                            <For each={teams()}>
+                                {(element:any) => (
+                                    <Flex><span>Team {element.id}</span></Flex>
+                                )}
+                            </For>
+                        </Box>
                     </Box>
                     <Box h="262px" w="309px" c="white" ff="Roboto">
                         <h3>Challenges</h3>
