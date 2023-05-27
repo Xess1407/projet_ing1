@@ -11,6 +11,8 @@ class ManagerController implements Controller {
 
   constructor() {
     this.router = Router();
+    this.router.get(ManagerController.path, this.get_all);
+    this.router.get(ManagerController.path + "/full", this.get_all_full);
     this.router.post(ManagerController.path, this.post);
     this.router.post(ManagerController.path + "/full", this.post_full)
     this.router.post(ManagerController.path + "/full/get", this.get_full)
@@ -70,6 +72,70 @@ class ManagerController implements Controller {
 
     return res;
   }
+
+  async get_all(req: Request, res: Response) {
+    let r = new Array<ManagerEntry>;
+
+    await ManagerController.get_values().then((rows: any) =>
+        rows.forEach((row) => {
+            r.push(new ManagerEntry(
+                row.rowid,
+                row.user_id,
+                row.company,
+                row.activation_date,
+                row.deactivation_date
+            ));
+        })
+    );
+
+    console.log(
+    "[INFO][GET] " + ManagerController.path + ": ",
+    );
+    res.send(JSON.stringify(r));
+  }
+
+  async get_all_full(req: Request, res: Response) {
+    let r = new Array<ManagerFull>;
+
+    await ManagerController.get_values().then(async(rows: any) =>
+    {
+      for (const row of rows) {
+        const res_user = await fetch(`http://localhost:8080/api/user/` + row.user_id, {
+            method: "GET",
+            headers: {"Content-type": "application/json; charset=UTF-8"} 
+          });
+          if (await res_user.status != 200) {
+            console.log (
+              "[ERROR][GET] error on " + UserController.path + "/" + row.user_id + ": " +
+                JSON.stringify(req.body),
+            );
+            res.status(400).send();
+            return;
+          }
+          let res_user_json = await res_user.json();
+          
+          r.push(new ManagerFull(
+              row.rowid,
+              row.user_id,
+              row.company,
+              row.activation_date,
+              row.deactivation_date,
+              res_user_json.name,
+              res_user_json.family_name,
+              res_user_json.email,
+              res_user_json.password,
+              res_user_json.telephone_number,
+              res_user_json.role
+          ));
+      }
+    });
+
+    console.log(
+      "[INFO][GET] " + ManagerController.path + ": ",
+    );
+    res.send(JSON.stringify(r));
+  }
+
 
   async get(req: Request, res: Response) {
     let { user_id, password } = req.body;

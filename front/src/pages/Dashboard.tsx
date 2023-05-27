@@ -16,8 +16,15 @@ const Dashboard: Component = () => {
     const [removeManager, setRemoveManager] = createSignal(false)
 
     const [searchValue, setSearchValue] = createSignal("")
+
     const [students, setStudent] = createSignal<any>([])
+    const [totalStudents, setTotalStudents] = createSignal<number>(0)
     const [studentsNames, setStudentNames] = createSignal<string[]>([])
+
+    const [managers, setManager] = createSignal<any>([])
+    const [totalManagers, setTotalManagers] = createSignal<number>(0)
+    const [managersNames, setManagerNames] = createSignal<string[]>([])
+
     const [teams, setTeams] = createSignal<any>([])
     const [projects, setProjects] = createSignal<any>([])
     const [members, setMembers] = createSignal<any>([])
@@ -44,6 +51,7 @@ const Dashboard: Component = () => {
             let s_all:any[] = students()
             s_all.push({name: element.name, user_id: element.user_id})
             setStudent(s_all)
+            setTotalStudents(s_all.length);
             /* Get only the names of the students */
             let s: string[] = studentsNames()
             s.push(element.name)
@@ -51,6 +59,31 @@ const Dashboard: Component = () => {
         });
         //console.log(students());
         //console.log(studentsNames());   
+    }
+
+    const getManagers = async () => {
+        // Fetch the Managers
+        const res_managers = await fetch(`http://localhost:8080/api/manager/full`, {
+          method: "GET"
+        });
+      
+        let status = await res_managers.status
+        if (status != 200) {res_managers
+          console.log("[ERROR] Couldn't get the managers! Status:" + status)
+          return
+        }
+        let res = await res_managers.json()
+        
+        res.forEach((element: any) => {
+            let m_all:any[] = managers()
+            m_all.push({name: element.name, user_id: element.user_id})
+            setManager(m_all)
+            setTotalManagers(m_all.length);
+            /* Get only the names of the managers */
+            let m: string[] = managersNames()
+            m.push(element.name)
+            setManagerNames(m) 
+        });
     }
 
     const getIdFromName = (name: string) => {
@@ -182,6 +215,7 @@ const Dashboard: Component = () => {
     
     onMount(async () => {
         await getStudents()
+        await getManagers()
         await getDataProject()
         await handleChangeTeam()
         await handleChangeMember()
@@ -236,7 +270,7 @@ const Dashboard: Component = () => {
                     <Flex directon="column" w="50%" jc="space-evenly" ai="center">
                         <Box w="60%" h="60%" bgc="#222222" br="10px" c="#FFFFFF" ta="center">
                             <h3>Total students</h3>
-                            <p>6527</p>
+                            <p>{totalStudents()}</p>
                         </Box>
                     </Flex>
                     <Flex w="50%" direction="column" jc="space-evenly" ai="center">
@@ -248,7 +282,7 @@ const Dashboard: Component = () => {
                     <Flex directon="column" w="50%" jc="space-evenly" ai="center">
                         <Box w="60%" h="60%" bgc="#222222" br="10px" c="#FFFFFF" ta="center">
                             <h3>Total Managers</h3>
-                            <p>6527</p>
+                            <p>{totalManagers()}</p>
                         </Box>
                     </Flex>
                     <Flex w="50%" direction="column" jc="space-evenly" ai="center">
