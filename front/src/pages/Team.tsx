@@ -71,11 +71,18 @@ const Team: Component = () => {
             console.log("Utilisateur inconnue");
             return
         }
+
+        if(selectedTeam() == -1) {
+            /* Erreur pas d'équipe selectionner */
+            return 
+        }
         
+        let data = {team_id: selectedTeam(), user_id: user_to_add_id, password: user?.password}
+
         
         const res_team = await fetch(`http://localhost:8080/api/member`, {
             method: "POST",
-            body: JSON.stringify({team_id: teams().id, user_id: user_to_add_id, password: user?.password}),
+            body: JSON.stringify(data),
             headers: {"Content-type": "application/json; charset=UTF-8"} 
         });
 
@@ -84,6 +91,8 @@ const Team: Component = () => {
             console.log("[ERROR] Couldn't register the student! Status:" + status)
             return
         }
+
+        handleChangeMember()
     }
 
     /* Get team associeted to the selected data project */

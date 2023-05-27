@@ -31,7 +31,7 @@ curl -X POST -H "Content-Type: application/json" -d '{"data_project_id":1, "name
 curl -X POST -H "Content-Type: application/json" -d '{"user_captain_id": 1, "password": "test", "data_project_id": 1}' localhost:8080/api/team
 
 # Insert Member
-curl -X POST -H "Content-Type: application/json" -d '{"team_id":1, "user_id": 2, "password": "test"}' localhost:8080/api/member
+#curl -X POST -H "Content-Type: application/json" -d '{"team_id":1, "user_id": 2, "password": "test"}' localhost:8080/api/member
 
 # Insert Questionnaire
 curl -X POST -H "Content-Type: application/json" -d '{"data_project_id":1, "name":"Super questionnaire", "date_time_start":"2023-05-23", "date_time_end":"2023-05-24", "user_id": 4, "password": "man"}' localhost:8080/api/questionnaire
