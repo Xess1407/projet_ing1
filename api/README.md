@@ -221,7 +221,7 @@ Get one ResourceProject
 Save new Team
 - POST request
 - Form-data: user_captain_id, password, data_project_id
-- Response: id
+- Response: team_id, user_id (where user_id = user_captain_id)
 
 Modify existing Team
 - POST request
