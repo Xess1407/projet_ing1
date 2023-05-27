@@ -7,6 +7,7 @@ import ButtonCustom from "../components/generals/ButtonCustom";
 import InputCustom from "../components/generals/InputCustom";
 import { form, setForm } from "../components/forms/ProfileForm";
 import { getSessionUser } from "../components/Session";
+import LinkItems from "../components/LinkItems";
 
 
 const Profile = ()=> {
@@ -77,7 +78,7 @@ const Profile = ()=> {
                         <Box b="2px solid white" h="100%" br="8px">
                             <For each={teams()}>
                                 {(element:any) => (
-                                    <Flex><span>Team {element.id}</span></Flex>
+                                    <Flex><LinkItems path={"/yourteam/" + element.id} text={"Team" + element.id} /></Flex>
                                 )}
                             </For>
                         </Box>

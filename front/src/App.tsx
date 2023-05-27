@@ -25,7 +25,7 @@ const App: Component = () => {
         <Route path="/register" element={<Register/>}/>
         <Route path="/profile" element={<Profile/>}/>
         <Route path="/team" element={<Team/>}/>
-        <Route path="/yourteam" element={<YourTeam/>}/>
+        <Route path="/yourteam/:team_id" element={<YourTeam/>}/>
         <Route path="/dashboard" element={<Dashboard/>}/>
         <Route path="/redirect" element={<Redirect/>} />
         <Route path="/datachallenges" element={<DataChallenges/>} />
