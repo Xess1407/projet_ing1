@@ -187,9 +187,18 @@ const Dashboard: Component = () => {
         await handleChangeMember()
     })
 
-
-    createEffect(() => {
-    })
+    const handle_show = (code: number) => {
+        setAddStudent(false)
+        setRemoveStudent(false)
+        setAddManager(false)
+        setRemoveManager(false)
+        switch (code){
+            case 1: setAddStudent(true); break;
+            case 2: setRemoveStudent(true); break;
+            case 3: setAddManager(true); break;
+            case 4: setRemoveManager(true); break;
+        }
+    }
 
     const handle_submit = (event: Event): void => {
         event.preventDefault();
@@ -230,8 +239,8 @@ const Dashboard: Component = () => {
                         </Box>
                     </Flex>
                     <Flex w="50%" direction="column" jc="space-evenly" ai="center">
-                        <ButtonCustom w="80%" ff="Roboto" bgc="#444444" b="2px solid #00FFF5" c="#00FFF5" text="Add Student" onclick={() => setAddStudent(!addStudent())}/>
-                        <ButtonCustom w="80%" ff="Roboto" bgc="#444444" b="2px solid #E36464" c="#E36464" text="Remove Student" onclick={() => setRemoveStudent(!removeStudent())}/>
+                        <ButtonCustom w="80%" ff="Roboto" bgc="#444444" b="2px solid #00FFF5" c="#00FFF5" text="Add Student" onclick={() => handle_show(1)}/>
+                        <ButtonCustom w="80%" ff="Roboto" bgc="#444444" b="2px solid #E36464" c="#E36464" text="Remove Student" onclick={() => handle_show(2)}/>
                     </Flex>
                 </Flex>
                 <Flex w="100%" h="50%">
@@ -242,8 +251,8 @@ const Dashboard: Component = () => {
                         </Box>
                     </Flex>
                     <Flex w="50%" direction="column" jc="space-evenly" ai="center">
-                        <ButtonCustom w="80%" ff="Roboto" bgc="#444444" b="2px solid #00FFF5" c="#00FFF5" text="Add Manager" onclick={() => setAddManager(!addManager())}/>
-                        <ButtonCustom w="80%" ff="Roboto" bgc="#444444" b="2px solid #E36464" c="#E36464" text="Remove Manager" onclick={() => setRemoveManager(!removeManager())}/>
+                        <ButtonCustom w="80%" ff="Roboto" bgc="#444444" b="2px solid #00FFF5" c="#00FFF5" text="Add Manager" onclick={() => handle_show(3)}/>
+                        <ButtonCustom w="80%" ff="Roboto" bgc="#444444" b="2px solid #E36464" c="#E36464" text="Remove Manager" onclick={() => handle_show(4)}/>
                     </Flex>
                 </Flex>
             </Flex>
