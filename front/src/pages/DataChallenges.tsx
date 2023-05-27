@@ -70,10 +70,12 @@ const DataChallenges: Component = () => {
                                     </Flex>
                                 </Flex>
                             </Flex>
-                            <Flex>
-                                <h4>Resources</h4>
+                            <Flex direction="column">
+                                <Flex c="white" h="50%" p="10px 0 0 0" jc="center" ai="center" ff="Roboto">
+                                    <h4>Resources</h4>
+                                </Flex>
                                 <For each={resources().filter((ele) => {return ele.data_challenge_id == element.id})}>
-                                    {(rse: any) => (<Box><span>{rse.name}: {rse.url}</span></Box>)}
+                                    {(rse: any) => ( <Flex c="white" h="50%" jc="center" ai="center" ff="Roboto"><span>{rse.name}: {rse.url}</span></Flex>)}
                                 </For>
                             </Flex>
                         </Flex>               

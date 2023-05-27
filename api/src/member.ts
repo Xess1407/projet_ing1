@@ -12,7 +12,8 @@ class MemberController implements Controller {
         this.router = Router();
         this.router.post(MemberController.path, this.post);
         this.router.get(MemberController.path, this.get_all);
-        this.router.get(MemberController.path + "/:id", this.get);
+        this.router.get(MemberController.path + "/team/:team_id", this.get);
+        this.router.get(MemberController.path + "/user/:user_id", this.get_user_teams_members);
         this.router.delete(MemberController.path, this.delete);
     }
     
@@ -30,8 +31,60 @@ class MemberController implements Controller {
         );
     }
 
+    static async get_user_teams_id(user_id: number): Promise<number[]> {
+      /* Get all teams id of the user */
+        let teams_id = new Array<number>();
+      await MemberController.get_values().then((rows: any) => {
+        rows.forEach((row) => {
+          if (row.user_id == user_id) teams_id.push(row.team_id)
+        })
+      })
+
+      return teams_id;
+    }
+
+    async get_user_teams_members(req: Request, res: Response) {
+      let id = parseInt(req.params.user_id);
+  
+      let r = new Array<MemberEntry>;
+  
+      if (!id) {
+        console.log (
+          "[ERROR][GET] wrong data on " + MemberController.path + "/" + id + ": " +
+            JSON.stringify(req.body),
+        );
+        res.status(400).send();
+        return;
+      }
+
+      let teams_id = await MemberController.get_user_teams_id(id);
+  
+      let found = false;
+      await MemberController.get_values().then((rows: any) =>
+          rows.forEach((row) => {
+              if (teams_id.includes(row.team_id)) {
+                  found = true;
+                  r.push(new MemberEntry(
+                      row.rowid,
+                      row.team_id,
+                      row.user_id
+                  ));
+              }
+          })
+      );
+  
+      if (found) {
+        console.log(
+          "[INFO][GET] " + MemberController.path + "/" + id + ": ",
+        );
+        res.send(JSON.stringify(r));
+      } else {
+        res.status(400).send();
+      }
+  }
+
     async get(req: Request, res: Response) {
-        let id = req.params.id;
+        let id = req.params.team_id;
     
         let r = new Array<MemberEntry>;
     

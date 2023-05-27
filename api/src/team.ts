@@ -61,7 +61,7 @@ class TeamController implements Controller {
     }
 
     async get(req: Request, res: Response) {
-        let id = req.params.user_id;
+        let id = parseInt(req.params.user_id);
     
         let r = new Array<TeamEntry>();
         let teams_id = new Array<number>();
@@ -75,12 +75,7 @@ class TeamController implements Controller {
           return;
         }
 
-        /* Get all teams id of the user */
-        await MemberController.get_values().then((rows: any) => {
-          rows.forEach((row) => {
-            if (row.user_id == id) teams_id.push(row.team_id)
-          })
-        })
+        teams_id = await MemberController.get_user_teams_id(id);
         
         /* Get all teams in teams_id */
         await TeamController.get_values().then((rows: any) =>
