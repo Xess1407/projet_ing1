@@ -3,13 +3,27 @@ import Box from "../components/layouts/Box";
 import Flex from "../components/layouts/Flex";
 import "./css/Dashboard.css"
 import ButtonCustom from "../components/generals/ButtonCustom";
-import { submit, form, setForm } from "../components/forms/RegisterForm";
+import { studentForm, setStudentForm, submit_student } from "../components/forms/RegisterStudentForm";
 import InputCustom from "../components/generals/InputCustom";
 import { getSessionUser } from "../components/Session";
+import { managerForm, setManagerForm, submit_manager } from "../components/forms/RegisterManagerForm";
 
 const [stat, setStat] = createSignal(true)
 
 const Dashboard: Component = () => {
+    setStudentForm({
+        "password": "my_s3cr3t_p4ssw0rd"
+    })
+
+    setManagerForm({
+        "password": "my_s3cr3t_p4ssw0rd"
+    })
+
+    const [school_level, setSchool_level] = createSignal("none");
+    createEffect(() => {
+        setStudentForm({ school_level: school_level() });
+    });
+
     const [addStudent, setAddStudent] = createSignal(false)
     const [removeStudent, setRemoveStudent] = createSignal(false)
     const [addManager, setAddManager] = createSignal(false)
@@ -105,7 +119,7 @@ const Dashboard: Component = () => {
         let user = getSessionUser()
         let user_to_add_id = getIdFromName(searchValue())
         if (user_to_add_id == -1) {
-            console.log("Utilisateur inconnue");
+            console.log("Utilisateur inconnu");
             return
         }
 
@@ -235,15 +249,28 @@ const Dashboard: Component = () => {
         }
     }
 
-    const handle_submit = (event: Event): void => {
+    const handle_submit_student = (event: Event): void => {
         event.preventDefault();
         if (stat()) {
             (document.getElementById("form-not-same-password-message") as HTMLInputElement).innerHTML = "";
-            submit(form)
+            submit_student(studentForm)
+            setTotalStudents(totalStudents() + 1);
             return
         }
         (document.getElementById("form-not-same-password-message") as HTMLInputElement).innerText = "Erreur: Les deux mots de passes ne sont pas identiques"; 
     }
+
+    const handle_submit_manager = (event: Event): void => {
+        event.preventDefault();
+        if (stat()) {
+            (document.getElementById("form-not-same-password-message") as HTMLInputElement).innerHTML = "";
+            submit_manager(managerForm)
+            setTotalManagers(totalManagers() + 1);
+            return
+        }
+        (document.getElementById("form-not-same-password-message") as HTMLInputElement).innerText = "Erreur: Les deux mots de passes ne sont pas identiques"; 
+    }
+
     return (
         <Flex bgc="#000000" w="100%" h="calc(100vh - 140px)" m="0" p="0" ovy="hidden" direction="row" jc="space-evenly">
             <Flex direction="column" bgc="#555555" br="10px" w="18%" h="60%" jc="space-evenly" ai="center" c="#FFFFFF" ff="Roboto">
@@ -293,22 +320,22 @@ const Dashboard: Component = () => {
             </Flex>
             <Show when={addStudent()}>
                 <Flex bgc="#444444" br="10px" w="40%" h="80%" jc="center" ai="center">
-                    <form onSubmit={ handle_submit }>
+                    <form onSubmit={ handle_submit_student }>
                         <Flex direction="row" jc="space-around" w="100%" h="70%" mt="5%">
                             <Flex direction="column" w="45%" jc="space-around" ai="center">
-                                <Flex direction="column" m="0 0 30px 0" w="100%"> 
-                                    <InputCustom id="family-name" label="Surname" type="text" placeholder="Surname" update={setForm} />
+                                <Flex direction="column" m="0 0 30px 0">
+                                    <InputCustom id="name" label="Firstname" type="text" placeholder="Firstname" update={setStudentForm}/>
                                 </Flex>
                                 <Flex direction="column" m="0 0 30px 0">
-                                    <InputCustom id="email" label="E-mail" type="email" placeholder="E-mail" pattern=".+@[a-z]{2,32}\.[a-z]{2,10}" update={setForm}/>
+                                    <InputCustom id="email" label="E-mail" type="email" placeholder="E-mail" pattern=".+@[a-z]{2,32}\.[a-z]{2,10}" update={setStudentForm}/>
                                 </Flex>
                                 <Flex direction="column" m="0 0 30px 0">
-                                    <InputCustom id="telephone_number" label="Number" type="tel" placeholder="Number" update={setForm} pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"></InputCustom>
+                                    <InputCustom id="telephone_number" label="Number" type="tel" placeholder="Number" update={setStudentForm} pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"></InputCustom>
                                 </Flex>
                             </Flex>
                             <Flex direction="column" w="45%" jc="space-around">
-                                <Flex direction="column" m="0 0 30px 0">
-                                    <InputCustom id="firstname" label="Firstname" type="text" placeholder="Firstname" update={setForm}/>
+                                <Flex direction="column" m="0 0 30px 0" w="100%"> 
+                                    <InputCustom id="family_name" label="Surname" type="text" placeholder="Surname" update={setStudentForm} />
                                 </Flex>
                                 <Flex direction="row" w="100%" jc="space-between">
                                     <Flex direction="column" w="45%">
@@ -324,11 +351,11 @@ const Dashboard: Component = () => {
                                         <label for="school_level" class="school_level_label">Level</label>
                                     </Flex>
                                     <Flex direction="column" m="0 0 30px 0" w="50%">
-                                        <InputCustom id="school" label="Etablishment" type="text" placeholder="Etablishement" update={setForm}/>
+                                        <InputCustom id="school" label="Etablishment" type="text" placeholder="Etablishement" update={setStudentForm}/>
                                     </Flex>
                                 </Flex>
                                 <Flex direction="column" m="0 0 30px 0">
-                                    <InputCustom id="city" label="City" type="text" placeholder="City" update={setForm}/>
+                                    <InputCustom id="city" label="City" type="text" placeholder="City" update={setStudentForm}/>
                                     
                                 </Flex>
                                 <span id="form-not-same-password-message"></span>
@@ -388,43 +415,33 @@ const Dashboard: Component = () => {
 
             <Show when={addManager()}>
                 <Flex bgc="#444444" br="10px" w="40%" h="80%" jc="center" ai="center">
-                    <form onSubmit={ handle_submit }>
+                    <form onSubmit={ handle_submit_manager }>
                         <Flex direction="row" jc="space-around" w="100%" h="70%" mt="5%">
                             <Flex direction="column" w="45%" jc="space-around" ai="center">
-                                <Flex direction="column" m="0 0 30px 0" w="100%"> 
-                                    <InputCustom id="family-name" label="Surname" type="text" placeholder="Surname" update={setForm} />
+                                <Flex direction="column" m="0 0 30px 0">
+                                    <InputCustom id="name" label="Firstname" type="text" placeholder="Firstname" update={setManagerForm}/>
                                 </Flex>
                                 <Flex direction="column" m="0 0 30px 0">
-                                    <InputCustom id="email" label="E-mail" type="email" placeholder="E-mail" pattern=".+@[a-z]{2,32}\.[a-z]{2,10}" update={setForm}/>
+                                    <InputCustom id="email" label="E-mail" type="email" placeholder="E-mail" pattern=".+@[a-z]{2,32}\.[a-z]{2,10}" update={setManagerForm}/>
                                 </Flex>
                                 <Flex direction="column" m="0 0 30px 0">
-                                    <InputCustom id="telephone_number" label="Number" type="tel" placeholder="Number" update={setForm} pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"></InputCustom>
+                                    <InputCustom id="telephone_number" label="Number" type="tel" placeholder="Number" update={setManagerForm} pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"></InputCustom>
                                 </Flex>
                             </Flex>
                             <Flex direction="column" w="45%" jc="space-around">
+                                <Flex direction="column" m="0 0 30px 0" w="100%"> 
+                                    <InputCustom id="family_name" label="Surname" type="text" placeholder="Surname" update={setManagerForm} />
+                                </Flex>
                                 <Flex direction="column" m="0 0 30px 0">
-                                    <InputCustom id="firstname" label="Firstname" type="text" placeholder="Firstname" update={setForm}/>
+                                    <InputCustom id="company" label="Company" type="text" placeholder="Company" update={setManagerForm}/>
                                 </Flex>
                                 <Flex direction="row" w="100%" jc="space-between">
-                                    <Flex direction="column" w="45%">
-                                        <select id="school_level" required>
-                                            <option value="" disabled selected hidden>Study level</option>
-                                            <option value="L1">Licence 1</option>
-                                            <option value="L2">Licence 2</option>
-                                            <option value="L3">Licence 3</option>
-                                            <option value="M1">Master 1</option>
-                                            <option value="M2">Master 2</option>
-                                            <option value="D">Doctorate</option>
-                                        </select>
-                                        <label for="school_level" class="school_level_label">Level</label>
+                                    <Flex direction="column" m="0 0 30px 0" w="50%">
+                                        <InputCustom id="activation_date" label="Activation date" type="text" placeholder="Activation date" update={setManagerForm}/>
                                     </Flex>
                                     <Flex direction="column" m="0 0 30px 0" w="50%">
-                                        <InputCustom id="school" label="Etablishment" type="text" placeholder="Etablishement" update={setForm}/>
+                                        <InputCustom id="deactivation_date" label="Deactivation date" type="text" placeholder="Deactivation date" update={setManagerForm}/>
                                     </Flex>
-                                </Flex>
-                                <Flex direction="column" m="0 0 30px 0">
-                                    <InputCustom id="city" label="City" type="text" placeholder="City" update={setForm}/>
-                                    
                                 </Flex>
                                 <span id="form-not-same-password-message"></span>
                             </Flex>

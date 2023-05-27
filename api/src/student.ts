@@ -253,7 +253,7 @@ class StudentController implements Controller {
       !name || !family_name || !email || !password || !telephone_number || !role || !school_level || !school || !city
     ) {
       console.log(
-        "[ERROR][POST] ratio wrong data on " + StudentController.path + "/full : " +
+        "[ERROR][POST] wrong data on " + StudentController.path + "/full : " +
           JSON.stringify(req.body),
       );
       res.status(400).send();

@@ -1,6 +1,6 @@
 import { createStore } from "solid-js/store";
 
-type RegisterFormFields = {
+type RegisterStudentFormFields = {
     name: string;
     family_name: string;
     email: string;
@@ -12,7 +12,7 @@ type RegisterFormFields = {
     city: string;
 };
 
-export const submit = async (form: RegisterFormFields) => {
+export const submit_student = async (form: RegisterStudentFormFields) => {
   console.log(`submitting ${JSON.stringify(form)}`);
 
   // Fetch the Student & User parts
@@ -30,7 +30,7 @@ export const submit = async (form: RegisterFormFields) => {
 };
 
 
-export const [form, setForm] = createStore<RegisterFormFields>({
+export const [studentForm, setStudentForm] = createStore<RegisterStudentFormFields>({
   name: "",
   family_name: "",
   password: "",

@@ -1,13 +1,13 @@
 import { Component, createEffect, createSignal } from "solid-js";
 import Flex from "../components/layouts/Flex";
 import ButtonCustom from "../components/generals/ButtonCustom";
-import { submit, form, setForm } from "../components/forms/RegisterForm";
+import { studentForm, setStudentForm, submit_student } from "../components/forms/RegisterStudentForm";
 import InputCustom from "../components/generals/InputCustom";
 import './css/Register.css';
 
 const [school_level, setSchool_level] = createSignal("none");
 createEffect(() => {
-    setForm({ school_level: school_level() });
+    setStudentForm({ school_level: school_level() });
 });
 
 function handle_same_password() {
@@ -21,7 +21,7 @@ const Register: Component = () => {
         event.preventDefault();
         if (handle_same_password()) {
             (document.getElementById("form-not-same-password-message") as HTMLInputElement).innerHTML = "";
-            submit(form)
+            submit_student(studentForm)
             return
         }
         (document.getElementById("form-not-same-password-message") as HTMLInputElement).innerText = "Erreur: Les deux mots de passes ne sont pas identiques"; 
@@ -36,22 +36,22 @@ const Register: Component = () => {
                     <Flex direction="row" jc="space-between" ai="center" w="100%" h="80%">
                         <Flex direction="column" w="45%">
                             <Flex direction="column" mb="15px">
-                                <InputCustom id="name" label="First name" type="text" placeholder="First name" update={setForm}/>
+                                <InputCustom id="name" label="First name" type="text" placeholder="First name" update={setStudentForm}/>
                             </Flex>
                             <Flex direction="column" mb="15px">
-                                <InputCustom id="email" label="E-mail" type="email" placeholder="E-mail" update={setForm}/>
+                                <InputCustom id="email" label="E-mail" type="email" placeholder="E-mail" update={setStudentForm}/>
                             </Flex>
                             <Flex direction="column" mb="15px">
-                                <InputCustom id="telephone_number" label="Phone number" type="tel" placeholder="Phone number" update={setForm} pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"></InputCustom>
+                                <InputCustom id="telephone_number" label="Phone number" type="tel" placeholder="Phone number" update={setStudentForm} pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"></InputCustom>
                             </Flex>
                             <Flex direction="column" mb="15px">
-                                <InputCustom id="password" label="Password" type="password" placeholder="Password" update={setForm}/>
+                                <InputCustom id="password" label="Password" type="password" placeholder="Password" update={setStudentForm}/>
                             </Flex>
 
                         </Flex>
                         <Flex direction="column" w="45%">
                             <Flex direction="column" mb="15px">
-                                <InputCustom id="family_name" label="Surname" type="text" placeholder="Surname" update={setForm}/>
+                                <InputCustom id="family_name" label="Surname" type="text" placeholder="Surname" update={setStudentForm}/>
                             </Flex>
                             <Flex direction="row" mb="15px">
                                 <Flex direction="column" m="0 2.9em 0 0" w="16em">
@@ -67,11 +67,11 @@ const Register: Component = () => {
                                     <label for="school_level" class="school_level_label">Level</label>
                                 </Flex>
                                 <Flex direction="column" mb="5px" w="17em">
-                                    <InputCustom id="school" label="School" type="text" placeholder="School" update={setForm}/>
+                                    <InputCustom id="school" label="School" type="text" placeholder="School" update={setStudentForm}/>
                                 </Flex>
                             </Flex>
                             <Flex direction="column" mb="15px">
-                                <InputCustom id="city" label="City" type="text" placeholder="City" update={setForm}/>
+                                <InputCustom id="city" label="City" type="text" placeholder="City" update={setStudentForm}/>
                                 
                             </Flex>
                             <Flex direction="column" mb="15px">
