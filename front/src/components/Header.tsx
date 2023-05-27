@@ -34,10 +34,10 @@ const Header: Component = () => {
                 <ul><LinkItems path="/profile" text={"Profile"} /></ul>
                 <ul><LinkItems path="/team" text={"Team"} /></ul>
                 <Flex ff="Roboto" direction="column">
-                    <ul classList={{ "data-challenge": true, active: boxData() }}><LinkItems path="/" text={"Data Challenges"} /></ul>
+                    <ul classList={{ "data-challenge": true, active: boxData() }}><LinkItems path="/datachallenges" text={"Data Challenges"} /></ul>
                     <Show when={boxData()}>
                         <ul classList={{ "data-project": true, active: boxData()}} style={{ display: "block", position: "absolute", top: "8%" }} >
-                            <LinkItems path="/team" text={"Data project"} />
+                            <LinkItems path="/dataproject" text={"Data project"} />
                         </ul>
                     </Show>
                 </Flex>
