@@ -173,7 +173,7 @@ class TeamController implements Controller {
             JSON.stringify({"team_id": this.lastID, "user_id": p.user_captain_id}),
           );
       
-          res.status(200).send();
+          res.status(200).send({"team_id": this.lastID, "user_id": p.user_captain_id});
         });
         db.close();
     }
