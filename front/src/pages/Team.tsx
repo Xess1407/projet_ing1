@@ -11,6 +11,8 @@ import { getSessionUser } from "../components/Session";
 
 const Team: Component = () => {
     const [createTeam, setCreateTeam] = createSignal(false)
+    const [editTeam, setEditTeam] = createSignal(false)
+
     const [searchValue, setSearchValue] = createSignal("")
     const [students, setStudent] = createSignal<any>([])
     const [studentsNames, setStudentNames] = createSignal<string[]>([])
@@ -26,13 +28,13 @@ const Team: Component = () => {
     const getStudents = async () => {
         // Fetch the Student
         const res_students = await fetch(`http://localhost:8080/api/student/full`, {
-          method: "GET"
+            method: "GET"
         });
-      
+
         let status = await res_students.status
         if (status != 200) {
-          console.log("[ERROR] Couldn't register the student! Status:" + status)
-          return
+            console.log("[ERROR] Couldn't register the student! Status:" + status)
+            return
         }
         let res = await res_students.json()
         
@@ -226,6 +228,15 @@ const Team: Component = () => {
     createEffect(() => {
     })
 
+    const handle_show = (code: number) => {
+        setCreateTeam(false)
+        setEditTeam(false)
+        switch (code){
+            case 1: setCreateTeam(true); break;
+            case 2: setEditTeam(true); break;
+        }
+    }
+
     return (
         <Flex direction="row" w="100%" h="calc(100vh - 140px)" m="0" p="0" ovy="hidden" bgc="#111111"> 
             <Box w="45%">
@@ -234,13 +245,54 @@ const Team: Component = () => {
                 </h1>
                 <Flex direction="column" ml="15%">
                     <Box ff="Roboto" fsz="18px" mb="5%" c="#FFFFFF">You don't have a team yet, create it !</Box>
-                    <ButtonCustom text="CREATE YOUR TEAM" ff="Roboto black" fsz="16px" w="300px" h="60px" br="16px" bgc="#3BCFA3" onclick={() => setCreateTeam(!createTeam())} />
+                    <ButtonCustom text="CREATE YOUR TEAM" ff="Roboto black" fsz="16px" w="300px" h="60px" br="16px" bgc="#3BCFA3" mb="5%" onclick={() => handle_show(1)}/>
+                    <ButtonCustom text="EDIT YOUR TEAM" ff="Roboto black" fsz="16px" w="300px" h="60px" br="16px" bgc="#3BCFA3" mb="5%" onclick={() => handle_show(2)} />
                 </Flex>
             </Box>
             <Flex w="55%" jc="center" ai="center" m="0">
                 <Show when={createTeam()} >
                     <Flex bgc="#555555" w="80%" h="90%" direction="column" jc="space-evenly" ai="center" br="10px">
-                        <h1>CREATION</h1>
+                        <h1>Create Your Team</h1>
+                        <Flex>
+                            <label>Search student</label>
+                            <Flex direction="column" jc="center" ai="center" w="100%">
+                                {/* Call à la bdd pour trouver le joueur recherché */}
+                                <input id="search" type="text" placeholder="Name of student" onInput={() => {setSearchValue((document.getElementById("search") as HTMLInputElement).value)}}/>
+                                
+                                <For each={studentsNames()}>
+                                    {(element: string) => (
+                                        <Show when={searching(element)}>
+                                            <li>{element}</li>
+                                        </Show>
+                                    )}
+                                </For>
+                            </Flex>
+                            <select name="data_project" id="data_project" onChange={async (e) => { setSelectedProject(Number(e.currentTarget.value)); await handleChangeTeam(); if(teams().length != 0) {setSelectedTeam(1);} else {setSelectedTeam(-1); }handleChangeMember()}}>
+                                <For each={projects()}>
+                                    {(element) => (
+                                        <option value={element.id}>{element.name}</option>
+                                    )}
+                                </For>
+                            </select>
+                            <ButtonCustom text="Ajouter" onclick={addToTeam}/>
+                        </Flex>
+                        <Flex direction="column" ai="center" w="100%" h="60%">
+                            <label>Your Teammates</label>
+                            <Box w="80%" h="100%" b="2px solid #FFFFFF" br="10px">
+                                {/* Requête pour récupérer le joueur recherché */}
+                                <For each={members()}>
+                                    {(element:any) => (
+                                        <p>{element.user_id}</p>
+                                    )}
+                                </For>
+                            </Box>
+                            <ButtonCustom text="CREATE" ff="Roboto black" fsz="16px" w="230px" h="70px" br="16px" bgc="#8DCEB0" mt="4%"/>
+                        </Flex>
+                    </Flex>
+                </Show>
+                <Show when={editTeam()} >
+                    <Flex bgc="#555555" w="80%" h="90%" direction="column" jc="space-evenly" ai="center" br="10px">
+                        <h1>Edit Your Team</h1>
                         <Flex>
                             <label>Search student</label>
                             <Flex direction="column" jc="center" ai="center" w="100%">

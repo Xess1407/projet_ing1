@@ -30,13 +30,13 @@ const Dashboard: Component = () => {
     const getStudents = async () => {
         // Fetch the Student
         const res_students = await fetch(`http://localhost:8080/api/student/full`, {
-          method: "GET"
+            method: "GET"
         });
-      
+
         let status = await res_students.status
         if (status != 200) {
-          console.log("[ERROR] Couldn't register the student! Status:" + status)
-          return
+            console.log("[ERROR] Couldn't register the student! Status:" + status)
+            return
         }
         let res = await res_students.json()
         
@@ -309,7 +309,7 @@ const Dashboard: Component = () => {
             <Show when={removeStudent()}>
                 <Flex direction="column" bgc="#444444" br="10px" w="40%" h="80%" jc="center" ai="center">
                     <Flex w="100%" jc="center" ai="center">
-                        <label>Remove student</label>
+                        <label>Remove Student</label>
                         <Flex direction="column" jc="center" ai="center" w="100%">
                             {/* Call à la bdd pour trouver le joueur recherché */}
                             <input id="search" type="text" placeholder="Name of student" onInput={() => {setSearchValue((document.getElementById("search") as HTMLInputElement).value)}}/>  
@@ -347,7 +347,7 @@ const Dashboard: Component = () => {
                                 )}
                             </For>
                         </Box>
-                        <ButtonCustom text="CREATE" ff="Roboto black" fsz="16px" w="230px" h="70px" br="16px" bgc="#8DCEB0" mt="4%"/>
+                        <ButtonCustom text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="70px" br="16px" bgc="#E36464" mt="4%"/>
                     </Flex>
                 </Flex>
             </Show>
@@ -404,7 +404,7 @@ const Dashboard: Component = () => {
             <Show when={removeManager()}>
                 <Flex direction="column" bgc="#444444" br="10px" w="40%" h="80%" jc="center" ai="center">
                     <Flex w="100%" jc="center" ai="center">
-                        <label>Remove student</label>
+                        <label>Remove Manager</label>
                         <Flex direction="column" jc="center" ai="center" w="100%">
                             {/* Call à la bdd pour trouver le joueur recherché */}
                             <input id="search" type="text" placeholder="Name of student" onInput={() => {setSearchValue((document.getElementById("search") as HTMLInputElement).value)}}/>  
@@ -442,7 +442,7 @@ const Dashboard: Component = () => {
                                 )}
                             </For>
                         </Box>
-                        <ButtonCustom text="CREATE" ff="Roboto black" fsz="16px" w="230px" h="70px" br="16px" bgc="#8DCEB0" mt="4%"/>
+                        <ButtonCustom text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="70px" br="16px" bgc="#E36464" mt="4%"/>
                     </Flex>
                 </Flex>
             </Show>
