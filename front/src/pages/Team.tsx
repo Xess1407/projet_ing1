@@ -229,11 +229,12 @@ const Team: Component = () => {
     })
 
     const handle_show = (code: number) => {
+        let [a,b] = [!createTeam(), !editTeam()]
         setCreateTeam(false)
         setEditTeam(false)
         switch (code){
-            case 1: setCreateTeam(true); break;
-            case 2: setEditTeam(true); break;
+            case 1: if (a) setCreateTeam(true); else setCreateTeam(false); break;
+            case 2: if (b) setEditTeam(true); else setEditTeam(false); break;
         }
     }
 
