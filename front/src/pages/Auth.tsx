@@ -8,8 +8,7 @@ export const Guard = () => {
     const nav = useNavigate()
     if (!isConnected()) 
         nav("/guard-auth")
-    
-    return <Flex>Checking login...</Flex>
+    return <div></div>
 }
 
 export const Auth: Component = () => {
