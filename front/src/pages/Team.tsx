@@ -166,28 +166,51 @@ const Team: Component = () => {
     }
 
     const handleChangeMember = async () => {
-        console.log(selectedTeam());
-        console.log(teams());
-        
         setMembers([])
         /* Get the members of the team if found */
         if (teams().length != 0) {
-            //console.log("Il y a des teams");
             await getMembersFromTeam(selectedTeam())
         }
-        console.log(members());
     }
 
     /* Creation new team */
-    const [newMembers, setNewMembers] = createSignal<any>([])
+    let user = getSessionUser()
+    const [newMembers, setNewMembers] = createSignal<any>([{user_id: user?.user_id, name: user?.name}])
     const [newSelectedProject, setNewSelectedProject] = createSignal(1)
+
+    const addNewMember = () => {
+        let name = studentsNames().find((nom) => { return nom == searchValue()})
+        if (name === undefined) {
+            console.log("Non trouvé");
+            /** Afficher erreur */
+            return
+        }
+
+        let user_to_add_id = getIdFromName(searchValue())
+        if (user_to_add_id == -1) {
+            console.log("Utilisateur inconnue");
+            return
+        }
+        let new_data = {user_id: user_to_add_id, name: name}
+        if (newMembers().find((user:any) => {
+            return new_data.user_id == user.user_id
+        })) {
+            console.log("Membre déjà ajouté");
+            return
+        }
+
+        let data = newMembers()
+        data.push(new_data)
+        setNewMembers([])
+        setNewMembers(data)
+    }
 
     const createNewTeam = async () => {
         let user = getSessionUser()
         /* Create the team */
         const res_new_team = await fetch(`http://localhost:8080/api/team`, {
             method: "POST",
-            body: JSON.stringify({user_captain_id: user?.user_id, password: user?.password, data_project: newSelectedProject()}),
+            body: JSON.stringify({user_captain_id: user?.user_id, password: user?.password, data_project_id: newSelectedProject()}),
             headers: {"Content-type": "application/json; charset=UTF-8"} 
         });
 
@@ -198,23 +221,35 @@ const Team: Component = () => {
         }
 
         let res = await res_new_team.json()
-        let team_id = res.id
+        console.log((res));
+        
+        let team_id = res.team_id
         /* Add all the members to the new team */
         newMembers().forEach(async (element: any) => {
-            let data = {team_id: team_id, user_id: element.user_id, password: user?.password}
-            const res_team = await fetch(`http://localhost:8080/api/member`, {
-                method: "POST",
-                body: JSON.stringify(data),
-                headers: {"Content-type": "application/json; charset=UTF-8"} 
-            });
+            if (element.user_id != res.user_id) {
+                let data = {team_id: team_id, user_id: element.user_id, password: user?.password}
+                console.log(data);
+                
+                const res_team = await fetch(`http://localhost:8080/api/member`, {
+                    method: "POST",
+                    body: JSON.stringify(data),
+                    headers: {"Content-type": "application/json; charset=UTF-8"} 
+                });
 
-            let status = await res_team.status
-            if (status != 200) {
-                console.log("[ERROR] Couldn't register the member! Status:" + status)
-                return
+                let status = await res_team.status
+                if (status != 200) {
+                    console.log("[ERROR] Couldn't register the member! Status:" + status)
+                    return
+                }
             }
         });
-        handleChangeMember()
+    }
+
+    const handle_change_project = (e:any) => {
+        setNewSelectedProject(Number(e.currentTarget.value));
+        setNewMembers([])
+        let user = getSessionUser()
+        setNewMembers([{user_id: user?.user_id, name: user?.name}])
     }
     
     onMount(async () => {
@@ -222,10 +257,6 @@ const Team: Component = () => {
         await getDataProject()
         await handleChangeTeam()
         await handleChangeMember()
-    })
-
-
-    createEffect(() => {
     })
 
     const handle_show = (code: number) => {
@@ -259,7 +290,6 @@ const Team: Component = () => {
                             <Flex direction="column" jc="center" ai="center" w="100%">
                                 {/* Call à la bdd pour trouver le joueur recherché */}
                                 <input id="search" type="text" placeholder="Name of student" onInput={() => {setSearchValue((document.getElementById("search") as HTMLInputElement).value)}}/>
-                                
                                 <For each={studentsNames()}>
                                     {(element: string) => (
                                         <Show when={searching(element)}>
@@ -268,26 +298,26 @@ const Team: Component = () => {
                                     )}
                                 </For>
                             </Flex>
-                            <select name="data_project" id="data_project" onChange={async (e) => { setSelectedProject(Number(e.currentTarget.value)); await handleChangeTeam(); if(teams().length != 0) {setSelectedTeam(1);} else {setSelectedTeam(-1); }handleChangeMember()}}>
+                            <select name="data_project" id="data_project" onChange={handle_change_project}>
                                 <For each={projects()}>
                                     {(element) => (
                                         <option value={element.id}>{element.name}</option>
                                     )}
                                 </For>
                             </select>
-                            <ButtonCustom text="Ajouter" onclick={addToTeam}/>
+                            <ButtonCustom text="Ajouter" onclick={addNewMember}/>
                         </Flex>
                         <Flex direction="column" ai="center" w="100%" h="60%">
                             <label>Your Teammates</label>
                             <Box w="80%" h="100%" b="2px solid #FFFFFF" br="10px">
                                 {/* Requête pour récupérer le joueur recherché */}
-                                <For each={members()}>
+                                <For each={newMembers()}>
                                     {(element:any) => (
                                         <p>{element.user_id}</p>
                                     )}
                                 </For>
                             </Box>
-                            <ButtonCustom text="CREATE" ff="Roboto black" fsz="16px" w="230px" h="70px" br="16px" bgc="#8DCEB0" mt="4%"/>
+                            <ButtonCustom onclick={createNewTeam} text="CREATE" ff="Roboto black" fsz="16px" w="230px" h="70px" br="16px" bgc="#8DCEB0" mt="4%"/>
                         </Flex>
                     </Flex>
                 </Show>
