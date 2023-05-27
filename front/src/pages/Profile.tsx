@@ -12,6 +12,7 @@ import LinkItems from "../components/LinkItems";
 
 const Profile = ()=> {
     const [teams, setTeams] = createSignal<any>([])
+    const [projects, setProjects] = createSignal<any>([])
 
     const get_student_profile = async () => {
         let user = {user_id: getSessionUser()?.user_id, password: getSessionUser()?.password};
@@ -53,9 +54,35 @@ const Profile = ()=> {
         setTeams(t)
     }
 
+    const getDataProject = async () => {
+        let user = getSessionUser()
+        const res_project = await fetch(`http://localhost:8080/api/project`, {
+            method: "GET",
+        });
+
+        let status = await res_project.status
+        if (status != 200) {
+            console.log("[ERROR] Couldn't get the data project! Status:" + status)
+            return
+        }
+        let proj: any[] = await res_project.json()
+        
+        let p: any[] = projects()
+        setProjects([])
+        proj.forEach((element: any) => {
+            teams().forEach((team: any) => {
+                if (element.id == team.data_project_id) {
+                    p.push(element)
+                }
+            })
+        });
+        setProjects(p)
+    }
+
     onMount(async () => {
         await get_student_profile()
         await get_teams()
+        await getDataProject()
     })
     
 
@@ -85,7 +112,13 @@ const Profile = ()=> {
                     </Box>
                     <Box h="262px" w="309px" c="white" ff="Roboto">
                         <h3>Data Projects</h3>
-                        <Box b="2px solid white" h="100%" br="8px"></Box>
+                        <Box b="2px solid white" h="100%" br="8px">
+                            <For each={projects()}>
+                                {(element:any) => (
+                                    <Flex>{element.name}</Flex>
+                                )}
+                            </For>
+                        </Box>
                     </Box>
                 </Flex>
             </Flex>
