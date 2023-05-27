@@ -188,15 +188,16 @@ const Dashboard: Component = () => {
     })
 
     const handle_show = (code: number) => {
+        let [a,b,c,d] = [!addStudent(), !removeStudent(), !addManager(), !removeManager()]
         setAddStudent(false)
         setRemoveStudent(false)
         setAddManager(false)
         setRemoveManager(false)
         switch (code){
-            case 1: setAddStudent(true); break;
-            case 2: setRemoveStudent(true); break;
-            case 3: setAddManager(true); break;
-            case 4: setRemoveManager(true); break;
+            case 1: if (a) setAddStudent(true); else setAddStudent(false); break;
+            case 2: if (b) setRemoveStudent(true); else setRemoveStudent(false); break;
+            case 3: if (c) setAddManager(true); else setAddManager(false); break;
+            case 4: if (d) setRemoveManager(true); else setRemoveManager(false); break;
         }
     }
 
