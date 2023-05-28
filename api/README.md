@@ -246,6 +246,12 @@ Get all teams of user_id
 - GET request 
 - Response: List of Team: id, user_captain_id, data_project_id
 
+#### /data_project/:data_project_id
+
+Get all teams of a data_project
+- GET request
+- Response: List of Team
+
 ---
 
 ### /member

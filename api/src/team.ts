@@ -14,6 +14,7 @@ class TeamController implements Controller {
         this.router.post(TeamController.path, this.post);
         this.router.get(TeamController.path, this.get_all);
         this.router.get(TeamController.path + "/:user_id", this.get);
+        this.router.get(TeamController.path + "/data_project/:data_project_id", this.get_from_project);
         this.router.delete(TeamController.path, this.delete);
     }
 
@@ -115,6 +116,38 @@ class TeamController implements Controller {
         );
         res.send(JSON.stringify(r));
     }
+
+    async get_from_project(req: Request, res: Response) {
+      let id = parseInt(req.params.data_project_id);
+  
+      let r = new Array<TeamEntry>();
+  
+      if (!id) {
+        console.log (
+          "[ERROR][GET] wrong data on " + TeamController.path + "/" + id + ": " +
+            JSON.stringify(req.body),
+        );
+        res.status(400).send();
+        return;
+      }
+
+      /* Get all teams in teams_id */
+      await TeamController.get_values().then((rows: any) =>
+        rows.forEach((row) => {
+            if (row.data_project_id == id)
+              r.push(new TeamEntry(
+                  row.rowid,
+                  row.user_captain_id,
+                  row.data_project_id
+              ));
+        })
+      );
+
+    console.log(
+      "[INFO][GET] " + TeamController.path + "/" + id + ": ",
+    );
+    res.send(JSON.stringify(r));
+  }
 
     static async post_new(p: Team, res: Response) {
         let sql;
