@@ -48,3 +48,8 @@ curl -X POST -H "Content-Type: application/json" -d '{"question_id":3, "team_id"
 
 # Grading an Answer
 curl -X POST -H "Content-Type: application/json" -d '{"question_id":1, "team_id":1, "content":"19", "score":4, "user_id":4, "password":"man"}' localhost:8080/api/answer
+
+# Insert Ranks
+curl -X POST -H "Content-Type: application/json" -d '{"score": 12, "team_id": 1, "password": "admin", "data_project_id": 1}' localhost:8080/api/rank
+curl -X POST -H "Content-Type: application/json" -d '{"score": 3, "team_id": 2, "password": "admin", "data_project_id": 2}' localhost:8080/api/rank
+curl -X POST -H "Content-Type: application/json" -d '{"score": 4, "team_id": 3, "password": "admin", "data_project_id": 1}' localhost:8080/api/rank
