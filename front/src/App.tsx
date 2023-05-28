@@ -16,6 +16,7 @@ import Redirect from './pages/Redirect';
 import DataChallenges from "./pages/DataChallenges";
 import { AdminAuth, Auth, Guard } from './pages/Auth';
 import DataProjects from './pages/DataProject';
+import Rank from './pages/Rank';
 
 const App: Component = () => {
   return (
@@ -29,6 +30,7 @@ const App: Component = () => {
         <Route path="/team" element={<div><Guard/><Team/></div>}/>
         <Route path="/yourteam/:team_id" element={<div><Guard/><YourTeam/></div>}/>
         <Route path="/dashboard" element={<div><Guard/><Dashboard/></div>}/>
+        <Route path="/rank" element={<Rank/>} />
         <Route path="/redirect" element={<Redirect/>} />
         <Route path="/guard-auth" element={<Auth/>} />
         <Route path="/guard-auth-admin" element={<AdminAuth/>} />
