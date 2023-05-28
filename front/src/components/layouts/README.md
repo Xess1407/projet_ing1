@@ -46,6 +46,7 @@ br  border-radius
 ### Flex
 
 direction, flex-direction
+fw  flex-wrap
 
 ### Color
 

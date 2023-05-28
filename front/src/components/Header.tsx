@@ -30,7 +30,7 @@ const Header: Component = () => {
     return (
         <Box bgc="#000000" h="140px" m="0" p="0">
             <Flex jc="center" w="100%" m="0" p="0" h="100%" ai="center" td="none" ff="Roboto">
-                <img src="src/img/logo.png" alt="logo" height="100px" />
+                <img src="/src/img/logo.png" alt="logo" height="100px" />
                 <ul><LinkItems path="/" text={"Home"} /></ul>
                 <ul><LinkItems path="/profile" text={"Profile"} /></ul>
                 <ul><LinkItems path="/team" text={"Team"} /></ul>
@@ -43,7 +43,7 @@ const Header: Component = () => {
                     </Show>
                 </Flex>
                 <ul>
-                    <img class="down" id="down" src="src/img/down.png" alt="down" onClick={handle}/>
+                    <img class="down" id="down" src="/src/img/down.png" alt="down" onClick={handle}/>
                 </ul>
                 <ul><LinkItems path="/dashboard" text={"Dashboard"} /></ul>
                 <ul><LinkItems path="/chat" text={"Chat"} /></ul>
