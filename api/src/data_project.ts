@@ -13,6 +13,7 @@ class DataProjectController implements Controller {
         this.router.post(DataProjectController.path, this.post);
         this.router.get(DataProjectController.path, this.get_all);
         this.router.get(DataProjectController.path + "/:id", this.get);
+        this.router.get(DataProjectController.path + "/from-data-challenge/:data_challenge_id", this.get_all_from_data_challenge);
         this.router.delete(DataProjectController.path, this.delete);
     }
 
@@ -83,26 +84,50 @@ class DataProjectController implements Controller {
         }
     }
 
-    async get_all(req: Request, res: Response) {
+    async get_all_from_data_challenge(req: Request, res: Response) {
+        let id = req.params.data_challenge_id;
         let r = new Array<DataProjectEntry>;
     
         await DataProjectController.get_values().then((rows: any) =>
             rows.forEach((row) => {
-                r.push(new DataProjectEntry(
+                if(row.data_challenge_id == id) {
+                  r.push(new DataProjectEntry(
                     row.rowid,
                     row.data_challenge_id,
                     row.name,
                     row.description,
                     row.image
-                ));
+                  ))
+                }
             })
-        );
+        )
     
         console.log(
         "[INFO][GET] " + DataProjectController.path + ": ",
         );
         res.send(JSON.stringify(r));
     }
+
+    async get_all(req: Request, res: Response) {
+      let r = new Array<DataProjectEntry>;
+  
+      await DataProjectController.get_values().then((rows: any) =>
+          rows.forEach((row) => {
+              r.push(new DataProjectEntry(
+                  row.rowid,
+                  row.data_challenge_id,
+                  row.name,
+                  row.description,
+                  row.image
+              ));
+          })
+      );
+  
+      console.log(
+      "[INFO][GET] " + DataProjectController.path + ": ",
+      );
+      res.send(JSON.stringify(r));
+  }
 
     static async post_new(p: DataProject, res: Response) {
         let sql;

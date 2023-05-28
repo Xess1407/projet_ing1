@@ -157,6 +157,12 @@ Get all DataProject
 - GET request 
 - Response: List all Data Projects
 
+#### from-data-challenge/:data_challenge_id
+
+Get all DataProject of a data_challenge
+- GET request
+- Response: List all Data Projects of the data_challenge_id
+
 #### /:id
 Get one DataProject
 - GET request 

@@ -5,8 +5,10 @@ import { Image } from "@kobalte/core";
 import ButtonCustom from "../components/generals/ButtonCustom";
 import InputCustom from "../components/generals/InputCustom";
 import createDCBox from "../components/createDCBox";
+import { useNavigate } from "@solidjs/router";
 
 const DataChallenges: Component = () => {
+    const nav = useNavigate()
     const [challenges, setChallenges] = createSignal<any>([])
     const [resources, setResources] = createSignal<any[]>([])
 
@@ -51,7 +53,7 @@ const DataChallenges: Component = () => {
             </Flex>
             <For each={challenges()}>
                 {(element: any) => (
-                    <Flex fw="wrap" direction="row" ml="10%" mr="10%" h="75%" jc="space-around">
+                    <Flex fw="wrap" direction="row" ml="10%" mr="10%" h="75%" jc="space-around" onclick={() => {nav("/data-project/" + element.id)}}>
                         <Flex h="270px" w="350px" br="10px" bgc="#3E3E3E" mt="15px" direction="column">
                                 <Flex c="white" h="50%" jc="center" ai="center" ff="Roboto">
                                     <h3>{element.name}</h3>

@@ -12,7 +12,7 @@ const Flex = (props: any) => {
         s += "flex-direction:" + props.direction + ";"
     
     return (
-        <div style={s}>
+        <div style={s} onClick={props.onclick}>
             <For each={children} fallback={<div>Loading...</div>}>
                 {(item) => (
                     item
