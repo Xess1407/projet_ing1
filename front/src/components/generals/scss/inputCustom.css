@@ -35,6 +35,7 @@
     width: 12em;
     transition: all 0.3s;
     transform: translateY(-6rem);
+    font-family: 'Roboto';
 }
 
 .input_textfield:placeholder-shown + .input_label{
@@ -47,4 +48,5 @@
 .input_textfield::placeholder{
     text-decoration: none;
     text-align: justify;
+    font-family: 'Roboto';
 }

@@ -7,6 +7,7 @@ import { studentForm, setStudentForm, submit_student } from "../components/forms
 import InputCustom from "../components/generals/InputCustom";
 import { getSessionUser } from "../components/Session";
 import { managerForm, setManagerForm, submit_manager } from "../components/forms/RegisterManagerForm";
+import { form } from "../components/forms/ProfileForm";
 
 const [stat, setStat] = createSignal(true)
 
@@ -78,13 +79,13 @@ const DashboardUser: Component = () => {
     const getManagers = async () => {
         // Fetch the Managers
         const res_managers = await fetch(`http://localhost:8080/api/manager/full`, {
-          method: "GET"
+            method: "GET"
         });
-      
+
         let status = await res_managers.status
         if (status != 200) {res_managers
-          console.log("[ERROR] Couldn't get the managers! Status:" + status)
-          return
+            console.log("[ERROR] Couldn't get the managers! Status:" + status)
+            return
         }
         let res = await res_managers.json()
         
@@ -272,8 +273,8 @@ const DashboardUser: Component = () => {
     }
 
     return (
-        <Flex>
-            <Flex bgc="#444444" br="10px" w="30%" h="80%" direction="column">
+        <Flex w="80%" jc="space-evenly">
+            <Flex bgc="#444444" br="10px" w="40%" h="80%" direction="column">
                 <Flex w="100%" h="50%" direction="">
                     <Flex directon="column" w="50%" jc="space-evenly" ai="center">
                         <Box w="60%" h="60%" bgc="#222222" br="10px" c="#FFFFFF" ta="center">
@@ -300,28 +301,28 @@ const DashboardUser: Component = () => {
                 </Flex>
             </Flex>
             <Show when={addStudent()}>
-                <Flex bgc="#444444" br="10px" w="40%" h="80%" jc="center" ai="center">
+                <Flex bgc="#444444" br="10px" w="50%" h="60%" jc="center" ai="center">
                     <form onSubmit={ handle_submit_student }>
-                        <Flex direction="row" jc="space-around" w="100%" h="70%" mt="5%">
-                            <Flex direction="column" w="45%" jc="space-around" ai="center">
-                                <Flex direction="column" m="0 0 30px 0">
+                        <Flex direction="row" jc="space-around" w="100%" h="70%">
+                            <Flex direction="column" w="45%" jc="space-evenly" ai="center">
+                                <Flex direction="column" mt="2%">
                                     <InputCustom id="name" label="Firstname" type="text" placeholder="Firstname" update={setStudentForm}/>
                                 </Flex>
-                                <Flex direction="column" m="0 0 30px 0">
+                                <Flex direction="column" mt="4%">
                                     <InputCustom id="email" label="E-mail" type="email" placeholder="E-mail" pattern=".+@[a-z]{2,32}\.[a-z]{2,10}" update={setStudentForm}/>
                                 </Flex>
-                                <Flex direction="column" m="0 0 30px 0">
+                                <Flex direction="column" mt="4%">
                                     <InputCustom id="telephone_number" label="Number" type="tel" placeholder="Number" update={setStudentForm} pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"></InputCustom>
                                 </Flex>
                             </Flex>
-                            <Flex direction="column" w="45%" jc="space-around">
-                                <Flex direction="column" m="0 0 30px 0" w="100%"> 
+                            <Flex direction="column" w="45%" jc="space-evenly" ai="center" p="0">
+                                <Flex direction="column" h="25%"> 
                                     <InputCustom id="family_name" label="Surname" type="text" placeholder="Surname" update={setStudentForm} />
                                 </Flex>
-                                <Flex direction="row" w="100%" jc="space-between">
-                                    <Flex direction="column" w="45%">
+                                <Flex direction="row" w="90%" jc="space-between" ai="center">
+                                    <Flex mt="8%" direction="column" w="35%">
                                         <select id="school_level" required>
-                                            <option value="" disabled selected hidden>Study level</option>
+                                            <option value="">Level</option>
                                             <option value="L1">Licence 1</option>
                                             <option value="L2">Licence 2</option>
                                             <option value="L3">Licence 3</option>
@@ -329,17 +330,14 @@ const DashboardUser: Component = () => {
                                             <option value="M2">Master 2</option>
                                             <option value="D">Doctorate</option>
                                         </select>
-                                        <label for="school_level" class="school_level_label">Level</label>
                                     </Flex>
-                                    <Flex direction="column" m="0 0 30px 0" w="50%">
-                                        <InputCustom id="school" label="Etablishment" type="text" placeholder="Etablishement" update={setStudentForm}/>
+                                    <Flex direction="column" w="60%">
+                                        <input id="school" type="text" placeholder="Etablishment"  value={form.school}/>
                                     </Flex>
                                 </Flex>
-                                <Flex direction="column" m="0 0 30px 0">
-                                    <InputCustom id="city" label="City" type="text" placeholder="City" update={setStudentForm}/>
-                                    
+                                <Flex mb="7.5%" $direction="column">
+                                    <input id="city" placeholder="City" value={form.city} />
                                 </Flex>
-                                <span id="form-not-same-password-message"></span>
                             </Flex>
                         </Flex>
                         <Flex jc="center" ai="center">
@@ -349,37 +347,41 @@ const DashboardUser: Component = () => {
                 </Flex>
             </Show>
             <Show when={removeStudent()}>
-                <Flex direction="column" bgc="#444444" br="10px" w="40%" h="80%" jc="center" ai="center">
-                    <Flex w="100%" jc="center" ai="center">
-                        <label>Remove Student</label>
-                        <Flex direction="column" jc="center" ai="center" w="100%">
+                <Flex direction="column" bgc="#444444" br="10px" w="50%" h="60%" jc="space-evenly" ai="center" ff="Roboto" pt="3%">
+                    <label>Remove Student</label>
+                    <Flex w="95%" jc="space-evenly" ai="center">
+                        <Flex direction="column" jc="space-evenly" ai="center" w="65%">
                             {/* Call à la bdd pour trouver le joueur recherché */}
                             <input id="search" type="text" placeholder="Name of student" onInput={() => {setSearchValue((document.getElementById("search") as HTMLInputElement).value)}}/>  
-                            <For each={studentsNames()}>
-                                {(element: string) => (
-                                    <Show when={searching(element)}>
-                                        <li>{element}</li>
-                                    </Show>
-                                )}
-                            </For>
+                            <Box w="100%" h="2em" ovy="scroll">
+                                <For each={studentsNames()}>
+                                    {(element: string) => (
+                                        <Show when={searching(element)}>
+                                            <li>{element}</li>
+                                        </Show>
+                                    )}
+                                </For>
+                            </Box>
                         </Flex>
-                        <select name="data_project" id="data_project" onChange={async (e) => { setSelectedProject(Number(e.currentTarget.value)); await handleChangeTeam(); if(teams().length != 0) {setSelectedTeam(1);} else {setSelectedTeam(-1); }handleChangeMember()}}>
-                            <For each={projects()}>
-                                {(element) => (
-                                    <option value={element.id}>{element.name}</option>
-                                )}
-                            </For>
-                        </select>
-                        <select name="teams" id="teams" onChange={(e) => { setSelectedTeam(Number(e.currentTarget.value)); handleChangeMember()}}>
-                            <For each={teams()}>
-                                {(element) => (
-                                    <option value={element.id}>{element.id}</option>
-                                )}
-                            </For>
-                        </select>
-                        <ButtonCustom text="Ajouter" onclick={addToTeam}/>
+                        <Flex w="35%" jc="space-evenly" ai="center">
+                            <select name="data_project" id="data_project" onChange={async (e) => { setSelectedProject(Number(e.currentTarget.value)); await handleChangeTeam(); if(teams().length != 0) {setSelectedTeam(1);} else {setSelectedTeam(-1); }handleChangeMember()}}>
+                                <For each={projects()}>
+                                    {(element) => (
+                                        <option value={element.id}>{element.name}</option>
+                                    )}
+                                </For>
+                            </select>
+                            <select name="teams" id="teams" onChange={(e) => { setSelectedTeam(Number(e.currentTarget.value)); handleChangeMember()}}>
+                                <For each={teams()}>
+                                    {(element) => (
+                                        <option value={element.id}>{element.id}</option>
+                                    )}
+                                </For>
+                            </select>
+                            <ButtonCustom text="Ajouter" onclick={addToTeam}/>
+                        </Flex>
                     </Flex>
-                    <Flex direction="column" ai="center" w="80%" h="60%">
+                    <Flex direction="column" ai="center" w="80%" h="60%" ff="Roboto" mt="5%">
                         <label>Student</label>
                         <Box w="80%" h="30%" b="2px solid #FFFFFF" br="10px">
                             {/* Requête pour récupérer le joueur recherché */}
@@ -389,39 +391,38 @@ const DashboardUser: Component = () => {
                                 )}
                             </For>
                         </Box>
-                        <ButtonCustom text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="70px" br="16px" bgc="#E36464" mt="4%"/>
+                        <ButtonCustom text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="60px" br="16px" bgc="#E36464" mt="4%"/>
                     </Flex>
                 </Flex>
             </Show>
-
             <Show when={addManager()}>
-                <Flex bgc="#444444" br="10px" w="40%" h="80%" jc="center" ai="center">
+                <Flex bgc="#444444" br="10px" w="50%" h="60%" jc="center" ai="center">
                     <form onSubmit={ handle_submit_manager }>
                         <Flex direction="row" jc="space-around" w="100%" h="70%" mt="5%">
-                            <Flex direction="column" w="45%" jc="space-around" ai="center">
-                                <Flex direction="column" m="0 0 30px 0">
+                            <Flex direction="column" w="47%" jc="space-around" ai="center">
+                                <Flex direction="column" mt="4%">
                                     <InputCustom id="name" label="Firstname" type="text" placeholder="Firstname" update={setManagerForm}/>
                                 </Flex>
-                                <Flex direction="column" m="0 0 30px 0">
+                                <Flex direction="column" mt="4%">
                                     <InputCustom id="email" label="E-mail" type="email" placeholder="E-mail" pattern=".+@[a-z]{2,32}\.[a-z]{2,10}" update={setManagerForm}/>
                                 </Flex>
-                                <Flex direction="column" m="0 0 30px 0">
+                                <Flex direction="column" mt="4%">
                                     <InputCustom id="telephone_number" label="Number" type="tel" placeholder="Number" update={setManagerForm} pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"></InputCustom>
                                 </Flex>
                             </Flex>
-                            <Flex direction="column" w="45%" jc="space-around">
-                                <Flex direction="column" m="0 0 30px 0" w="100%"> 
+                            <Flex direction="column" w="47%" jc="space-around" ai="center">
+                                <Flex direction="column" mt="4%"> 
                                     <InputCustom id="family_name" label="Surname" type="text" placeholder="Surname" update={setManagerForm} />
                                 </Flex>
-                                <Flex direction="column" m="0 0 30px 0">
+                                <Flex direction="column" mt="4%">
                                     <InputCustom id="company" label="Company" type="text" placeholder="Company" update={setManagerForm}/>
                                 </Flex>
-                                <Flex direction="row" w="100%" jc="space-between">
-                                    <Flex direction="column" m="0 0 30px 0" w="50%">
-                                        <InputCustom id="activation_date" label="Activation date" type="text" placeholder="Activation date" update={setManagerForm}/>
+                                <Flex direction="row" w="80%" jc="space-between">
+                                    <Flex direction="column" w="48%" mt="4%">
+                                        <InputCustom id="activation_date" label="Date" type="text" placeholder="Activation" update={setManagerForm}/>
                                     </Flex>
-                                    <Flex direction="column" m="0 0 30px 0" w="50%">
-                                        <InputCustom id="deactivation_date" label="Deactivation date" type="text" placeholder="Deactivation date" update={setManagerForm}/>
+                                    <Flex direction="column" w="48%" mt="4%">
+                                        <InputCustom id="deactivation_date" label="Date" type="text" placeholder="Desactivation" update={setManagerForm}/>
                                     </Flex>
                                 </Flex>
                                 <span id="form-not-same-password-message"></span>
@@ -434,38 +435,42 @@ const DashboardUser: Component = () => {
                 </Flex>
             </Show>
             <Show when={removeManager()}>
-                <Flex direction="column" bgc="#444444" br="10px" w="40%" h="80%" jc="center" ai="center">
-                    <Flex w="100%" jc="center" ai="center">
-                        <label>Remove Manager</label>
-                        <Flex direction="column" jc="center" ai="center" w="100%">
+                <Flex direction="column" bgc="#444444" br="10px" w="50%" h="60%" jc="space-evenly" ai="center" ff="Roboto" pt="3%">
+                    <label>Remove Manager</label>
+                    <Flex w="95%" jc="space-evenly" ai="center">
+                        <Flex direction="column" jc="space-evenly" ai="center" w="65%">
                             {/* Call à la bdd pour trouver le joueur recherché */}
-                            <input id="search" type="text" placeholder="Name of student" onInput={() => {setSearchValue((document.getElementById("search") as HTMLInputElement).value)}}/>  
-                            <For each={studentsNames()}>
-                                {(element: string) => (
-                                    <Show when={searching(element)}>
-                                        <li>{element}</li>
-                                    </Show>
-                                )}
-                            </For>
+                            <input id="search" type="text" placeholder="Name of manager" onInput={() => {setSearchValue((document.getElementById("search") as HTMLInputElement).value)}}/>  
+                            <Box w="100%" h="2em" ovy="scroll">
+                                <For each={studentsNames()}>
+                                    {(element: string) => (
+                                        <Show when={searching(element)}>
+                                            <li>{element}</li>
+                                        </Show>
+                                    )}
+                                </For>
+                            </Box>
                         </Flex>
-                        <select name="data_project" id="data_project" onChange={async (e) => { setSelectedProject(Number(e.currentTarget.value)); await handleChangeTeam(); if(teams().length != 0) {setSelectedTeam(1);} else {setSelectedTeam(-1); }handleChangeMember()}}>
-                            <For each={projects()}>
-                                {(element) => (
-                                    <option value={element.id}>{element.name}</option>
-                                )}
-                            </For>
-                        </select>
-                        <select name="teams" id="teams" onChange={(e) => { setSelectedTeam(Number(e.currentTarget.value)); handleChangeMember()}}>
-                            <For each={teams()}>
-                                {(element) => (
-                                    <option value={element.id}>{element.id}</option>
-                                )}
-                            </For>
-                        </select>
-                        <ButtonCustom text="Ajouter" onclick={addToTeam}/>
+                        <Flex w="35%" jc="space-evenly" ai="center">
+                            <select name="data_project" id="data_project" onChange={async (e) => { setSelectedProject(Number(e.currentTarget.value)); await handleChangeTeam(); if(teams().length != 0) {setSelectedTeam(1);} else {setSelectedTeam(-1); }handleChangeMember()}}>
+                                <For each={projects()}>
+                                    {(element) => (
+                                        <option value={element.id}>{element.name}</option>
+                                    )}
+                                </For>
+                            </select>
+                            <select name="teams" id="teams" onChange={(e) => { setSelectedTeam(Number(e.currentTarget.value)); handleChangeMember()}}>
+                                <For each={teams()}>
+                                    {(element) => (
+                                        <option value={element.id}>{element.id}</option>
+                                    )}
+                                </For>
+                            </select>
+                            <ButtonCustom text="Ajouter" onclick={addToTeam}/>
+                        </Flex>
                     </Flex>
-                    <Flex direction="column" ai="center" w="80%" h="60%">
-                        <label>Student</label>
+                    <Flex direction="column" ai="center" w="80%" h="60%" ff="Roboto" mt="5%">
+                        <label>Managers</label>
                         <Box w="80%" h="30%" b="2px solid #FFFFFF" br="10px">
                             {/* Requête pour récupérer le joueur recherché */}
                             <For each={members()}>
@@ -474,7 +479,7 @@ const DashboardUser: Component = () => {
                                 )}
                             </For>
                         </Box>
-                        <ButtonCustom text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="70px" br="16px" bgc="#E36464" mt="4%"/>
+                        <ButtonCustom text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="60px" br="16px" bgc="#E36464" mt="4%"/>
                     </Flex>
                 </Flex>
             </Show>

@@ -85,8 +85,7 @@ const Profile = ()=> {
         await getDataProject()
     })
     
-
-    return (/*#222222*/
+    return (
         <Flex bgc="#111111" direction="row" w="100%" h="calc(100vh - 140px)">
             <Flex direction="column" w="50%" h="100%">
                 <Flex w="100%" jc="center">
@@ -102,20 +101,20 @@ const Profile = ()=> {
                 <Flex w="100%" h="100%" jc="space-around">
                     <Box h="262px" w="309px" c="white" ff="Roboto">
                         <h3>Team</h3>
-                        <Box b="2px solid white" h="100%" br="8px">
+                        <Box b="2px solid white" h="100%" br="8px" p="5% 0 0 5%">
                             <For each={teams()}>
                                 {(element:any) => (
-                                    <Flex><LinkItems path={"/yourteam/" + element.id} text={"Team" + element.id} /></Flex>
+                                    <Flex ff="Roboto"><LinkItems path={"/yourteam/" + element.id} text={"Team" + element.id} /></Flex>
                                 )}
                             </For>
                         </Box>
                     </Box>
                     <Box h="262px" w="309px" c="white" ff="Roboto">
                         <h3>Data Projects</h3>
-                        <Box b="2px solid white" h="100%" br="8px">
+                        <Box b="2px solid white" h="100%" br="8px" p="5% 0 0 5%">
                             <For each={projects()}>
                                 {(element:any) => (
-                                    <Flex>{element.name}</Flex>
+                                    <Flex ff="Roboto">{element.name}</Flex>
                                 )}
                             </For>
                         </Box>
@@ -123,18 +122,18 @@ const Profile = ()=> {
                 </Flex>
             </Flex>
             <Box w="50%" >
-                <h1>{form.city}</h1>
+                {/* <h1>{form.city}</h1> */}
                 <Flex direction="row" jc="space-around" ai="center" h="600px">
-                    <Flex jc="space-evenly" ai="center" c="white" direction="column">
-                            <InputCustom id="family_name" label="Surname" type="text" placeholder="Surname" empty default={form.family_name}/>
-                            <InputCustom id="email" label="Email" type="text" placeholder="Email" empty default={form.email}/>
-                            <InputCustom id="phone" label="Phone number" type="text" placeholder="Phone number" empty default={form.telephone_number} pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"/>
-                            <InputCustom id="password" label="Password" type="password" placeholder="Password" empty/>
+                    <Flex jc="space-evenly" ai="center" c="white" direction="column" m="0">
+                            <InputCustom mt="8%" id="family_name" label="Surname" type="text" placeholder="Surname" empty default={form.family_name}/>
+                            <InputCustom mt="8%" id="email" label="Email" type="text" placeholder="Email" empty default={form.email}/>
+                            <InputCustom mt="8%" id="phone" label="Phone number" type="text" placeholder="Phone number" empty default={form.telephone_number} pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"/>
+                            <InputCustom mt="8%" id="password" label="Password" type="password" placeholder="Password" empty/>
                     </Flex>
-                    <Flex jc="space-evenly" ai="center" c="white" direction="column">
-                        <InputCustom id="name" label="First name" type="text" placeholder="First name" empty default={form.name}/>
+                    <Flex jc="space-evenly" ai="center" c="white" direction="column" m="0" p="0">
+                        <InputCustom m="0" id="name" label="First name" type="text" placeholder="First name" empty default={form.name}/>
                         <Flex direction="row">
-                            <Flex direction="column" w="100%">
+                            <Flex direction="column" w="100%" mt="15%">
                                 <select id="school_level" value={form.school_level} required>
                                     <option value="" disabled selected hidden>Study level</option>
                                     <option value="L1">Licence 1</option>
@@ -151,7 +150,7 @@ const Profile = ()=> {
                     </Flex>
                 </Flex>
                 <Flex jc="center">
-                    <ButtonCustom ff="Roboto" class="profile-submit" type="submit" value="submit" m="20px 0" w="30%" h="3.5em" text="Edit profile"></ButtonCustom>
+                    <ButtonCustom ff="Roboto" class="profile-submit" type="submit" value="submit" w="30%" h="3.5em" text="Edit profile"></ButtonCustom>
                 </Flex>
             </Box>
         </Flex>

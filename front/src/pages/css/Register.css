@@ -3,7 +3,7 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    height: 7vh;
+    height: 7.5vh;
     width: 100%;
     outline: none;
     border-radius: 8px;
@@ -16,7 +16,6 @@
     line-height: 0;
     transition: 250ms background-color;
 }
-
 
 #school_level:focus-visible {
     outline: 2px solid white;
@@ -48,6 +47,65 @@
 }
 
 #signup-title{
-    margin-bottom: 70px;
+    margin-bottom: 3%;
     font-size: xx-large;
+    font-family: 'Roboto';
+}
+
+#city2 {
+    appearance: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 7vh;
+    width: 100%;
+    outline: none;
+    border-radius: 8px;
+    padding: 0 16px;
+    border: 1px white solid;
+    background: none;
+    background-color: rgba(13, 201, 193, 0.46);
+    color: white;
+    font-size: 16px;
+    line-height: 0;
+    transition: 250ms background-color;
+    margin-top: 2%;
+}
+
+#city2:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 2px;
+}
+
+#city2:active {
+    background-color: hsl(177 90% 40%);
+}
+
+#city2:invalid{
+    color: rgba(255,255,255,0.5);
+    background-color: rgba(227, 100, 100, 0.46);
+}
+
+#city2:hover {
+    background-color: hsl(177 96% 40%);
+}
+
+#school2 {
+    appearance: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 7vh;
+    width: 100%;
+    outline: none;
+    border-radius: 8px;
+    padding: 0 16px;
+    border: 1px white solid;
+    background: none;
+    background-color: rgba(13, 201, 193, 0.46);
+    color: white;
+    font-size: 16px;
+    line-height: 0;
+    transition: 250ms background-color;
+    margin-bottom: 12%;
 }

@@ -48,6 +48,14 @@
     transition: 250ms background-color;
 }
 
+#school {
+    margin-top: 15%;
+}
+
+#city {
+    margin-top: 15%;
+}
+
 #school:hover, #city:hover {
     background-color: hsl(177 96% 40%);
 }

@@ -32,16 +32,16 @@ const Connect: Component = () => {
 
     return (
         <Flex jc="center" ai="center" pos="absolute" bg="#111111 no-repeat right/calc(100vh - 142px) url('src/assets/code.jpg')" w="100%" h="calc(100vh - 140px)" m="0" p="0">
-            <Flex jc="space-evenly" ai="center" w="915px" h="661px" br="50px" m="2vh" bgc="#3E3E3E" opt="90%" p="1em 3em" c="white" direction="column" ff="Roboto">
+            <Flex jc="space-evenly" ai="center" w="35%" h="70%" br="50px" m="2vh" bgc="#3E3E3E" opt="90%" p="1em 3em" c="white" direction="column" ff="Roboto">
                 <h1>Connexion</h1>
                 <form onSubmit={ handle_submit }>
                     <Flex direction="row">
                         <span id="form-invalid-identifiers"></span>
-                        <Flex direction="column" jc="space-evenly" ai="center">
-                            <Flex direction="column" m="0 0 50px 0" ff="Roboto">
+                        <Flex direction="column" jc="space-evenly" ai="center" w="100%">
+                            <Flex direction="column" mb="15%" ff="Roboto" jc="center" ai="center">
                                 <InputCustom ff="Roboto" id="email" type="email" placeholder="E-mail" update={setForm}/>
                             </Flex>
-                            <Flex direction="column" m="0 0 100px 0" ff="Roboto">
+                            <Flex direction="column" mb="15%" ff="Roboto">
                                 <InputCustom ff="Roboto" id="password" type="password" placeholder="Password" update={setForm}/>
                             </Flex>
                         </Flex>

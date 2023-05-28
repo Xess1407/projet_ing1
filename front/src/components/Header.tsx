@@ -26,7 +26,6 @@ const Header: Component = () => {
         }
     };
 
-
     return (
         <Box bgc="#000000" h="140px" m="0" p="0">
             <Flex jc="center" w="100%" m="0" p="0" h="100%" ai="center" td="none" ff="Roboto">
@@ -47,7 +46,7 @@ const Header: Component = () => {
                 </ul>
                 <ul><LinkItems path="/dashboard" text={"Dashboard"} /></ul>
                 <ul><LinkItems path="/chat" text={"Chat"} /></ul>
-                <ul><Show when={connected()}><button onclick={() => {deconnection(); setConnected(false); nav("/redirect", { replace: true }); }}>Deconnexion</button></Show></ul>
+                <ul><Show when={connected()}><button class="deconnexion" onclick={() => {deconnection(); setConnected(false); nav("/redirect", { replace: true }); }}>Deconnexion</button></Show></ul>
             </Flex>
         </Box>
     );
