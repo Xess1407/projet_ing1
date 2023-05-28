@@ -1,9 +1,10 @@
-import { For, createSignal, onMount } from "solid-js"
+import { For, createEffect, createSignal, onMount } from "solid-js"
 import Flex from "../components/layouts/Flex"
 
 const Rank = () => {
     const [ranks, setRanks] = createSignal<any>([])
-    const [ranksByProject, setRanksByProject] = createSignal<any[][]>([])
+    const [ranksByProjectTmp, setRanksByProjectTmp] = createSignal<any>([])
+    const [ranksByProject, setRanksByProject] = createSignal<any>([])
     const getRanks = async () => {
         const res_rank = await fetch(`http://localhost:8080/api/rank`, {
             method: "GET",
@@ -19,29 +20,43 @@ const Rank = () => {
     }
 
     const sortByProject = () => {
+        let data: any = ranksByProjectTmp()
         ranks().forEach((element:any) => {
-            let find = ranksByProject().find((list: any[]) => { return list.at(0).data_project_id == element.data_project_id })
+            let find = data.find((list: any[]) => { return list.at(0).data_project_id == element.data_project_id })
             if (find) {
-                find.push(element)
+                data.find((list: any[]) => { return list.at(0).data_project_id == element.data_project_id }).push(element)
             } else {
-                ranksByProject().push([element])
+                data.push([element])
             }
         });
+
+        data.forEach((element:any[]) => {
+            element.sort((a, b) => { return b.score - a.score})
+        });
+        setRanksByProjectTmp(data)
+        setRanksByProject(ranksByProjectTmp())
     }
 
     onMount(async () => {
         await getRanks()
         sortByProject()
-        console.log(ranks());
-        console.log(ranksByProject());
-        
     })
     
     return (
     <Flex bgc="#444444" br="10px" w="80%" h="80%" direction="column">
-        <For each={ranks()}>
-            {(element: string) => (
-                <div>RANK</div>  
+        <For each={ranksByProject()}>
+            {(list_ranks:any) => (
+                <Flex>
+                    <div><h3> Data project: {list_ranks.at(0).data_project_id} </h3></div>  
+                    <For each={list_ranks}>
+                        {(rank: any) => (
+                            <div>
+                                <h4>Team nom: {rank.team_id}</h4>
+                                <span>Score: {rank.score}</span>
+                            </div>  
+                        )}
+                    </For>
+                </Flex>
             )}
         </For>
     </Flex>)
