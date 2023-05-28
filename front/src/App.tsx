@@ -50,7 +50,7 @@ const App: Component = () => {
 
         <Route path="/data-project/:data_challenge_id" element={<DataProjects/>} />
         <Route path="/data-project" element={<AllDataProjects/>} />
-        <Route path="/data-project/:data_project_id/teams" element={<DataProjectTeams/>} />
+        <Route path="/data-project/teams/:data_project_id" element={<DataProjectTeams/>} />
         <Route path="*" element={<div><p>404 Error</p></div>}/>
       </Routes>
 		</div>

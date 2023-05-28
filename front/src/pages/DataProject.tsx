@@ -51,7 +51,7 @@ const DataProjects: Component = () => {
             <Flex fw="wrap" jc="space-evenly" w="100%" h="77%" direction="row">
                 <For each={projects()}>
                     {(element: any) => (
-                        <Flex fw="wrap" direction="row" w="22%" h="40%" onclick={() => {/* TODO nav to teams */}}>
+                        <Flex fw="wrap" direction="row" w="22%" h="40%" onclick={() => {nav(`/data-project/teams/${element.id}`,{replace: true})}}>
                             <Flex h="100%" w="100%" br="10px" bgc="#3E3E3E" direction="column">
                                 <Flex c="white" jc="center" ai="center" ff="Roboto">
                                     <h3>{element.name}</h3>
