@@ -14,7 +14,7 @@ import YourTeam from './pages/YourTeam';
 import Dashboard from './pages/Dashboard';
 import Redirect from './pages/Redirect';
 import DataChallenges from "./pages/DataChallenges";
-import { Auth, Guard } from './pages/Auth';
+import { AdminAuth, Auth, Guard } from './pages/Auth';
 import DataProjects from './pages/DataProject';
 
 const App: Component = () => {
@@ -31,6 +31,7 @@ const App: Component = () => {
         <Route path="/dashboard" element={<div><Guard/><Dashboard/></div>}/>
         <Route path="/redirect" element={<Redirect/>} />
         <Route path="/guard-auth" element={<Auth/>} />
+        <Route path="/guard-auth-admin" element={<AdminAuth/>} />
         <Route path="/datachallenges" element={<DataChallenges/>} />
         <Route path="/data-project/:data_challenge_id" element={<DataProjects/>} />
         <Route path="*" element={<div><p>404 Error</p></div>}/>

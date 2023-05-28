@@ -49,3 +49,7 @@ export function getSessionUser(): SessionUser | null {
 export const isConnected = (): boolean => {
     return window.localStorage.getItem("user_id") !== null
 }
+
+export const isAdmin = (): boolean => {
+    return isConnected() && window.localStorage.getItem("role") == "admin"
+}
