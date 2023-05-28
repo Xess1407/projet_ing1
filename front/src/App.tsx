@@ -18,6 +18,7 @@ import { AdminAuth, Auth, Guard } from './pages/Auth';
 import DataProjects from './pages/DataProject';
 import Rank from './pages/Rank';
 import DashboardUser from './pages/DashboardUser';
+import AllDataProjects from './pages/AllDataProjects';
 
 const App: Component = () => {
   return (
@@ -25,23 +26,29 @@ const App: Component = () => {
       <Header/>
       <Routes>
         <Route path="/" element={<Home/>}/>
+
         <Route path="/connect" element={<div><GuardAlreadyConnect/><Connect/></div>}/>
         <Route path="/register" element={<Register/>}/>
+
         <Route path="/profile" element={<div><Guard/><Profile/></div>}/>
         <Route path="/team" element={<div><Guard/><Team/></div>}/>
         <Route path="/yourteam/:team_id" element={<div><Guard/><YourTeam/></div>}/>
+
         <Route path="/dashboard" element={<div><Guard/><Dashboard/></div>}>
           <Route path="/" element={<DashboardUser/>} />
           <Route path="/rank" element={<Rank/>} />
           <Route path="/test" element={<div><h1>ICI CA MARCHE !</h1></div>} />
         </Route>
-        <Route path="/rank" element={<Rank/>} />
+
         <Route path="/redirect" element={<Redirect/>} />
         <Route path="/guard-auth" element={<Auth/>} />
         <Route path="/guard-auth-admin" element={<AdminAuth/>} />
         <Route path="/guard-connected" element={<AlreadyConnect/>} />
-        <Route path="/datachallenges" element={<DataChallenges/>} />
+
+        <Route path="/data-challenges" element={<DataChallenges/>} />
+
         <Route path="/data-project/:data_challenge_id" element={<DataProjects/>} />
+        <Route path="/data-project" element={<AllDataProjects/>} />
         <Route path="*" element={<div><p>404 Error</p></div>}/>
       </Routes>
 		</div>
