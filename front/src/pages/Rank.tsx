@@ -43,23 +43,25 @@ const Rank = () => {
     })
     
     return (
-    <Flex bgc="#444444" br="10px" w="80%" h="80%" direction="column">
-        <For each={ranksByProject()}>
-            {(list_ranks:any) => (
-                <Flex>
-                    <div><h3> Data project: {list_ranks.at(0).data_project_id} </h3></div>  
-                    <For each={list_ranks}>
-                        {(rank: any) => (
-                            <div>
-                                <h4>Team nom: {rank.team_id}</h4>
-                                <span>Score: {rank.score}</span>
-                            </div>  
-                        )}
-                    </For>
-                </Flex>
-            )}
-        </For>
-    </Flex>)
+        <Flex b="3px solid green"bgc="#444444" br="10px" w="80%" h="70vh" direction="column" jc="space-evenly" >
+            <For each={ranksByProject()}>
+                {(list_ranks:any) => (
+                    <Flex b="2px solid red" direction="row" jc="space-evenly" w="80%">
+                        <div><h3> Data project: {list_ranks.at(0).data_project_id} </h3></div>
+                        <Flex direction="column">
+                            <For each={list_ranks}>
+                                {(rank: any) => (
+                                    <div>
+                                        <h4>Team nom: {rank.team_id}</h4>
+                                        <span>Score: {rank.score}</span>
+                                    </div>  
+                                )}
+                            </For>
+                        </Flex>
+                    </Flex>
+                )}
+            </For>
+        </Flex>)
 }
 
 export default Rank
