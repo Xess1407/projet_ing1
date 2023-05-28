@@ -6,7 +6,6 @@ h1 {
     font-family: 'Roboto';
 }
 .search {
-    width: 80%;
     height: 1.5em;
     border-radius: 50px;
     border-style: none;
@@ -15,15 +14,28 @@ h1 {
 
 label {
     margin-bottom: 1.5%;
-    margin-right: 65%;
 }
 
 input {
-    width: 80%;
+    width: 70%;
     height: 3.5em;
     border-radius: 10px;
     border: 1px solid #000000;
     background-color: #000000;
     color: #FFFFFF;
     text-indent: 4ch;
+}
+
+#data_project {
+    width: 50%;
+    height: 3.5em;
+}
+
+li {
+    list-style-type: none;
+    width: 70%;
+    background-color: #DDDDDD;
+    border-radius: 3px;
+    margin-bottom: 0.4%;
+    margin-left: 15%;
 }

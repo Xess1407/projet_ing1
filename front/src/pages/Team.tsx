@@ -397,31 +397,34 @@ const Team: Component = () => {
                 <Show when={createTeam()} >
                     <Flex bgc="#555555" w="80%" h="90%" direction="column" jc="space-evenly" ai="center" br="10px">
                         <h1>Create Your Team</h1>
-                        <Flex>
-                            <label>Search student</label>
-                            <Flex direction="column" jc="center" ai="center" w="100%">
-                                {/* Call à la bdd pour trouver le joueur recherché */}
+                        <label>Search student</label>
+                        <Flex w="100%" jc="space-evenly" ai="center">
+                            <Flex direction="column" jc="center" ai="center" w="65%">
                                 <input id="search" type="text" placeholder="Name of student" onInput={() => {setSearchValue((document.getElementById("search") as HTMLInputElement).value)}}/>
-                                <For each={studentsNames()}>
-                                    {(element: string) => (
-                                        <Show when={searching(element)}>
-                                            <li>{element}</li>
-                                        </Show>
-                                    )}
-                                </For>
+                                <Box w="100%" h="2em" ovy="scroll">
+                                    <For each={studentsNames()}>
+                                        {(element: string) => (
+                                            <Show when={searching(element)}>
+                                                <li>{element}</li>
+                                            </Show>
+                                        )}
+                                    </For>
+                                </Box>
                             </Flex>
-                            <select name="data_project" id="data_project" onChange={handle_change_project}>
-                                <For each={projects()}>
-                                    {(element) => (
-                                        <option value={element.id}>{element.name}</option>
-                                    )}
-                                </For>
-                            </select>
-                            <ButtonCustom text="Ajouter" onclick={addNewMember}/>
+                            <Flex w="35%" ai="center">
+                                <select name="data_project" id="data_project" onChange={handle_change_project}>
+                                    <For each={projects()}>
+                                        {(element) => (
+                                            <option value={element.id}>{element.name}</option>
+                                            )}
+                                    </For>
+                                </select>
+                                <ButtonCustom text="Ajouter" onclick={addNewMember}/>
+                            </Flex>
                         </Flex>
                         <Flex direction="column" ai="center" w="100%" h="60%">
                             <label>Your Teammates</label>
-                            <Box w="80%" h="100%" b="2px solid #FFFFFF" br="10px">
+                            <Box w="80%" h="70%" b="2px solid #FFFFFF" br="10px">
                                 {/* Requête pour récupérer le joueur recherché */}
                                 <For each={newMembers()}>
                                     {(element:any) => (
