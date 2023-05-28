@@ -32,6 +32,7 @@ const App: Component = () => {
         <Route path="/yourteam/:team_id" element={<div><Guard/><YourTeam/></div>}/>
         <Route path="/dashboard" element={<div><Guard/><Dashboard/></div>}>
           <Route path="/" element={<DashboardUser/>} />
+          <Route path="/rank" element={<Rank/>} />
           <Route path="/test" element={<div><h1>ICI CA MARCHE !</h1></div>} />
         </Route>
         <Route path="/rank" element={<Rank/>} />
