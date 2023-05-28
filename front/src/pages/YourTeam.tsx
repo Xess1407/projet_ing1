@@ -34,7 +34,7 @@ const YourTeam: Component = () => {
 
     /* Get all members from a team_id */
     const getMembersFromTeam = async (team_id: any) => {
-        const res_member = await fetch(`http://localhost:8080/api/member/${team_id}`, {
+        const res_member = await fetch(`http://localhost:8080/api/member/team/${team_id}`, {
             method: "GET",
         });
 
@@ -53,10 +53,10 @@ const YourTeam: Component = () => {
         setMembers(m)
     }
 
-    const getName = (id: number) => {
+    const getName = (user_id: number) => {
         let v = ""
         students().forEach((element: any) => {
-            if(element.user_id == id) v = element.name
+            if(element.user_id == user_id) v = element.name
         });
         return v
     }
@@ -78,11 +78,10 @@ const YourTeam: Component = () => {
                     {(element:any) => (
                         <Box w="20%" h="100%" br="10px" bgc="#555555">
                             <img class="profile-picture" src="src/img/profil.jpg" alt="PHOTO " />
-                            <span>{"Nom:" + getName(element.id).toUpperCase()}</span>
+                            <span>{"Nom:" + getName(element.user_id).toUpperCase()}</span>
                         </Box>
                     )}
                 </For>
-                
             </Flex>
             <Flex w="100%" h="28%" jc="space-around" mt="5%">
                                                                  

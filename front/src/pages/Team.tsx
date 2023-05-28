@@ -5,6 +5,8 @@ import "./css/Team.css"
 import ButtonCustom from "../components/generals/ButtonCustom";
 import InputCustom from "../components/generals/InputCustom";
 import { getSessionUser } from "../components/Session";
+import LinkItems from "../components/LinkItems";
+import { Link } from "@solidjs/router";
 
 
 const Team: Component = () => {
@@ -359,26 +361,30 @@ const Team: Component = () => {
                                     const filteredTeamMembers = teamMembers.filter(Boolean); // Filtrer les valeurs nulles (chaînes vides)
 
                                     return (
-                                        <Flex>
-                                            <Flex fsz="18px" c="white" ff="Roboto">
-                                                <span>Project {project.name} : [</span>
-                                            </Flex>
-                                            <For each={filteredTeamMembers}>
-                                            {(teamMember: any, index: () => number) => (
-                                                <>
-                                                {teamMember}
-                                                {index() !== filteredTeamMembers.length - 1 && (
-                                                    <Flex fsz="18px" c="white"ff="Roboto">
-                                                        ,&nbsp;
-                                                    </Flex>
-                                                )}
-                                                </>
-                                            )}
-                                            </For>
-                                            <Flex fsz="18px" c="white" ff="Roboto">
-                                                <span>]</span>
-                                            </Flex>
-                                        </Flex>
+                                        <Link href={"/yourteam/" + team.id}>
+                                            <Box b="2px solid white" mb="2%" h="100%" w="100%" br="8px">
+                                                <Flex>
+                                                        <Flex fsz="18px" c="white" ff="Roboto">
+                                                            <span>Team {team.id} on Project {project.name}: [</span>
+                                                        </Flex>
+                                                        <For each={filteredTeamMembers}>
+                                                        {(teamMember: any, index: () => number) => (
+                                                            <>
+                                                            {teamMember}
+                                                            {index() !== filteredTeamMembers.length - 1 && (
+                                                                <Flex fsz="18px" c="white"ff="Roboto">
+                                                                    ,&nbsp;
+                                                                </Flex>
+                                                            )}
+                                                            </>
+                                                        )}
+                                                        </For>
+                                                        <Flex fsz="18px" c="white" ff="Roboto">
+                                                            <span>]</span>
+                                                        </Flex>
+                                                </Flex>
+                                            </Box>
+                                        </Link>
                                     );
                                 }}
                                 </For>
@@ -386,7 +392,7 @@ const Team: Component = () => {
                             </For>
                         </Flex>
                     </Show>
-                    <Show when={teams().length == 0}>
+                    <Show when={userTeams().length == 0}>
                         <Box ff="Roboto" fsz="18px" mb="5%" c="#FFFFFF">You don't have a team yet, create it !</Box>
                     </Show>
                     <ButtonCustom text="CREATE YOUR TEAM" ff="Roboto black" fsz="16px" w="300px" h="60px" br="16px" bgc="#3BCFA3" mb="5%" onclick={() => handle_show(1)}/>
