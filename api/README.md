@@ -267,11 +267,17 @@ Get all Member from all teams
 - GET request 
 - Response: List all Table
 
-#### /:id
+#### /team/:id
 
 Get all Member from one team  (where id = team_id)
 - GET request 
 - Response: List all members from team
+
+#### /user/:id
+
+Get all Member from all teams of one user  (where id = user_id)
+- GET request 
+- Response: List all members from all teams of user
 
 ---
 
