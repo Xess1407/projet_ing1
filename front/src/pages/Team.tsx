@@ -7,6 +7,7 @@ import InputCustom from "../components/generals/InputCustom";
 import { getSessionUser } from "../components/Session";
 import LinkItems from "../components/LinkItems";
 import { Link } from "@solidjs/router";
+import LinkComponents from "../components/LinkComponents";
 
 
 const Team: Component = () => {
@@ -361,7 +362,7 @@ const Team: Component = () => {
                                     const filteredTeamMembers = teamMembers.filter(Boolean); // Filtrer les valeurs nulles (chaînes vides)
 
                                     return (
-                                        <Link href={"/yourteam/" + team.id}>
+                                        <LinkComponents path={"/yourteam/" + team.id}>
                                             <Box b="2px solid white" mb="2%" h="100%" w="100%" br="8px">
                                                 <Flex>
                                                         <Flex fsz="18px" c="white" ff="Roboto">
@@ -384,7 +385,7 @@ const Team: Component = () => {
                                                         </Flex>
                                                 </Flex>
                                             </Box>
-                                        </Link>
+                                        </LinkComponents>
                                     );
                                 }}
                                 </For>

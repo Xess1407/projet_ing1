@@ -93,7 +93,7 @@ const Profile = ()=> {
                     <Image.Root fallbackDelay={600} class="image">
                         <Image.Img
                             class="image__img"
-                            src="src/img/profil.jpg"
+                            src="/src/img/profil.jpg"
                             alt="PP"
                         />
                         <Image.Fallback class="image__fallback">MG</Image.Fallback>

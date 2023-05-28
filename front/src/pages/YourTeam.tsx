@@ -77,7 +77,7 @@ const YourTeam: Component = () => {
                 <For each={members()}>
                     {(element:any) => (
                         <Box w="20%" h="100%" br="10px" bgc="#555555">
-                            <img class="profile-picture" src="src/img/profil.jpg" alt="PHOTO " />
+                            <img class="profile-picture" src="/src/img/profil.jpg" alt="PHOTO " />
                             <span>{"Nom:" + getName(element.user_id).toUpperCase()}</span>
                         </Box>
                     )}
