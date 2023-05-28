@@ -357,3 +357,30 @@ Get all messages between a user and a contact
 - Response: List of messages
 
 ---
+
+### /rank
+
+Save new Rank
+- POST request
+- Form-data: data_project_id, team_id, score, password
+- Response: id
+
+Modify existing Rank
+- POST request
+- Form-data: id, data_project_id, team_id, score, password
+
+Delete existing Rank
+- DELETE request
+- Form-data: id, password
+
+Get all Ranks
+- GET request 
+- Response: List all Rank
+
+#### /:id
+
+Get one rank
+- GET request 
+- Response: id, data_project_id, team_id, score
+
+---
