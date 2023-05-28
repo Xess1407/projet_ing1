@@ -6,6 +6,7 @@ import Box from "../components/layouts/Box";
 import InputCustom from "../components/generals/InputCustom";
 import { useNavigate } from "@solidjs/router";
 import { setConnected } from "../components/Header";
+import { isConnected } from "../components/Session";
 
 const [stat, setStat] = createSignal(true)
 
@@ -55,3 +56,21 @@ const Connect: Component = () => {
 }
 
 export default Connect
+
+
+export const GuardAlreadyConnect = () => {
+    const nav = useNavigate()
+    if (isConnected()) 
+        nav("/guard-connected")
+    return <div></div>
+}
+
+export const AlreadyConnect = () => {
+    const nav = useNavigate()
+    return (
+        <Flex jc="center">
+            <p>You are already connected</p>
+            <button onclick={() => {nav("/", {replace:true})}}>Get back home</button>
+        </Flex>
+        )
+}

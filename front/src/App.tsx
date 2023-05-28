@@ -5,7 +5,7 @@ import Profile from "./pages/Profile";
 import logo from './logo.png';
 import styles from './App.module.css';
 import { Route, Routes } from '@solidjs/router';
-import Connect from './pages/Connect';
+import Connect, { AlreadyConnect, GuardAlreadyConnect } from './pages/Connect';
 import Header from './components/Header';
 import Register from './pages/Register';
 import Box from './components/layouts/Box';
@@ -23,7 +23,7 @@ const App: Component = () => {
       <Header/>
       <Routes>
         <Route path="/" element={<Home/>}/>
-        <Route path="/connect" element={<Connect/>}/>
+        <Route path="/connect" element={<div><GuardAlreadyConnect/><Connect/></div>}/>
         <Route path="/register" element={<Register/>}/>
         <Route path="/profile" element={<div><Guard/><Profile/></div>}/>
         <Route path="/team" element={<div><Guard/><Team/></div>}/>
@@ -32,6 +32,7 @@ const App: Component = () => {
         <Route path="/redirect" element={<Redirect/>} />
         <Route path="/guard-auth" element={<Auth/>} />
         <Route path="/guard-auth-admin" element={<AdminAuth/>} />
+        <Route path="/guard-connected" element={<AlreadyConnect/>} />
         <Route path="/datachallenges" element={<DataChallenges/>} />
         <Route path="/data-project/:data_challenge_id" element={<DataProjects/>} />
         <Route path="*" element={<div><p>404 Error</p></div>}/>
