@@ -17,7 +17,7 @@ label {
 }
 
 input {
-    width: 70%;
+    width: 80%;
     height: 3.5em;
     border-radius: 10px;
     border: 1px solid #000000;
@@ -27,15 +27,15 @@ input {
 }
 
 #data_project {
-    width: 50%;
+    width: 30%;
     height: 3.5em;
 }
 
 li {
     list-style-type: none;
-    width: 70%;
+    width: 80%;
     background-color: #DDDDDD;
     border-radius: 3px;
     margin-bottom: 0.4%;
-    margin-left: 15%;
+    margin-left: 10%;
 }
