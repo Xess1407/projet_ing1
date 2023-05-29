@@ -1,0 +1,8 @@
+.data-challenges:hover {
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.data-challenges {
+    height: 39%;
+}

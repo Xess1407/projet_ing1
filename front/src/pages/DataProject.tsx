@@ -1,6 +1,7 @@
 import { Component, For, createSignal, onMount } from "solid-js"
 import Flex from "../components/layouts/Flex"
 import { useNavigate, useParams } from "@solidjs/router"
+import "./css/DataProjects.css"
 
 const DataProjects: Component = () => {
     const nav = useNavigate()
@@ -51,27 +52,29 @@ const DataProjects: Component = () => {
             <Flex fw="wrap" jc="space-evenly" w="100%" h="77%" direction="row">
                 <For each={projects()}>
                     {(element: any) => (
-                        <Flex fw="wrap" direction="row" w="22%" h="40%" onclick={() => {nav(`/data-project/teams/${element.id}`,{replace: true})}}>
-                            <Flex h="100%" w="100%" br="10px" bgc="#3E3E3E" direction="column">
-                                <Flex c="white" jc="center" ai="center" ff="Roboto">
-                                    <h3>{element.name}</h3>
-                                </Flex>
-                                <Flex c="white">
-                                    <Flex c="white" w="100%" ml="5%" direction="column" ff="Roboto">
-                                        <h3>Description</h3>
-                                        <p>{element.description}</p>
+                        <div class="data-projects">
+                            <Flex fw="wrap" direction="row" w="100%" h="100%" onclick={() => {nav(`/data-project/teams/${element.id}`,{replace: true})}}>
+                                <Flex h="100%" w="100%" br="10px" bgc="#3E3E3E" direction="column">
+                                    <Flex c="white" jc="center" ai="center" ff="Roboto">
+                                        <h3>{element.name}</h3>
                                     </Flex>
-                                </Flex>
-                                <Flex direction="column">
-                                    <Flex c="white" p="10px 0 0 0" jc="center" ai="center" ff="Roboto">
-                                        <h4>Resources</h4>
+                                    <Flex c="white">
+                                        <Flex c="white" w="100%" ml="5%" direction="column" ff="Roboto">
+                                            <h3>Description</h3>
+                                            <p>{element.description}</p>
+                                        </Flex>
                                     </Flex>
-                                    <For each={resources().filter((ele) => {return ele.data_project_id == element.id})}>
-                                        {(rse: any) => ( <Flex c="white" jc="center" ai="center" ff="Roboto"><span>{rse.name}: {rse.url}</span></Flex>)}
-                                    </For>
-                                </Flex>
-                            </Flex>              
-                        </Flex>
+                                    <Flex direction="column">
+                                        <Flex c="white" p="10px 0 0 0" jc="center" ai="center" ff="Roboto">
+                                            <h4>Resources</h4>
+                                        </Flex>
+                                        <For each={resources().filter((ele) => {return ele.data_project_id == element.id})}>
+                                            {(rse: any) => ( <Flex c="white" jc="center" ai="center" ff="Roboto"><span>{rse.name}: {rse.url}</span></Flex>)}
+                                        </For>
+                                    </Flex>
+                                </Flex>              
+                            </Flex>
+                        </div>
                     )}
                 </For>
             </Flex>

@@ -29,8 +29,12 @@ input {
 #data_project {
     width: 30%;
     height: 3.5em;
+    font-family: 'Roboto';
 }
 
+#options {
+    font-family: 'Roboto';
+}
 li {
     list-style-type: none;
     width: 80%;

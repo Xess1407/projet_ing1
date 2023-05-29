@@ -379,7 +379,7 @@ const DashboardUser: Component = () => {
             <Flex bgc="#444444" br="10px" w="40%" h="80%" direction="column">
                 <Flex w="100%" h="50%" direction="">
                     <Flex directon="column" w="50%" jc="space-evenly" ai="center">
-                        <Box w="60%" h="60%" bgc="#222222" br="10px" c="#FFFFFF" ta="center">
+                        <Box w="60%" h="60%" bgc="#222222" br="10px" c="#FFFFFF" ta="center" ff="Roboto">
                             <h3>Total students</h3>
                             <p>{totalStudents()}</p>
                         </Box>
@@ -391,7 +391,7 @@ const DashboardUser: Component = () => {
                 </Flex>
                 <Flex w="100%" h="50%">
                     <Flex directon="column" w="50%" jc="space-evenly" ai="center">
-                        <Box w="60%" h="60%" bgc="#222222" br="10px" c="#FFFFFF" ta="center">
+                        <Box w="60%" h="60%" bgc="#222222" br="10px" c="#FFFFFF" ta="center" ff="Roboto">
                             <h3>Total Managers</h3>
                             <p>{totalManagers()}</p>
                         </Box>

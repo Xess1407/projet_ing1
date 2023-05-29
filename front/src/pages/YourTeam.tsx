@@ -15,13 +15,13 @@ const YourTeam: Component = () => {
     const getStudents = async () => {
         // Fetch the Student
         const res_students = await fetch(`http://localhost:8080/api/student/full`, {
-          method: "GET"
+            method: "GET"
         });
-      
+
         let status = await res_students.status
         if (status != 200) {
-          console.log("[ERROR] Couldn't register the student! Status:" + status)
-          return
+            console.log("[ERROR] Couldn't register the student! Status:" + status)
+            return
         }
         let res = await res_students.json()
         
@@ -82,9 +82,6 @@ const YourTeam: Component = () => {
                         </Box>
                     )}
                 </For>
-            </Flex>
-            <Flex w="100%" h="28%" jc="space-around" mt="5%">
-                                                                 
             </Flex>
         </Flex>
     )

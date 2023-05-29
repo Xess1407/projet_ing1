@@ -62,3 +62,7 @@
     background-color: #ac4747;
     cursor: pointer;
 }
+
+.logo:hover {
+    cursor: pointer;;
+}

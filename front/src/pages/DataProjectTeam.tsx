@@ -4,6 +4,7 @@ import Flex from "../components/layouts/Flex";
 import ButtonCustom from "../components/generals/ButtonCustom";
 import InputCustom from "../components/generals/InputCustom";
 import "./css/YourTeam.css"
+import "./css/DataProjectTeam.css"
 import { useNavigate, useParams } from "@solidjs/router";
 
 const DataProjectTeams: Component = () => {
@@ -19,13 +20,13 @@ const DataProjectTeams: Component = () => {
     const getStudents = async () => {
         // Fetch the Student
         const res_students = await fetch(`http://localhost:8080/api/student/full`, {
-          method: "GET"
+            method: "GET"
         });
-      
+
         let status = await res_students.status
         if (status != 200) {
-          console.log("[ERROR] Couldn't register the student! Status:" + status)
-          return
+            console.log("[ERROR] Couldn't register the student! Status:" + status)
+            return
         }
         let res = await res_students.json()
         
@@ -39,13 +40,13 @@ const DataProjectTeams: Component = () => {
     const getChallenge = async () => {
         // Fetch project
         const res_project = await fetch(`http://localhost:8080/api/project/${data_project_id}`, {
-          method: "GET"
+            method: "GET"
         });
-      
+
         let status = await res_project.status
         if (status != 200) {
-          console.log("[ERROR] Couldn't register the student! Status:" + status)
-          return
+            console.log("[ERROR] Couldn't register the student! Status:" + status)
+            return
         }
         let res = await res_project.json()
         setChallengeId("/"+String(res.id))
@@ -117,26 +118,23 @@ const DataProjectTeams: Component = () => {
             <h1 class="text">
                 <span>Data Project Team</span>
             </h1>
-            <ButtonCustom text="Back" onclick={() => {nav("/data-project"+challengeId())}}/>
+            <ButtonCustom ff="Roboto black" ml="15%" w="10%" text="Go Back" onclick={() => {nav("/data-project"+challengeId())}}/>
             <Flex w="100%" h="40%" jc="space-around" mt="1%">
                 <For each={teams()}>
                     {(team:any) => (
-                        <Box w="20%" h="100%" br="10px" bgc="#555555">
+                        <Flex direction="column" jc="space-evenly" ai="center" c="#FFFFFF" ff="Roboto" w="20%" h="60%" br="10px" bgc="#555555">
                             <h3>Team {team.id}</h3>
                             <h4>Members</h4>
-                            <Box>
-                            <For each={members().filter((ele:any) => {return ele.team_id == team.id})}>
-                                {(member:any) => (
-                                    <p>{getName(member.user_id)}</p>
-                                )}
-                            </For>
+                            <Box ff="Roboto" >
+                                <For each={members().filter((ele:any) => {return ele.team_id == team.id})}>
+                                    {(member:any) => (
+                                        <p>{getName(member.user_id)}</p>
+                                    )}
+                                </For>
                             </Box>
-                        </Box>
+                        </Flex>
                     )}
                 </For>
-            </Flex>
-            <Flex w="100%" h="28%" jc="space-around" mt="5%">
-                                                                 
             </Flex>
         </Flex>
     )

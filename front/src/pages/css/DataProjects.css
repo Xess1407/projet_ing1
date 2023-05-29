@@ -1,0 +1,9 @@
+.data-projects:hover {
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.data-projects {
+    height: 40%;
+    width: 22%;
+}
