@@ -3,7 +3,7 @@ import Flex from "./layouts/Flex";
 import Box from "./layouts/Box";
 import "./css/Header.css";
 import { isConnected } from "./Session";
-import { deconnection } from "./forms/ConnectForm";
+import { logout } from "./forms/ConnectForm";
 import { useNavigate } from "@solidjs/router";
 import LinkItems from "./LinkItems";
 import Dashboard from "../pages/Dashboard";
@@ -46,7 +46,7 @@ const Header: Component = () => {
                 </ul>
                 <ul><LinkItems path="/dashboard" text={"Dashboard"} /></ul>
                 <ul><LinkItems path="/chat" text={"Chat"} /></ul>
-                <ul><Show when={connected()}><button class="deconnexion" onclick={() => {deconnection(); setConnected(false); nav("/redirect", { replace: true }); }}>Deconnexion</button></Show></ul>
+                <ul><Show when={connected()}><button class="logout" onclick={() => {logout(); setConnected(false); nav("/redirect", { replace: true }); }}>Logout</button></Show></ul>
             </Flex>
         </Box>
     );

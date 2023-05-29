@@ -2,6 +2,7 @@ import { createStore } from "solid-js/store";
 import { getSessionUser } from "../Session";
 
 type ProfileFormFields = {
+    id?: number;
     user_id?: number;
     name?: string;
     family_name?: string;
@@ -34,6 +35,7 @@ export const submit = async (form: ProfileFormFields) => {
 
 
 export const [form, setForm] = createStore<ProfileFormFields>({
+    id: -1,
     user_id: getSessionUser()?.user_id,
     name: getSessionUser()?.name,
     family_name: getSessionUser()?.family_name,

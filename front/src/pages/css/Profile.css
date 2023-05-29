@@ -30,7 +30,7 @@
     font-weight: 500;
 }
 
-#school, #city {
+#school, #city, #new_password {
     appearance: none;
     display: inline-flex;
     justify-content: center;
@@ -48,30 +48,30 @@
     transition: 250ms background-color;
 }
 
-#school {
+#school, #city {
     margin-top: 15%;
 }
 
-#city {
-    margin-top: 15%;
+#new_password {
+    margin-top: 8%;
 }
 
-#school:hover, #city:hover {
+#school:hover, #city:hover, #new_password:hover {
     background-color: hsl(177 96% 40%);
 }
-#school:focus-visible, #city:focus-visible {
+#school:focus-visible, #city:focus-visible, #new_password:focus-visible {
     outline: 2px solid white;
     outline-offset: 2px;
 }
-#school:active, #city:active{
+#school:active, #city:active, #new_password:active {
     background-color: hsl(177 90% 40%);
 }
 
-#school:invalid, #city:invalid{
+#school:invalid, #city:invalid, #new_password:invalid {
     background-color: rgba(227, 100, 100, 0.46);
 }
 
-#school::placeholder, #city::placeholder {
+#school::placeholder, #city::placeholder, #new_password::placeholder {
     text-decoration: none;
     text-align: justify;
 }

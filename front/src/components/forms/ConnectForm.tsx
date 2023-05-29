@@ -46,7 +46,7 @@ export const submit = async (form: connectFormFields) => {
     return true
 };
 
-export const deconnection = () => {
+export const logout = () => {
    clearSessionUser()
    console.log("Deco");
 }

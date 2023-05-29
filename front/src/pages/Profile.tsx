@@ -5,12 +5,34 @@ import { Image } from "@kobalte/core";
 import "./css/Profile.css";
 import ButtonCustom from "../components/generals/ButtonCustom";
 import InputCustom from "../components/generals/InputCustom";
-import { form, setForm } from "../components/forms/ProfileForm";
+import { form, setForm, submit } from "../components/forms/ProfileForm";
+import { submit as submitConnect } from "../components/forms/ConnectForm";
 import { getSessionUser } from "../components/Session";
 import LinkItems from "../components/LinkItems";
 
 
 const Profile = ()=> {
+    function handleSchoolLevelChange(event: Event) {
+        const target = event.target as HTMLSelectElement;
+        setForm({
+            school_level: target.value,
+        });
+    }
+    
+    function handleSchoolChange(event: Event) {
+        const target = event.target as HTMLInputElement;
+        setForm({
+            school: target.value,
+        });
+    }
+    
+    function handleCityChange(event: Event) {
+        const target = event.target as HTMLInputElement;
+        setForm({
+            city: target.value,
+        });
+    }
+
     const [teams, setTeams] = createSignal<any>([])
     const [projects, setProjects] = createSignal<any>([])
 
@@ -29,7 +51,9 @@ const Profile = ()=> {
             return 
         }
         let res = await res_student_profile.json()
-        setForm({school: res.school, school_level: res.school_level, city: res.city})
+        setForm({
+            id: res.id, school: res.school, school_level: res.school_level, city: res.city
+        })
         return form
     }
 
@@ -79,6 +103,27 @@ const Profile = ()=> {
         setProjects(p)
     }
 
+    const handle_submit = async (event: Event) => {
+        event.preventDefault();
+
+        let new_password = (document.getElementById("new_password") as HTMLInputElement)?.value;
+
+        setForm({
+            password: new_password == "" ? getSessionUser()?.password : new_password,
+        });
+
+        console.log(form);  // pas à jour
+        
+        await submit(form);
+
+        // Mise à jour de la session avec les nouvelles valeurs
+        if(form.email && form.password) {
+            await submitConnect({email: form.email, password: form.password});
+        }
+
+        return 
+    }
+
     onMount(async () => {
         await get_student_profile()
         await get_teams()
@@ -122,36 +167,37 @@ const Profile = ()=> {
                 </Flex>
             </Flex>
             <Box w="50%" >
-                {/* <h1>{form.city}</h1> */}
-                <Flex direction="row" jc="space-around" ai="center" h="600px">
-                    <Flex jc="space-evenly" ai="center" c="white" direction="column" m="0">
-                            <InputCustom mt="8%" id="family_name" label="Surname" type="text" placeholder="Surname" empty default={form.family_name}/>
-                            <InputCustom mt="8%" id="email" label="Email" type="text" placeholder="Email" empty default={form.email}/>
-                            <InputCustom mt="8%" id="phone" label="Phone number" type="text" placeholder="Phone number" empty default={form.telephone_number} pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"/>
-                            <InputCustom mt="8%" id="password" label="Password" type="password" placeholder="Password" empty/>
-                    </Flex>
-                    <Flex jc="space-evenly" ai="center" c="white" direction="column" m="0" p="0">
-                        <InputCustom m="0" id="name" label="First name" type="text" placeholder="First name" empty default={form.name}/>
-                        <Flex direction="row">
-                            <Flex direction="column" w="100%" mt="15%">
-                                <select id="school_level" value={form.school_level} required>
-                                    <option value="" disabled selected hidden>Study level</option>
-                                    <option value="L1">Licence 1</option>
-                                    <option value="L2">Licence 2</option>
-                                    <option value="L3">Licence 3</option>
-                                    <option value="M1">Master 1</option>
-                                    <option value="M2">Master 2</option>
-                                    <option value="D">Doctorate</option>
-                                </select>
-                            </Flex>                            
+                <form onSubmit={ handle_submit }>
+                    <Flex direction="row" jc="space-around" ai="center" h="600px">
+                        <Flex jc="space-evenly" ai="center" c="white" direction="column" m="0"> 
+                            <InputCustom mt="8%" id="name" label="First name" type="text" placeholder="First name" empty default={form.name} update={setForm}/>
+                            <InputCustom mt="8%" id="email" label="Email" type="text" placeholder="Email" empty default={form.email} update={setForm}/>
+                            <InputCustom mt="8%" id="telephone_number" label="Phone number" type="text" placeholder="Phone number" empty default={form.telephone_number} update={setForm} pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"/>
+                            <input id="new_password" type="password" placeholder="New password"/>
                         </Flex>
-                        <input id="school" type="text" placeholder="Etablishment"  value={form.school}/>
-                        <input id="city" placeholder="City"  value={form.city} />
+                        <Flex jc="space-evenly" ai="center" c="white" direction="column" m="0" p="0">
+                            <InputCustom m="0" id="family_name" label="Surname" type="text" placeholder="Surname" empty default={form.family_name} update={setForm}/>
+                            <Flex direction="row">
+                                <Flex direction="column" w="100%" mt="15%">
+                                    <select id="school_level" value={form.school_level} required onChange={handleSchoolLevelChange}>
+                                        <option value="" disabled selected hidden>Study level</option>
+                                        <option value="L1">Licence 1</option>
+                                        <option value="L2">Licence 2</option>
+                                        <option value="L3">Licence 3</option>
+                                        <option value="M1">Master 1</option>
+                                        <option value="M2">Master 2</option>
+                                        <option value="D">Doctorate</option>
+                                    </select>
+                                </Flex>                            
+                            </Flex>
+                            <input id="school" type="text" placeholder="Etablishment" value={form.school} onChange={handleSchoolChange}/>
+                            <input id="city" placeholder="City" value={form.city} onChange={handleCityChange}/>
+                        </Flex>
                     </Flex>
-                </Flex>
-                <Flex jc="center">
-                    <ButtonCustom ff="Roboto" class="profile-submit" type="submit" value="submit" w="30%" h="3.5em" text="Edit profile"></ButtonCustom>
-                </Flex>
+                    <Flex jc="center">
+                        <ButtonCustom ff="Roboto" class="profile-submit" type="submit" value="submit" w="30%" h="3.5em" text="Edit profile"></ButtonCustom>
+                    </Flex>
+                </form>
             </Box>
         </Flex>
     )

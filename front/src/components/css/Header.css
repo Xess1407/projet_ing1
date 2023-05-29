@@ -39,7 +39,7 @@
     transition: 0.5s;
 }
 
-.deconnexion {
+.logout {
     appearance: none;
     display: inline-flex;
     justify-content: center;
@@ -58,7 +58,7 @@
     transition: 250ms background-color;
 }
 
-.deconnexion:hover {
+.logout:hover {
     background-color: #ac4747;
     cursor: pointer;
 }

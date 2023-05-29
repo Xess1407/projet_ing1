@@ -72,21 +72,20 @@
     margin-top: 2%;
 }
 
-#city2:focus-visible {
+#city2:focus-visible, #school2:focus-visible {
     outline: 2px solid white;
     outline-offset: 2px;
 }
 
-#city2:active {
+#city2:active, #school2:active {
     background-color: hsl(177 90% 40%);
 }
 
-#city2:invalid{
-    color: rgba(255,255,255,0.5);
+#city2:invalid, #school2:invalid {
     background-color: rgba(227, 100, 100, 0.46);
 }
 
-#city2:hover {
+#city2:hover, #school2:hover {
     background-color: hsl(177 96% 40%);
 }
 
