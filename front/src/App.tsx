@@ -20,6 +20,7 @@ import Rank from './pages/Rank';
 import DashboardUser from './pages/DashboardUser';
 import AllDataProjects from './pages/AllDataProjects';
 import DataProjectTeams from './pages/DataProjectTeam';
+import DashboardChallenge from './pages/DashboardChallenge';
 
 const App: Component = () => {
   return (
@@ -38,6 +39,7 @@ const App: Component = () => {
         <Route path="/dashboard" element={<div><Guard/><Dashboard/></div>}>
           <Route path="/" element={<DashboardUser/>} />
           <Route path="/rank" element={<Rank/>} />
+          <Route path="/challenge" element={<DashboardChallenge />} />
           <Route path="/test" element={<div><h1>ICI CA MARCHE !</h1></div>} />
         </Route>
 

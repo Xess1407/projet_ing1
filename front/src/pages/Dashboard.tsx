@@ -25,7 +25,7 @@ const Dashboard: Component = () => {
                 </Flex>
                 <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center">
                     <img class="icons" src="../src/img/challenge.png" alt="icon" />
-                    <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Data Challenges"/>
+                    <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Data Challenges" onclick={() => nav("/dashboard/challenge", {replace:true})}/>
                 </Flex>
             </Flex>
             <Outlet/>
