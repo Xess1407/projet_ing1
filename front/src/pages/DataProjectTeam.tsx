@@ -109,7 +109,7 @@ const DataProjectTeams: Component = () => {
                             <Box>
                             <For each={members().filter((ele:any) => {return ele.team_id == team.id})}>
                                 {(member:any) => (
-                                    <span>{member.user_id}</span>
+                                    <p>{getName(member.user_id)}</p>
                                 )}
                             </For>
                             </Box>
