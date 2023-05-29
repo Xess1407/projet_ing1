@@ -117,7 +117,7 @@ const DataProjectTeams: Component = () => {
             <h1 class="text">
                 <span>Data Project Team</span>
             </h1>
-            <ButtonCustom text="Retour" onclick={() => {nav("/data-project"+challengeId())}}/>
+            <ButtonCustom text="Back" onclick={() => {nav("/data-project"+challengeId())}}/>
             <Flex w="100%" h="40%" jc="space-around" mt="1%">
                 <For each={teams()}>
                     {(team:any) => (
