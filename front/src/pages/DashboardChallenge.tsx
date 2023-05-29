@@ -130,35 +130,35 @@ const DashboardChallenge: Component = () => {
                 <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto">
                     <h2>Remove Challenge</h2>
                     <form class="form-remove" onSubmit={ handle_submit_delete_challenge }>
-                    <Flex w="95%" jc="space-evenly" ai="center">
-                                <Flex direction="column" jc="space-evenly" ai="center" w="65%">
-                                    <input id="search" type="text" placeholder="Name challenge" onInput={() => {setSearchValue((document.getElementById("search") as HTMLInputElement).value)}}/>  
-                                    <Box w="100%" h="2em" ovy="scroll">
-                                        <For each={challenges()}>
-                                            {(element: any) => (
-                                                <Show when={searching(element.name)}>
-                                                    <li>{element.name}</li>
-                                                </Show>
-                                            )}
-                                        </For>
-                                    </Box>
-                                </Flex>
-                                <Flex w="35%" jc="space-evenly" ai="center">
-                                    <ButtonCustom text="Add" onclick={addToChallengeToRemove}/>
-                                </Flex>
-                            </Flex>
-                            <Flex direction="column" ai="center" w="80%" h="60%" ff="Roboto" mt="5%">
-                                <label>Challenge to remove</label>
-                                <Box w="80%" h="30%" b="2px solid #FFFFFF" br="10px">
-                                    {/* Requête pour récupérer le joueur recherché */}
-                                    <For each={challengeToRemove()}>
-                                        {(element:any) => (
-                                            <p>{element.name}</p>
+                        <Flex w="95%" jc="space-evenly" ai="center">
+                            <Flex direction="column" jc="space-evenly" ai="center" w="65%">
+                                <input id="search" type="text" placeholder="Name challenge" onInput={() => {setSearchValue((document.getElementById("search") as HTMLInputElement).value)}}/>  
+                                <Box w="100%" h="2em" ovy="scroll">
+                                    <For each={challenges()}>
+                                        {(element: any) => (
+                                            <Show when={searching(element.name)}>
+                                                <li>{element.name}</li>
+                                            </Show>
                                         )}
                                     </For>
                                 </Box>
-                                <ButtonCustom class="form-submit" type="submit" value="submit" text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="60px" br="16px" bgc="#E36464" mt="4%"/>
                             </Flex>
+                            <Flex w="35%" jc="space-evenly" ai="center">
+                                <ButtonCustom text="Add" onclick={addToChallengeToRemove}/>
+                            </Flex>
+                        </Flex>
+                        <Flex direction="column" ai="center" w="80%" h="60%" ff="Roboto" mt="5%">
+                            <label>Challenge to remove</label>
+                            <Box w="80%" h="30%" b="2px solid #FFFFFF" br="10px">
+                                {/* Requête pour récupérer le joueur recherché */}
+                                <For each={challengeToRemove()}>
+                                    {(element:any) => (
+                                        <p>{element.name}</p>
+                                    )}
+                                </For>
+                            </Box>
+                            <ButtonCustom class="form-submit" type="submit" value="submit" text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="60px" br="16px" bgc="#E36464" mt="4%"/>
+                        </Flex>
                     </form>
                 </Flex>
             </Show>
