@@ -21,10 +21,26 @@ const DashboardUser: Component = () => {
         "password": "my_s3cr3t_p4ssw0rd"
     })
 
-    const [school_level, setSchool_level] = createSignal("none");
-    createEffect(() => {
-        setStudentForm({ school_level: school_level() });
-    });
+    function handleSchoolLevelChange(event: Event) {
+        const target = event.target as HTMLSelectElement;
+        setStudentForm({
+            school_level: target.value,
+        });
+    }
+    
+    function handleSchoolChange(event: Event) {
+        const target = event.target as HTMLInputElement;
+        setStudentForm({
+            school: target.value,
+        });
+    }
+    
+    function handleCityChange(event: Event) {
+        const target = event.target as HTMLInputElement;
+        setStudentForm({
+            city: target.value,
+        });
+    }
 
     const [addStudent, setAddStudent] = createSignal(false)
     const [removeStudent, setRemoveStudent] = createSignal(false)
@@ -211,23 +227,19 @@ const DashboardUser: Component = () => {
     const handle_submit_student = (event: Event): void => {
         event.preventDefault();
         if (stat()) {
-            (document.getElementById("form-not-same-password-message") as HTMLInputElement).innerHTML = "";
             submit_student(studentForm)
             setTotalStudents(totalStudents() + 1);
             return
         }
-        (document.getElementById("form-not-same-password-message") as HTMLInputElement).innerText = "Erreur: Les deux mots de passes ne sont pas identiques"; 
     }
 
     const handle_submit_manager = (event: Event): void => {
         event.preventDefault();
         if (stat()) {
-            (document.getElementById("form-not-same-password-message") as HTMLInputElement).innerHTML = "";
             submit_manager(managerForm)
             setTotalManagers(totalManagers() + 1);
             return
         }
-        (document.getElementById("form-not-same-password-message") as HTMLInputElement).innerText = "Erreur: Les deux mots de passes ne sont pas identiques"; 
     }
 
     const handle_submit_delete_students = async (event: Event) => {
@@ -244,6 +256,8 @@ const DashboardUser: Component = () => {
                 console.log("[ERROR] Couldn't delete the student! Status:" + status)
                 return status
             }
+
+            setTotalStudents(totalStudents() - 1);
         });
     }
 
@@ -261,6 +275,8 @@ const DashboardUser: Component = () => {
                 console.log("[ERROR] Couldn't delete the manager! Status:" + status)
                 return status
             }
+
+            setTotalManagers(totalManagers() - 1);
         });
     }
 
@@ -313,7 +329,7 @@ const DashboardUser: Component = () => {
                                 </Flex>
                                 <Flex direction="row" w="90%" jc="space-between" ai="center">
                                     <Flex mt="8%" direction="column" w="35%">
-                                        <select id="school_level" required>
+                                        <select id="school_level" required onChange={handleSchoolLevelChange}>
                                             <option value="">Level</option>
                                             <option value="L1">Licence 1</option>
                                             <option value="L2">Licence 2</option>
@@ -324,11 +340,11 @@ const DashboardUser: Component = () => {
                                         </select>
                                     </Flex>
                                     <Flex direction="column" w="60%">
-                                        <input id="school" type="text" placeholder="Etablishment"  value={form.school}/>
+                                        <input id="school" type="text" placeholder="Etablishment" required value={form.school} onChange={handleSchoolChange}/>
                                     </Flex>
                                 </Flex>
                                 <Flex mb="7.5%" $direction="column">
-                                    <input id="city" placeholder="City" value={form.city} />
+                                    <input id="city" placeholder="City" required value={form.city} onChange={handleCityChange}/>
                                 </Flex>
                             </Flex>
                         </Flex>
