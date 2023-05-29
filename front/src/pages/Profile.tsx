@@ -170,13 +170,13 @@ const Profile = ()=> {
                 <form onSubmit={ handle_submit }>
                     <Flex direction="row" jc="space-around" ai="center" h="600px">
                         <Flex jc="space-evenly" ai="center" c="white" direction="column" m="0"> 
-                            <InputCustom mt="8%" id="name" label="First name" type="text" placeholder="First name" empty default={form.name} update={setForm}/>
-                            <InputCustom mt="8%" id="email" label="Email" type="text" placeholder="Email" empty default={form.email} update={setForm}/>
-                            <InputCustom mt="8%" id="telephone_number" label="Phone number" type="text" placeholder="Phone number" empty default={form.telephone_number} update={setForm} pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"/>
+                            <InputCustom mt="8%" id="name" label="First name" type="text" placeholder="First name" default={form.name} update={setForm}/>
+                            <InputCustom mt="8%" id="email" label="Email" type="text" placeholder="Email" default={form.email} update={setForm}/>
+                            <InputCustom mt="8%" id="telephone_number" label="Phone number" type="text" placeholder="Phone number" default={form.telephone_number} update={setForm} pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"/>
                             <input id="new_password" type="password" placeholder="New password"/>
                         </Flex>
                         <Flex jc="space-evenly" ai="center" c="white" direction="column" m="0" p="0">
-                            <InputCustom m="0" id="family_name" label="Surname" type="text" placeholder="Surname" empty default={form.family_name} update={setForm}/>
+                            <InputCustom m="0" id="family_name" label="Surname" type="text" placeholder="Surname" default={form.family_name} update={setForm}/>
                             <Flex direction="row">
                                 <Flex direction="column" w="100%" mt="15%">
                                     <select id="school_level" value={form.school_level} required onChange={handleSchoolLevelChange}>
