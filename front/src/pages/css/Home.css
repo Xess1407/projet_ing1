@@ -4,6 +4,10 @@
     src: url('../../font/abel.ttf') format('truetype');
 }
 
+body{
+    background-color: black;
+}
+
 .background {
     aspect-ratio: 2/1;
     position: fixed;
