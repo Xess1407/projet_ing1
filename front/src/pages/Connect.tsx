@@ -1,4 +1,4 @@
-import { Component, createEffect, createSignal } from "solid-js";
+import {Component, createEffect, createSignal, Show} from "solid-js";
 import Flex from "../components/layouts/Flex";
 import ButtonCustom from "../components/generals/ButtonCustom";
 import { submit, form, setForm } from "../components/forms/ConnectForm";
@@ -68,9 +68,18 @@ export const GuardAlreadyConnect = () => {
 export const AlreadyConnect = () => {
     const nav = useNavigate()
     return (
-        <Flex jc="center">
-            <p>You are already connected</p>
-            <button onclick={() => {nav("/", {replace:true})}}>Get back home</button>
-        </Flex>
+        <Box w="100%" h="calc(100vh - 140px)" m="0" p="0" ovy="hidden">
+            <img src="src/img/fond.jpg" alt="background" class="background"/>
+            <Flex jc="center" ai="center">
+                <h1 class="text" style="margin: 8% 0 4% 0" >
+                    <span>You are already connected</span>
+                </h1>
+            </Flex>
+            <Flex direction="row" jc="center" ai="center">
+                <Flex direction="column">
+                    <ButtonCustom text="GET BACK HOME" ff="Roboto black" fsz="16px" w="183px" h="48px" br="16px" bgc="#3BCFA3" mb="10%" onclick={() => {nav("/", {replace:true})}}/>
+                </Flex>
+            </Flex>
+        </Box>
         )
 }
