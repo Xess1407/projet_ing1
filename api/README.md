@@ -307,7 +307,14 @@ Get all Questionnaire
 - Response: List all Questionnaire
 
 #### /:id
+
 Get one Questionnaire
+- GET request 
+- Response: id, data_project_id, name, date_time_start, date_time_end
+
+#### /from-project/:id
+
+Get a Questionnaire from data_project_id
 - GET request 
 - Response: id, data_project_id, name, date_time_start, date_time_end
 

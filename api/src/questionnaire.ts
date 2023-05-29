@@ -11,6 +11,7 @@ class QuestionnaireController implements Controller {
         this.router = Router();
         this.router.post(QuestionnaireController.path, this.post);
         this.router.get(QuestionnaireController.path, this.get_all);
+        this.router.get(QuestionnaireController.path + "/from-project/:id", this.get_from_project);
         this.router.get(QuestionnaireController.path + "/:id", this.get);
         this.router.delete(QuestionnaireController.path, this.delete);
     }
@@ -88,6 +89,36 @@ class QuestionnaireController implements Controller {
             res.status(400).send();
         }
     }
+
+    async get_from_project(req: Request, res: Response) {
+      let id = req.params.id
+      let r;
+      
+      let found = false;
+      await QuestionnaireController.get_values().then((rows: any) =>
+          rows.forEach((row) => {
+              if (row.data_project_id == id) {
+                  found = true;
+                  r = new QuestionnaireEntry(
+                      row.rowid,
+                      row.data_project_id,
+                      row.name,
+                      row.date_time_start,
+                      row.date_time_end
+                  );
+              }
+          })
+      )
+      
+      if (found) {
+          console.log(
+            "[INFO][POST] " + QuestionnaireController.path + "/from-project/: " + id,
+          );
+          res.send(JSON.stringify(r));
+      } else {
+          res.status(400).send();
+      }
+  }
 
     static async post_new(p: Questionnaire, res: Response) {
         let sql;
