@@ -9,6 +9,7 @@ const DataProjects: Component = () => {
     let data_challenge_id = params.data_challenge_id
     const [projects, setProjects] = createSignal<any>([])
     const [resources, setResources] = createSignal<any[]>([])
+    const [questionnaire, setQuestionnaire] = createSignal<any[]>([])
 
     /* Get all challenges */
     const getProjects = async () => {
@@ -39,9 +40,24 @@ const DataProjects: Component = () => {
         setResources(res)
     }
 
+    const getQuestionnaire = async () => {
+        const res_questionnaire = await fetch(`http://localhost:8080/api/questionnaire`, {
+            method: "GET",
+        });
+
+        let status = await res_questionnaire.status
+        if (status != 200) {
+            console.log("[ERROR] Couldn't get projects! Status:" + status)
+            return
+        }
+        let res = await res_questionnaire.json()
+        setQuestionnaire(res)
+    }
+
     onMount(async () => {
         await getProjects()
         await getResources()
+        await getQuestionnaire()
     })
 
     return (
@@ -70,6 +86,15 @@ const DataProjects: Component = () => {
                                         </Flex>
                                         <For each={resources().filter((ele) => {return ele.data_project_id == element.id})}>
                                             {(rse: any) => ( <Flex c="white" jc="center" ai="center" ff="Roboto"><span>{rse.name}: {rse.url}</span></Flex>)}
+                                        </For>
+                                        <Flex c="white" p="10px 0 0 0" jc="center" ai="center" ff="Roboto">
+                                            <h4>Questionnaire</h4>
+                                        </Flex>
+                                        <For each={questionnaire().filter((ele) => {return ele.data_project_id == element.id})}>
+                                            {(qst: any) => ( 
+                                            <Flex c="white" jc="center" ai="center" ff="Roboto">
+                                                <span>{qst.name} Start: {qst.date_time_start} To: {qst.date_time_end}</span>
+                                            </Flex>)}
                                         </For>
                                     </Flex>
                                 </Flex>              
