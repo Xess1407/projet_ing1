@@ -4,15 +4,17 @@ import Flex from "../components/layouts/Flex";
 import ButtonCustom from "../components/generals/ButtonCustom";
 import InputCustom from "../components/generals/InputCustom";
 import "./css/YourTeam.css"
-import { useParams } from "@solidjs/router";
+import { useNavigate, useParams } from "@solidjs/router";
 
 const DataProjectTeams: Component = () => {
+    const nav = useNavigate()
     const params = useParams();
     let data_project_id = params.data_project_id
     const [teams, setTeams] = createSignal<any>([])
     const [membersTmp, setMembersTmp] = createSignal<any>([])
     const [members, setMembers] = createSignal<any>([])
     const [students, setStudent] = createSignal<any>([])
+    const [challengeId, setChallengeId] = createSignal("")
 
     const getStudents = async () => {
         // Fetch the Student
@@ -32,6 +34,21 @@ const DataProjectTeams: Component = () => {
             s_all.push({name: element.name, user_id: element.user_id})
             setStudent(s_all)
         });
+    }
+
+    const getChallenge = async () => {
+        // Fetch project
+        const res_project = await fetch(`http://localhost:8080/api/project/${data_project_id}`, {
+          method: "GET"
+        });
+      
+        let status = await res_project.status
+        if (status != 200) {
+          console.log("[ERROR] Couldn't register the student! Status:" + status)
+          return
+        }
+        let res = await res_project.json()
+        setChallengeId("/"+String(res.id))
     }
 
     /* Get all members from a team_id */
@@ -88,6 +105,7 @@ const DataProjectTeams: Component = () => {
 
     onMount(async () => {
         await getStudents()
+        await getChallenge()
         await getTeams()
         teams().forEach( async (element:any) => {
             await getMembersFromTeam(element.id)
@@ -99,7 +117,7 @@ const DataProjectTeams: Component = () => {
             <h1 class="text">
                 <span>Data Project Team</span>
             </h1>
-
+            <ButtonCustom text="Retour" onclick={() => {nav("/data-project"+challengeId())}}/>
             <Flex w="100%" h="40%" jc="space-around" mt="1%">
                 <For each={teams()}>
                     {(team:any) => (
