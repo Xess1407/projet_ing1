@@ -2,6 +2,7 @@ import { Component, createEffect, createSignal, For, onMount, Show} from "solid-
 import Box from "../components/layouts/Box";
 import Flex from "../components/layouts/Flex";
 import "./css/Dashboard.css"
+import "./css/DashboardUser.css"
 import ButtonCustom from "../components/generals/ButtonCustom";
 import { studentForm, setStudentForm, submit_student } from "../components/forms/RegisterStudentForm";
 import InputCustom from "../components/generals/InputCustom";
@@ -449,39 +450,38 @@ const DashboardUser: Component = () => {
             </Show>
             <Show when={removeStudent()}>
                 <Flex direction="column" bgc="#444444" br="10px" w="50%" h="60%" jc="space-evenly" ai="center" ff="Roboto" pt="3%">
-                <form onSubmit={ handle_submit_delete_students }>
-                    <label>Remove Student</label>
-                    <Flex w="95%" jc="space-evenly" ai="center">
-                        <Flex direction="column" jc="space-evenly" ai="center" w="65%">
-                            {/* Call à la bdd pour trouver le joueur recherché */}
-                            <input id="search" type="text" placeholder="Name of student" onInput={() => {setSearchValue((document.getElementById("search") as HTMLInputElement).value)}}/>  
-                            <Box w="100%" h="2em" ovy="scroll">
-                                <For each={studentsNames()}>
-                                    {(element: string) => (
-                                        <Show when={searching(element)}>
-                                            <li>{element}</li>
-                                        </Show>
-                                    )}
-                                </For>
-                            </Box>
-                        </Flex>
-                        <Flex w="35%" jc="space-evenly" ai="center">
-                            <ButtonCustom text="Ajouter" onclick={addToStudentToRemove}/>
-                        </Flex>
-                    </Flex>
-                    <Flex direction="column" ai="center" w="80%" h="60%" ff="Roboto" mt="5%">
-                        <label>Student to remove</label>
-                        <Box w="80%" h="30%" b="2px solid #FFFFFF" br="10px">
-                            {/* Requête pour récupérer le joueur recherché */}
-                            <For each={studentsToRemove()}>
-                                {(element:any) => (
-                                    <p>{element.user_id}</p>
-                                )}
-                            </For>
-                        </Box>
-                        <ButtonCustom class="form-submit" type="submit" value="submit" text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="60px" br="16px" bgc="#E36464" mt="4%"/>
-                    </Flex>
-                </form>
+                    <label class="label-remove">Remove Student</label>
+                        <form class="form-remove" onSubmit={ handle_submit_delete_students }>
+                            <Flex w="95%" jc="space-evenly" ai="center">
+                                <Flex direction="column" jc="space-evenly" ai="center" w="65%">
+                                    <input id="search" type="text" placeholder="Name of student" onInput={() => {setSearchValue((document.getElementById("search") as HTMLInputElement).value)}}/>  
+                                    <Box w="100%" h="2em" ovy="scroll">
+                                        <For each={studentsNames()}>
+                                            {(element: string) => (
+                                                <Show when={searching(element)}>
+                                                    <li>{element}</li>
+                                                </Show>
+                                            )}
+                                        </For>
+                                    </Box>
+                                </Flex>
+                                <Flex w="35%" jc="space-evenly" ai="center">
+                                    <ButtonCustom text="Ajouter" onclick={addToStudentToRemove}/>
+                                </Flex>
+                            </Flex>
+                            <Flex direction="column" ai="center" w="80%" h="60%" ff="Roboto" mt="5%">
+                                <label>Student to remove</label>
+                                <Box w="80%" h="30%" b="2px solid #FFFFFF" br="10px">
+                                    {/* Requête pour récupérer le joueur recherché */}
+                                    <For each={studentsToRemove()}>
+                                        {(element:any) => (
+                                            <p>{element.user_id}</p>
+                                            )}
+                                    </For>
+                                </Box>
+                                <ButtonCustom class="form-submit" type="submit" value="submit" text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="60px" br="16px" bgc="#E36464" mt="4%"/>
+                            </Flex>
+                        </form>
                 </Flex>
             </Show>
             <Show when={addManager()}>
@@ -525,8 +525,8 @@ const DashboardUser: Component = () => {
             </Show>
             <Show when={removeManager()}>
                 <Flex direction="column" bgc="#444444" br="10px" w="50%" h="60%" jc="space-evenly" ai="center" ff="Roboto" pt="3%">
-                <form onSubmit={ handle_submit_delete_manager }>
-                    <label>Remove Manager</label>
+                <label class="label-remove">Remove Manager</label>
+                <form class="form-remove" onSubmit={ handle_submit_delete_manager }>
                     <Flex w="95%" jc="space-evenly" ai="center">
                         <Flex direction="column" jc="space-evenly" ai="center" w="65%">
                             {/* Call à la bdd pour trouver le joueur recherché */}
