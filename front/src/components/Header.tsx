@@ -37,7 +37,7 @@ const Header: Component = () => {
                     <ul classList={{ "data-challenge": true, active: boxData() }}><LinkItems path="/data-challenges" text={"Data Challenges"} /></ul>
                     <Show when={boxData()}>
                         <ul classList={{ "data-project": true, active: boxData()}} style={{ display: "block", position: "absolute", top: "8%" }} >
-                            <LinkItems path="/data-project" text={"Data project"} />
+                            <LinkItems path="/data-project" text={"Data Projects"} />
                         </ul>
                     </Show>
                 </Flex>
