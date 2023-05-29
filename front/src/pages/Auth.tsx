@@ -1,8 +1,9 @@
-import { Component } from "solid-js"
+import {Component, Show} from "solid-js"
 import Flex from "../components/layouts/Flex"
 import ButtonCustom from "../components/generals/ButtonCustom"
 import { useNavigate } from "@solidjs/router"
 import { isAdmin, isConnected } from "../components/Session"
+import Box from "../components/layouts/Box";
 
 export const Guard = () => {
     const nav = useNavigate()
@@ -21,10 +22,21 @@ export const AdminGuard = () => {
 export const Auth: Component = () => {
     const nav = useNavigate()
     return (
-    <Flex jc="center">
-        <p>You must be login to access this page</p>
-        <button onclick={() => {nav("/", {replace:true})}}>Get back home</button>
-    </Flex>
+    <Box w="100%" h="calc(100vh - 140px)" m="0" p="0" ovy="hidden">
+        <img src="src/img/fond.jpg" alt="background" class="background"/>
+        <h1 class="text">
+            <span>You must be login to access this page</span>
+        </h1>
+        <Flex direction="row" jc="center" ai="center">
+            <Flex direction="column">
+                <Show when={!isConnected()}>
+                    <ButtonCustom text="SIGN-IN" ff="Roboto black" fsz="16px" w="183px" h="48px" br="16px" bgc="#3BCFA3" mb="10%" onclick={() => {nav("/connect", {replace: true})}}/>
+                    <ButtonCustom text="SIGN-UP" ff="Roboto black" fsz="16px" w="183px" h="48px" br="16px" bgc="#3BCFA3" mb="10%" onclick={() => {nav("/register", {replace: true})}}/>
+                    <ButtonCustom text="GET BACK HOME" ff="Roboto black" fsz="16px" w="183px" h="48px" br="16px" bgc="#3BCFA3" mb="10%" onclick={() => {nav("/", {replace:true})}}/>
+                </Show>
+            </Flex>
+        </Flex>
+    </Box>
     )
 }
 
