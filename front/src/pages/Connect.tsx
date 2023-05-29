@@ -69,7 +69,7 @@ export const AlreadyConnect = () => {
     const nav = useNavigate()
     return (
         <Box w="100%" h="calc(100vh - 140px)" m="0" p="0" ovy="hidden">
-            <img src="src/img/fond.jpg" alt="background" class="background"/>
+            <img src="/src/img/fond.jpg" alt="background" class="background"/>
             <Flex jc="center" ai="center">
                 <h1 class="text" style="margin: 8% 0 4% 0" >
                     <span>You are already connected</span>

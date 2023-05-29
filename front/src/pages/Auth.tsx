@@ -23,7 +23,7 @@ export const Auth: Component = () => {
     const nav = useNavigate()
     return (
     <Box w="100%" h="calc(100vh - 140px)" m="0" p="0" ovy="hidden">
-        <img src="src/img/fond.jpg" alt="background" class="background"/>
+        <img src="/src/img/fond.jpg" alt="background" class="background"/>
         <Flex jc="center" ai="center">
         <h1 class="text" style="margin: 8% 0 5% 0">
             <span>You must be login to access this page</span>
@@ -46,7 +46,7 @@ export const AdminAuth: Component = () => {
     const nav = useNavigate()
     return (
     <Box w="100%" h="calc(100vh - 140px)" m="0" p="0" ovy="hidden">
-        <img src="src/img/fond.jpg" alt="background" class="background"/>
+        <img src="/src/img/fond.jpg" alt="background" class="background"/>
         <Flex jc="center" ai="center">
             <h1 class="text" style="margin: 8% 0 5% 0;font-size: 85px" >
                 <span>You must be an administrator to access this page</span>
