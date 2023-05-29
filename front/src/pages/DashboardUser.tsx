@@ -508,10 +508,10 @@ const DashboardUser: Component = () => {
                                 </Flex>
                                 <Flex direction="row" w="80%" jc="space-between">
                                     <Flex direction="column" w="48%" mt="4%">
-                                        <InputCustom id="activation_date" label="Date" type="text" placeholder="Activation" update={setManagerForm}/>
+                                        <InputCustom id="activation_date" label="Activation Date" type="date" placeholder="Activation" update={setManagerForm}/>
                                     </Flex>
                                     <Flex direction="column" w="48%" mt="4%">
-                                        <InputCustom id="deactivation_date" label="Date" type="text" placeholder="Desactivation" update={setManagerForm}/>
+                                        <InputCustom id="deactivation_date" label="Deactivation Date" type="date" placeholder="Desactivation" update={setManagerForm}/>
                                     </Flex>
                                 </Flex>
                                 <span id="form-not-same-password-message"></span>
