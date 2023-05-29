@@ -21,6 +21,7 @@ import DashboardUser from './pages/DashboardUser';
 import AllDataProjects from './pages/AllDataProjects';
 import DataProjectTeams from './pages/DataProjectTeam';
 import DashboardChallenge from './pages/DashboardChallenge';
+import Error404 from './pages/404';
 
 const App: Component = () => {
   return (
@@ -53,7 +54,7 @@ const App: Component = () => {
         <Route path="/data-project/:data_challenge_id" element={<DataProjects/>} />
         <Route path="/data-project" element={<AllDataProjects/>} />
         <Route path="/data-project/teams/:data_project_id" element={<DataProjectTeams/>} />
-        <Route path="*" element={<div><p>404 Error</p></div>}/>
+        <Route path="*" element={<Error404/>}/>
       </Routes>
 		</div>
   );
