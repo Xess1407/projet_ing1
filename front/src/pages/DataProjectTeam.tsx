@@ -4,7 +4,6 @@ import Flex from "../components/layouts/Flex";
 import ButtonCustom from "../components/generals/ButtonCustom";
 import InputCustom from "../components/generals/InputCustom";
 import "./css/YourTeam.css"
-import "./css/DataProjectTeam.css"
 import { useNavigate, useParams } from "@solidjs/router";
 
 const DataProjectTeams: Component = () => {
