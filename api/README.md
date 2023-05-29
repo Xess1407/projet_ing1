@@ -200,7 +200,7 @@ Get one ResourceChallenge
 
 Save new ResourceProject
 - POST request
-- Form-data: data_project_id, name, url
+- Form-data: data_project_id, name, url, password
 - Response: id
 
 Modify existing ResourceProject

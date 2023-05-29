@@ -4,7 +4,7 @@ import Flex from "../components/layouts/Flex";
 import "./css/Dashboard.css"
 import InputCustom from "../components/generals/InputCustom";
 import ButtonCustom from "../components/generals/ButtonCustom";
-import { challengeForm, setChallengeForm, submit_challenge } from "../components/forms/ChallengeForm";
+import { challengeForm, resourceForm, setChallengeForm, setResourceForm, submit_challenge } from "../components/forms/ChallengeForm";
 
 
 const DashboardChallenge: Component = () => {
@@ -27,12 +27,11 @@ const DashboardChallenge: Component = () => {
 
     onMount( async () => {
         await getDataChallenges()
-        setTotalChallenges(challenges().length)
     })
 
     const handle_submit_challenge = (event: Event): void => {
         event.preventDefault();
-        submit_challenge(challengeForm)
+        submit_challenge(challengeForm, resourceForm)
     }
 
     return (
@@ -59,6 +58,10 @@ const DashboardChallenge: Component = () => {
                     </Flex>
                     <Flex>
                         <h3>Resources</h3>
+                        <Flex>
+                            <InputCustom id="name" label="Name" type="text" update={setResourceForm}/>
+                            <InputCustom id="url" label="Url" type="text" update={setResourceForm}/>   
+                        </Flex>  
                     </Flex>
                     <Flex jc="center" ai="center">
                         <ButtonCustom class="form-submit" type="submit" value="submit" m="10px 0" h="65px" w="250px" ff="Roboto black" text="ADD" />
