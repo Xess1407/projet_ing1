@@ -46,6 +46,11 @@ const DashboardUser: Component = () => {
     const [selectedProject, setSelectedProject] = createSignal(1)
     const [selectedTeam, setSelectedTeam] = createSignal(1)
 
+
+    const [studentsToRemove, setStudentToRemove] = createSignal<any>([], { equals: false })
+
+    const [managerToRemove, setManagerToRemove] = createSignal<any>([], { equals: false })
+
     function searching(ele: string): boolean { return ele.toLowerCase().includes(searchValue().toLowerCase()) }
     
     // Fonction à faire pour faire apparaître le form de recherche pour créer son équipe
@@ -64,7 +69,7 @@ const DashboardUser: Component = () => {
         
         res.forEach((element: any) => {
             let s_all:any[] = students()
-            s_all.push({name: element.name, user_id: element.user_id})
+            s_all.push({id: element.id, name: element.name, user_id: element.user_id})
             setStudent(s_all)
             setTotalStudents(s_all.length);
             /* Get only the names of the students */
@@ -91,7 +96,7 @@ const DashboardUser: Component = () => {
         
         res.forEach((element: any) => {
             let m_all:any[] = managers()
-            m_all.push({name: element.name, user_id: element.user_id})
+            m_all.push({id: element.id, name: element.name, user_id: element.user_id})
             setManager(m_all)
             setTotalManagers(m_all.length);
             /* Get only the names of the managers */
@@ -105,6 +110,30 @@ const DashboardUser: Component = () => {
         let v = -1
         students().forEach((element: any) => {
             if(element.name == name) v = element.user_id
+        });
+        return v
+    }
+
+    const getIdFromNameManager = (name: string) => {
+        let v = -1
+        managers().forEach((element: any) => {
+            if(element.name == name) v = element.user_id
+        });
+        return v
+    }
+
+    const getIdStudentFromName = (name: string) => {
+        let v = -1
+        students().forEach((element: any) => {
+            if(element.name == name) v = element.id
+        });
+        return v
+    }
+
+    const getIdManagerFromNameManager = (name: string) => {
+        let v = -1
+        managers().forEach((element: any) => {
+            if(element.name == name) v = element.id
         });
         return v
     }
@@ -145,6 +174,44 @@ const DashboardUser: Component = () => {
         }
 
         handleChangeMember()
+    }
+
+    const addToStudentToRemove = () => {
+        let name = studentsNames().find((nom) => { return nom == searchValue()})
+        if (name === undefined) {
+            console.log("Non trouvé");
+            /** Afficher erreur */
+            return
+        }
+
+        let user_to_remove_id = getIdFromName(searchValue())
+        if (user_to_remove_id == -1) {
+            console.log("Utilisateur inconnu");
+            return
+        }
+
+        let data = studentsToRemove()
+        data.push({id: getIdStudentFromName(searchValue()), user_id: user_to_remove_id})
+        setStudentToRemove(data)
+    }
+
+    const addToManagerToRemove = () => {
+        let name = managersNames().find((nom) => { return nom == searchValue()})
+        if (name === undefined) {
+            console.log("Non trouvé");
+            /** Afficher erreur */
+            return
+        }
+
+        let user_to_remove_id = getIdFromNameManager(searchValue())
+        if (user_to_remove_id == -1) {
+            console.log("Utilisateur inconnu");
+            return
+        }
+
+        let data = managerToRemove()
+        data.push({id: getIdManagerFromNameManager(searchValue()), user_id: user_to_remove_id})
+        setManagerToRemove(data)
     }
 
     /* Get team associeted to the selected data project */
@@ -272,6 +339,40 @@ const DashboardUser: Component = () => {
         (document.getElementById("form-not-same-password-message") as HTMLInputElement).innerText = "Erreur: Les deux mots de passes ne sont pas identiques"; 
     }
 
+    const handle_submit_delete_students = async (event: Event) => {
+        event.preventDefault();
+        studentsToRemove().forEach( async (element:any) => {
+            let res_delete_student = await fetch(`http://localhost:8080/api/student`, {
+            method: "DELETE",
+            body: JSON.stringify({id: element.id, user_id: element.user_id, password: "admin"}),
+            headers: {"Content-type": "application/json; charset=UTF-8"} 
+            });
+
+            let status = await res_delete_student.status
+            if (status != 200) {
+                console.log("[ERROR] Couldn't delete the student! Status:" + status)
+                return status
+            }
+        });
+    }
+
+    const handle_submit_delete_manager = async (event: Event) => {
+        event.preventDefault();
+        managerToRemove().forEach( async (element:any) => {
+            let res_delete_student = await fetch(`http://localhost:8080/api/manager`, {
+            method: "DELETE",
+            body: JSON.stringify({id: element.id, user_id: element.user_id, password: "admin"}),
+            headers: {"Content-type": "application/json; charset=UTF-8"} 
+            });
+
+            let status = await res_delete_student.status
+            if (status != 200) {
+                console.log("[ERROR] Couldn't delete the manager! Status:" + status)
+                return status
+            }
+        });
+    }
+
     return (
         <Flex w="80%" jc="space-evenly">
             <Flex bgc="#444444" br="10px" w="40%" h="80%" direction="column">
@@ -348,6 +449,7 @@ const DashboardUser: Component = () => {
             </Show>
             <Show when={removeStudent()}>
                 <Flex direction="column" bgc="#444444" br="10px" w="50%" h="60%" jc="space-evenly" ai="center" ff="Roboto" pt="3%">
+                <form onSubmit={ handle_submit_delete_students }>
                     <label>Remove Student</label>
                     <Flex w="95%" jc="space-evenly" ai="center">
                         <Flex direction="column" jc="space-evenly" ai="center" w="65%">
@@ -364,35 +466,22 @@ const DashboardUser: Component = () => {
                             </Box>
                         </Flex>
                         <Flex w="35%" jc="space-evenly" ai="center">
-                            <select name="data_project" id="data_project" onChange={async (e) => { setSelectedProject(Number(e.currentTarget.value)); await handleChangeTeam(); if(teams().length != 0) {setSelectedTeam(1);} else {setSelectedTeam(-1); }handleChangeMember()}}>
-                                <For each={projects()}>
-                                    {(element) => (
-                                        <option value={element.id}>{element.name}</option>
-                                    )}
-                                </For>
-                            </select>
-                            <select name="teams" id="teams" onChange={(e) => { setSelectedTeam(Number(e.currentTarget.value)); handleChangeMember()}}>
-                                <For each={teams()}>
-                                    {(element) => (
-                                        <option value={element.id}>{element.id}</option>
-                                    )}
-                                </For>
-                            </select>
-                            <ButtonCustom text="Ajouter" onclick={addToTeam}/>
+                            <ButtonCustom text="Ajouter" onclick={addToStudentToRemove}/>
                         </Flex>
                     </Flex>
                     <Flex direction="column" ai="center" w="80%" h="60%" ff="Roboto" mt="5%">
-                        <label>Student</label>
+                        <label>Student to remove</label>
                         <Box w="80%" h="30%" b="2px solid #FFFFFF" br="10px">
                             {/* Requête pour récupérer le joueur recherché */}
-                            <For each={members()}>
+                            <For each={studentsToRemove()}>
                                 {(element:any) => (
                                     <p>{element.user_id}</p>
                                 )}
                             </For>
                         </Box>
-                        <ButtonCustom text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="60px" br="16px" bgc="#E36464" mt="4%"/>
+                        <ButtonCustom class="form-submit" type="submit" value="submit" text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="60px" br="16px" bgc="#E36464" mt="4%"/>
                     </Flex>
+                </form>
                 </Flex>
             </Show>
             <Show when={addManager()}>
@@ -436,13 +525,14 @@ const DashboardUser: Component = () => {
             </Show>
             <Show when={removeManager()}>
                 <Flex direction="column" bgc="#444444" br="10px" w="50%" h="60%" jc="space-evenly" ai="center" ff="Roboto" pt="3%">
+                <form onSubmit={ handle_submit_delete_manager }>
                     <label>Remove Manager</label>
                     <Flex w="95%" jc="space-evenly" ai="center">
                         <Flex direction="column" jc="space-evenly" ai="center" w="65%">
                             {/* Call à la bdd pour trouver le joueur recherché */}
                             <input id="search" type="text" placeholder="Name of manager" onInput={() => {setSearchValue((document.getElementById("search") as HTMLInputElement).value)}}/>  
                             <Box w="100%" h="2em" ovy="scroll">
-                                <For each={studentsNames()}>
+                                <For each={managersNames()}>
                                     {(element: string) => (
                                         <Show when={searching(element)}>
                                             <li>{element}</li>
@@ -452,35 +542,23 @@ const DashboardUser: Component = () => {
                             </Box>
                         </Flex>
                         <Flex w="35%" jc="space-evenly" ai="center">
-                            <select name="data_project" id="data_project" onChange={async (e) => { setSelectedProject(Number(e.currentTarget.value)); await handleChangeTeam(); if(teams().length != 0) {setSelectedTeam(1);} else {setSelectedTeam(-1); }handleChangeMember()}}>
-                                <For each={projects()}>
-                                    {(element) => (
-                                        <option value={element.id}>{element.name}</option>
-                                    )}
-                                </For>
-                            </select>
-                            <select name="teams" id="teams" onChange={(e) => { setSelectedTeam(Number(e.currentTarget.value)); handleChangeMember()}}>
-                                <For each={teams()}>
-                                    {(element) => (
-                                        <option value={element.id}>{element.id}</option>
-                                    )}
-                                </For>
-                            </select>
-                            <ButtonCustom text="Ajouter" onclick={addToTeam}/>
+                            
+                            <ButtonCustom text="Ajouter" onclick={addToManagerToRemove}/>
                         </Flex>
                     </Flex>
                     <Flex direction="column" ai="center" w="80%" h="60%" ff="Roboto" mt="5%">
                         <label>Managers</label>
                         <Box w="80%" h="30%" b="2px solid #FFFFFF" br="10px">
                             {/* Requête pour récupérer le joueur recherché */}
-                            <For each={members()}>
+                            <For each={managerToRemove()}>
                                 {(element:any) => (
                                     <p>{element.user_id}</p>
                                 )}
                             </For>
                         </Box>
-                        <ButtonCustom text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="60px" br="16px" bgc="#E36464" mt="4%"/>
+                        <ButtonCustom class="form-submit" type="submit" value="submit" text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="60px" br="16px" bgc="#E36464" mt="4%"/>
                     </Flex>
+                </form>
                 </Flex>
             </Show>
         </Flex>
