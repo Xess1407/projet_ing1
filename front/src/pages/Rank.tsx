@@ -1,5 +1,6 @@
 import { For, createEffect, createSignal, onMount } from "solid-js"
 import Flex from "../components/layouts/Flex"
+import "./css/Rank.css"
 
 const Rank = () => {
     const [ranks, setRanks] = createSignal<any>([])
@@ -43,17 +44,17 @@ const Rank = () => {
     })
     
     return (
-        <Flex b="3px solid green"bgc="#444444" br="10px" w="80%" h="70vh" direction="column" jc="space-evenly" >
+        <Flex bgc="#444444" br="10px" w="80%" h="80vh" direction="column" jc="space-evenly" ai="center" ovy="scroll" c="#FFFFFF" ff="Roboto">
             <For each={ranksByProject()}>
                 {(list_ranks:any) => (
-                    <Flex b="2px solid red" direction="row" jc="space-evenly" w="80%">
-                        <div><h3> Data project: {list_ranks.at(0).data_project_id} </h3></div>
-                        <Flex direction="column">
+                    <Flex direction="row" w="95%" h="40%" ovy="scroll" c="#FFFFFF" ff="Roboto" bgc="#555555" br="10px">
+                        <h2 class="data-project-name"> Data project : {list_ranks.at(0).data_project_id} </h2>
+                        <Flex direction="column" c="#FFFFFF" ff="Roboto" w="60%" ml="5%">
                             <For each={list_ranks}>
                                 {(rank: any) => (
-                                    <div>
-                                        <h4>Team nom: {rank.team_id}</h4>
-                                        <span>Score: {rank.score}</span>
+                                    <div class="team-project">
+                                        <h4 class="team-name">Team nom : {rank.team_id}</h4>
+                                        <span class="score-team">Score : {rank.score}</span>
                                     </div>  
                                 )}
                             </For>
