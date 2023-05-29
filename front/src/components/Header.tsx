@@ -29,7 +29,7 @@ const Header: Component = () => {
     return (
         <Box bgc="#000000" h="140px" m="0" p="0">
             <Flex jc="center" w="100%" m="0" p="0" h="100%" ai="center" td="none" ff="Roboto">
-                <img src="/src/img/logo.png" alt="logo" height="100px" />
+                <img src="/src/img/logo.png" alt="logo" height="100px" onClick={() => {nav("/", {replace: true})}}/>
                 <ul><LinkItems path="/" text={"Home"} /></ul>
                 <ul><LinkItems path="/profile" text={"Profile"} /></ul>
                 <ul><LinkItems path="/team" text={"Team"} /></ul>
