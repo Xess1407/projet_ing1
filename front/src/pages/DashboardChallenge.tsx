@@ -57,6 +57,7 @@ const DashboardChallenge: Component = () => {
     const handle_submit_challenge = (event: Event): void => {
         event.preventDefault();
         submit_challenge(challengeForm, resourceForm)
+        setTotalChallenges(totalChallenges() + 1);
     }
 
     const handle_show = (code: number) => {
@@ -83,6 +84,7 @@ const DashboardChallenge: Component = () => {
                 console.log("[ERROR] Couldn't delete the student! Status:" + status)
                 return status
             }
+            setTotalChallenges(totalChallenges() - 1);
         });
     }
 
