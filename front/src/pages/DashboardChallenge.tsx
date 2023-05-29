@@ -23,6 +23,7 @@ const DashboardChallenge: Component = () => {
         }
         let chll = await res_project.json()
         setChallenges(chll)
+        setTotalChallenges(challenges().length)
     }
 
     onMount( async () => {
