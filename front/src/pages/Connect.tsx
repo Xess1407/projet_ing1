@@ -1,4 +1,4 @@
-import {Component, createEffect, createSignal, Show} from "solid-js";
+import {Component, createEffect, createSignal} from "solid-js";
 import Flex from "../components/layouts/Flex";
 import ButtonCustom from "../components/generals/ButtonCustom";
 import { submit, form, setForm } from "../components/forms/ConnectForm";
