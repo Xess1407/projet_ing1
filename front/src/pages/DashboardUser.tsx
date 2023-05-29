@@ -41,12 +41,7 @@ const DashboardUser: Component = () => {
     const [totalManagers, setTotalManagers] = createSignal<number>(0)
     const [managersNames, setManagerNames] = createSignal<string[]>([])
 
-    const [teams, setTeams] = createSignal<any>([])
     const [projects, setProjects] = createSignal<any>([])
-    const [members, setMembers] = createSignal<any>([])
-    const [selectedProject, setSelectedProject] = createSignal(1)
-    const [selectedTeam, setSelectedTeam] = createSignal(1)
-
 
     const [studentsToRemove, setStudentToRemove] = createSignal<any>([], { equals: false })
 
@@ -139,44 +134,6 @@ const DashboardUser: Component = () => {
         return v
     }
 
-    const addToTeam = async () => {
-        let name = studentsNames().find((nom) => { return nom == searchValue()})
-        if (name === undefined) {
-            console.log("Non trouvé");
-            /** Afficher erreur */
-            return
-        }
-
-        let user = getSessionUser()
-        let user_to_add_id = getIdFromName(searchValue())
-        if (user_to_add_id == -1) {
-            console.log("Utilisateur inconnu");
-            return
-        }
-
-        if(selectedTeam() == -1) {
-            /* Erreur pas d'équipe selectionner */
-            return 
-        }
-        
-        let data = {team_id: selectedTeam(), user_id: user_to_add_id, password: user?.password}
-
-        
-        const res_team = await fetch(`http://localhost:8080/api/member`, {
-            method: "POST",
-            body: JSON.stringify(data),
-            headers: {"Content-type": "application/json; charset=UTF-8"} 
-        });
-
-        let status = await res_team.status
-        if (status != 200) {
-            console.log("[ERROR] Couldn't register the student! Status:" + status)
-            return
-        }
-
-        handleChangeMember()
-    }
-
     const addToStudentToRemove = () => {
         let name = studentsNames().find((nom) => { return nom == searchValue()})
         if (name === undefined) {
@@ -231,77 +188,10 @@ const DashboardUser: Component = () => {
         setProjects(projects)
     }
 
-    /* Get team associeted to the selected data project */
-    const getTeams = async () => {
-        let user = getSessionUser()
-        const res_team = await fetch(`http://localhost:8080/api/team/${user?.user_id}`, {
-            method: "GET",
-        });
-
-        let status = await res_team.status
-        if (status != 200) {
-            console.log("[ERROR] Couldn't get the team! Status:" + status)
-            return
-        }
-        let res_t = await res_team.json()
-        //console.log("Select project:" + selectedProject());
-
-        /* Reset the team */
-        let t: any[] = []
-        /* Get all team of the data project  */
-        res_t.forEach((element: any) => {
-            if (element.data_project_id == selectedProject()) {
-                t.push(element)
-            }
-        });
-        setTeams(t)
-    }
-
-    /* Get all members from a team_id */
-    const getMembersFromTeam = async (team_id: any) => {
-        const res_member = await fetch(`http://localhost:8080/api/member/${team_id}`, {
-            method: "GET",
-        });
-
-        let status = await res_member.status
-        if (status != 200) {
-            console.log("[ERROR] Couldn't get the members of the team! Status:" + status)
-            return
-        }
-        let members = await res_member.json()
-        /* Reset the membres */
-        let m: any[] = []
-        /* Get all smembres of the team selected  */
-        members.forEach((element: any) => {
-            if (element.team_id == selectedTeam()) m.push(element)
-        });
-        setMembers(m)
-    }
-
-    const handleChangeTeam = async () => {
-        /* Get the team */
-        await getTeams()
-    }
-
-    const handleChangeMember = async () => {
-        console.log(selectedTeam());
-        console.log(teams());
-        
-        setMembers([])
-        /* Get the members of the team if found */
-        if (teams().length != 0) {
-            //console.log("Il y a des teams");
-            await getMembersFromTeam(selectedTeam())
-        }
-        console.log(members());
-    }
-    
     onMount(async () => {
         await getStudents()
         await getManagers()
         await getDataProject()
-        await handleChangeTeam()
-        await handleChangeMember()
     })
 
     const handle_show = (code: number) => {
