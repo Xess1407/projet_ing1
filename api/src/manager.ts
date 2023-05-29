@@ -521,7 +521,7 @@ class ManagerController implements Controller {
     }
 
     /* Check identifiers */
-    let identified = await UserController.identifyManager(user_id, password);
+    let identified = await UserController.identifyManager(user_id, password) || await UserController.identifyAdmin(password);
     if (!identified) {
       res.status(401).send("Wrong password!");
       return;
