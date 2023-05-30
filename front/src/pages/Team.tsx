@@ -275,7 +275,6 @@ const Team: Component = () => {
         newMembers().forEach(async (element: any) => {
             if (element.user_id != res.user_id) {
                 let data = {team_id: team_id, user_id: element.user_id, password: user?.password}
-                console.log(data);
                 
                 const res_team = await fetch(`http://localhost:8080/api/member`, {
                     method: "POST",
@@ -324,6 +323,28 @@ const Team: Component = () => {
         }
     }
 
+    const delete_team = async (e:any, team_id: number) => {
+        /* Delete the team */
+        console.log("deleting team: " + team_id)
+        const res_del_team = await fetch(`http://localhost:8080/api/team`, {
+            method: "DELETE",
+            body: JSON.stringify({id: team_id, user_captain_id: user?.user_id, password: user?.password}),
+            headers: {"Content-type": "application/json; charset=UTF-8"} 
+        });
+
+        let status = await res_del_team.status
+        if (status != 200) {
+            console.log("[ERROR] Couldn't delete the team! Status:" + status)
+            return
+        }
+
+        // On recharge la liste des équipes et des membres
+        setShowList(false);
+        await getUserTeams();
+        await getUserTeamsMembers(user?.user_id);
+        setShowList(true);
+    }
+
     return (
         <Flex direction="row" w="100%" h="calc(100vh - 140px)" m="0" p="0" ovy="hidden" bgc="#111111"> 
             <Box w="45%">
@@ -362,30 +383,37 @@ const Team: Component = () => {
                                     const filteredTeamMembers = teamMembers.filter(Boolean); // Filtrer les valeurs nulles (chaînes vides)
 
                                     return (
-                                        <LinkComponents path={"/yourteam/" + team.id}>
-                                            <Box b="2px solid white" mb="2%" h="100%" w="100%" br="8px">
-                                                <Flex>
-                                                        <Flex fsz="18px" c="white" ff="Roboto">
-                                                            <span>Team {team.id} on Project {project.name}: [</span>
-                                                        </Flex>
-                                                        <For each={filteredTeamMembers}>
-                                                        {(teamMember: any, index: () => number) => (
-                                                            <>
-                                                            {teamMember}
-                                                            {index() !== filteredTeamMembers.length - 1 && (
-                                                                <Flex fsz="18px" c="white"ff="Roboto">
-                                                                    ,&nbsp;
+                                        <div id={team.id}>
+                                            <Flex>
+                                                <LinkComponents path={"/yourteam/" + team.id}>
+                                                    <Box b="2px solid white" mb="2%" h="100%" w="100%" br="8px">
+                                                        <Flex>
+                                                                <Flex fsz="18px" c="white" ff="Roboto">
+                                                                    <span>Team {team.id} on Project {project.name}: [</span>
                                                                 </Flex>
-                                                            )}
-                                                            </>
-                                                        )}
-                                                        </For>
-                                                        <Flex fsz="18px" c="white" ff="Roboto">
-                                                            <span>]</span>
+                                                                <For each={filteredTeamMembers}>
+                                                                {(teamMember: any, index: () => number) => (
+                                                                    <>
+                                                                    {teamMember}
+                                                                    {index() !== filteredTeamMembers.length - 1 && (
+                                                                        <Flex fsz="18px" c="white"ff="Roboto">
+                                                                            ,&nbsp;
+                                                                        </Flex>
+                                                                    )}
+                                                                    </>
+                                                                )}
+                                                                </For>
+                                                                <Flex fsz="18px" c="white" ff="Roboto">
+                                                                    <span>]</span>
+                                                                </Flex>
                                                         </Flex>
-                                                </Flex>
-                                            </Box>
-                                        </LinkComponents>
+                                                    </Box>
+                                                </LinkComponents>
+                                                <Show when={team.user_captain_id == user?.user_id}>
+                                                    <button class="delete_team" onclick={(e) => {delete_team(e, team.id)}}>x</button>
+                                                </Show>
+                                            </Flex>
+                                        </div>
                                     );
                                 }}
                                 </For>

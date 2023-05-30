@@ -40,6 +40,9 @@ class MemberController implements Controller {
         })
       })
 
+      // On supprime les doublons
+      teams_id = Array.from(new Set(teams_id));
+
       return teams_id;
     }
 
