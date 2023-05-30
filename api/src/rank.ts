@@ -11,7 +11,8 @@ class RankController implements Controller {
         this.router = Router();
         this.router.post(RankController.path, this.post);
         this.router.get(RankController.path, this.get_all);
-        this.router.get(RankController.path + "/:id", this.get);
+        this.router.post(RankController.path + "/get", this.get);
+        this.router.get(RankController.path + "/:id", this.get_by_id);
         this.router.delete(RankController.path, this.delete);
     }
 
@@ -46,6 +47,46 @@ class RankController implements Controller {
     }
 
     async get(req: Request, res: Response) {
+        let { data_project_id, team_id } = req.body;
+
+        let r;
+
+        if (!data_project_id || !team_id) {
+            console.log (
+                "[ERROR][POST] wrong data on " + RankController.path + "/get: " +
+                JSON.stringify(req.body),
+            );
+            res.status(400).send();
+            return;
+        }
+
+        let found = false;
+
+        await RankController.get_values().then((rows: any) =>
+            rows.forEach((row) => {
+            if (row.data_project_id == data_project_id && row.team_id == team_id) {
+                found = true;
+                r = new RankEntry(
+                    row.rowid,
+                    row.data_project_id,
+                    row.team_id,
+                    row.score
+                );
+            }
+            })
+        );
+
+        if (found) {
+            console.log(
+                "[INFO][POST] " + RankController.path + "/get: ",
+            );
+            res.send(JSON.stringify(r));
+        } else {
+            res.status(400).send();
+        }
+    }
+
+    async get_by_id(req: Request, res: Response) {
         let id = req.params.id
         let r;
         
@@ -143,10 +184,10 @@ class RankController implements Controller {
     }
 
     async post(req: Request, res: Response) {
-        let { id, data_project_id, team_id, score,  password } = req.body;
+        let { id, data_project_id, team_id, score } = req.body;
 
         if (
-            !data_project_id || !team_id || !score || !password
+            !data_project_id || !team_id || !score
         ) {
             console.log(
             "[ERROR][POST] wrong data on " + RankController.path + " : " +
@@ -154,13 +195,6 @@ class RankController implements Controller {
             );
             res.status(400).send();
             return;
-        }
-
-        /* Check identifiers */
-        let identified = await UserController.identifyAdmin(password);
-        if (!identified) {
-          res.status(401).send("Wrong password!");
-          return;
         }
 
         if (!id) {
@@ -183,21 +217,14 @@ class RankController implements Controller {
 
     async delete(req: Request, res: Response) {
         const db = new Database("maggle.db");
-        const { id, password } = req.body;
+        const { id } = req.body;
     
-        if ( !id || !password ) {
+        if ( !id ) {
           console.log(
             "[ERROR][DELETE] wrong data on " + RankController.path + " : " +
               JSON.stringify(req.body),
           );
           res.status(400).send();
-          return;
-        }
-
-        /* Check identifiers */
-        let identified = await UserController.identifyAdmin(password);
-        if (!identified) {
-          res.status(401).send("Wrong password!");
           return;
         }
     

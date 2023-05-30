@@ -24,8 +24,7 @@ import DashboardChallenge from './pages/DashboardChallenge';
 import Error404 from './pages/404';
 import Questionnaire from './pages/Questionnaire';
 import DashboardQuestionnaire from './pages/DashboardQuestionnaire';
-import DashboardProject from './pages/DashboardProject';
-import Drop from "./pages/Drop";
+import DashboardCorrection from './pages/DashboardCorrection';
 
 const App: Component = () => {
   return (
@@ -39,21 +38,16 @@ const App: Component = () => {
 
         <Route path="/profile" element={<div><Guard/><Profile/></div>}/>
         <Route path="/team" element={<div><Guard/><Team/></div>}/>
-        <Route path="/drop" element={<div><Guard/><Drop/></div>}/>
         <Route path="/yourteam/:team_id" element={<div><Guard/><YourTeam/></div>}/>
         <Route path="/questionnaire/:questionnaire_id" element={<div><Guard/><Questionnaire/></div>} />
 
         <Route path="/dashboard" element={<div><Guard/><Dashboard/></div>}>
-          <Route path="/" />
-
-          <Route path="/user" element={<DashboardUser/>} />
-          <Route path="/project" element={<DashboardProject />} />
-          <Route path="/challenge" element={<DashboardChallenge />} />
-
+          <Route path="/" element={<DashboardUser/>} />
           <Route path="/rank" element={<Rank/>} />
-          
-          <Route path="/questionnaire" element={<DashboardQuestionnaire/>} />
-
+          <Route path="/challenge" element={<DashboardChallenge />} />
+          <Route path="/questionnaire" element={<DashboardQuestionnaire />} />
+          <Route path="/correction" element={<DashboardCorrection />} />
+          <Route path="/test" element={<div><h1>ICI CA MARCHE !</h1></div>} />
         </Route>
 
         <Route path="/redirect" element={<Redirect/>} />
