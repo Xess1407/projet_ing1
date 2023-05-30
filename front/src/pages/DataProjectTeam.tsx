@@ -48,7 +48,7 @@ const DataProjectTeams: Component = () => {
             return
         }
         let res = await res_project.json()
-        setChallengeId("/"+String(res.id))
+        setChallengeId("/"+String(res.data_challenge_id))
     }
 
     /* Get all members from a team_id */
