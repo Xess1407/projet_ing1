@@ -2,6 +2,7 @@ import Controller from "./controller";
 import { Request, Response, Router } from "express";
 import { Database } from "sqlite3";
 import UserController from "./user";
+import QuestionController from "./question";
 
 class QuestionnaireController implements Controller {
     static path = "/questionnaire";
@@ -57,6 +58,9 @@ class QuestionnaireController implements Controller {
                 ))
             })
         )
+        console.log(
+            "[INFO][GET] " + QuestionnaireController.path + ": ",
+          );
         res.send(JSON.stringify(r));
     }
 
@@ -249,7 +253,51 @@ class QuestionnaireController implements Controller {
           res.status(401).send("Wrong password!");
           return;
         }
+
+        // On supprime toutes les questions du questionnaire s'il y en a
+        let existQuestions = await QuestionController.exist_question_in_questionnaire(id);
+
+        if(existQuestions) {
+            const res_questions = await fetch(`http://localhost:8080/api/question/` + id, {
+                method: "GET",
+                headers: {"Content-type": "application/json; charset=UTF-8"} 
+            });
+            if (await res_questions.status != 200) {
+            console.log (
+                "[ERROR][GET] error on " + QuestionController.path + "/" + id + ": " +
+                JSON.stringify(req.body),
+            );
+            res.status(400).send();
+            return;
+            }
+            let res_questions_json = await res_questions.json();
     
+            for (const res_question_json of res_questions_json) {
+                // Suppression de chaque question
+                const sql = `DELETE FROM question
+                WHERE rowid = ?`;
+                const data = [res_question_json.id];
+            
+                let e;
+                db.run(sql, data, (err) => e = err);
+                if (e) {
+                console.log(
+                    "[ERROR][DELETE] sql error " + QuestionController.path + " : " +
+                    JSON.stringify(res_question_json.id),
+                );
+                console.error(e.message);
+                res.status(500).send();
+                return;
+                }
+            
+                console.log(
+                "[INFO][DELETE] data deleted on " + QuestionController.path + " : " +
+                    JSON.stringify(res_question_json.id),
+                );
+            } 
+        }
+    
+        // On supprime le questionnaire
         const sql = `DELETE FROM questionnaire
         WHERE rowid = ?`;
         const data = [id];

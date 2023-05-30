@@ -23,6 +23,7 @@ import DataProjectTeams from './pages/DataProjectTeam';
 import DashboardChallenge from './pages/DashboardChallenge';
 import Error404 from './pages/404';
 import Qcm from './pages/Qcm';
+import DashboardQuestionnaire from './pages/DashboardQuestionnaire';
 
 const App: Component = () => {
   return (
@@ -43,6 +44,7 @@ const App: Component = () => {
           <Route path="/" element={<DashboardUser/>} />
           <Route path="/rank" element={<Rank/>} />
           <Route path="/challenge" element={<DashboardChallenge />} />
+          <Route path="/questionnaire" element={<DashboardQuestionnaire />} />
           <Route path="/test" element={<div><h1>ICI CA MARCHE !</h1></div>} />
         </Route>
 

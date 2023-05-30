@@ -30,6 +30,19 @@ class QuestionController implements Controller {
         );
     }
 
+    static async exist_question_in_questionnaire(questionnaire_id: number) {
+      let res = false;
+      await QuestionController.get_values().then((rows: any) =>
+        rows.forEach((row) => {
+          if (row.questionnaire_id == questionnaire_id) {
+            res = true;
+          }
+        })
+      );
+  
+      return res;
+  }
+
     static async exist_question_id(question_id: number) {
         let res = false;
         await QuestionController.get_values().then((rows: any) =>
