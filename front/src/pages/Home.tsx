@@ -1,4 +1,4 @@
-import { Component, Show } from "solid-js";
+import { Component, For, Show, createSignal, onMount } from "solid-js";
 import Box from "../components/layouts/Box";
 import Flex from "../components/layouts/Flex";
 import "./css/Home.css"
@@ -9,6 +9,24 @@ import { useNavigate } from "@solidjs/router";
 const Home: Component = () => {
     const nav = useNavigate()
 
+    const [ranks, setRanks] = createSignal<any>([])
+    const getRanks = async () => {
+        const res_rank = await fetch(`http://localhost:8080/api/rank`, {
+            method: "GET",
+        });
+
+        let status = await res_rank.status
+        if (status != 200) {
+            console.log("[ERROR] Couldn't register the student! Status:" + status)
+            return
+        }
+        let rank_j = await res_rank.json()
+        setRanks(rank_j.slice(0, 3))
+    }
+
+    onMount(async () => {
+        await getRanks()
+    })
 
     return (
         <Box w="100%" h="calc(100vh - 140px)" m="0" p="0" ovy="hidden">
@@ -16,7 +34,14 @@ const Home: Component = () => {
             <h1 class="text">
                 <span>Welcome to MAGGLE</span>
             </h1>
+            
             <Flex direction="row">
+                <Flex mt="2%" ml="15%">
+                    <h2>Top Ranking</h2>
+                    <Show when={ranks().at(0) != undefined}><Box c="#FFFFFF" w="37%" ml="30%" mt="2%" fsz="19px" ff="Roboto"> 1 Place: Team {ranks().at(0).team_id} score: {ranks().at(0).score}</Box></Show>
+                    <Show when={ranks().at(1) != undefined}><Box c="#FFFFFF" w="37%" ml="30%" mt="2%" fsz="19px" ff="Roboto"> 2 Place: Team {ranks().at(1).team_id} score: {ranks().at(1).score}</Box></Show>
+                    <Show when={ranks().at(2) != undefined}><Box c="#FFFFFF" w="37%" ml="30%" mt="2%" fsz="19px" ff="Roboto"> 3 Place: Team {ranks().at(2).team_id} score: {ranks().at(2).score}</Box></Show>
+                </Flex>
                 <Flex direction="column" mt="2%" ml="15%">
                     <Show when={!isConnected()}>
                         <ButtonCustom text="SIGN-IN" ff="Roboto black" fsz="16px" w="183px" h="48px" br="16px" bgc="#3BCFA3" mb="10%" onclick={() => {nav("/connect", {replace: true})}}/>
