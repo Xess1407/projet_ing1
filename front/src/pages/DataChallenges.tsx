@@ -52,10 +52,10 @@ const DataChallenges: Component = () => {
             <Flex h="25%" w="50%" ml="10%" fsz="56px" c="#FFFFFF" ai="center">
                 <h1 class="text">Data Challenges</h1>
             </Flex>
-            <For each={challenges()}>
-                {(element: any) => (
-                    <Flex fw="wrap" direction="row" ml="10%" mr="10%" h="75%" jc="space-around" onclick={() => {nav("/data-project/" + element.id)}}>
-                        <div class="data-challenges">
+            <Flex fw="wrap" direction="row" jc="space-evenly" ai="center" w="100%" h="100%">
+                <For each={challenges()}>
+                    {(element: any) => (
+                        <div class="data-challenges" onclick={() => {nav("/data-project/" + element.id)}}>
                             <Flex h="270px" w="350px" br="10px" bgc="#3E3E3E" direction="column">
                                     <Flex c="white" h="50%" jc="center" ai="center" ff="Roboto">
                                         <h3>{element.name}</h3>
@@ -84,9 +84,9 @@ const DataChallenges: Component = () => {
                                 </Flex>
                             </Flex>               
                         </div>
-                    </Flex>
-                )}
-            </For>
+                    )}
+                </For>
+            </Flex>
         </Flex>
     )
 }
