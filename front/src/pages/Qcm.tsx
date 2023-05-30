@@ -3,6 +3,7 @@ import Flex from "../components/layouts/Flex";
 import { useNavigate, useParams } from "@solidjs/router";
 import ButtonCustom from "../components/generals/ButtonCustom";
 import { getSessionUser } from "../components/Session";
+import "./css/Qcm.css"
 
 const Qcm: Component = () => {
     const nav = useNavigate()
@@ -90,18 +91,20 @@ const Qcm: Component = () => {
         
     }
 
-    return <Flex bgc="#222222" direction="column" w="100%" jc="space-between" h="120vh">
-        <form onSubmit={ handleSubmit }>
-            <For each={question()}>
-                {(qst: any) => ( 
-                    <Flex c="white" jc="center" ai="center" ff="Roboto">
-                        <span>{qst.name}</span> 
-                        <input id={`question_${qst.id}`} placeholder="Response" required onChange={(e: Event) => handleAnswer(e, qst)}/>
-                    </Flex>
-                )}
-            </For>
+    return <Flex bgc="#222222" direction="column" w="100%" jc="space-evenly" ai="center" h="calc(100vh - 140px)">
+        <form class="form-qcm" onSubmit={ handleSubmit }>
+            <Flex ovy="scroll" direction="column" w="100%" h="75%">
+                <For each={question()}>
+                    {(qst: any) => ( 
+                        <Flex c="white" direction="column" w="50%" ml="25%" ff="Roboto">
+                            <span class="question-qcm">{qst.name}</span> 
+                            <input class="input-qcm" id={`question_${qst.id}`} placeholder="Response" required onChange={(e: Event) => handleAnswer(e, qst)}/>
+                        </Flex>
+                    )}
+                </For>
+            </Flex>
             <Flex jc="center" ai="center">
-                <ButtonCustom class="form-submit" type="submit" value="submit" h="71px" w="373px" mt="3%" ff="Roboto" text="Validate" />
+                <ButtonCustom class="form-submit" type="submit" value="submit" h="71px" w="373px" mt="0.5%" ff="Roboto" text="Validate" />
             </Flex>
         </form>
     </Flex>

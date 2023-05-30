@@ -1,0 +1,19 @@
+.form-qcm {
+    width: 100%;
+    height: 70%;
+}
+
+.input-qcm {
+    width: 100%;
+    background-color: #00868D;
+    border: none;
+}
+.input-qcm:focus {
+    background-color: hsl(177, 100%, 34%);
+    outline: none;
+}
+
+.question-qcm {
+    margin: 4% 0 1% 0;
+}
+
