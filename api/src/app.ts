@@ -28,7 +28,7 @@ class App {
 
     this.app.use(bodyParser.urlencoded({ extended: true }));
 
-    this.app.use("/files", express.static("files"));
+    //this.app.use("/file", express.static("file"));
   }
 
   private initializeControllers(controllers: Controller[]) {

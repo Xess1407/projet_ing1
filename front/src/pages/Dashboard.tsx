@@ -16,18 +16,6 @@ const DashAdmin: Component = () => {
     const nav = useNavigate()
     return <Flex direction="column" bgc="#555555" br="10px" w="18%" h="60%" jc="space-evenly" ai="center" c="#FFFFFF" ff="Roboto">
         <h2>Dashboard</h2>
-    <Show when={getBackground("/analyse")}>
-    <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center" bgc="#666666" br="10px">
-        <img class="icons" src="../src/img/analytics.png" alt="icon" />
-        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Analytics" onclick={() => {setCurrentPath("/dashboard/analyse"); nav("/dashboard/analyse", {replace:true})}}/>
-    </Flex>
-</Show>
-<Show when={!getBackground("/analyse")}>
-    <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center">
-        <img class="icons" src="../src/img/analytics.png" alt="icon" />
-        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Analytics" onclick={() => {setCurrentPath("/dashboard/analyse"); nav("/dashboard/analyse", {replace:true})}}/>
-    </Flex>
-</Show>
 
 <Show when={getBackground("/")}>
     <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center" bgc="#666666" br="10px">
@@ -65,6 +53,19 @@ const DashAdmin: Component = () => {
     <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center">
         <img class="icons" src="../src/img/challenge.png" alt="icon" />
         <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Data Challenges" onclick={() => {setCurrentPath("/dashboard/challenge");nav("/dashboard/challenge", {replace:true})}}/>
+    </Flex>
+</Show>
+
+<Show when={getBackground("/project")}>
+    <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center" bgc="#666666" br="10px">
+        <img class="icons" src="../src/img/analytics.png" alt="icon" />
+        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Project" onclick={() => {setCurrentPath("/dashboard/project"); nav("/dashboard/project", {replace:true})}}/>
+    </Flex>
+</Show>
+<Show when={!getBackground("/project")}>
+    <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center">
+        <img class="icons" src="../src/img/analytics.png" alt="icon" />
+        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Project" onclick={() => {setCurrentPath("/dashboard/project"); nav("/dashboard/project", {replace:true})}}/>
     </Flex>
 </Show>
 </Flex>

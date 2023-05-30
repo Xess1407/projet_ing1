@@ -2,6 +2,7 @@ import multer from "multer";
 import * as fs from "fs";
 import Controller from "./controller";
 import { Request, Response, Router } from "express";
+import { log } from "console";
 
 const sharp = require('sharp')
 
