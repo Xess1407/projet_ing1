@@ -19,7 +19,7 @@ export const AdminGuard = () => {
     return <div></div>
 }
 
-export const CaptainGuard = async () => {
+export const CaptainGuard = () => {
     const nav = useNavigate()
     if (!isConnected()) nav("/guard-auth")
     let user = getSessionUser()
