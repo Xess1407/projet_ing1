@@ -53,3 +53,11 @@ export const isConnected = (): boolean => {
 export const isAdmin = (): boolean => {
     return isConnected() && window.localStorage.getItem("role") == "admin"
 }
+
+export const isStudent = (): boolean => {
+    return isConnected() && window.localStorage.getItem("role") == "student"
+}
+
+export const isManager = (): boolean => {
+    return isConnected() && window.localStorage.getItem("role") == "manager"
+}

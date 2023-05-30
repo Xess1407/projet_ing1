@@ -44,10 +44,16 @@ const App: Component = () => {
         <Route path="/questionnaire/:questionnaire_id" element={<div><Guard/><Questionnaire/></div>} />
 
         <Route path="/dashboard" element={<div><Guard/><Dashboard/></div>}>
-          <Route path="/" element={<DashboardUser/>} />
-          <Route path="/rank" element={<Rank/>} />
+          <Route path="/" />
+
+          <Route path="/user" element={<DashboardUser/>} />
+          <Route path="/project" element={<DashboardProject />} />
           <Route path="/challenge" element={<DashboardChallenge />} />
-          <Route path="/test" element={<div><h1>ICI CA MARCHE !</h1></div>} />
+
+          <Route path="/rank" element={<Rank/>} />
+          
+          <Route path="/questionnaire" element={<DashboardQuestionnaire/>} />
+
         </Route>
 
         <Route path="/redirect" element={<Redirect/>} />
