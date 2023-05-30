@@ -425,7 +425,7 @@ const Team: Component = () => {
                                                     </Box>
                                                 </LinkComponents>
                                                 <Show when={team.user_captain_id == user?.user_id}>
-                                                    <button class="answer questionnaire" onclick={async () => {let i = await getQuestionnaireFromDataProject(team.data_project_id); nav("/questionnaire/"+i)}}> Answer Questionnaire</button>
+                                                    <button class="answer questionnaire" onclick={async () => {let i = await getQuestionnaireFromDataProject(team.data_project_id); nav("/dashboard/questionnaire/"+i)}}> Answer Questionnaire</button>
                                                     <button class="delete_team" onclick={(e) => {delete_team(e, team.id)}}>x</button>
                                                 </Show>
                                             </Flex>

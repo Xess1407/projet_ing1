@@ -36,10 +36,7 @@ const App: Component = () => {
         <Route path="/connect" element={<div><GuardAlreadyConnect/><Connect/></div>}/>
         <Route path="/register" element={<Register/>}/>
 
-        <Route path="/profile" element={<div><Guard/><Profile/></div>}/>
-        <Route path="/team" element={<div><Guard/><Team/></div>}/>
-        <Route path="/yourteam/:team_id" element={<div><Guard/><YourTeam/></div>}/>
-        <Route path="/questionnaire/:questionnaire_id" element={<div><CaptainGuard/><Questionnaire/></div>} />
+        <Route path="/yourteam/:team_id" element={<YourTeam/>}/>
 
         <Route path="/dashboard" element={<div><Guard/><Dashboard/></div>}>
           <Route path="/" element={<DashboardUser/>} />
@@ -47,7 +44,10 @@ const App: Component = () => {
           <Route path="/challenge" element={<DashboardChallenge />} />
           <Route path="/questionnaire" element={<DashboardQuestionnaire />} />
           <Route path="/correction" element={<DashboardCorrection />} />
-          <Route path="/test" element={<div><h1>ICI CA MARCHE !</h1></div>} />
+
+          <Route path="/profile" element={<Profile/>}/>
+          <Route path="/team" element={<Team/>}/>
+          <Route path="/questionnaire/:questionnaire_id" element={<div><CaptainGuard/><Questionnaire/></div>} />
         </Route>
 
         <Route path="/redirect" element={<Redirect/>} />

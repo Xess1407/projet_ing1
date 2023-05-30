@@ -114,6 +114,19 @@ const DashManager: Component = () => {
     </Flex>
 </Show>
 
+<Show when={getBackground("/correction")}>
+    <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center" bgc="#666666" br="10px">
+        <img class="icons" src="../src/img/challenge.png" alt="icon" />
+        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Correction" onclick={() => {setCurrentPath("/dashboard/correction");nav("/dashboard/correction", {replace:true})}}/>
+    </Flex>
+</Show>
+<Show when={!getBackground("/correction")}>
+    <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center">
+        <img class="icons" src="../src/img/challenge.png" alt="icon" />
+        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Correction" onclick={() => {setCurrentPath("/dashboard/correction");nav("/dashboard/correction", {replace:true})}}/>
+    </Flex>
+</Show>
+
 <Show when={getBackground("/contact")}>
     <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center" bgc="#666666" br="10px">
         <img class="icons" src="../src/img/challenge.png" alt="icon" />
@@ -149,24 +162,48 @@ const DashStudent: Component = () => {
 <Show when={getBackground("/rank")}>
     <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center" bgc="#666666" br="10px">
         <img class="icons" src="../src/img/team.png" alt="icon" />
-        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Teams" onclick={() => {setCurrentPath("/dashboard/rank");nav("/dashboard/rank", {replace:true})}}/>
+        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Rank" onclick={() => {setCurrentPath("/dashboard/rank");nav("/dashboard/rank", {replace:true})}}/>
     </Flex>
 </Show>
 <Show when={!getBackground("/rank")}>
     <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center">
         <img class="icons" src="../src/img/team.png" alt="icon" />
-        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Teams" onclick={() => {setCurrentPath("/dashboard/rank");nav("/dashboard/rank", {replace:true})}}/>
+        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Rank" onclick={() => {setCurrentPath("/dashboard/rank");nav("/dashboard/rank", {replace:true})}}/>
     </Flex>
 </Show>
+
+<Show when={getBackground("/profile")}>
+    <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center" bgc="#666666" br="10px">
+        <img class="icons" src="../src/img/team.png" alt="icon" />
+        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Profile" onclick={() => {setCurrentPath("/dashboard/profile");nav("/dashboard/profile", {replace:true})}}/>
+    </Flex>
+</Show>
+<Show when={!getBackground("/profile")}>
+    <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center">
+        <img class="icons" src="../src/img/team.png" alt="icon" />
+        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Profile" onclick={() => {setCurrentPath("/dashboard/profile");nav("/dashboard/profile", {replace:true})}}/>
+    </Flex>
+</Show>
+
+<Show when={getBackground("/team")}>
+    <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center" bgc="#666666" br="10px">
+        <img class="icons" src="../src/img/team.png" alt="icon" />
+        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Team" onclick={() => {setCurrentPath("/dashboard/team");nav("/dashboard/team", {replace:true})}}/>
+    </Flex>
+</Show>
+<Show when={!getBackground("/team")}>
+    <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center">
+        <img class="icons" src="../src/img/team.png" alt="icon" />
+        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Team" onclick={() => {setCurrentPath("/dashboard/team");nav("/dashboard/team", {replace:true})}}/>
+    </Flex>
+</Show>
+
 </Flex>
 }
 
 
 
 const Dashboard: Component = () => {
-    const nav = useNavigate()
-    let user = getSessionUser()
-
     return (
         <Flex bgc="#000000" w="100%" h="calc(100vh - 140px)" m="0" p="0" ovy="hidden" direction="row" jc="space-evenly">
             <Show when={isAdmin()} ><DashAdmin/> </Show>

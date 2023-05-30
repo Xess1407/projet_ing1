@@ -31,8 +31,6 @@ const Header: Component = () => {
             <Flex jc="center" w="100%" m="0" p="0" h="100%" ai="center" td="none" ff="Roboto">
                 <img class="logo" src="/src/img/logo.png" alt="logo" height="100px" onClick={() => {nav("/", {replace: true})}}/>
                 <ul><LinkItems path="/" text={"Home"} /></ul>
-                <ul><LinkItems path="/profile" text={"Profile"} /></ul>
-                <ul><LinkItems path="/team" text={"Team"} /></ul>
                 <Flex ff="Roboto" direction="column">
                     <ul classList={{ "data-challenge": true, active: boxData() }}><LinkItems path="/data-challenges" text={"Data Challenges"} /></ul>
                     <Show when={boxData()}>
@@ -45,7 +43,6 @@ const Header: Component = () => {
                     <img class="down" id="down" src="/src/img/down.png" alt="down" onClick={handle}/>
                 </ul>
                 <ul><LinkItems path="/dashboard" text={"Dashboard"} /></ul>
-                <ul><LinkItems path="/chat" text={"Chat"} /></ul>
                 <ul><Show when={connected()}><button class="logout" onclick={() => {logout(); setConnected(false); nav("/redirect", { replace: true }); }}>Logout</button></Show></ul>
             </Flex>
         </Box>
