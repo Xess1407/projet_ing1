@@ -38,12 +38,25 @@ export const submit_project = async (form: ProjectFormFields) => {
   
     let status = await res_register_project.status
     if (status != 200) {
-      console.log("[ERROR] Couldn't register the challenge! Status:" + status)
+      console.log("[ERROR] Couldn't register the project! Status:" + status)
       return status
     }
 
     let res = await res_register_project.json()
     submit_image(res.id)
+
+    // Fetch data project
+    const res_register_project_r = await fetch(`http://localhost:8080/api/project`, {
+      method: "POST",
+      body: JSON.stringify({id: res.id, data_challenge_id: form.data_challenge_id, name: form.name, description: form.description, image: "mproject"+res.id, password: "admin"}),
+      headers: {"Content-type": "application/json; charset=UTF-8"} 
+    });
+  
+    status = await res_register_project_r.status
+    if (status != 200) {
+      console.log("[ERROR] Couldn't modify the project! Status:" + status)
+      return status
+    }
 };
 
 export const submit_resource = async (form: ResourceFormFields) => {

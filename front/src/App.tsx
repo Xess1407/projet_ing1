@@ -25,6 +25,7 @@ import Error404 from './pages/404';
 import Questionnaire from './pages/Questionnaire';
 import DashboardQuestionnaire from './pages/DashboardQuestionnaire';
 import DashboardCorrection from './pages/DashboardCorrection';
+import DashboardProject from './pages/DashboardProject';
 
 const App: Component = () => {
   return (
@@ -40,11 +41,15 @@ const App: Component = () => {
 
         <Route path="/dashboard" element={<div><Guard/><Dashboard/></div>}>
           <Route path="/" element={<div/>} />
+
           <Route path="/user" element={<DashboardUser/>} />
-          <Route path="/rank" element={<Rank/>} />
           <Route path="/challenge" element={<DashboardChallenge />} />
+          <Route path="/project" element={<DashboardProject/>} />
+
           <Route path="/questionnaire" element={<DashboardQuestionnaire />} />
           <Route path="/correction" element={<DashboardCorrection />} />
+
+          <Route path="/rank" element={<Rank/>} />
 
           <Route path="/profile" element={<Profile/>}/>
           <Route path="/team" element={<Team/>}/>
