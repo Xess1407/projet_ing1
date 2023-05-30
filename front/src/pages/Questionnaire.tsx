@@ -3,9 +3,9 @@ import Flex from "../components/layouts/Flex";
 import { useNavigate, useParams } from "@solidjs/router";
 import ButtonCustom from "../components/generals/ButtonCustom";
 import { getSessionUser } from "../components/Session";
-import "./css/Qcm.css"
+import "./css/Questionnaire.css"
 
-const Qcm: Component = () => {
+const Questionnaire: Component = () => {
     const nav = useNavigate()
     const params = useParams();
     let questionnaire_id = params.questionnaire_id
@@ -92,13 +92,13 @@ const Qcm: Component = () => {
     }
 
     return <Flex bgc="#222222" direction="column" w="100%" jc="space-evenly" ai="center" h="calc(100vh - 140px)">
-        <form class="form-qcm" onSubmit={ handleSubmit }>
+        <form class="form-questionnaire" onSubmit={ handleSubmit }>
             <Flex ovy="scroll" direction="column" w="100%" h="75%">
                 <For each={question()}>
                     {(qst: any) => ( 
                         <Flex c="white" direction="column" w="50%" ml="25%" ff="Roboto">
-                            <span class="question-qcm">{qst.name}</span> 
-                            <input class="input-qcm" id={`question_${qst.id}`} placeholder="Response" required onChange={(e: Event) => handleAnswer(e, qst)}/>
+                            <span class="question-questionnaire">{qst.name}</span> 
+                            <input class="input-questionnaire" id={`question_${qst.id}`} placeholder="Response" required onChange={(e: Event) => handleAnswer(e, qst)}/>
                         </Flex>
                     )}
                 </For>
@@ -110,4 +110,4 @@ const Qcm: Component = () => {
     </Flex>
 }
 
-export default Qcm
+export default Questionnaire

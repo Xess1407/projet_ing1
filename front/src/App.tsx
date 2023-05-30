@@ -22,7 +22,7 @@ import AllDataProjects from './pages/AllDataProjects';
 import DataProjectTeams from './pages/DataProjectTeam';
 import DashboardChallenge from './pages/DashboardChallenge';
 import Error404 from './pages/404';
-import Qcm from './pages/Qcm';
+import Questionnaire from './pages/Questionnaire';
 import DashboardQuestionnaire from './pages/DashboardQuestionnaire';
 
 const App: Component = () => {
@@ -38,7 +38,7 @@ const App: Component = () => {
         <Route path="/profile" element={<div><Guard/><Profile/></div>}/>
         <Route path="/team" element={<div><Guard/><Team/></div>}/>
         <Route path="/yourteam/:team_id" element={<div><Guard/><YourTeam/></div>}/>
-        <Route path="/qcm/:questionnaire_id" element={<div><Guard/><Qcm/></div>} />
+        <Route path="/questionnaire/:questionnaire_id" element={<div><Guard/><Questionnaire/></div>} />
 
         <Route path="/dashboard" element={<div><Guard/><Dashboard/></div>}>
           <Route path="/" element={<DashboardUser/>} />
