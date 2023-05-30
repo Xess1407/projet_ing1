@@ -6,11 +6,12 @@ import ButtonCustom from "../components/generals/ButtonCustom";
 import InputCustom from "../components/generals/InputCustom";
 import { getSessionUser } from "../components/Session";
 import LinkItems from "../components/LinkItems";
-import { Link } from "@solidjs/router";
+import { Link, useNavigate } from "@solidjs/router";
 import LinkComponents from "../components/LinkComponents";
 
 
 const Team: Component = () => {
+    const nav = useNavigate()
     const [createTeam, setCreateTeam] = createSignal(false)
     const [editTeam, setEditTeam] = createSignal(false)
 
@@ -323,6 +324,20 @@ const Team: Component = () => {
         }
     }
 
+    const getQuestionnaireFromDataProject = async (project_id: number) => {
+        const res_project = await fetch(`http://localhost:8080/api/questionnaire/from-project/${project_id}`, {
+            method: "GET",
+        });
+
+        let status = await res_project.status
+        if (status != 200) {
+            console.log("[ERROR] Couldn't get the team! Status:" + status)
+            return
+        }
+        let res_p = await res_project.json()
+        return res_p.id
+    }
+
     const delete_team = async (e:any, team_id: number) => {
         /* Delete the team */
         console.log("deleting team: " + team_id)
@@ -410,6 +425,7 @@ const Team: Component = () => {
                                                     </Box>
                                                 </LinkComponents>
                                                 <Show when={team.user_captain_id == user?.user_id}>
+                                                    <button class="answer questionnaire" onclick={async () => {let i = await getQuestionnaireFromDataProject(team.data_project_id); nav("/questionnaire/"+i)}}> Answer Questionnaire</button>
                                                     <button class="delete_team" onclick={(e) => {delete_team(e, team.id)}}>x</button>
                                                 </Show>
                                             </Flex>
