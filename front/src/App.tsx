@@ -24,6 +24,7 @@ import DashboardChallenge from './pages/DashboardChallenge';
 import Error404 from './pages/404';
 import Questionnaire from './pages/Questionnaire';
 import DashboardQuestionnaire from './pages/DashboardQuestionnaire';
+import Drop from "./pages/Drop";
 
 const App: Component = () => {
   return (
@@ -37,6 +38,7 @@ const App: Component = () => {
 
         <Route path="/profile" element={<div><Guard/><Profile/></div>}/>
         <Route path="/team" element={<div><Guard/><Team/></div>}/>
+        <Route path="/drop" element={<div><Guard/><Drop/></div>}/>
         <Route path="/yourteam/:team_id" element={<div><Guard/><YourTeam/></div>}/>
         <Route path="/questionnaire/:questionnaire_id" element={<div><Guard/><Questionnaire/></div>} />
 
