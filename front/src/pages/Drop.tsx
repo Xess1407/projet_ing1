@@ -1,12 +1,9 @@
 import {Component, createSignal} from "solid-js";
 import Flex from "../components/layouts/Flex";
-import Box from "../components/layouts/Box";
 import ButtonCustom from "../components/generals/ButtonCustom";
 import InputCustom from "../components/generals/InputCustom";
-import {setStudentForm, studentForm, submit_student} from "../components/forms/RegisterStudentForm";
 import {dropForm, setDropForm, submit_drop} from "../components/forms/DropForm";
 
-const [stat, setStat] = createSignal(true)
 const Drop: Component = () => {
 
     const handle_submit_drop = async (event: Event): Promise<void> => {
