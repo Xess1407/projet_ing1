@@ -39,7 +39,8 @@ const App: Component = () => {
         <Route path="/yourteam/:team_id" element={<YourTeam/>}/>
 
         <Route path="/dashboard" element={<div><Guard/><Dashboard/></div>}>
-          <Route path="/" element={<DashboardUser/>} />
+          <Route path="/" element={<div/>} />
+          <Route path="/user" element={<DashboardUser/>} />
           <Route path="/rank" element={<Rank/>} />
           <Route path="/challenge" element={<DashboardChallenge />} />
           <Route path="/questionnaire" element={<DashboardQuestionnaire />} />

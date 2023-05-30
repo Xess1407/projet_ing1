@@ -20,7 +20,7 @@ const DashAdmin: Component = () => {
 <Show when={getBackground("/user")}>
     <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center" bgc="#666666" br="10px">
         <img class="icons" src="../src/img/user.png" alt="icon" />
-        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Users" onclick={() => {setCurrentPath("/dashboard/user/user"); nav("/dashboard/", {replace:true})}}/>
+        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Users" onclick={() => {setCurrentPath("/dashboard/user/user"); nav("/dashboard/user", {replace:true})}}/>
     </Flex>
 </Show>
 <Show when={!getBackground("/user")}>
