@@ -14,7 +14,7 @@ import YourTeam from './pages/YourTeam';
 import Dashboard from './pages/Dashboard';
 import Redirect from './pages/Redirect';
 import DataChallenges from "./pages/DataChallenges";
-import { AdminAuth, Auth, Guard } from './pages/Auth';
+import { AdminAuth, Auth, CaptainGuard, Guard } from './pages/Auth';
 import DataProjects from './pages/DataProject';
 import Rank from './pages/Rank';
 import DashboardUser from './pages/DashboardUser';
@@ -39,7 +39,7 @@ const App: Component = () => {
         <Route path="/profile" element={<div><Guard/><Profile/></div>}/>
         <Route path="/team" element={<div><Guard/><Team/></div>}/>
         <Route path="/yourteam/:team_id" element={<div><Guard/><YourTeam/></div>}/>
-        <Route path="/questionnaire/:questionnaire_id" element={<div><Guard/><Questionnaire/></div>} />
+        <Route path="/questionnaire/:questionnaire_id" element={<div><CaptainGuard/><Questionnaire/></div>} />
 
         <Route path="/dashboard" element={<div><Guard/><Dashboard/></div>}>
           <Route path="/" element={<DashboardUser/>} />

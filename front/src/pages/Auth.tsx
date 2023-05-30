@@ -1,8 +1,8 @@
-import {Component, Show} from "solid-js"
+import {Component, Show, onMount} from "solid-js"
 import Flex from "../components/layouts/Flex"
 import ButtonCustom from "../components/generals/ButtonCustom"
-import { useNavigate } from "@solidjs/router"
-import { isAdmin, isConnected } from "../components/Session"
+import { useNavigate, useParams } from "@solidjs/router"
+import { getSessionUser, isAdmin, isConnected } from "../components/Session"
 import Box from "../components/layouts/Box";
 
 export const Guard = () => {
@@ -16,6 +16,46 @@ export const AdminGuard = () => {
     const nav = useNavigate()
     if (!isAdmin()) 
         nav("/guard-auth-admin")
+    return <div></div>
+}
+
+export const CaptainGuard = async () => {
+    const nav = useNavigate()
+    if (!isConnected()) nav("/guard-auth")
+    let user = getSessionUser()
+    const params = useParams();
+    let questionnaire_id = params.questionnaire_id
+
+    onMount(async () => {
+        const res_questionnaire = await fetch(`http://localhost:8080/api/questionnaire/${questionnaire_id}`, {
+            method: "GET",
+        });
+    
+        let status = await res_questionnaire.status
+        if (status != 200) {
+            console.log("[ERROR] Couldn't get the team! Status:" + status)
+            return
+        }
+        let res_q = await res_questionnaire.json()
+    
+        const res_team = await fetch(`http://localhost:8080/api/team/${user?.user_id}`, {
+            method: "GET",
+        });
+    
+        status = await res_team.status
+        if (status != 200) {
+            console.log("[ERROR] Couldn't get the team! Status:" + status)
+            return
+        }
+        let res_t = await res_team.json()
+
+        console.log(res_q);
+        console.log(res_t);
+    
+        if (res_q.data_project_id != res_t[0].data_project_id || res_t[0].user_captain_id != user?.user_id)
+            nav("/guard-captain", {replace: true})
+    })
+
     return <div></div>
 }
 
