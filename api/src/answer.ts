@@ -46,11 +46,9 @@ class AnswerController implements Controller {
           return;
         }
     
-        let found = false;
         await AnswerController.get_values().then((rows: any) =>
             rows.forEach((row) => {
                 if (row.question_id == id) {
-                    found = true;
                     r.push(new AnswerEntry(
                         row.rowid,
                         row.question_id,
@@ -62,14 +60,10 @@ class AnswerController implements Controller {
             })
         );
     
-        if (found) {
-          console.log(
-            "[INFO][GET] " + AnswerController.path + "/" + id + ": ",
-          );
-          res.send(JSON.stringify(r));
-        } else {
-          res.status(400).send();
-        }
+        console.log(
+          "[INFO][GET] " + AnswerController.path + "/" + id + ": ",
+        );
+        res.send(JSON.stringify(r));
     }
 
     async get_all(req: Request, res: Response) {
