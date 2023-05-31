@@ -46,11 +46,11 @@ class AnalyticsController implements Controller {
     }
 
     async get(req: Request, res: Response) {
-        let { id } = req.body;
+        let { data_project_id, user_id } = req.body;
 
-        let r;
+        let r = new Array<AnalyticsEntry>;
 
-        if (!id) {
+        if (!data_project_id || !user_id) {
             console.log (
                 "[ERROR][POST] wrong data on " + AnalyticsController.path + "/get: " +
                 JSON.stringify(req.body),
@@ -63,15 +63,15 @@ class AnalyticsController implements Controller {
 
         await AnalyticsController.get_values().then((rows: any) =>
             rows.forEach((row) => {
-            if (row.rowid == id) {
+            if (row.data_project_id == data_project_id && row.user_id == user_id) {
                 found = true;
-                r = new AnalyticsEntry(
+                r.push(new AnalyticsEntry(
                     row.rowid,
                     row.data_project_id,
                     row.user_id,
                     row.file_name,
                     row.json_data
-                );
+                ));
             }
             })
         );
