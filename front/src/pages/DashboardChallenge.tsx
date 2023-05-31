@@ -181,10 +181,10 @@ const DashboardChallenge: Component = () => {
                         <Flex w="95%" jc="center" ai="center" h="20%" mt="3%">
                             <ButtonCustom class="form-submit" type="submit" value="submit" m="10px 0" h="65px" w="250px" ff="Roboto black" text="ADD" />
                             <Flex>
-                            <Show when={confirmed()} >
-                                <p>Challenge added</p>
-                            </Show>
-                        </Flex>
+                                <Show when={confirmed()} >
+                                    <p>Challenge added</p>
+                                </Show>
+                            </Flex>
                         </Flex>
                     </form>
                     </Flex>

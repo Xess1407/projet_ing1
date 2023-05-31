@@ -6,6 +6,8 @@ import InputCustom from "../components/generals/InputCustom";
 import ButtonCustom from "../components/generals/ButtonCustom";
 import { submit_project, resourceForm, setProjectForm, setResourceForm, submit_resource, projectForm } from "../components/forms/ProjectForm";
 
+export const [confirmed, setConfirmed] = createSignal(false)
+
 const [searchValue, setSearchValue] = createSignal<string>("")
 function searching(ele: string): boolean { return ele.toLowerCase().includes(searchValue().toLowerCase()) }
 
@@ -27,6 +29,7 @@ const handle_show = (code: number) => {
     setRemoveProject(false)
     setAddResource(false)
     setRemoveResource(false)
+    setConfirmed(false)
     switch (code){
         case 1: if (a) setAddProject(true); else setAddProject(false); break;
         case 2: if (b) setRemoveProject(true); else setRemoveProject(false); break;
@@ -120,6 +123,7 @@ const handle_submit_delete_project = async (event: Event) => {
         }
         setTotalProjects(totalProjects() - 1);
     });
+    setConfirmed(true)
 }
 
 const handle_submit_delete_resource = async (event: Event) => {
@@ -137,6 +141,7 @@ const handle_submit_delete_resource = async (event: Event) => {
             return status
         }
     });
+    setConfirmed(true)
 }
 
 const handle_submit_project = (event: Event): void => {
@@ -205,8 +210,13 @@ const DashboardProject: Component = () => {
                     </select>
                 </Flex>
                 
-                <Flex w="95%" jc="center" ai="center" h="20%" mt="3%">
+                <Flex w="95%" jc="center" ai="center" h="20%" mt="3%" direction="column">
                     <ButtonCustom class="form-submit" type="submit" value="submit" m="10px 0" h="65px" w="250px" ff="Roboto black" text="ADD" />
+                    <Flex>
+                        <Show when={confirmed()} >
+                            <p>Project added</p>
+                        </Show>
+                    </Flex>
                 </Flex>
             </form>
             </Flex>
@@ -245,6 +255,11 @@ const DashboardProject: Component = () => {
                         </For>
                     </Box>
                     <ButtonCustom class="form-submit" type="submit" value="submit" text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="60px" br="16px" bgc="#E36464" mt="4%"/>
+                    <Flex>
+                        <Show when={confirmed()} >
+                            <p>Project removed</p>
+                        </Show>
+                    </Flex>
                 </Flex>
             </form>
         </Flex>
@@ -271,6 +286,11 @@ const DashboardProject: Component = () => {
                     </Flex>
                     <Flex w="95%" jc="center" ai="center" h="20%" mt="5%">
                         <ButtonCustom class="form-submit" type="submit" value="submit" m="10px 0" h="65px" w="250px" ff="Roboto black" text="ADD" />
+                        <Flex>
+                        <Show when={confirmed()} >
+                            <p>Resource added</p>
+                        </Show>
+                    </Flex>
                     </Flex>
                 </form>
             </Flex>
@@ -309,6 +329,11 @@ const DashboardProject: Component = () => {
                             </For>
                         </Box>
                         <ButtonCustom class="form-submit" type="submit" value="submit" text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="60px" br="16px" bgc="#E36464" mt="4%"/>
+                        <Flex>
+                        <Show when={confirmed()} >
+                            <p>Resource removed</p>
+                        </Show>
+                    </Flex>
                     </Flex>
             </form>
         </Flex>

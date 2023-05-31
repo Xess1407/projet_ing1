@@ -1,4 +1,5 @@
 import { createStore } from "solid-js/store";
+import { setConfirmed } from "../../pages/DashboardProject";
 
 type ProjectFormFields = {
     data_challenge_id: number, 
@@ -57,6 +58,7 @@ export const submit_project = async (form: ProjectFormFields) => {
       console.log("[ERROR] Couldn't modify the project! Status:" + status)
       return status
     }
+    setConfirmed(true)
 };
 
 export const submit_resource = async (form: ResourceFormFields) => {
@@ -71,6 +73,7 @@ export const submit_resource = async (form: ResourceFormFields) => {
       console.log("[ERROR] Couldn't register the challenge! Status:" + status)
       return status
     }
+    setConfirmed(true)
 }
 
 function renameFile(originalFile:any, newName:any) {
@@ -97,7 +100,7 @@ export const submit_image = async (id: number) => {
     });
   
     let status = await res_register_image.status
-    if (status != 200) {
+    if (status != 201) {
         console.log(await res_register_image);
         
       console.log("[ERROR] Couldn't register the challenge! Status:" + status)
