@@ -13,7 +13,6 @@ import QuestionnaireController from "./questionnaire";
 import QuestionController from "./question";
 import AnswerController from "./answer";
 import RankController from "./rank";
-import MessageController from "./message";
 import AnalyticsController from "./analytics";
 import MailController from "./mail";
 
@@ -32,7 +31,6 @@ const controllers = [
   new QuestionController(),
   new AnswerController(),
   new RankController(),
-  new MessageController(),
   new AnalyticsController(),
   new MailController(),
 ];
