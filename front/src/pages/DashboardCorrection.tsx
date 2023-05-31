@@ -123,12 +123,12 @@ const DashboardCorrection: Component = () => {
     })
 
     return (
-        <Flex w="80%" jc="space-evenly">
-            <Flex bgc="#444444" br="10px" w="100%" h="100%" direction="row" jc="left" ai="left">
+        <Flex w="80%" h="80vh" jc="space-evenly">
+            <Flex bgc="#444444" br="10px" w="100%" h="100%" direction="row" jc="center" ai="center">
                 <For each={questionnaires()}>
                     {(questionnaire: any) => (
                         <Show when={questionnaire.questions != undefined && questionnaire.questions.length > 0}>
-                            <Box w="35%" h="100%" bgc="#222222" br="10px" c="#FFFFFF" ta="center" ff="Roboto">
+                            <Flex jc="center" fw="wrap" w="35%" h="90%" pt="1%" pb="1%" bgc="#222222" ovy="scroll" br="10px" c="#FFFFFF" ta="center" ff="Roboto">
                                 <h3>Questionnaire {questionnaire.id}</h3>
                                 <For each={questionnaire.questions}>
                                     {(question: any, index: () => number) => (
@@ -169,7 +169,7 @@ const DashboardCorrection: Component = () => {
                                         </Flex>
                                     )}
                                 </For>
-                            </Box>
+                            </Flex>
                         </Show>
                     )}
                 </For>
