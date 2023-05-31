@@ -1,6 +1,6 @@
 #!/bin/bash
 
 # Appeler l'API Java sur le fichier Python
-curl "http://localhost:8001/analyze?file=./test.py"
+curl -X POST -H "Content-Type: application/json" -d '{"data_project_id": 1, "user_id": 1, "file_name": "test.py", "file_content": "def greet(name):"}' localhost:8001/analyze
 
-curl "http://localhost:8001/occurrences?file=./test.py&terms=def,n,is"
+curl -X POST -H "Content-Type: application/json" -d '{"data_project_id": 1, "user_id": 1, "file_name": "test.py", "file_content": "def greet(name):", "terms": "def,n,is"}' localhost:8001/occurrences

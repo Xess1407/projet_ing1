@@ -14,6 +14,7 @@ import QuestionController from "./question";
 import AnswerController from "./answer";
 import RankController from "./rank";
 import MessageController from "./message";
+import AnalyticsController from "./analytics";
 
 const controllers = [
   new UserController(),
@@ -31,6 +32,7 @@ const controllers = [
   new AnswerController(),
   new RankController(),
   new MessageController(),
+  new AnalyticsController(),
 ];
 
 const app = new App(

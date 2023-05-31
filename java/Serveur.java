@@ -4,8 +4,10 @@ import com.sun.net.httpserver.HttpServer;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
-import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.Executors;
@@ -58,123 +60,182 @@ public class Serveur {
         }
 
         private void handleAnalysisRequest(HttpExchange httpExchange) throws IOException {
-            String filePath = null;
+            Integer data_project_id = null;
+            Integer user_id = null;
+            String file_name = null;
+            String file_content = null;
 
-            if ("GET".equals(httpExchange.getRequestMethod())) {
-                String queryString = httpExchange.getRequestURI().getQuery();
-                String[] queryParams = queryString.split("&");
-
-                for (String param : queryParams) {
-                    String[] keyValue = param.split("=");
-                    if (keyValue.length == 2 && keyValue[0].equals("file")) {
-                        filePath = URLDecoder.decode(keyValue[1], StandardCharsets.UTF_8);
-                        break;
-                    }
-                }
-            }
-
-            JSONObject analysisResult = new JSONObject();
-            try {
-                BufferedReader reader = new BufferedReader(new FileReader(filePath));
-                List<String> lines = new ArrayList<>();
+            if ("POST".equals(httpExchange.getRequestMethod())) {
+                InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), StandardCharsets.UTF_8);
+                BufferedReader br = new BufferedReader(isr);
+                StringBuilder requestBody = new StringBuilder();
                 String line;
-                while ((line = reader.readLine()) != null) {
-                    lines.add(line);
+                while ((line = br.readLine()) != null) {
+                    requestBody.append(line);
                 }
-                reader.close();
 
-                // Calculate number of lines
-                int lineCount = lines.size();
-                analysisResult.put("lineCount", lineCount);
+                JSONObject jsonObject = new JSONObject(requestBody.toString());
 
-                // Calculate number of functions
-                int functionCount = calculateFunctionCount(lines);
-                analysisResult.put("functionCount", functionCount);
+                if (jsonObject.has("data_project_id")) {
+                    data_project_id = jsonObject.getInt("data_project_id");
+                }
 
-                // Calculate minimum, maximum, and average lines of functions
-                JSONObject linesStats = calculateLinesStats(lines);
-                analysisResult.put("linesStats", linesStats);
+                if (jsonObject.has("user_id")) {
+                    user_id = jsonObject.getInt("user_id");
+                }
 
-            } catch (IOException e) {
-                e.printStackTrace();
-                analysisResult.put("error", "An error occurred during code analysis.");
+                if (jsonObject.has("file_name")) {
+                    file_name = jsonObject.getString("file_name");
+                }
+
+                if (jsonObject.has("file_content")) {
+                    file_content = jsonObject.getString("file_content");
+                }
             }
 
-            httpExchange.getResponseHeaders().set("Content-Type", "application/json");
-            httpExchange.sendResponseHeaders(200, analysisResult.toString().getBytes().length);
+            if(data_project_id != null && user_id != null && file_name != null && file_content != null) {
+                JSONObject jsonData = new JSONObject();
+                try {
+                    List<String> lines = Arrays.asList(file_content.split("\n"));
 
-            LOGGER.log(Level.INFO, "[{0}] Response on \"{1}\" : \"{2}\"\n", new Object[] { httpExchange.getRequestMethod(), httpExchange.getRequestURI(), analysisResult.toString() });
+                    // Calculate number of lines
+                    int lineCount = lines.size();
+                    jsonData.put("lineCount", lineCount);
 
-            OutputStream outputStream = httpExchange.getResponseBody();
-            outputStream.write(analysisResult.toString().getBytes());
-            outputStream.flush();
-            outputStream.close();
+                    // Calculate number of functions
+                    int functionCount = calculateFunctionCount(lines);
+                    jsonData.put("functionCount", functionCount);
+
+                    // Calculate minimum, maximum, and average lines of functions
+                    JSONObject linesStats = calculateLinesStats(lines);
+                    jsonData.put("linesStats", linesStats);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                LOGGER.log(Level.INFO, "[{0}] Response on \"{1}\" : \"{2}\"\n", new Object[] { httpExchange.getRequestMethod(), httpExchange.getRequestURI(), jsonData.toString() });
+
+                // Appeler la méthode makeAnalyticsRequest pour envoyer les données d'analyse
+                makeAnalyticsRequest(httpExchange, data_project_id, user_id, file_name, jsonData);
+            } else {
+                sendErrorResponse(httpExchange, "Wrong data on localhost:8001/analyze !");
+                return;
+            }
         }
 
         private void handleOccurrencesRequest(HttpExchange httpExchange) throws IOException {
-            String filePath = null;
+            Integer data_project_id = null;
+            Integer user_id = null;
+            String file_name = null;
+            String file_content = null;
             String[] terms = null;
 
-            if ("GET".equals(httpExchange.getRequestMethod())) {
-                String queryString = httpExchange.getRequestURI().getQuery();
-                String[] queryParams = queryString.split("&");
+            if ("POST".equals(httpExchange.getRequestMethod())) {
+                InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), StandardCharsets.UTF_8);
+                BufferedReader br = new BufferedReader(isr);
+                StringBuilder requestBody = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    requestBody.append(line);
+                }
 
-                for (String param : queryParams) {
-                    String[] keyValue = param.split("=");
-                    if (keyValue.length == 2) {
-                        String key = URLDecoder.decode(keyValue[0], StandardCharsets.UTF_8);
-                        String value = URLDecoder.decode(keyValue[1], StandardCharsets.UTF_8);
+                JSONObject jsonObject = new JSONObject(requestBody.toString());
 
-                        if (key.equals("file")) {
-                            filePath = value;
-                        } else if (key.equals("terms")) {
-                            String listeTermes = value;
-                            terms = listeTermes.split(",");
-                        }
-                    }
+                if (jsonObject.has("data_project_id")) {
+                    data_project_id = jsonObject.getInt("data_project_id");
+                }
+
+                if (jsonObject.has("user_id")) {
+                    user_id = jsonObject.getInt("user_id");
+                }
+
+                if (jsonObject.has("file_name")) {
+                    file_name = jsonObject.getString("file_name");
+                }
+
+                if (jsonObject.has("file_content")) {
+                    file_content = jsonObject.getString("file_content");
+                }
+
+                if (jsonObject.has("terms")) {
+                    String termsStr = jsonObject.getString("terms");
+                    terms = termsStr.split(",");
                 }
             }
 
-            if (terms == null || terms.length == 0) {
-                // Si les termes n'ont pas été fournis, renvoyer une erreur
-                sendErrorResponse(httpExchange, "No terms provided.");
+            if(data_project_id != null && user_id != null && file_name != null && file_content != null && terms != null) {
+                Map<String, Integer> termOccurrences = getTermOccurrences(file_content, terms);
+
+                JSONObject jsonData = new JSONObject();
+                jsonData.put("termOccurrences", termOccurrences);
+
+                LOGGER.log(Level.INFO, "[{0}] Response on \"{1}\" : \"{2}\"\n", new Object[] { httpExchange.getRequestMethod(), httpExchange.getRequestURI(), jsonData.toString() });
+
+                // Appeler la méthode makeAnalyticsRequest pour envoyer les données d'analyse
+                makeAnalyticsRequest(httpExchange, data_project_id, user_id, file_name, jsonData);
+            } else {
+                sendErrorResponse(httpExchange, "Wrong data on localhost:8001/occurrences !");
                 return;
             }
+        }
 
-            Map<String, Integer> termOccurrences = getTermOccurrences(filePath, terms);
+        private void makeAnalyticsRequest(HttpExchange httpExchange, Integer data_project_id, Integer user_id, String file_name, JSONObject jsonData) throws IOException {
+            String apiUrl = "http://localhost:8080/api/analytics";
 
-            JSONObject jsonResponse = new JSONObject();
-            jsonResponse.put("termOccurrences", termOccurrences);
+            // Construire les données de la requête
+            StringBuilder requestBody = new StringBuilder();
+            requestBody.append("data_project_id=").append(data_project_id);
+            requestBody.append("&user_id=").append(user_id);
+            requestBody.append("&file_name=").append(URLEncoder.encode(file_name, StandardCharsets.UTF_8));
+            requestBody.append("&json_data=").append(URLEncoder.encode(jsonData.toString(), StandardCharsets.UTF_8));
 
-            String jsonStr = jsonResponse.toString();
+            // Créer la connexion HTTP
+            HttpURLConnection connection = (HttpURLConnection) new URL(apiUrl).openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 
-            httpExchange.getResponseHeaders().set("Content-Type", "application/json");
-            httpExchange.sendResponseHeaders(200, jsonStr.getBytes().length);
+            // Écrire les données dans le corps de la requête
+            try (OutputStream outputStream = connection.getOutputStream()) {
+                outputStream.write(requestBody.toString().getBytes(StandardCharsets.UTF_8));
+            }
 
-            LOGGER.log(Level.INFO, "[{0}] Response on \"{1}\" : \"{2}\"\n", new Object[] { httpExchange.getRequestMethod(), httpExchange.getRequestURI(), jsonStr });
+            // Récupérer la réponse du serveur
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                // La requête a réussi
+                // Vous pouvez traiter la réponse ici si nécessaire
+                System.out.println("Analytics request sent successfully");
+            } else {
+                // La requête a échoué
+                System.err.println("Analytics request failed with response code: " + responseCode);
+            }
 
+            // Fermer la connexion
+            connection.disconnect();
+
+            httpExchange.sendResponseHeaders(200, jsonData.toString().getBytes().length);
+
+            // Écriture de la réponse dans le corps de la réponse
             OutputStream outputStream = httpExchange.getResponseBody();
-            outputStream.write(jsonStr.getBytes());
+            outputStream.write(jsonData.toString().getBytes());
             outputStream.flush();
             outputStream.close();
         }
 
-        private Map<String, Integer> getTermOccurrences(String filePath, String[] terms) throws IOException {
+        private Map<String, Integer> getTermOccurrences(String file_content, String[] terms) throws IOException {
             Map<String, Integer> termOccurrences = new HashMap<>();
 
-            File file = new File(filePath);
-            Scanner scanner = new Scanner(file);
+            List<String> lines = Arrays.asList(file_content.split("\n"));
 
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
+            for (String line : lines) {
                 for (String term : terms) {
                     int count = termOccurrences.getOrDefault(term, 0);
                     int occurrencesInLine = countOccurrencesInLine(line, term);
                     termOccurrences.put(term, count + occurrencesInLine);
                 }
             }
-
-            scanner.close();
 
             return termOccurrences;
         }

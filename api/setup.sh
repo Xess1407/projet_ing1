@@ -17,3 +17,4 @@ cat migrations/question.sql | sqlite3 maggle.db
 cat migrations/answer.sql | sqlite3 maggle.db
 cat migrations/rank.sql | sqlite3 maggle.db
 cat migrations/message.sql | sqlite3 maggle.db
+cat migrations/analytics.sql | sqlite3 maggle.db
