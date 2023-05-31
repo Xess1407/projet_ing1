@@ -53,7 +53,7 @@ curl -X POST -H "Content-Type: application/json" -d '{"team_id":2, "user_id": 5,
 
 
 # Insert Questionnaire
-curl -X POST -H "Content-Type: application/json" -d '{"data_project_id":1, "name":"Data related questionnaire", "date_time_start":"2023-05-23", "date_time_end":"2023-05-24", "user_id": 4, "password": "man"}' localhost:8080/api/questionnaire
+curl -X POST -H "Content-Type: application/json" -d '{"data_project_id":1, "name":"Data related questionnaire", "date_time_start":"2023-05-23", "date_time_end":"2023-05-24", "user_id": 8, "password": "man"}' localhost:8080/api/questionnaire
 
 # Insert Question
 curl -X POST -H "Content-Type: application/json" -d '{"questionnaire_id":1, "name":"How data is important in today world ?", "user_id": 8, "password": "man"}' localhost:8080/api/question
