@@ -161,12 +161,11 @@ const DashboardChallenge: Component = () => {
                 </Flex>
             </Flex>
 
-
             <Show when={addChallenge()}>
                 <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto">
                     <h2>Add Challenge</h2>
                     <Flex direction="column" w="90%" h="80%" jc="space-evenly" ai="center">
-                    <form onSubmit={ handle_submit_challenge }>
+                    <form class="form-add-project" onSubmit={ handle_submit_challenge }>
                         <Flex w="95%" jc="space-evenly" ai="center" h="20%" mt="5%">
                             <InputCustom w="60%" id="name" label="Name" type="text" placeholder="Name of Challenge" update={setChallengeForm}/>
                         </Flex>
@@ -184,7 +183,7 @@ const DashboardChallenge: Component = () => {
 
 
             <Show when={removeChallenge()}>
-                <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto">
+                <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto" pt="5%">
                     <h2>Remove Challenge</h2>
                     <form class="form-remove" onSubmit={ handle_submit_delete_challenge }>
                         <Flex w="95%" jc="space-evenly" ai="center">
@@ -194,7 +193,7 @@ const DashboardChallenge: Component = () => {
                                     <For each={challenges()}>
                                         {(element: any) => (
                                             <Show when={searching(element.name)}>
-                                                <li>{element.name}</li>
+                                                <li class="search-result">{element.name}</li>
                                             </Show>
                                         )}
                                     </For>
@@ -220,13 +219,11 @@ const DashboardChallenge: Component = () => {
                 </Flex>
             </Show>
 
-
             <Show when={addResource()}>
                 <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto">
                     <h2>Add Resource</h2>
                     <Flex direction="column" w="90%" h="80%" jc="space-evenly" ai="center">
-                    <form onSubmit={ handle_submit_resource }>
-                        <h3>Resources</h3>
+                    <form class="form-add-ressource" onSubmit={ handle_submit_resource }>
                         <Flex w="95%" jc="space-evenly" ai="center" h="20%" mt="5%">
                             <InputCustom w="45%" id="name" label="Name" type="text" update={setResourceForm}/>
                             <InputCustom w="45%" id="url" label="Url" type="text" update={setResourceForm}/>   
@@ -249,7 +246,7 @@ const DashboardChallenge: Component = () => {
             </Show>
 
             <Show when={removeResource()}>
-                <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto">
+                <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto" pt="5%">
                     <h2>Remove resource</h2>
                     <form class="form-remove" onSubmit={ handle_submit_delete_resource }>
                     <Flex w="95%" jc="space-evenly" ai="center">
@@ -259,7 +256,7 @@ const DashboardChallenge: Component = () => {
                                         <For each={resource()}>
                                             {(element: any) => (
                                                 <Show when={searching(element.name)}>
-                                                    <li>{element.name}</li>
+                                                    <li class="search-result">{element.name}</li>
                                                 </Show>
                                             )}
                                         </For>

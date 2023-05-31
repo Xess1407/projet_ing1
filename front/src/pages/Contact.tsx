@@ -54,7 +54,7 @@ const Contact: Component = () => {
     })
 
     return (
-        <Flex direction="row" jc="center" ai="center" w="70%" h="700px">
+        <Flex direction="row" jc="center" ai="center" w="80%" h="80vh" bgc="#444444" br="10px">
             <Flex jc="space-evenly" ai="center" c="white" w="80%" h="80%" direction="column" m="0" ff="Roboto"> 
                 <form class="form-contact">
                     <Flex direction="column" w="100%" h="60%" jc="space-evenly" ai="center">

@@ -188,14 +188,14 @@ const DashboardProject: Component = () => {
         <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto">
             <h2>Add project</h2>
             <Flex direction="column" w="90%" h="80%" jc="space-evenly" ai="center">
-            <form onSubmit={ handle_submit_project }>
-                <Flex w="95%" jc="space-evenly" ai="center" h="20%" mt="5%">
+            <form class="form-add-project" onSubmit={ handle_submit_project }>
+                <Flex direction="column" w="95%" jc="space-evenly" ai="center" h="70%" mt="5%">
                     <InputCustom w="60%" id="name" label="Name" type="text" placeholder="Name of project" update={setProjectForm}/>
                     <InputCustom w="60%" id="description" label="Description" type="text" placeholder="Description" update={setProjectForm}/>
                     <label for="profile_pic">Choose file to upload</label>
-                    <input type="file" id="project_img" name="project_img" required accept=".jpg, .jpeg, .png" />
+                    <input class="input-add-project" type="file" id="project_img" name="project_img" required accept=".jpg, .jpeg, .png" />
                 </Flex>
-                <Flex w="35%" jc="space-evenly" ai="center">
+                <Flex w="35%" h="20%" jc="space-evenly" ai="center">
                     <select name="data_challenge" id="data_challenge" onChange={handle_change_challenge}>
                         <For each={challenges()}>
                             {(element) => (
@@ -214,7 +214,7 @@ const DashboardProject: Component = () => {
     </Show>
 
     <Show when={removeProject()}>
-        <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto">
+        <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto" pt="3%">
             <h2>Remove Project</h2>
             <form class="form-remove" onSubmit={ handle_submit_delete_project }>
                 <Flex w="95%" jc="space-evenly" ai="center">
@@ -224,7 +224,7 @@ const DashboardProject: Component = () => {
                             <For each={projects()}>
                                 {(element: any) => (
                                     <Show when={searching(element.name)}>
-                                        <li>{element.name}</li>
+                                        <li class="search-result">{element.name}</li>
                                     </Show>
                                 )}
                             </For>
@@ -255,31 +255,30 @@ const DashboardProject: Component = () => {
         <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto">
             <h2>Add Resource</h2>
             <Flex direction="column" w="90%" h="80%" jc="space-evenly" ai="center">
-            <form onSubmit={ handle_submit_resource }>
-                <h3>Resources</h3>
-                <Flex w="95%" jc="space-evenly" ai="center" h="20%" mt="5%">
-                    <InputCustom w="45%" id="name" label="Name" type="text" update={setResourceForm}/>
-                    <InputCustom w="45%" id="url" label="Url" type="text" update={setResourceForm}/>   
-                </Flex>
-                <Flex w="35%" jc="space-evenly" ai="center">
-                    <select name="data_challenge" id="data_challenge" onChange={handle_change_project}>
-                        <For each={projects()}>
-                            {(element) => (
-                                <option value={element.id}>{element.name}</option>
-                            )}
-                        </For>
-                    </select>
-                </Flex>
-                <Flex w="95%" jc="center" ai="center" h="20%" mt="3%">
-                    <ButtonCustom class="form-submit" type="submit" value="submit" m="10px 0" h="65px" w="250px" ff="Roboto black" text="ADD" />
-                </Flex>
-            </form>
+                <form class="form-add-ressource" onSubmit={ handle_submit_resource }>
+                    <Flex w="95%" jc="space-evenly" ai="center" h="20%" mt="5%">
+                        <InputCustom w="45%" id="name" label="Name" type="text" update={setResourceForm}/>
+                        <InputCustom w="45%" id="url" label="Url" type="text" update={setResourceForm}/>   
+                    </Flex>
+                    <Flex w="35%" jc="space-evenly" ai="center">
+                        <select name="data_challenge" id="data_challenge" onChange={handle_change_project}>
+                            <For each={projects()}>
+                                {(element) => (
+                                    <option value={element.id}>{element.name}</option>
+                                )}
+                            </For>
+                        </select>
+                    </Flex>
+                    <Flex w="95%" jc="center" ai="center" h="20%" mt="5%">
+                        <ButtonCustom class="form-submit" type="submit" value="submit" m="10px 0" h="65px" w="250px" ff="Roboto black" text="ADD" />
+                    </Flex>
+                </form>
             </Flex>
         </Flex>
     </Show>
 
     <Show when={removeResource()}>
-        <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto">
+        <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto" pt="3%">
             <h2>Remove resource</h2>
             <form class="form-remove" onSubmit={ handle_submit_delete_resource }>
             <Flex w="95%" jc="space-evenly" ai="center">
@@ -289,7 +288,7 @@ const DashboardProject: Component = () => {
                                 <For each={resource()}>
                                     {(element: any) => (
                                         <Show when={searching(element.name)}>
-                                            <li>{element.name}</li>
+                                            <li class="search-result">{element.name}</li>
                                         </Show>
                                     )}
                                 </For>
