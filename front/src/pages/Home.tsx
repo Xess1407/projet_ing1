@@ -9,7 +9,7 @@ import { useNavigate } from "@solidjs/router";
 const Home: Component = () => {
     const nav = useNavigate()
 
-    const [ranks, setRanks] = createSignal<any>([])
+    const [ranks, setRanks] = createSignal<any>([], {equals: false})
     const getRanks = async () => {
         const res_rank = await fetch(`http://localhost:8080/api/rank`, {
             method: "GET",
@@ -26,6 +26,8 @@ const Home: Component = () => {
 
     onMount(async () => {
         await getRanks()
+        let data = ranks().sort((a:any, b:any) => { return b.score - a.score})
+        setRanks(data)
     })
 
     return (
