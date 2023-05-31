@@ -53,6 +53,20 @@ const Analyse: Component = () => {
         setProjects(p)
     }
 
+    const getAnalyse = async () => {
+        let user = getSessionUser()
+        const res_analyse = await fetch(`http://localhost:8080/api/analytics/${user?.user_id}`, {
+            method: "GET",
+        });
+
+        let status = await res_analyse.status
+        if (status != 200) {
+            console.log("[ERROR] Couldn't connect student ! Status:" + status)
+            return false
+        }
+
+    }
+
     onMount(async () => {
         await get_teams()
         await getDataProject()
