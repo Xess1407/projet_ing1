@@ -158,15 +158,11 @@ class UserController implements Controller {
         rows.forEach((row) => {
             if (row.rowid == id) {
                 found = true;
-                r = new UserEntry(
-                    row.rowid,
-                    row.name,
-                    row.family_name,
-                    row.email,
-                    row.password,
-                    row.telephone_number,
-                    row.role
-                );
+                r = {id: row.rowid,
+                    name: row.name,
+                    family_name: row.family_name,
+                    email: row.email
+                  }
             }
         })
     )
