@@ -28,6 +28,7 @@ import DashboardCorrection from './pages/DashboardCorrection';
 import DashboardProject from './pages/DashboardProject';
 import Contact from './pages/Contact';
 import DashboardAnalyse from "./pages/DashboardAnalyse";
+import Drop from "./pages/Drop";
 
 const App: Component = () => {
   return (
@@ -44,6 +45,7 @@ const App: Component = () => {
         <Route path="/dashboard" element={<div><Guard/><Dashboard/></div>}>
           <Route path="/" element={<Profile/>} />
 
+          <Route path="/drop" element={<Drop/>}/>
           <Route path="/analyse" element={<DashboardAnalyse/>}/>
           <Route path="/user" element={<DashboardUser/>} />
           <Route path="/challenge" element={<DashboardChallenge />} />
