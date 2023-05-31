@@ -2,8 +2,6 @@ import { Component, Suspense, lazy } from 'solid-js';
 import Home from './pages/Home'
 import Profile from "./pages/Profile";
 
-import logo from './logo.png';
-import styles from './App.module.css';
 import { Outlet, Route, Routes } from '@solidjs/router';
 import Connect, { AlreadyConnect, GuardAlreadyConnect } from './pages/Connect';
 import Header from './components/Header';
