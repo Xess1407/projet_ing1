@@ -44,29 +44,51 @@ li {
     margin-left: 10%;
 }
 
-.delete_team {
+.delete-team {
     appearance: none;
     display: inline-flex;
     justify-content: center;
     align-items: center;
     height: 30px;
+    width: 5%;
     outline: none;
     border-radius: 6px;
     padding: 0 16px;
     border: none;
-    background: none;
     background-color: #E36464;
     color: white;
     font-size: 16px;
     line-height: 0;
     transition: 250ms background-color;
+    font-family: 'Roboto';
 }
 
-.delete_team:hover {
+.delete-team:hover {
     background-color: #ac4747;
     cursor: pointer;
 }
 
-.delete_team:hover {
-    cursor: pointer;;
+.answer-questionnaire {
+    appearance: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 35%;
+    outline: none;
+    border-radius: 6px;
+    padding: 0 16px;
+    border: none;
+    background-color: #00868D;
+    color: white;
+    font-size: 16px;
+    line-height: 0;
+    transition: 250ms background-color;
+    font-family: 'Roboto';
 }
+
+.answer-questionnaire:hover {
+    background-color: #006f73;
+    cursor: pointer;
+}
+

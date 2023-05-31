@@ -399,34 +399,28 @@ const Team: Component = () => {
 
                                     return (
                                         <div id={team.id}>
-                                            <Flex>
-                                                <LinkComponents path={"/yourteam/" + team.id}>
-                                                    <Box b="2px solid white" mb="2%" h="100%" w="100%" br="8px">
-                                                        <Flex>
-                                                                <Flex fsz="18px" c="white" ff="Roboto">
-                                                                    <span>Team {team.id} on Project {project.name}: [</span>
-                                                                </Flex>
-                                                                <For each={filteredTeamMembers}>
-                                                                {(teamMember: any, index: () => number) => (
-                                                                    <>
-                                                                    {teamMember}
-                                                                    {index() !== filteredTeamMembers.length - 1 && (
-                                                                        <Flex fsz="18px" c="white"ff="Roboto">
-                                                                            ,&nbsp;
-                                                                        </Flex>
-                                                                    )}
-                                                                    </>
-                                                                )}
-                                                                </For>
-                                                                <Flex fsz="18px" c="white" ff="Roboto">
-                                                                    <span>]</span>
-                                                                </Flex>
-                                                        </Flex>
-                                                    </Box>
+                                            <Flex w="100%" h="30%" jc="space-between" ai="center">
+                                                <LinkComponents w="50%" h="50%" path={"/yourteam/" + team.id}>
+                                                    <Flex fw="wrap" b="2px solid white" h="100%" w="100%" br="8px" ff="Roboto">
+                                                        <span>Team {team.id} on Project {project.name}: [</span>
+                                                        <For each={filteredTeamMembers}>
+                                                        {(teamMember: any, index: () => number) => (
+                                                            <>
+                                                            {teamMember}
+                                                            {index() !== filteredTeamMembers.length - 1 && (
+                                                                <span>
+                                                                    ,&nbsp;
+                                                                </span>
+                                                            )}
+                                                            </>
+                                                        )}
+                                                        </For>
+                                                        <span>]</span>
+                                                    </Flex>
                                                 </LinkComponents>
                                                 <Show when={team.user_captain_id == user?.user_id}>
-                                                    <button class="answer questionnaire" onclick={async () => {let i = await getQuestionnaireFromDataProject(team.data_project_id); nav("/dashboard/questionnaire/"+i)}}> Answer Questionnaire</button>
-                                                    <button class="delete_team" onclick={(e) => {delete_team(e, team.id)}}>x</button>
+                                                    <button class="answer-questionnaire" onclick={async () => {let i = await getQuestionnaireFromDataProject(team.data_project_id); nav("/dashboard/questionnaire/"+i)}}> Answer Questionnaire</button>
+                                                    <button class="delete-team" onclick={(e) => {delete_team(e, team.id)}}>x</button>
                                                 </Show>
                                             </Flex>
                                         </div>
