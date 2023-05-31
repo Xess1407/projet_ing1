@@ -91,7 +91,7 @@ const Questionnaire: Component = () => {
         
     }
 
-    return <Flex bgc="#222222" direction="column" w="100%" jc="space-evenly" ai="center" h="calc(100vh - 140px)">
+    return <Flex bgc="#444444" br="10px" direction="column" w="100%" jc="space-evenly" ai="center" h="70vh">
         <form class="form-questionnaire" onSubmit={ handleSubmit }>
             <Flex ovy="scroll" direction="column" w="100%" h="75%">
                 <For each={question()}>
@@ -104,7 +104,7 @@ const Questionnaire: Component = () => {
                 </For>
             </Flex>
             <Flex jc="center" ai="center">
-                <ButtonCustom class="form-submit" type="submit" value="submit" h="71px" w="373px" mt="0.5%" ff="Roboto" text="Validate" />
+                <ButtonCustom class="form-submit" type="submit" value="submit" h="71px" w="373px" mt="3%" ff="Roboto" text="Validate" />
             </Flex>
         </form>
     </Flex>

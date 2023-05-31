@@ -59,7 +59,7 @@ const App: Component = () => {
 
           <Route path="/profile" element={<Profile/>}/>
           <Route path="/team" element={<Team/>}/>
-          <Route path="/questionnaire/:questionnaire_id" element={<div><CaptainGuard/><Questionnaire/></div>} />
+          <Route path="/questionnaire/:questionnaire_id" element={<div class="questionnaire"><CaptainGuard/><Questionnaire/></div>} />
         </Route>
 
         <Route path="/redirect" element={<Redirect/>} />
