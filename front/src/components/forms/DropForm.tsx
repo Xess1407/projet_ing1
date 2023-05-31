@@ -1,11 +1,12 @@
 import {createStore} from "solid-js/store";
 
 type DropFormField = {
+    data_project: string;
     file_url: string;
 }
 export const submit_drop = async (form: DropFormField) => {
 
-    const res_droped_file = await fetch(`http://localhost:8001/analyze?file=${dropForm.file_url}`, {
+    const res_droped_file = await fetch(`http://localhost:8001/analyze?project=${dropForm.data_project}&file=${dropForm.file_url}`, {
         method: "GET",
     })
 
@@ -19,5 +20,6 @@ export const submit_drop = async (form: DropFormField) => {
 
 
 export const [dropForm, setDropForm] = createStore<DropFormField>({
-   file_url: "",
+    data_project: "",
+    file_url: "",
 });

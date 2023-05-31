@@ -1,0 +1,47 @@
+#data_project{
+    appearance: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 7.5vh;
+    width: 100%;
+    outline: none;
+    border-radius: 8px;
+    padding: 0 16px;
+    border: 1px white solid;
+    background: none;
+    background-color: rgba(13, 201, 193, 0.46);
+    color: white;
+    font-size: 16px;
+    line-height: 0;
+    transition: 250ms background-color;
+}
+
+#data_project:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 2px;
+}
+#data_project:active {
+    background-color: hsl(177 90% 40%);
+}
+
+#data_project:invalid{
+    color: rgba(255,255,255,0.5);
+    background-color: rgba(227, 100, 100, 0.46);
+}
+#data_project:hover {
+    background-color: hsl(177 96% 40%);
+}
+
+#file_url::placeholder{
+    text-decoration: none;
+    text-align: left;
+    font-family: 'Roboto';
+}
+
+#title-drop{
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    font-size: 25px;
+}
