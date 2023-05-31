@@ -10,7 +10,7 @@ class AnalyticsController implements Controller {
         this.router = Router();
         this.router.post(AnalyticsController.path, this.post);
         this.router.post(AnalyticsController.path + "/get", this.get);
-        this.router.post(AnalyticsController.path + "/:user_id", this.get_all_by_user_id);
+        this.router.get(AnalyticsController.path + "/:user_id", this.get_all_by_user_id);
         this.router.delete(AnalyticsController.path, this.delete);
     }
 
