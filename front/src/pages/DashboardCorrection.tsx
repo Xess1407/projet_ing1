@@ -127,43 +127,50 @@ const DashboardCorrection: Component = () => {
             <Flex bgc="#444444" br="10px" w="100%" h="100%" direction="row" jc="left" ai="left">
                 <For each={questionnaires()}>
                     {(questionnaire: any) => (
-                        <Box w="35%" h="100%" bgc="#222222" br="10px" c="#FFFFFF" ta="center" ff="Roboto">
-                            <h3>Questionnaire {questionnaire.id}</h3>
-                            <For each={questionnaire.questions}>
-                                {(question: any, index: () => number) => (
-                                    <Show when={question.answers.length > 0}>
-                                        <div>
-                                            <h4>Question n°{index() + 1} : {question.name}</h4>
-                                            <For each={question.answers}>
-                                                {(answer: any) => (
-                                                    <div>
-                                                        <p>Team {answer.team_id}:</p>
-                                                        <p>{answer.content}</p>
-                                                        <Flex direction="row" jc="center">
-                                                            <For each={Array.from({ length: 5 }, (_, index) => index)}>
-                                                                {(score: number) => (
-                                                                    <label>
-                                                                        <input
-                                                                            type="radio"
-                                                                            name={`question_${question.id}_team_${answer.team_id}`}
-                                                                            value={score}
-                                                                            onChange={(e: Event) => handleRadioChange(e, question, score, answer.team_id)}
-                                                                            checked={score === 0}
-                                                                        />
-                                                                        {score}
-                                                                    </label>
-                                                                )}
-                                                            </For>
-                                                        </Flex>
-                                                    </div>
-                                                )}
-                                            </For>
-                                            <ButtonCustom onclick={() => handleSubmitCorrection(questionnaire.id, question.id)} text={`Soumettre correction question ${index() + 1} du questionnaire ${questionnaire.id}`}></ButtonCustom>
-                                        </div>
-                                    </Show>
-                                )}
-                            </For>
-                        </Box>
+                        <Show when={questionnaire.questions != undefined && questionnaire.questions.length > 0}>
+                            <Box w="35%" h="100%" bgc="#222222" br="10px" c="#FFFFFF" ta="center" ff="Roboto">
+                                <h3>Questionnaire {questionnaire.id}</h3>
+                                <For each={questionnaire.questions}>
+                                    {(question: any, index: () => number) => (
+                                        <Flex ff="Roboto" jc="center">
+                                            <div>
+                                                <h4>Question n°{index() + 1} : {question.name}</h4>
+                                                <Show when={question.answers != undefined && question.answers.length == 0}>
+                                                    No answers yet!
+                                                </Show>
+                                                <Show when={question.answers != undefined && question.answers.length > 0}>
+                                                        <For each={question.answers}>
+                                                            {(answer: any) => (
+                                                                <div>
+                                                                    <p>Team {answer.team_id}:</p>
+                                                                    <p>{answer.content}</p>
+                                                                    <Flex direction="row" jc="center">
+                                                                        <For each={Array.from({ length: 5 }, (_, index) => index)}>
+                                                                            {(score: number) => (
+                                                                                <label>
+                                                                                    <input
+                                                                                        type="radio"
+                                                                                        name={`question_${question.id}_team_${answer.team_id}`}
+                                                                                        value={score}
+                                                                                        onChange={(e: Event) => handleRadioChange(e, question, score, answer.team_id)}
+                                                                                        checked={score === 0}
+                                                                                    />
+                                                                                    {score}
+                                                                                </label>
+                                                                            )}
+                                                                        </For>
+                                                                    </Flex>
+                                                                </div>
+                                                            )}
+                                                        </For>
+                                                        <ButtonCustom onclick={() => handleSubmitCorrection(questionnaire.id, question.id)} text={`Soumettre correction question ${index() + 1} du questionnaire ${questionnaire.id}`}></ButtonCustom>
+                                                </Show>
+                                            </div>
+                                        </Flex>
+                                    )}
+                                </For>
+                            </Box>
+                        </Show>
                     )}
                 </For>
             </Flex>
