@@ -27,6 +27,7 @@ import DashboardProject from './pages/DashboardProject';
 import Contact from './pages/Contact';
 import DashboardAnalyse from "./pages/DashboardAnalyse";
 import Drop from "./pages/Drop";
+import MessageDashboard from './pages/MessageDashboard';
 
 const App: Component = () => {
   return (
@@ -41,7 +42,7 @@ const App: Component = () => {
         <Route path="/yourteam/:team_id" element={<YourTeam/>}/>
 
         <Route path="/dashboard" element={<div><Guard/><Dashboard/></div>}>
-          <Route path="/" element={<Profile/>} />
+          <Route path="/" element={<MessageDashboard/>} />
 
           <Route path="/drop" element={<Drop/>}/>
           <Route path="/analyse" element={<DashboardAnalyse/>}/>
