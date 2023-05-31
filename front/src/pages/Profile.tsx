@@ -131,7 +131,7 @@ const Profile = ()=> {
     })
     
     return (
-        <Flex bgc="#111111" direction="row" w="100%" h="calc(100vh - 140px)">
+        <Flex bgc="#444444" direction="row" br="10px" w="80%" h="80vh">
             <Flex direction="column" w="50%" h="100%">
                 <Flex w="100%" jc="center">
                     <Image.Root fallbackDelay={600} class="image">
@@ -176,7 +176,7 @@ const Profile = ()=> {
                             <input id="new_password" type="password" placeholder="New password"/>
                         </Flex>
                         <Flex jc="space-evenly" ai="center" c="white" direction="column" m="0" p="0">
-                            <InputCustom m="0" id="family_name" label="Surname" type="text" placeholder="Surname" default={form.family_name} update={setForm}/>
+                            <InputCustom mt="5%" id="family_name" label="Surname" type="text" placeholder="Surname" default={form.family_name} update={setForm}/>
                             <Flex direction="row">
                                 <Flex direction="column" w="100%" mt="15%">
                                     <select id="school_level" value={form.school_level} required onChange={handleSchoolLevelChange}>

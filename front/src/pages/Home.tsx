@@ -31,17 +31,18 @@ const Home: Component = () => {
     return (
         <Box w="100%" h="calc(100vh - 140px)" m="0" p="0" ovy="hidden">
             <img src="/src/img/fond.jpg" alt="background" class="background"/>
-            <h1 class="text">
-                <span>Welcome to MAGGLE</span>
-            </h1>
-            
-            <Flex direction="row">
-                <Flex mt="2%" ml="15%">
+            <Flex>
+                <h1 class="text">
+                    <span>Welcome to MAGGLE</span>
+                </h1>
+                <Flex h="20%" ml="17%" mt="5%" w="20%" jc="space-evenly" direction="column" ff="Roboto" c="#FFFFFF">
                     <h2>Top Ranking</h2>
-                    <Show when={ranks().at(0) != undefined}><Box c="#FFFFFF" w="37%" ml="30%" mt="2%" fsz="19px" ff="Roboto"> 1 Place: Team {ranks().at(0).team_id} score: {ranks().at(0).score}</Box></Show>
-                    <Show when={ranks().at(1) != undefined}><Box c="#FFFFFF" w="37%" ml="30%" mt="2%" fsz="19px" ff="Roboto"> 2 Place: Team {ranks().at(1).team_id} score: {ranks().at(1).score}</Box></Show>
-                    <Show when={ranks().at(2) != undefined}><Box c="#FFFFFF" w="37%" ml="30%" mt="2%" fsz="19px" ff="Roboto"> 3 Place: Team {ranks().at(2).team_id} score: {ranks().at(2).score}</Box></Show>
+                    <Show when={ranks().at(0) != undefined}><Box c="#FFFFFF" w="100%" mt="2%" fsz="19px" ff="Roboto"> 1 Place : Team {ranks().at(0).team_id} score : {ranks().at(0).score}</Box></Show>
+                    <Show when={ranks().at(1) != undefined}><Box c="#FFFFFF" w="100%" mt="2%" fsz="19px" ff="Roboto"> 2 Place : Team {ranks().at(1).team_id} score : {ranks().at(1).score}</Box></Show>
+                    <Show when={ranks().at(2) != undefined}><Box c="#FFFFFF" w="100%" mt="2%" fsz="19px" ff="Roboto"> 3 Place : Team {ranks().at(2).team_id} score : {ranks().at(2).score}</Box></Show>
                 </Flex>
+            </Flex>
+            <Flex direction="row">
                 <Flex direction="column" mt="2%" ml="15%">
                     <Show when={!isConnected()}>
                         <ButtonCustom text="SIGN-IN" ff="Roboto black" fsz="16px" w="183px" h="48px" br="16px" bgc="#3BCFA3" mb="10%" onclick={() => {nav("/connect", {replace: true})}}/>

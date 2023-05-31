@@ -361,7 +361,7 @@ const Team: Component = () => {
     }
 
     return (
-        <Flex direction="row" w="100%" h="calc(100vh - 140px)" m="0" p="0" ovy="hidden" bgc="#111111"> 
+        <Flex direction="row" w="80%" h="80vh" m="0" p="0" ovy="hidden" bgc="#444444" br="10px"> 
             <Box w="45%">
                 <h1 class="text">
                     <span>Your Teams</span>
@@ -446,7 +446,7 @@ const Team: Component = () => {
             </Box>
             <Flex w="55%" jc="center" ai="center" m="0">
                 <Show when={createTeam()} >
-                    <Flex bgc="#555555" w="80%" h="90%" direction="column" jc="space-evenly" ai="center" br="10px" ff="Roboto">
+                    <Flex bgc="#666666" w="80%" h="90%" direction="column" jc="space-evenly" ai="center" br="10px" ff="Roboto">
                         <h1>Create Your Team</h1>
                         <label>Search student</label>
                         <Flex w="80%" jc="space-evenly" ai="center">
@@ -488,7 +488,7 @@ const Team: Component = () => {
                     </Flex>
                 </Show>
                 <Show when={editTeam()} >
-                    <Flex bgc="#555555" w="80%" h="90%" direction="column" jc="space-evenly" ai="center" br="10px" ff="Roboto">
+                    <Flex bgc="#666666" w="80%" h="90%" direction="column" jc="space-evenly" ai="center" br="10px" ff="Roboto">
                         <h1>Edit Your Team</h1>
                         <label>Search student</label>
                         <Flex w="80%" jc="space-evenly" ai="center">
