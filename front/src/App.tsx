@@ -26,6 +26,7 @@ import Questionnaire from './pages/Questionnaire';
 import DashboardQuestionnaire from './pages/DashboardQuestionnaire';
 import DashboardCorrection from './pages/DashboardCorrection';
 import DashboardProject from './pages/DashboardProject';
+import Contact from './pages/Contact';
 
 const App: Component = () => {
   return (
@@ -67,6 +68,7 @@ const App: Component = () => {
         <Route path="/data-project" element={<AllDataProjects/>} />
         <Route path="/data-project/teams/:data_project_id" element={<DataProjectTeams/>} />
         <Route path="*" element={<Error404/>}/>
+        <Route path="/contact" element={<Contact/>}/>
       </Routes>
 		</div>
   );

@@ -1,0 +1,42 @@
+.form-contact {
+    width: 100%;
+    height: 100%;
+}
+
+#object {
+    background-color: rgb(90, 90, 90);
+    width: 60%;
+    height: 20%;
+    margin-bottom: 2%;
+    outline: none;
+    border: none;
+    color: #000000;
+}
+#object::placeholder {
+    color: white;
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+}
+
+#content {
+    padding: 2% 2%;
+    max-width: 60%;
+    min-width: 60%;
+    min-height: 45%;
+    max-height: 45%;
+    border-radius: 10px;
+    outline: none;
+    border: none;
+}
+#content::placeholder {
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.select-form {
+    width: 40%;
+    height: 70%;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
