@@ -31,8 +31,11 @@ curl -X POST -H "Content-Type: application/json" -d '{"name": "Big challenge", "
 curl -X POST -H "Content-Type: application/json" -d '{"name": "Little challenge", "date_time_start":"2023-08-15", "date_time_end":"2023-09-08", "password": "admin"}' localhost:8080/api/challenge
 
 # Insert DataProject
-curl -X POST -H "Content-Type: application/json" -d '{"data_challenge_id": 1, "name": "Lyoko", "description": "Project around data", "image": "identifiantDuneImage", "password": "admin"}' localhost:8080/api/project
-curl -X POST -H "Content-Type: application/json" -d '{"data_challenge_id": 1, "name": "Amaz", "description": "Web project", "image": "identifiantDuneImage", "password": "admin"}' localhost:8080/api/project
+curl -X POST -H "Content-Type: application/json" -d '{"data_challenge_id": 1, "name": "Lyoko", "description": "Project around data", "image": "mproject1.jpg", "password": "admin"}' localhost:8080/api/project
+curl -X POST -H "Content-Type: application/json" -d '{"data_challenge_id": 1, "name": "Amaz", "description": "Web project", "image": "mproject2.jpg", "password": "admin"}' localhost:8080/api/project
+
+curl -X POST -H "Content-Type: multipart/form-data" -F file=@./front/src/img/project1.jpg localhost:8080/api/file > /dev/null
+curl -X POST -H "Content-Type: multipart/form-data" -F file=@./front/src/img/project2.jpg localhost:8080/api/file > /dev/null
 
 # Insert ResourceChallenge
 curl -X POST -H "Content-Type: application/json" -d '{"data_challenge_id":1, "name":"Image", "url":"./link-to-image", "password": "admin"}' localhost:8080/api/resource-challenge

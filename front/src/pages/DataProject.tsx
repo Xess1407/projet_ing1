@@ -58,6 +58,8 @@ const DataProjects: Component = () => {
         await getProjects()
         await getResources()
         await getQuestionnaire()
+        console.log(projects());
+        
     })
 
     return (
@@ -71,6 +73,7 @@ const DataProjects: Component = () => {
                         <div class="data-projects">
                             <Flex fw="wrap" direction="row" w="100%" h="100%" onclick={() => {nav(`/data-project/teams/${element.id}`,{replace: true})}}>
                                 <Flex h="100%" w="100%" br="10px" bgc="#3E3E3E" direction="column">
+                                    <img src={"http://localhost:8080/api/file/"+element.image} alt="Image data project" />
                                     <Flex c="white" jc="center" ai="center" ff="Roboto">
                                         <h3>{element.name}</h3>
                                     </Flex>

@@ -20,8 +20,9 @@ const upload = multer({
 })
 
 const uploadFiles = async (req, res) => {
+  console.log(req.file.originalname)
   try {
-      await sharp(`./files/${req.file.originalname}`).resize({ width: 250, height: 250 }).png().toFile(`./files/m${req.file.originalname}`)
+      await sharp(`./files/${req.file.originalname}`).resize({ width: 250, height: 250 }).toFile(`./files/m${req.file.originalname}`)
       fs.rm(`./files/${req.file.originalname}`, (err) => {
         if(err) console.error(err.message);
       })
