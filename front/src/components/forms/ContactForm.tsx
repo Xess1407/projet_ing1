@@ -24,7 +24,7 @@ const getEmailFromTeam = async (team_id: any) => {
         return
     }
     let members = await res_member.json()
-    let emails = []
+    let emails: any[] = []
 
     for (let i = 0; i < members.length; i++) {
         const res = await fetch(`http://localhost:8080/api/user/${members[i].user_id}`, {
@@ -81,7 +81,23 @@ export const submit_mail = async (form: ContactFormFields) => {
         emails = await getEmailFromTeam(form.receiver[1])
     else 
         emails = await getEmailFromChallenge(form.receiver[1])
-    
-    setSended(true)
-    setContacted(emails)
+
+    // Envoyer un e-mail à chaque adresse e-mail dans la liste
+    if(emails) {
+        for (const email of emails) {
+            const res_mail = await fetch(`http://localhost:8080/api/mail`, {
+            method: "POST",
+            body: JSON.stringify({from: 'maggle31052023@gmail.com', to: email, subject: form.object, text: form.content }),
+            headers: {"Content-type": "application/json; charset=UTF-8"} 
+            });
+
+            let status = await res_mail.status
+            if (status != 200) {
+                console.log("[ERROR] Couldn't send mail ! Status:" + status)
+                return false
+            }
+        }
+        setSended(true);
+        setContacted(emails);
+    }
 } 
