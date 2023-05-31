@@ -6,7 +6,6 @@ import {dropForm, setDropForm, submit_drop} from "../components/forms/DropForm";
 import {form} from "../components/forms/ProfileForm";
 import {getSessionUser} from "../components/Session";
 import "./css/Drop.css";
-import {setStudentForm} from "../components/forms/RegisterStudentForm";
 
 const Drop: Component = () => {
 

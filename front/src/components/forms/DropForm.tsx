@@ -6,11 +6,11 @@ type DropFormField = {
 }
 export const submit_drop = async (form: DropFormField) => {
 
-    const res_droped_file = await fetch(`http://localhost:8001/analyze?project=${dropForm.data_project}&file=${dropForm.file_url}`, {
+    const res_dropped_file = await fetch(`http://localhost:8001/analyze?project=${dropForm.data_project}&file=${dropForm.file_url}`, {
         method: "GET",
     })
 
-    let status = await res_droped_file.status
+    let status = await res_dropped_file.status
     if(status != 200) {
         console.log("[ERROR] Couldn't register the student! Status:" + status)
         return status
