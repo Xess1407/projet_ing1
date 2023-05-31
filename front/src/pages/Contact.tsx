@@ -1,18 +1,22 @@
 import { Component, createEffect, createSignal, For, onMount, Show} from "solid-js";
-import Box from "../components/layouts/Box";
 import Flex from "../components/layouts/Flex";
-import InputCustom from "../components/generals/InputCustom";
 import ButtonCustom from "../components/generals/ButtonCustom";
 import "./css/Contact.css"
-import { challengeForm, resourceForm, setChallengeForm, setResourceForm, submit_challenge, submit_resource } from "../components/forms/ChallengeForm";
-import { SelectContent } from "@kobalte/core/dist/types/select/select-content";
-import { useParams } from "@solidjs/router";
 import { contactForm, setContactForm, submit_mail } from "../components/forms/ContactForm";
+
+export const [contacted, setContacted] = createSignal<any>([], {equals: false})
+export const [sended, setSended] = createSignal<any>(false)
 
 const Contact: Component = () => {
     const [challenge, setChallenge] = createSignal<any>([])
     const [teams, setTeams] = createSignal<any>([])
-    const [contact, setContact] = createSignal<any>([])
+    const [update, setUpdate] = createSignal<any>([], {equals: false})
+
+    createEffect(() => {
+        console.log(sended());
+        console.log(contacted());
+        setUpdate(contacted())
+    })
 
     const getChallenge = async () => {
         // Fetch project
@@ -104,6 +108,16 @@ const Contact: Component = () => {
                         </Flex>
                     </Flex>
                 </form>
+            </Flex>
+            <Flex>
+                <Show when={sended()} >
+                    <p>Email send at:</p>
+                    <For each={update()}>
+                        {(c:any) => (
+                            <p>{c}</p>
+                        )}
+                     </For>
+                </Show>
             </Flex>
         </Flex>
     )

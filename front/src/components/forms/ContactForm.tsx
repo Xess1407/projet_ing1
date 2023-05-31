@@ -1,4 +1,5 @@
 import { createStore } from "solid-js/store";
+import { sended, setContacted, setSended } from "../../pages/Contact";
 
 type ContactFormFields = {
     object: string;
@@ -23,8 +24,6 @@ const getEmailFromTeam = async (team_id: any) => {
         return
     }
     let members = await res_member.json()
-    console.log(members);
-    
     let emails = []
 
     for (let i = 0; i < members.length; i++) {
@@ -54,8 +53,6 @@ const getEmailFromChallenge = async (challenge_id: any) => {
         return
     }
     let projects = await res_project.json()
-    console.log(projects);
-    
 
     let emails:any[] = []
     for (let i = 0; i < projects.length; i++) {
@@ -69,8 +66,6 @@ const getEmailFromChallenge = async (challenge_id: any) => {
             return
         }
         let res_teams = await res.json()
-        console.log(res_teams);
-        
 
         for (let j = 0; j < res_teams.length; j++) {
             console.log(res_teams[j].id);
@@ -87,4 +82,6 @@ export const submit_mail = async (form: ContactFormFields) => {
     else 
         emails = await getEmailFromChallenge(form.receiver[1])
     
-}
+    setSended(true)
+    setContacted(emails)
+} 
