@@ -27,7 +27,7 @@ const YourTeam: Component = () => {
         
         res.forEach((element: any) => {
             let s_all:any[] = students()
-            s_all.push({name: element.name, user_id: element.user_id})
+            s_all.push({name: element.name, family_name: element.family_name, user_id: element.user_id})
             setStudent(s_all)
         });
     }
@@ -53,10 +53,12 @@ const YourTeam: Component = () => {
         setMembers(m)
     }
 
-    const getName = (user_id: number) => {
+    const getFullName = (user_id: number) => {
         let v = ""
         students().forEach((element: any) => {
-            if(element.user_id == user_id) v = element.name
+            if(element.user_id == user_id) {
+                v = element.name + " " + element.family_name
+            }
         });
         return v
     }
@@ -78,7 +80,7 @@ const YourTeam: Component = () => {
                     {(element:any) => (
                         <Box w="20%" h="100%" br="10px" bgc="#555555">
                             <img class="profile-picture" src="/src/img/profil.jpg" alt="PHOTO " />
-                            <span>{"Nom:" + getName(element.user_id).toUpperCase()}</span>
+                            <span>{"Name: " + getFullName(element.user_id)}</span>
                         </Box>
                     )}
                 </For>
