@@ -11,7 +11,6 @@ const DataProjectTeams: Component = () => {
     const params = useParams();
     let data_project_id = params.data_project_id
     const [teams, setTeams] = createSignal<any>([])
-    const [membersTmp, setMembersTmp] = createSignal<any>([])
     const [members, setMembers] = createSignal<any>([])
     const [students, setStudent] = createSignal<any>([])
     const [challengeId, setChallengeId] = createSignal("")
@@ -31,7 +30,7 @@ const DataProjectTeams: Component = () => {
         
         res.forEach((element: any) => {
             let s_all:any[] = students()
-            s_all.push({name: element.name, user_id: element.user_id})
+            s_all.push({name: element.name, family_name: element.family_name, user_id: element.user_id})
             setStudent(s_all)
         });
     }
@@ -52,33 +51,37 @@ const DataProjectTeams: Component = () => {
     }
 
     /* Get all members from a team_id */
-    const getMembersFromTeam = async (team_id: any) => {
-        const res_member = await fetch(`http://localhost:8080/api/member/team/${team_id}`, {
-            method: "GET",
-        });
+    const getMembersFromTeams = async (teams: any[]) => {
+        let m: any[] = [];
 
-        let status = await res_member.status
-        if (status != 200) {
-            console.log("[ERROR] Couldn't get the members of the team! Status:" + status)
-            return
+        for (const team of teams) {
+            const res_member = await fetch(`http://localhost:8080/api/member/team/${team.id}`, {
+                method: "GET",
+            });
+
+            let status = await res_member.status
+            if (status != 200) {
+                console.log("[ERROR] Couldn't get the members of the team! Status:" + status)
+                return
+            }
+            let r_members = await res_member.json()
+
+            /* Get all members of the team */
+            r_members.forEach((element: any) => {
+                m.push(element)
+            });
         }
-        let r_members = await res_member.json()
-        /* Reset the membres */
-        let m: any[] = membersTmp()
-        /* Get all smembres of the team selected  */
-        r_members.forEach((element: any) => {
-            m.push(element)
-        });
 
         /* Log the stuff it shouldn't work and yet... It's magic, it's javascript */
-        setMembersTmp(m)
-        setMembers(membersTmp())
+        setMembers(m)
     }
 
-    const getName = (user_id: number) => {
+    const getFullName = (user_id: number) => {
         let v = ""
         students().forEach((element: any) => {
-            if(element.user_id == user_id) v = element.name
+            if(element.user_id == user_id) {
+                v = element.name + " " + element.family_name
+            }
         });
         return v
     }
@@ -107,9 +110,7 @@ const DataProjectTeams: Component = () => {
         await getStudents()
         await getChallenge()
         await getTeams()
-        teams().forEach( async (element:any) => {
-            await getMembersFromTeam(element.id)
-        });
+        await getMembersFromTeams(teams());
     })
     
     return (
@@ -127,7 +128,7 @@ const DataProjectTeams: Component = () => {
                             <Box ff="Roboto" >
                                 <For each={members().filter((ele:any) => {return ele.team_id == team.id})}>
                                     {(member:any) => (
-                                        <p>{getName(member.user_id)}</p>
+                                        <Flex jc="center" c="#FFFFFF" ff="Roboto">{getFullName(member.user_id)}</Flex>
                                     )}
                                 </For>
                             </Box>
