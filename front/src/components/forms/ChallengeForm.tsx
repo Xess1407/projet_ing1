@@ -1,4 +1,5 @@
 import { createStore } from "solid-js/store";
+import { setConfirmed } from "../../pages/DashboardChallenge";
 
 type ChallengeFormFields = {
     name: string;
@@ -27,6 +28,7 @@ export const submit_challenge = async (form: ChallengeFormFields) => {
       console.log("[ERROR] Couldn't register the challenge! Status:" + status)
       return status
     }
+    setConfirmed(true)
 };
 
 export const submit_resource = async (form: ResourceFormFields) => {
@@ -41,6 +43,7 @@ export const submit_resource = async (form: ResourceFormFields) => {
       console.log("[ERROR] Couldn't register the challenge! Status:" + status)
       return status
     }
+    setConfirmed(true)
 }
 
 export const [challengeForm, setChallengeForm] = createStore<ChallengeFormFields>({

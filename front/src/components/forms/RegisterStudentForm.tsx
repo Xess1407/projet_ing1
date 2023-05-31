@@ -1,4 +1,5 @@
 import { createStore } from "solid-js/store";
+import { setConfirmedUser } from "../../pages/DashboardUser";
 
 type RegisterStudentFormFields = {
     name: string;
@@ -27,6 +28,7 @@ export const submit_student = async (form: RegisterStudentFormFields) => {
     console.log("[ERROR] Couldn't register the student! Status:" + status)
     return status
   }
+  setConfirmedUser(true)
 };
 
 

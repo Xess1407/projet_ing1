@@ -1,4 +1,5 @@
 import { createStore } from "solid-js/store";
+import { setConfirmed } from "../../pages/DashboardQuestionnaire";
 
 type QuestionnaireFormFields = {
     data_project_id: number;
@@ -27,6 +28,7 @@ export const submit_questionnaire = async (form: QuestionnaireFormFields, user_i
       console.log("[ERROR] Couldn't register the questionnaire! Status:" + status)
       return status
     }
+    setConfirmed(true)
 };
 
 export const submit_question = async (form: QuestionFormFields, user_id: number, password: string) => {
@@ -43,6 +45,7 @@ export const submit_question = async (form: QuestionFormFields, user_id: number,
         console.log("[ERROR] Couldn't register the question! Status:" + status)
         return status
       }
+      setConfirmed(true)
 }
 
 export const [questionnaireForm, setQuestionnaireForm] = createStore<QuestionnaireFormFields>({

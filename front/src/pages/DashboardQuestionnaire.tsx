@@ -7,6 +7,8 @@ import ButtonCustom from "../components/generals/ButtonCustom";
 import { questionnaireForm, questionForm, setQuestionnaireForm, setQuestionForm, submit_questionnaire, submit_question } from "../components/forms/QuestionnaireForm";
 import { getSessionUser } from "../components/Session";
 
+export const [confimed, setConfirmed] = createSignal(false)
+
 const [questionnaires, setQuestionnaires] = createSignal<any>([])
 const [totalQuestionnaires, setTotalQuestionnaires] = createSignal<any>(0)
 
@@ -99,6 +101,7 @@ const handle_show = (code: number) => {
     setRemoveQuestionnaire(false)
     setAddQuestion(false)
     setRemoveQuestion(false)
+    setConfirmed(false)
     switch (code){
         case 1: if (a) setAddQuestionnaire(true); else setAddQuestionnaire(false); break;
         case 2: if (b) setRemoveQuestionnaire(true); else setRemoveQuestionnaire(false); break;
@@ -124,6 +127,7 @@ const handle_submit_delete_questionnaire = async (event: Event) => {
     };
     setQuestionnaireToRemove([]);
     await getQuestionnaires()
+    setConfirmed(true)
 }
 
 const handle_submit_delete_question = async (event: Event) => {
@@ -143,6 +147,7 @@ const handle_submit_delete_question = async (event: Event) => {
     };
     setQuestionToRemove([]);
     await getQuestion()
+    setConfirmed(true)
 }
 
 const handle_submit_questionnaire = async (event: Event): Promise<void> => {
@@ -216,6 +221,11 @@ const DashboardQuestionnaire: Component = () => {
                             </Flex>
                         </form>
                         </Flex>
+                        <Flex>
+                            <Show when={confimed()} >
+                                <p>Questionnaire added</p>
+                            </Show>
+                        </Flex>
                     </Flex>
                 </Show>
     
@@ -253,6 +263,11 @@ const DashboardQuestionnaire: Component = () => {
                                 <ButtonCustom class="form-submit" type="submit" value="submit" text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="60px" br="16px" bgc="#E36464" mt="4%"/>
                             </Flex>
                         </form>
+                        <Flex>
+                            <Show when={confimed()} >
+                                <p>Questionnaire remove</p>
+                            </Show>
+                        </Flex>
                     </Flex>
                 </Show>
     
@@ -278,6 +293,11 @@ const DashboardQuestionnaire: Component = () => {
                                 <ButtonCustom class="form-submit" type="submit" value="submit" m="10px 0" h="65px" w="250px" ff="Roboto black" text="ADD" />
                             </Flex>
                         </form>
+                        </Flex>
+                        <Flex>
+                            <Show when={confimed()} >
+                                <p>Question added</p>
+                            </Show>
                         </Flex>
                     </Flex>
                 </Show>
@@ -315,6 +335,11 @@ const DashboardQuestionnaire: Component = () => {
                                     <ButtonCustom class="form-submit" type="submit" value="submit" text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="60px" br="16px" bgc="#E36464" mt="4%"/>
                                 </Flex>
                         </form>
+                        <Flex>
+                            <Show when={confimed()} >
+                                <p>Question remove</p>
+                            </Show>
+                        </Flex>
                     </Flex>
                 </Show>
     

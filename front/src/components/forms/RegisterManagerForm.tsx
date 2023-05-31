@@ -1,4 +1,5 @@
 import { createStore } from "solid-js/store";
+import { setConfirmedUser } from "../../pages/DashboardUser";
 
 type RegisterManagerFormFields = {
     name: string;
@@ -27,6 +28,7 @@ export const submit_manager = async (form: RegisterManagerFormFields) => {
     console.log("[ERROR] Couldn't register the manager! Status:" + status)
     return status
   }
+  setConfirmedUser(true)
 };
 
 

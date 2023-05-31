@@ -10,7 +10,7 @@ import { getSessionUser } from "../components/Session";
 import { managerForm, setManagerForm, submit_manager } from "../components/forms/RegisterManagerForm";
 import { form } from "../components/forms/ProfileForm";
 
-const [stat, setStat] = createSignal(true)
+export const [confirmedUser, setConfirmedUser] = createSignal(false)
 
 const DashboardUser: Component = () => {
     function handleSchoolLevelChange(event: Event) {
@@ -113,22 +113,6 @@ const DashboardUser: Component = () => {
         setManagerToRemove(data)
     }
     
-    /*
-    const handle_show = (code: number) => {
-        let [a,b, c, d] = [!addChallenge(), !removeChallenge(), !addResource(), !removeResource()]
-        setAddChallenge(false)
-        setRemoveChallenge(false)
-        setAddResource(false)
-        setRemoveResource(false)
-        switch (code){
-            case 1: if (a) setAddChallenge(true); else setAddChallenge(false); break;
-            case 2: if (b) setRemoveChallenge(true); else setRemoveChallenge(false); break;
-            case 3: if (c) setAddResource(true); else setAddResource(false); break;
-            case 4: if (d) setRemoveResource(true); else setRemoveResource(false); break;
-        }
-    }
-    */
-
     const handle_submit_delete_student = async (event: Event) => {
         event.preventDefault();
         for(const element of studentToRemove()) {
@@ -146,6 +130,7 @@ const DashboardUser: Component = () => {
         };
         setStudentToRemove([]);
         await getStudents()
+        setConfirmedUser(true)
     }
 
     const handle_submit_delete_manager = async (event: Event) => {
@@ -165,6 +150,7 @@ const DashboardUser: Component = () => {
         };
         setManagerToRemove([]);
         await getManagers()
+        setConfirmedUser(true)
     }
     
     const handle_submit_student = async (event: Event): Promise<void> => {
@@ -190,6 +176,7 @@ const DashboardUser: Component = () => {
         setRemoveStudent(false)
         setAddManager(false)
         setRemoveManager(false)
+        setConfirmedUser(false)
         switch (code){
             case 1: if (a) setAddStudent(true); else setAddStudent(false); break;
             case 2: if (b) setRemoveStudent(true); else setRemoveStudent(false); break;
@@ -269,10 +256,16 @@ const DashboardUser: Component = () => {
                                 </Flex>
                             </Flex>
                         </Flex>
-                        <Flex jc="center" ai="center">
+                        <Flex jc="center" ai="center" direction="column">
                             <ButtonCustom class="form-submit" type="submit" value="submit" m="10px 0" h="65px" w="250px" ff="Roboto black" text="ADD" />
+                            <Flex c="white">
+                                <Show when={confirmedUser()} >
+                                    <p>Student added</p>
+                                </Show>
+                            </Flex>
                         </Flex>
                     </form>
+                    
                 </Flex>
             </Show>
             <Show when={removeStudent()}>
@@ -306,8 +299,16 @@ const DashboardUser: Component = () => {
                                 </For>
                             </Box>
                             <ButtonCustom class="form-submit" type="submit" value="submit" text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="60px" br="16px" bgc="#E36464" mt="4%"/>
+                            <Flex c="white">
+                                <Show when={confirmedUser()} >
+                                    <p>Student removed</p>
+                                </Show>
+                            </Flex>
+                            <Flex>
+                    </Flex>
                         </Flex>
                     </form>
+                   
                 </Flex>
             </Show>
             <Show when={addManager()}>
@@ -348,8 +349,14 @@ const DashboardUser: Component = () => {
                         </Flex>
                         <Flex jc="center" ai="center">
                             <ButtonCustom class="form-submit" type="submit" value="submit" m="10px 0" h="65px" w="250px" ff="Roboto black" text="ADD" />
+                            <Flex c="white" direction="column">
+                                <Show when={confirmedUser()} >
+                                    <p>Manager added</p>
+                                </Show>
+                            </Flex>
                         </Flex>
                     </form>
+                    
                 </Flex>
             </Show>
             <Show when={removeManager()}>
@@ -383,8 +390,14 @@ const DashboardUser: Component = () => {
                                 </For>
                             </Box>
                             <ButtonCustom class="form-submit" type="submit" value="submit" text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="60px" br="16px" bgc="#E36464" mt="4%"/>
+                            <Flex c="white">
+                                <Show when={confirmedUser()} >
+                                    <p>Manager remove</p>
+                                </Show>
+                            </Flex>
                         </Flex>
                     </form>
+                    
                 </Flex>
             </Show>
         </Flex>
