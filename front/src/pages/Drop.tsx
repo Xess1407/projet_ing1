@@ -96,7 +96,7 @@ const Drop: Component = () => {
                                         </select>
                                     </Flex>
                                 </Flex>
-                            <InputCustom id="file_url" label="URL of the project" type="url" placeholder="URL of the project" update={setDropForm}/>
+                            <InputCustom id="file_url" label="URL of the project" type="file" placeholder="URL of the project" update={setDropForm}/>
                             </Flex>
                             <ButtonCustom class="form-submit" type="submit" value="submit" m="10px 0" h="65px" w="250px" ff="Roboto black" text="DROP" />
 
