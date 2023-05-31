@@ -53,37 +53,6 @@ const Contact: Component = () => {
         setTeams(t)
     }
 
-    const getMembersFromTeams = async (t: any[]) => {
-        let newTeams = [];
-
-        for (const team of t) {
-            let newT: any;
-            let m: any[] = [];
-            const res_member = await fetch(`http://localhost:8080/api/member/team/${team.id}`, {
-                method: "GET",
-            });
-
-            let status = await res_member.status
-            if (status != 200) {
-                console.log("[ERROR] Couldn't get the members of the team! Status:" + status)
-                return
-            }
-            let r_members = await res_member.json()
-
-            /* Get all members of the team */
-            r_members.forEach((element: any) => {
-                m.push(element)
-            });
-            
-            newT = structuredClone(team);
-            newT.members = m;
-            newTeams.push(newT);
-        }
-
-        /* Log the stuff it shouldn't work and yet... It's magic, it's javascript */
-        setTeams(newTeams);
-    }
-
     const handle_submit_mail = (event: Event): void => {
         event.preventDefault();
         submit_mail(contactForm)
@@ -106,8 +75,6 @@ const Contact: Component = () => {
     onMount(async () => {
         await getChallenge()
         await getTeams()
-        let t: any[] = teams();
-        await getMembersFromTeams(t);
     })
 
     return (
@@ -124,48 +91,9 @@ const Contact: Component = () => {
                             <select class="select-form" onChange={(e: any) => {setContactForm({ receiver: [e.currentTarget.value.split(",")[0], e.currentTarget.value.split(",")[1]]})}}>
                                 <optgroup label="Teams">
                                     <For each={teams()}>
-                                        {(team:any) => {console.log(team);
-                                            return <option value={["team", team.id]}>
-                                                Team {team.id} - 
-                                                <For each={team.members}>
-                                                {(teamMember: any, index: () => number) => {
-                                                    const teamMembers = userTeamsMembers()
-                                                    .filter((member: any) => member.team_id === team.id)
-                                                    .map((member: any) => {
-                                                        const student = students().find((student: any) => student.user_id === member.user_id);
-                
-                                                        const isCaptain = student?.user_id === team.user_captain_id;
-                
-                                                        if(student) {
-                                                            if (isCaptain) {
-                                                                return (
-                                                                    <Flex fsz="18px" c="red" ff="Roboto">
-                                                                        <span>Captain: {student.name} {student.family_name}</span>
-                                                                    </Flex>
-                                                                );
-                                                            }
-                        
-                                                            return <Flex fsz="18px" c="white" ff="Roboto"><span>{student.name} {student.family_name}</span></Flex>;
-                                                        } else {
-                                                            return null;
-                                                        }
-                                                    });
-                
-                                                    const filteredTeamMembers = teamMembers.filter(Boolean);
-                                                    return(
-                                                        <>
-                                                            {teamMember}
-                                                            {index() !== team.members.length - 1 && (
-                                                                <Flex fsz="18px" c="white"ff="Roboto">
-                                                                    ,&nbsp;
-                                                                </Flex>
-                                                            )}
-                                                        </>
-                                                    );
-                                                }}
-                                                </For>
-                                            </option>
-                                        }}
+                                        {(team:any) => (
+                                            <option value={["team", team.id]}>Team {team.id}</option>
+                                        )}
                                     </For>
                                 </optgroup>
                                 <optgroup label="Challenge">
