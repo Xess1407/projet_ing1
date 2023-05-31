@@ -207,7 +207,7 @@ const DashboardQuestionnaire: Component = () => {
                                 <InputCustom w="45%" id="date_time_start" label="Start Date" type="date"  update={setQuestionnaireForm}/>
                                 <InputCustom w="45%" id="date_time_end" label="End Date" type="date" update={setQuestionnaireForm}/>
                             </Flex>
-                            <Flex w="100%" jc="space-evenly" ai="center">
+                            <Flex w="35%" jc="space-evenly" ai="center">
                                 <select name="data_project" id="data_project" onChange={handle_change_project}>
                                     <For each={projects()}>
                                         {(element) => (
@@ -248,7 +248,7 @@ const DashboardQuestionnaire: Component = () => {
                                     </Box>
                                 </Flex>
                                 <Flex w="35%" jc="space-evenly" ai="center">
-                                    <ButtonCustom text="Add" onclick={addToQuestionnaireToRemove}/>
+                                    <ButtonCustom ff="Roboto" text="Add" onclick={addToQuestionnaireToRemove}/>
                                 </Flex>
                             </Flex>
                             <Flex direction="column" ai="center" w="80%" h="60%" ff="Roboto" mt="5%">
@@ -278,10 +278,10 @@ const DashboardQuestionnaire: Component = () => {
                         <Flex direction="column" w="90%" h="80%" jc="space-evenly" ai="center">
                         <form class="form-add-ressource" onSubmit={ handle_submit_question }>
                             <Flex w="95%" jc="space-evenly" ai="center" h="20%" mt="5%">
-                                <InputCustom w="100%" id="name" label="Name" type="text" update={setQuestionForm}/>
+                                <InputCustom w="100%" id="question" label="Question" type="text" update={setQuestionForm}/>
                             </Flex>
                             <Flex w="35%" jc="space-evenly" ai="center">
-                                <select name="questionnaire" id="questionnaire" onChange={handle_change_questionnaire}>
+                                <select name="data_project" id="data_project" onChange={handle_change_questionnaire}>
                                     <For each={questionnaires()}>
                                         {(element) => (
                                             <option value={element.id}>{element.name}</option>
@@ -320,7 +320,7 @@ const DashboardQuestionnaire: Component = () => {
                                         </Box>
                                     </Flex>
                                     <Flex w="35%" jc="space-evenly" ai="center">
-                                        <ButtonCustom text="Add" onclick={addToQuestionToRemove}/>
+                                        <ButtonCustom ff="Roboto" text="Add" onclick={addToQuestionToRemove}/>
                                     </Flex>
                                 </Flex>
                                 <Flex direction="column" ai="center" w="80%" h="60%" ff="Roboto" mt="5%">

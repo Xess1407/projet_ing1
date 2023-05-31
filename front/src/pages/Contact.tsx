@@ -104,20 +104,23 @@ const Contact: Component = () => {
                                     </For>
                                 </optgroup>
                             </select>
-                            <ButtonCustom w="10%" type="submit" value="Send" text="Send"/>
+                            <ButtonCustom w="10%" ff="Roboto" type="submit" value="Send" text="Send"/>
                         </Flex>
                     </Flex>
                 </form>
-            </Flex>
-            <Flex>
-                <Show when={sended()} >
-                    <p>Email send at:</p>
-                    <For each={update()}>
-                        {(c:any) => (
-                            <p>{c}</p>
-                        )}
-                     </For>
-                </Show>
+                <Flex direction="column">
+                    <Show when={sended()} >
+                        <p>Email send at :</p>
+                        <Flex direction="column">
+
+                        <For each={update()}>
+                            {(c:any) => (
+                                <p>{c}</p>
+                                )}
+                        </For>
+                        </Flex>
+                    </Show>
+                </Flex>
             </Flex>
         </Flex>
     )
