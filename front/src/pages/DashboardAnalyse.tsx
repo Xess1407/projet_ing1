@@ -1,8 +1,6 @@
 import {Component, createSignal, For, onMount, Show} from "solid-js";
 import Flex from "../components/layouts/Flex";
 import {getSessionUser} from "../components/Session";
-
-
 const Analyse: Component = () => {
     const [teams, setTeams] = createSignal<any>([])
 
@@ -73,13 +71,14 @@ const Analyse: Component = () => {
         anal.forEach((element: any) => {
             teams().forEach((team: any) => {
                 if(element.data_project_id == team.data_project_id) {
+                    element.json_data = JSON.parse(element.json_data)
                     a.push(element);
                 }
             })
         });
         setAnalytics(a);
     }
-
+    /*linesStats.(maxLines,avgLines,minLines) functionCount lineCount*/
     onMount(async () => {
         await get_teams()
         await getDataProject()
@@ -95,8 +94,13 @@ const Analyse: Component = () => {
                         <Flex direction="column" c="#FFFFFF" ff="Roboto" w="60%" ml="5%">
                             <For each={analytics()}>
                                 {(analytic:any) => (
-                                    <Show when={analytic.data_project_id == project.data_project_id}>
-                                        <p>{analytic.file_name}</p>
+                                    <Show when={(analytic.data_project_id == project.id)}>
+                                        <div id={"plot"+analytic.id}></div>
+                                        <p>Nombre de lignes : {analytic.json_data.lineCount}</p>
+                                        <p>Nombre de fonctions : {analytic.json_data.functionCount}</p>
+                                        <p>Nombre moyen de lignes par fonction : {Math.round(analytic.json_data.linesStats.avgLines)}</p>
+                                        <p>Nombre maximum de lignes par fonction : {analytic.json_data.linesStats.maxLines}</p>
+                                        <p>Nombre minimum de lignes par fonction : {analytic.json_data.linesStats.minLines}</p>
                                     </Show>
                                 )}
                             </For>
