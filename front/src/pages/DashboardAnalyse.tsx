@@ -210,15 +210,26 @@ const Analyse: Component = () => {
         <Flex bgc="#444444" br="10px" w="80%" h="80vh" direction="column" jc="space-evenly" ai="center" ovy="scroll" c="#FFFFFF" ff="Roboto">
             <For each={projects()}>
                 {(project:any) => (
-                    <Flex direction="column" w="95%" h="46%" c="#FFFFFF" ff="Roboto" bgc="#555555" jc="center" ai="center" br="10px">
+                    <Flex direction="row" w="95%" h="49%" c="#FFFFFF"ff="Roboto" bgc="#555555"jc="center" ai="center" br="10px">
                         <h2 class="data-project-name"> Data project : {project.name} </h2>
                         {/* <Flex direction="column" c="#FFFFFF" b="2px solid red" ff="Roboto" w="65%" ml="5%"> */}
                             <For each={analytics()}>
                                 {(analytic:any) => (
-                                    <Flex direction="column" w="65%" h="100%" ovy="scroll" c="#FFFFFF" ff="Roboto" bgc="#666666" br="10px" jc="center" ai="center">
+                                    <Flex direction="column" w="65%" h="94%" ovy="scroll" c="#FFFFFF" ff="Roboto" bgc="#666666" br="10px" jc="center" ai="center">
                                         <Show when={(analytic.data_project_id == project.id)}>
                                             <Flex w="100%" h="100%" direction="column">
-                                                <button class="button-stats" onclick={() => {get_chart(analytic)}}>PRESS</button>
+                                                <Flex ml="5%" direction="column" ff="Roboto">
+                                                    <p>Name student : {getFullName(analytic.user_id)}</p>
+                                                    <p>Name file : {analytic.file_name}</p>
+                                                    <p>Number of lines : {analytic.json_data.lineCount}</p>
+                                                    <p>Number of functions : {analytic.json_data.functionCount}</p>
+                                                    <p>Average number of lines by functions : {Math.round(analytic.json_data.linesStats.avgLines)}</p>
+                                                    <p>Maximum number of lines by functions : {analytic.json_data.linesStats.maxLines}</p>
+                                                    <p>Minimum number of lines by functions : {analytic.json_data.linesStats.minLines}</p>
+                                                </Flex>
+                                                <Flex jc="center">
+                                                    <button class="button-stats" onclick={() => {get_chart(analytic)}}>PRESS</button>
+                                                </Flex>
                                                 <canvas id={analytic.id+"linesStats"} width="400px" height="100px" role="img"></canvas>
                                                 <Flex direction="row" w="100%" h="100%" jc="space-evenly" ai="center">
                                                     <canvas class="dougnuts" id={analytic.id+"functionCount"} role="img"></canvas>
@@ -229,7 +240,6 @@ const Analyse: Component = () => {
                                     </Flex>
                                 )}
                             </For>
-                        {/* </Flex> */}
                     </Flex>
                 )}
             </For>
