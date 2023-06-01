@@ -1,4 +1,4 @@
-import {Component, createSignal, For, onMount} from "solid-js";
+import {Component, createSignal, For, onMount, Show} from "solid-js";
 import Flex from "../components/layouts/Flex";
 import {getSessionUser} from "../components/Session";
 
@@ -7,6 +7,8 @@ const Analyse: Component = () => {
     const [teams, setTeams] = createSignal<any>([])
 
     const [projects, setProjects] = createSignal<any>([])
+
+    const [analytics, setAnalytics] = createSignal<any>([])
 
     const get_teams = async () => {
         let user = getSessionUser()
@@ -64,21 +66,40 @@ const Analyse: Component = () => {
             console.log("[ERROR] Couldn't connect student ! Status:" + status)
             return false
         }
+        let anal: any[] = await res_analyse.json()
 
+        let a: any[] = analytics()
+        setAnalytics([])
+        anal.forEach((element: any) => {
+            teams().forEach((team: any) => {
+                if(element.data_project_id == team.data_project_id) {
+                    a.push(element);
+                }
+            })
+        });
+        setAnalytics(a);
     }
 
     onMount(async () => {
         await get_teams()
         await getDataProject()
+        await getAnalyse()
     })
 
     return (
         <Flex bgc="#444444" br="10px" w="80%" h="80vh" direction="column" jc="space-evenly" ai="center" ovy="scroll" c="#FFFFFF" ff="Roboto">
             <For each={projects()}>
-                {(element:any) => (
+                {(project:any) => (
                     <Flex direction="row" w="95%" h="40%" ovy="scroll" c="#FFFFFF" ff="Roboto" bgc="#555555" br="10px">
-                        <h2 class="data-project-name"> Data project : {element.name} </h2>
+                        <h2 class="data-project-name"> Data project : {project.name} </h2>
                         <Flex direction="column" c="#FFFFFF" ff="Roboto" w="60%" ml="5%">
+                            <For each={analytics()}>
+                                {(analytic:any) => (
+                                    <Show when={analytic.data_project_id == project.data_project_id}>
+                                        <p>{analytic.file_name}</p>
+                                    </Show>
+                                )}
+                            </For>
                         </Flex>
                     </Flex>
                 )}
