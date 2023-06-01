@@ -13,20 +13,17 @@ Warning you need a recent version of Node (At least 18.x.x)
 $ sudo apt install sqlite3
 ```
 
-In front directory
-
-```bash
-$ npm i
-```
-
-In API directory
-
-```bash
-$ npm i
-```
-
 ## Usage
 
+### Start with scripts (recommended)
+
+In the current directory
+
+```bash
+$ chmod +x build.sh run.sh
+$ ./build.sh
+$ ./run.sh
+```
 
 ### Start by services
 
@@ -36,10 +33,11 @@ In the current directory
 
 ```bash
 $ cd api
+$ npm i
 $ ./run.sh
 ```
 
-Warining you may need to change the permission 
+Warning you may need to change the permission 
 
 ```bash
 $ chmod +x setup.sh
@@ -48,7 +46,7 @@ $ chmod +x run.sh
 
 The API should be running in localhost:8080
 
-#### Populate API
+#### Populate API with test values
 
 ```bash
 $ ./insert.sh
@@ -63,6 +61,7 @@ $ chmod +x insert.sh
 
 ```bash
 $ cd front/
+$ npm i
 $ npm run dev
 ```
 The front should run in localhost:3000

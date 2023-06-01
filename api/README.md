@@ -1,5 +1,12 @@
 # Maggle API
 
+## Start API
+
+```bash
+$ chmod +x run.sh setup.sh
+$ ./run.sh 
+```
+
 ## Entry points
 
 All entry points must be precede by /api
