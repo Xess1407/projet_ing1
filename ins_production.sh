@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Insert User & Student
-curl -X POST -H "Content-Type: application/json" -d '{"name":"John","family_name":"Smith","email":"smith@gmail.cm","password":"1234","telephone_number":"0615234523","role":"student"}' localhost:8080/api/user
+curl -X POST -H "Content-Type: application/json" -d '{"name":"John","family_name":"Smith","email":"smith@gmail.com","password":"1234","telephone_number":"0615234523","role":"student"}' localhost:8080/api/user
 curl -X POST -H "Content-Type: application/json" -d '{"user_id": 1,"school_level": "L1","school": "University","city": "San Jose","password": "1234"}' localhost:8080/api/student
 
 curl -X POST -H "Content-Type: application/json" -d '{"name":"Joe","family_name":"Dulton","email":"dulton@gmail.com","password":"1234","telephone_number":"0912351232","role":"student"}' localhost:8080/api/user
