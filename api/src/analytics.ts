@@ -9,6 +9,7 @@ class AnalyticsController implements Controller {
     constructor() {
         this.router = Router();
         this.router.post(AnalyticsController.path, this.post);
+        this.router.get(AnalyticsController.path, this.get_all);
         this.router.post(AnalyticsController.path + "/get", this.get);
         this.router.get(AnalyticsController.path + "/:user_id", this.get_all_by_user_id);
         this.router.delete(AnalyticsController.path, this.delete);
@@ -26,6 +27,27 @@ class AnalyticsController implements Controller {
             resolve(rows);
           })
         );
+    }
+
+    async get_all(req: Request, res: Response) {
+        let r = new Array<AnalyticsEntry>;
+    
+        await AnalyticsController.get_values().then((rows: any) =>
+            rows.forEach((row) => {
+                r.push(new AnalyticsEntry(
+                    row.rowid,
+                    row.data_project_id,
+                    row.user_id,
+                    row.file_name,
+                    row.json_data
+                ));
+            })
+        );
+    
+        console.log(
+        "[INFO][GET] " + AnalyticsController.path + ": ",
+        );
+        res.send(JSON.stringify(r));
     }
 
     async get_all_by_user_id(req: Request, res: Response) {
