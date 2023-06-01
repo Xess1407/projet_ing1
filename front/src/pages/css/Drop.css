@@ -45,3 +45,9 @@
     text-align: center;
     font-size: 25px;
 }
+
+.input-add-file {
+    width: 100%;
+    height: min-content;
+    padding: 1% 1%;
+}

@@ -78,10 +78,10 @@ const YourTeam: Component = () => {
             <Flex w="100%" h="28%" jc="space-around" mt="1%">
                 <For each={members()}>
                     {(element:any) => (
-                        <Box w="20%" h="100%" br="10px" bgc="#555555">
+                        <Flex w="21%" h="100%" br="10px" bgc="#666666" c="#FFFFFF" direction="column" jc="space-evenly" ai="center">
                             <img class="profile-picture" src="/src/img/profil.jpg" alt="PHOTO " />
-                            <span>{"Name: " + getFullName(element.user_id)}</span>
-                        </Box>
+                            <span class="profile-name">{"Name : " + getFullName(element.user_id)}</span>
+                        </Flex>
                     )}
                 </For>
             </Flex>

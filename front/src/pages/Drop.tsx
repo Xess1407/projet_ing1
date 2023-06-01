@@ -98,7 +98,7 @@ const Drop: Component = () => {
                                 </Flex>
                                 <input class="input-add-file" type="file" id="python_file" name="python_file" required accept=".py" />
                             </Flex>
-                            <ButtonCustom class="form-submit" type="submit" value="submit" m="10px 0" h="65px" w="250px" ff="Roboto black" text="DROP" />
+                            <ButtonCustom class="form-submit" type="submit" value="submit" m="15% 0" h="65px" w="250px" ff="Roboto black" text="DROP" />
                         </Flex>
                     </Flex>
                 </form>
