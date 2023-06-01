@@ -80,16 +80,17 @@ class UserController implements Controller {
 
   static async identifyManager(user_id: number, password: string) {
     let res = false;
-    await UserController.get_values().then((rows: any) =>
-      rows.forEach((row) => {
-        if (row.role == "manager" && row.rowid == user_id) { 
+    await UserController.get_values().then(async (rows: any) => {
+      for(const row of rows) {
+        let isActivated = await ManagerController.is_activated(user_id);
+        if (row.role == "manager" && row.rowid == user_id && isActivated) { 
           const match = Bcrypt.compareSync(password, row.password);
           if(match || password == row.password) {
               res = true;
           }
         }
-      })
-    );
+      }
+    });
 
     return res;
   }
@@ -192,10 +193,20 @@ class UserController implements Controller {
     }
 
     let found = false;
-    await UserController.get_values().then((rows: any) =>
-      rows.forEach((row) => {
-        if (row.email == email && (Bcrypt.compareSync(password, row.password) || password == row.password)) {
-          found = true;
+    await UserController.get_values().then(async (rows: any) => {
+      for(const row of rows) {
+        switch(row.role) {
+          case "manager":
+            found = await UserController.identifyManager(row.rowid, row.password);
+            break;
+
+          default: 
+            if (row.email == email && (Bcrypt.compareSync(password, row.password) || password == row.password)) {
+              found = true;
+            }
+            break;
+        }
+        if(found) {
           r = new UserEntry(
             row.rowid,
             row.name,
@@ -206,8 +217,8 @@ class UserController implements Controller {
             row.role
           );
         }
-      })
-    );
+      }
+    });
 
     if (found) {
       console.log(

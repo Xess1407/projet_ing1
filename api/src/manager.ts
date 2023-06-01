@@ -62,6 +62,23 @@ class ManagerController implements Controller {
     );
   }
 
+  static async is_activated(user_id: number): Promise<boolean> {
+    let res = false;
+    let existManager = await ManagerController.exist_manager(user_id);
+    if(existManager) {
+      await ManagerController.get_manager_by_user_id(user_id).then((rows: any) => {
+        let man = rows[0];
+        let now = new Date();
+        let ac_date = new Date(man.activation_date);
+        let deac_date = new Date(man.deactivation_date);
+  
+        res = (ac_date <= now) && (now <= deac_date);
+      });
+    }
+    
+    return res;
+  }
+
   static async exist_manager(user_id: number) {
     let res = false;
     await ManagerController.get_manager_by_user_id(user_id).then((rows: any) => {
