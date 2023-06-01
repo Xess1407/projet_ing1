@@ -207,10 +207,10 @@ const Analyse: Component = () => {
     })
 
     return (
-        <Flex bgc="#444444" br="10px" w="80%" h="80vh" direction="column" jc="space-evenly" ai="center" ovy="scroll" c="#FFFFFF" ff="Roboto">
+        <Flex bgc="#444444" br="10px" w="80%" h="90%" fw="wrap" direction="row" jc="space-evenly" ai="center" ovy="scroll" c="#FFFFFF" ff="Roboto">
             <For each={projects()}>
                 {(project:any) => (
-                    <Flex direction="row" w="95%" h="49%" c="#FFFFFF"ff="Roboto" bgc="#555555"jc="center" ai="center" br="10px">
+                    <Flex direction="row" w="95%" h="60%" c="#FFFFFF"ff="Roboto" bgc="#555555"jc="center" ai="center" br="10px" m="2% 0 2% 0">
                         <h2 class="data-project-name"> Data project : {project.name} </h2>
                         {/* <Flex direction="column" c="#FFFFFF" b="2px solid red" ff="Roboto" w="65%" ml="5%"> */}
                             <For each={analytics()}>
@@ -221,11 +221,8 @@ const Analyse: Component = () => {
                                                 <Flex ml="5%" direction="column" ff="Roboto">
                                                     <p>Name student : {getFullName(analytic.user_id)}</p>
                                                     <p>Name file : {analytic.file_name}</p>
-                                                    <p>Number of lines : {analytic.json_data.lineCount}</p>
-                                                    <p>Number of functions : {analytic.json_data.functionCount}</p>
-                                                    <p>Average number of lines by functions : {Math.round(analytic.json_data.linesStats.avgLines)}</p>
-                                                    <p>Maximum number of lines by functions : {analytic.json_data.linesStats.maxLines}</p>
-                                                    <p>Minimum number of lines by functions : {analytic.json_data.linesStats.minLines}</p>
+                                                    <p>Number of lines</p>
+                                                    <p>Number of functions</p>
                                                 </Flex>
                                                 <Flex jc="center">
                                                     <button class="button-stats" onclick={() => {get_chart(analytic)}}>PRESS</button>
