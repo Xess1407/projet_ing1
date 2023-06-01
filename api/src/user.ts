@@ -197,25 +197,34 @@ class UserController implements Controller {
       for(const row of rows) {
         switch(row.role) {
           case "manager":
-            found = await UserController.identifyManager(row.rowid, row.password);
+            if(row.email == email && (Bcrypt.compareSync(password, row.password) || password == row.password) && await UserController.identifyManager(row.rowid, row.password)) {
+              found = true;
+              r = new UserEntry(
+                row.rowid,
+                row.name,
+                row.family_name,
+                row.email,
+                row.password,
+                row.telephone_number,
+                row.role
+              );
+            }
             break;
 
           default: 
             if (row.email == email && (Bcrypt.compareSync(password, row.password) || password == row.password)) {
               found = true;
+              r = new UserEntry(
+                row.rowid,
+                row.name,
+                row.family_name,
+                row.email,
+                row.password,
+                row.telephone_number,
+                row.role
+              );
             }
             break;
-        }
-        if(found) {
-          r = new UserEntry(
-            row.rowid,
-            row.name,
-            row.family_name,
-            row.email,
-            row.password,
-            row.telephone_number,
-            row.role
-          );
         }
       }
     });
