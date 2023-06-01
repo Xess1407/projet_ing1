@@ -108,10 +108,10 @@ const Contact: Component = () => {
                         </Flex>
                     </Flex>
                 </form>
-                <Flex direction="column">
+                <Flex direction="column" ff="Roboto">
                     <Show when={sended()} >
                         <p>Email send at :</p>
-                        <Flex direction="column">
+                        <Flex direction="column" ff="Roboto">
 
                         <For each={update()}>
                             {(c:any) => (

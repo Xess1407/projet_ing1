@@ -106,7 +106,7 @@ const Drop: Component = () => {
                 </form>
                 <Flex w="80%" h="5%" ff="Roboto" jc="center" ai="center" c="#FFFFFF">
                     <Show when={confirmed()} >
-                        <p>Challenge added</p>
+                        <p>File added</p>
                     </Show>
                 </Flex>
             </Flex>
