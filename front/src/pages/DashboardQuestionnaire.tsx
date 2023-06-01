@@ -251,7 +251,7 @@ const DashboardQuestionnaire: Component = () => {
                             </Flex>
                             <Flex direction="column" ai="center" w="80%" h="60%" ff="Roboto" mt="5%">
                                 <label>Questionnaire to remove</label>
-                                <Box w="80%" h="30%" b="2px solid #FFFFFF" br="10px">
+                                <Box w="80%" h="30%" b="2px solid #FFFFFF" ff="Roboto" br="10px">
                                     <For each={questionnaireToRemove()}>
                                         {(element:any) => (
                                             <p>{element.name}</p>
@@ -322,7 +322,7 @@ const DashboardQuestionnaire: Component = () => {
                                 </Flex>
                                 <Flex direction="column" ai="center" w="80%" h="60%" ff="Roboto" mt="5%">
                                     <label>Question to remove</label>
-                                    <Box w="80%" h="30%" b="2px solid #FFFFFF" br="10px">
+                                    <Box w="80%" h="30%" b="2px solid #FFFFFF" ff="Roboto" br="10px">
                                         <For each={questionToRemove()}>
                                             {(element:any) => (
                                                 <p>{element.id}</p>
