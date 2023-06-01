@@ -2,6 +2,9 @@ import {Component, createSignal, For, onMount, Show} from "solid-js";
 import Flex from "../components/layouts/Flex";
 import {getSessionUser, isManager} from "../components/Session";
 import {Chart} from "chart.js/auto";
+import "./css/Dashboard.css"
+import Box from "../components/layouts/Box";
+
 const Analyse: Component = () => {
     const [teams, setTeams] = createSignal<any>([])
 
@@ -56,7 +59,7 @@ const Analyse: Component = () => {
                     labels: data.map(row => row.name),
                     datasets: [
                         {
-                            label: 'Number of lines by function',
+                            label: 'Lines',
                             data: data.map(row => row.count)
                         }
                     ]
@@ -68,7 +71,7 @@ const Analyse: Component = () => {
     const get_chart_functionCount = (analytic: any) => {
         const data = {
             datasets: [{
-                label: 'Number of functions',
+                label: 'Functions',
                 data: [analytic.json_data.functionCount/4, analytic.json_data.functionCount],
                 backgroundColor: [
                     '#666666',
@@ -207,31 +210,26 @@ const Analyse: Component = () => {
         <Flex bgc="#444444" br="10px" w="80%" h="80vh" direction="column" jc="space-evenly" ai="center" ovy="scroll" c="#FFFFFF" ff="Roboto">
             <For each={projects()}>
                 {(project:any) => (
-                    <Flex direction="row" w="95%" h="40%" ovy="scroll" c="#FFFFFF" ff="Roboto" bgc="#555555" br="10px">
+                    <Flex direction="column" w="95%" h="46%" c="#FFFFFF" ff="Roboto" bgc="#555555" jc="center" ai="center" br="10px">
                         <h2 class="data-project-name"> Data project : {project.name} </h2>
-                        <Flex direction="column" c="#FFFFFF" ff="Roboto" w="60%" ml="5%">
+                        {/* <Flex direction="column" c="#FFFFFF" b="2px solid red" ff="Roboto" w="65%" ml="5%"> */}
                             <For each={analytics()}>
                                 {(analytic:any) => (
-                                    <Flex direction="row" w="95%" h="45%" mt="2%" ovy="scroll" c="#FFFFFF" ff="Roboto" bgc="#666666" br="10px">
-
-                                    <Show when={(analytic.data_project_id == project.id)}>
-                                        <div id={"plot"+analytic.id}></div>
-                                        <p>Name student : {getFullName(analytic.user_id)}</p>
-                                        <p>Name file : {analytic.file_name}</p>
-                                        <p>Number of lines : {analytic.json_data.lineCount}</p>
-                                        <p>Number of functions : {analytic.json_data.functionCount}</p>
-                                        <p>Average number of lines by functions : {Math.round(analytic.json_data.linesStats.avgLines)}</p>
-                                        <p>Maximum number of lines by functions : {analytic.json_data.linesStats.maxLines}</p>
-                                        <p>Minimum number of lines by functions : {analytic.json_data.linesStats.minLines}</p>
-                                        <button onclick={() => {get_chart(analytic)}}></button>
-                                        <canvas id={analytic.id+"linesStats"} width="400" height="100" role="img"></canvas>
-                                        <canvas id={analytic.id+"functionCount"} width="400" height="100" role="img"></canvas>
-                                        <canvas id={analytic.id+"lineCount"} width="400" height="100" role="img"></canvas>
-                                    </Show>
+                                    <Flex direction="column" w="65%" h="100%" ovy="scroll" c="#FFFFFF" ff="Roboto" bgc="#666666" br="10px" jc="center" ai="center">
+                                        <Show when={(analytic.data_project_id == project.id)}>
+                                            <Flex w="100%" h="100%" direction="column">
+                                                <button class="button-stats" onclick={() => {get_chart(analytic)}}>PRESS</button>
+                                                <canvas id={analytic.id+"linesStats"} width="400px" height="100px" role="img"></canvas>
+                                                <Flex direction="row" w="100%" h="100%" jc="space-evenly" ai="center">
+                                                    <canvas class="dougnuts" id={analytic.id+"functionCount"} role="img"></canvas>
+                                                    <canvas class="dougnuts" id={analytic.id+"lineCount"} role="img"></canvas>
+                                                </Flex>
+                                            </Flex>
+                                        </Show>
                                     </Flex>
                                 )}
                             </For>
-                        </Flex>
+                        {/* </Flex> */}
                     </Flex>
                 )}
             </For>
