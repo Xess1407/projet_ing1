@@ -214,21 +214,21 @@ const DashboardUser: Component = () => {
                 </Flex>
             </Flex>
             <Show when={addStudent()}>
-                <Flex bgc="#444444" br="10px" w="50%" h="70%" jc="center" ai="center">
+                <Flex bgc="#444444" br="10px" w="50%" h="80%" jc="center" ai="center">
                     <form onSubmit={ handle_submit_student }>
                         <Flex direction="row" jc="space-around" w="100%" h="70%">
                             <Flex direction="column" w="45%" jc="space-evenly" ai="center">
-                                <Flex direction="column" mt="2%">
+                                <Flex direction="column" mt="4%">
                                     <InputCustom id="name" label="Firstname" type="text" placeholder="Firstname" update={setStudentForm}/>
                                 </Flex>
-                                <Flex direction="column" mt="2%">
+                                <Flex direction="column" mt="4%">
                                     <InputCustom id="email" label="E-mail" type="email" placeholder="E-mail" pattern=".+@[a-z]{2,32}\.[a-z]{2,10}" update={setStudentForm}/>
                                 </Flex>
-                                <Flex direction="column" mt="2%">
+                                <Flex direction="column" mt="4%">
                                     <InputCustom id="telephone_number" label="Number" type="tel" placeholder="Number" update={setStudentForm} pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"></InputCustom>
                                 </Flex>
-                                <Flex direction="column" mt="2%">
-                                    <InputCustom id="password" label="password" type="password" placeholder="Password" update={setStudentForm}></InputCustom>
+                                <Flex direction="column" mt="4%">
+                                    <InputCustom id="password" label="Password" type="password" placeholder="Password" update={setStudentForm}></InputCustom>
                                 </Flex>
                             </Flex>
                             <Flex direction="column" w="45%" jc="space-evenly" ai="center" p="0">
@@ -247,18 +247,18 @@ const DashboardUser: Component = () => {
                                             <option value="D">Doctorate</option>
                                         </select>
                                     </Flex>
-                                    <Flex direction="column" w="60%">
+                                    <Flex direction="column" w="60%" mb="4%">
                                         <input id="school" type="text" placeholder="Etablishment" required value={form.school} onChange={handleSchoolChange}/>
                                     </Flex>
                                 </Flex>
-                                <Flex mb="7.5%" $direction="column">
+                                <Flex $direction="column">
                                     <input id="city" placeholder="City" required value={form.city} onChange={handleCityChange}/>
                                 </Flex>
                             </Flex>
                         </Flex>
                         <Flex jc="center" ai="center" direction="column">
                             <ButtonCustom class="form-submit" type="submit" value="submit" m="10px 0" h="65px" w="250px" ff="Roboto black" text="ADD" />
-                            <Flex c="white">
+                            <Flex ff="Roboto" c="white">
                                 <Show when={confirmedUser()} >
                                     <p>Student added</p>
                                 </Show>
@@ -269,7 +269,7 @@ const DashboardUser: Component = () => {
                 </Flex>
             </Show>
             <Show when={removeStudent()}>
-                <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto">
+                <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto" pt="5%">
                     <h2>Remove Student</h2>
                     <form class="form-remove" onSubmit={ handle_submit_delete_student }>
                         <Flex w="95%" jc="space-evenly" ai="center">
@@ -279,19 +279,19 @@ const DashboardUser: Component = () => {
                                     <For each={students()}>
                                         {(element: any) => (
                                             <Show when={searching(element.name)}>
-                                                <li>{element.name}</li>
+                                                <li class="search-result">{element.name}</li>
                                             </Show>
                                         )}
                                     </For>
                                 </Box>
                             </Flex>
                             <Flex w="35%" jc="space-evenly" ai="center">
-                                <ButtonCustom text="Add" onclick={addToStudentToRemove}/>
+                                <ButtonCustom ff="Roboto" text="Add" onclick={addToStudentToRemove}/>
                             </Flex>
                         </Flex>
                         <Flex direction="column" ai="center" w="80%" h="60%" ff="Roboto" mt="5%">
                             <label>Student to remove</label>
-                            <Box w="80%" h="30%" b="2px solid #FFFFFF" br="10px">
+                            <Box w="80%" h="30%" b="2px solid #FFFFFF" ff="Roboto" br="10px">
                                 <For each={studentToRemove()}>
                                     {(element:any) => (
                                         <p>{element.name}</p>
@@ -299,7 +299,7 @@ const DashboardUser: Component = () => {
                                 </For>
                             </Box>
                             <ButtonCustom class="form-submit" type="submit" value="submit" text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="60px" br="16px" bgc="#E36464" mt="4%"/>
-                            <Flex c="white">
+                            <Flex ff="Roboto" c="white">
                                 <Show when={confirmedUser()} >
                                     <p>Student removed</p>
                                 </Show>
@@ -308,11 +308,10 @@ const DashboardUser: Component = () => {
                     </Flex>
                         </Flex>
                     </form>
-                   
                 </Flex>
             </Show>
             <Show when={addManager()}>
-                <Flex bgc="#444444" br="10px" w="50%" h="70%" jc="center" ai="center">
+                <Flex bgc="#444444" br="10px" w="50%" h="80%" jc="center" ai="center">
                     <form onSubmit={ handle_submit_manager }>
                         <Flex direction="row" jc="space-around" w="100%" h="70%" mt="5%">
                             <Flex direction="column" w="47%" jc="space-around" ai="center">
@@ -329,18 +328,18 @@ const DashboardUser: Component = () => {
                                     <InputCustom id="password" label="password" type="password" placeholder="Password" update={setManagerForm}></InputCustom>
                                 </Flex>
                             </Flex>
-                            <Flex direction="column" w="47%" jc="space-around" ai="center">
+                            <Flex direction="column" w="47%" ml="5%" jc="space-around" ai="center">
                                 <Flex direction="column" mt="4%"> 
                                     <InputCustom id="family_name" label="Surname" type="text" placeholder="Surname" update={setManagerForm} />
                                 </Flex>
                                 <Flex direction="column" mt="4%">
                                     <InputCustom id="company" label="Company" type="text" placeholder="Company" update={setManagerForm}/>
                                 </Flex>
-                                <Flex direction="row" w="80%" jc="space-between">
-                                    <Flex direction="column" w="48%" mt="4%">
+                                <Flex direction="column" w="100%" jc="space-center" ai="center">
+                                    <Flex direction="column" w="80%" m="6% 0 0 2%">
                                         <InputCustom id="activation_date" label="Activation Date" type="date" placeholder="Activation" update={setManagerForm}/>
                                     </Flex>
-                                    <Flex direction="column" w="48%" mt="4%">
+                                    <Flex direction="column" w="80%" m="6% 0 0 2%">
                                         <InputCustom id="deactivation_date" label="Deactivation Date" type="date" placeholder="Desactivation" update={setManagerForm}/>
                                     </Flex>
                                 </Flex>
@@ -349,18 +348,18 @@ const DashboardUser: Component = () => {
                         </Flex>
                         <Flex jc="center" ai="center">
                             <ButtonCustom class="form-submit" type="submit" value="submit" m="10px 0" h="65px" w="250px" ff="Roboto black" text="ADD" />
-                            <Flex c="white" direction="column">
-                                <Show when={confirmedUser()} >
-                                    <p>Manager added</p>
-                                </Show>
-                            </Flex>
+                        </Flex>
+                        <Flex c="white" ff="Roboto" direction="column" jc="center" ai="center">
+                            <Show when={confirmedUser()} >
+                                <p>Manager added</p>
+                            </Show>
                         </Flex>
                     </form>
                     
                 </Flex>
             </Show>
             <Show when={removeManager()}>
-                <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto">
+                <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto" pt="5%">
                     <h2>Remove Manager</h2>
                     <form class="form-remove" onSubmit={ handle_submit_delete_manager }>
                         <Flex w="95%" jc="space-evenly" ai="center">
@@ -370,19 +369,19 @@ const DashboardUser: Component = () => {
                                     <For each={managers()}>
                                         {(element: any) => (
                                             <Show when={searching(element.name)}>
-                                                <li>{element.name}</li>
+                                                <li class="search-result">{element.name}</li>
                                             </Show>
                                         )}
                                     </For>
                                 </Box>
                             </Flex>
                             <Flex w="35%" jc="space-evenly" ai="center">
-                                <ButtonCustom text="Add" onclick={addToManagerToRemove}/>
+                                <ButtonCustom ff="Roboto" text="Add" onclick={addToManagerToRemove}/>
                             </Flex>
                         </Flex>
                         <Flex direction="column" ai="center" w="80%" h="60%" ff="Roboto" mt="5%">
                             <label>Manager to remove</label>
-                            <Box w="80%" h="30%" b="2px solid #FFFFFF" br="10px">
+                            <Box w="80%" h="30%" b="2px solid #FFFFFF" ff="Roboto" br="10px">
                                 <For each={managerToRemove()}>
                                     {(element:any) => (
                                         <p>{element.name}</p>
@@ -390,7 +389,7 @@ const DashboardUser: Component = () => {
                                 </For>
                             </Box>
                             <ButtonCustom class="form-submit" type="submit" value="submit" text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="60px" br="16px" bgc="#E36464" mt="4%"/>
-                            <Flex c="white">
+                            <Flex ff="Roboto" c="white">
                                 <Show when={confirmedUser()} >
                                     <p>Manager remove</p>
                                 </Show>

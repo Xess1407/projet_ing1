@@ -31,7 +31,7 @@ function handleCityChange(event: Event) {
         city: target.value,
     }));
 }
-  
+
 
 function handle_same_password() {
     let password_1 = (document.getElementById("password") as HTMLInputElement).value;
@@ -73,13 +73,13 @@ const Register: Component = () => {
                             <Flex direction="column">
                                 <InputCustom id="name" label="First name" type="text" placeholder="First name" update={setStudentForm}/>
                             </Flex>
-                            <Flex direction="column">
+                            <Flex direction="column" mt="4%">
                                 <InputCustom id="email" label="E-mail" type="email" placeholder="E-mail" update={setStudentForm}/>
                             </Flex>
-                            <Flex direction="column">
+                            <Flex direction="column" mt="4%">
                                 <InputCustom id="telephone_number" label="Phone number" type="tel" placeholder="Phone number" update={setStudentForm} pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}|\+33 [1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+33[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9][0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}|[1-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}|\+[0-9]{15}"></InputCustom>
                             </Flex>
-                            <Flex direction="column">
+                            <Flex direction="column" mt="4%">
                                 <InputCustom id="password" label="Password" type="password" placeholder="Password" update={setStudentForm}/>
                             </Flex>
                         </Flex>
@@ -87,7 +87,7 @@ const Register: Component = () => {
                             <Flex direction="column" >
                                 <InputCustom id="family_name" label="Surname" type="text" placeholder="Surname" update={setStudentForm}/>
                             </Flex>
-                            <Flex direction="row" jc="space-evenly" ai="center">
+                            <Flex direction="row" jc="space-evenly" ai="center" mt="4%">
                                 <Flex direction="column" w="40%">
                                     <select id="school_level" required onChange={handleSchoolLevelChange}>
                                         <option id="default-select" value="" disabled selected hidden>Study level</option>
@@ -104,10 +104,10 @@ const Register: Component = () => {
                                     <input id="school2" type="text" placeholder="Etablishment" required onChange={handleSchoolChange}/>
                                 </Flex>
                             </Flex>
-                            <Flex direction="column">
+                            <Flex direction="column" mt="4%">
                                 <input id="city2" placeholder="City" required onChange={handleCityChange}/>
                             </Flex>
-                            <Flex direction="column" mt="9%">
+                            <Flex direction="column" mt="11%">
                                 <InputCustom id="password_2" label="Confirmation" type="password" placeholder="Confirmation" empty/>
                             </Flex>
                             <span id="form-not-same-password-message"></span>

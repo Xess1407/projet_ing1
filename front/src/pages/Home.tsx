@@ -51,7 +51,7 @@ const Home: Component = () => {
                         <ButtonCustom text="SIGN-UP" ff="Roboto black" fsz="16px" w="183px" h="48px" br="16px" bgc="#3BCFA3" mb="10%" onclick={() => {nav("/register", {replace: true})}}/>
                     </Show>
                 </Flex>
-                <Box c="#FFFFFF" w="37%" ml="30%" mt="2%" fsz="19px" ff="Roboto">
+                <Box c="#FFFFFF" w="37%" ml="30%" mt="2%" fsz="20px" ff="Roboto">
                     Maggle is the new IA Pau association's website dedicated to Data Challenges!
                     We offer you a unique opportunity to put your Data Science skills to the test. Whether you're a curious beginner or a seasoned expert, our platform is designed to offer you an exciting and stimulating experience.
                     Take part in our Data Challenges and immerse yourself in the fascinating world of data exploration and analysis. Put your analytical skills to the test by solving complex problems in teams of 3 to 8 students.

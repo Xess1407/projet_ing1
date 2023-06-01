@@ -7,3 +7,9 @@
     height: 45%;
     width: 22%;
 }
+
+.img-data-project {
+    height: 100%;
+    width: 100%;
+    border-radius:  10px;
+}

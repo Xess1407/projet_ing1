@@ -194,7 +194,6 @@ const DashboardQuestionnaire: Component = () => {
                     </Flex>
                 </Flex>
 
-    
                 <Show when={addQuestionnaire()}>
                     <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto">
                         <h2>Add Questionnaire</h2>
@@ -221,15 +220,14 @@ const DashboardQuestionnaire: Component = () => {
                             </Flex>
                         </form>
                         </Flex>
-                        <Flex>
+                        <Flex jc="center" ai="center" ff="Roboto" c="#FFFFFF">
                             <Show when={confimed()} >
                                 <p>Questionnaire added</p>
                             </Show>
                         </Flex>
                     </Flex>
                 </Show>
-    
-    
+
                 <Show when={removeQuestionnaire()}>
                     <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto" pt="5%">
                         <h2>Remove Questionnaire</h2>
@@ -263,15 +261,14 @@ const DashboardQuestionnaire: Component = () => {
                                 <ButtonCustom class="form-submit" type="submit" value="submit" text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="60px" br="16px" bgc="#E36464" mt="4%"/>
                             </Flex>
                         </form>
-                        <Flex>
+                        <Flex jc="center" ai="center" ff="Roboto" c="#FFFFFF">
                             <Show when={confimed()} >
                                 <p>Questionnaire remove</p>
                             </Show>
                         </Flex>
                     </Flex>
                 </Show>
-    
-    
+
                 <Show when={addQuestion()}>
                     <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto">
                         <h2>Add Question</h2>
@@ -294,7 +291,7 @@ const DashboardQuestionnaire: Component = () => {
                             </Flex>
                         </form>
                         </Flex>
-                        <Flex>
+                        <Flex jc="center" ai="center" ff="Roboto" c="#FFFFFF">
                             <Show when={confimed()} >
                                 <p>Question added</p>
                             </Show>
@@ -335,7 +332,7 @@ const DashboardQuestionnaire: Component = () => {
                                     <ButtonCustom class="form-submit" type="submit" value="submit" text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="60px" br="16px" bgc="#E36464" mt="4%"/>
                                 </Flex>
                         </form>
-                        <Flex>
+                        <Flex jc="center" ai="center" ff="Roboto" c="#FFFFFF">
                             <Show when={confimed()} >
                                 <p>Question remove</p>
                             </Show>

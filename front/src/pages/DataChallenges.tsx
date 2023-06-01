@@ -52,7 +52,7 @@ const DataChallenges: Component = () => {
             <Flex h="25%" w="50%" ml="10%" fsz="56px" c="#FFFFFF" ai="center">
                 <h1 class="text">Data Challenges</h1>
             </Flex>
-            <Flex fw="wrap" direction="row" jc="space-evenly" ai="center" w="100%" h="100%">
+            <Flex fw="wrap" direction="row" jc="space-evenly" w="100%" h="100%">
                 <For each={challenges()}>
                     {(element: any) => (
                         <div class="data-challenges" onclick={() => {nav("/data-project/" + element.id)}}>

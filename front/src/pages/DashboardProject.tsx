@@ -190,17 +190,17 @@ const DashboardProject: Component = () => {
     </Flex>
 
     <Show when={addProject()}>
-        <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto">
+        <Flex bgc="#444444" br="10px" w="50%" h="80%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto">
             <h2>Add project</h2>
             <Flex direction="column" w="90%" h="80%" jc="space-evenly" ai="center">
             <form class="form-add-project" onSubmit={ handle_submit_project }>
-                <Flex direction="column" w="95%" jc="space-evenly" ai="center" h="70%" mt="5%">
-                    <InputCustom w="60%" id="name" label="Name" type="text" placeholder="Name of project" update={setProjectForm}/>
-                    <InputCustom w="60%" id="description" label="Description" type="text" placeholder="Description" update={setProjectForm}/>
+                <Flex direction="column" w="95%" jc="space-evenly" ai="center" h="70%" mt="5%" ff="Roboto">
+                    <InputCustom w="60%" mt="1%" id="name" label="Name" type="text" placeholder="Name of project" update={setProjectForm}/>
+                    <InputCustom w="60%" mt="1%" id="description" label="Description" type="text" placeholder="Description" update={setProjectForm}/>
                     <label for="profile_pic">Choose file to upload</label>
                     <input class="input-add-project" type="file" id="project_img" name="project_img" required accept=".jpg, .jpeg, .png" />
                 </Flex>
-                <Flex w="35%" h="20%" jc="space-evenly" ai="center">
+                <Flex w="35%" h="20%" jc="space-evenly" ai="center" ff="Roboto">
                     <select name="data_challenge" id="data_challenge" onChange={handle_change_challenge}>
                         <For each={challenges()}>
                             {(element) => (
@@ -212,19 +212,19 @@ const DashboardProject: Component = () => {
                 
                 <Flex w="95%" jc="center" ai="center" h="20%" mt="3%" direction="column">
                     <ButtonCustom class="form-submit" type="submit" value="submit" m="10px 0" h="65px" w="250px" ff="Roboto black" text="ADD" />
-                    <Flex>
-                        <Show when={confirmed()} >
-                            <p>Project added</p>
-                        </Show>
-                    </Flex>
                 </Flex>
             </form>
+            <Flex jc="center" ai="center" ff="Roboto" c="#FFFFFF">
+                <Show when={confirmed()} >
+                    <p>Project added</p>
+                </Show>
+            </Flex>
             </Flex>
         </Flex>
     </Show>
 
     <Show when={removeProject()}>
-        <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto" pt="3%">
+        <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto" pt="5%">
             <h2>Remove Project</h2>
             <form class="form-remove" onSubmit={ handle_submit_delete_project }>
                 <Flex w="95%" jc="space-evenly" ai="center">
@@ -241,12 +241,12 @@ const DashboardProject: Component = () => {
                         </Box>
                     </Flex>
                     <Flex w="35%" jc="space-evenly" ai="center">
-                        <ButtonCustom text="Add" onclick={addToProjectToRemove}/>
+                        <ButtonCustom ff="Roboto" text="Add" onclick={addToProjectToRemove}/>
                     </Flex>
                 </Flex>
                 <Flex direction="column" ai="center" w="80%" h="60%" ff="Roboto" mt="5%">
                     <label>Project to remove</label>
-                    <Box w="80%" h="30%" b="2px solid #FFFFFF" br="10px">
+                    <Box w="80%" h="30%" b="2px solid #FFFFFF" ff="Roboto" br="10px">
                         {/* Requête pour récupérer le joueur recherché */}
                         <For each={projectToRemove()}>
                             {(element:any) => (
@@ -255,16 +255,15 @@ const DashboardProject: Component = () => {
                         </For>
                     </Box>
                     <ButtonCustom class="form-submit" type="submit" value="submit" text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="60px" br="16px" bgc="#E36464" mt="4%"/>
-                    <Flex>
-                        <Show when={confirmed()} >
-                            <p>Project removed</p>
-                        </Show>
-                    </Flex>
                 </Flex>
             </form>
+            <Flex jc="center" ai="center" ff="Roboto" c="#FFFFFF">
+                <Show when={confirmed()} >
+                    <p>Project removed</p>
+                </Show>
+            </Flex>
         </Flex>
     </Show>
-
 
     <Show when={addResource()}>
         <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto">
@@ -286,19 +285,19 @@ const DashboardProject: Component = () => {
                     </Flex>
                     <Flex w="95%" jc="center" ai="center" h="20%" mt="5%">
                         <ButtonCustom class="form-submit" type="submit" value="submit" m="10px 0" h="65px" w="250px" ff="Roboto black" text="ADD" />
-                        <Flex>
-                        <Show when={confirmed()} >
-                            <p>Resource added</p>
-                        </Show>
-                    </Flex>
                     </Flex>
                 </form>
+            </Flex>
+            <Flex jc="center" ai="center" ff="Roboto" c="#FFFFFF">
+                <Show when={confirmed()} >
+                    <p>Resource added</p>
+                </Show>
             </Flex>
         </Flex>
     </Show>
 
     <Show when={removeResource()}>
-        <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto" pt="3%">
+        <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto" pt="5%">
             <h2>Remove resource</h2>
             <form class="form-remove" onSubmit={ handle_submit_delete_resource }>
             <Flex w="95%" jc="space-evenly" ai="center">
@@ -315,12 +314,12 @@ const DashboardProject: Component = () => {
                             </Box>
                         </Flex>
                         <Flex w="35%" jc="space-evenly" ai="center">
-                            <ButtonCustom text="Add" onclick={addToResourceToRemove}/>
+                            <ButtonCustom ff="Roboto" text="Add" onclick={addToResourceToRemove}/>
                         </Flex>
                     </Flex>
                     <Flex direction="column" ai="center" w="80%" h="60%" ff="Roboto" mt="5%">
                         <label>Resources to remove</label>
-                        <Box w="80%" h="30%" b="2px solid #FFFFFF" br="10px">
+                        <Box w="80%" h="30%" b="2px solid #FFFFFF" ff="Roboto" br="10px">
                             {/* Requête pour récupérer le joueur recherché */}
                             <For each={resourceToRemove()}>
                                 {(element:any) => (
@@ -329,13 +328,13 @@ const DashboardProject: Component = () => {
                             </For>
                         </Box>
                         <ButtonCustom class="form-submit" type="submit" value="submit" text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="60px" br="16px" bgc="#E36464" mt="4%"/>
-                        <Flex>
-                        <Show when={confirmed()} >
-                            <p>Resource removed</p>
-                        </Show>
-                    </Flex>
                     </Flex>
             </form>
+            <Flex jc="center" ai="center" ff="Roboto" c="#FFFFFF">
+                <Show when={confirmed()} >
+                    <p>Resource removed</p>
+                </Show>
+            </Flex>
         </Flex>
     </Show>
 

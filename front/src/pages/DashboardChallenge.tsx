@@ -180,17 +180,16 @@ const DashboardChallenge: Component = () => {
                         </Flex>
                         <Flex w="95%" jc="center" ai="center" h="20%" mt="3%">
                             <ButtonCustom class="form-submit" type="submit" value="submit" m="10px 0" h="65px" w="250px" ff="Roboto black" text="ADD" />
-                            <Flex>
-                                <Show when={confirmed()} >
-                                    <p>Challenge added</p>
-                                </Show>
-                            </Flex>
                         </Flex>
                     </form>
                     </Flex>
+                    <Flex ff="Roboto">
+                        <Show when={confirmed()} >
+                            <p>Challenge added</p>
+                        </Show>
+                    </Flex>
                 </Flex>
             </Show>
-
 
             <Show when={removeChallenge()}>
                 <Flex bgc="#444444" br="10px" w="50%" h="75%" jc="center" ai="center" direction="column" c="#FFFFFF" ff="Roboto" pt="5%">
@@ -210,12 +209,12 @@ const DashboardChallenge: Component = () => {
                                 </Box>
                             </Flex>
                             <Flex w="35%" jc="space-evenly" ai="center">
-                                <ButtonCustom text="Add" onclick={addToChallengeToRemove}/>
+                                <ButtonCustom ff="Roboto" text="Add" onclick={addToChallengeToRemove}/>
                             </Flex>
                         </Flex>
                         <Flex direction="column" ai="center" w="80%" h="60%" ff="Roboto" mt="5%">
                             <label>Challenge to remove</label>
-                            <Box w="80%" h="30%" b="2px solid #FFFFFF" br="10px">
+                            <Box w="80%" h="30%" b="2px solid #FFFFFF" ff="Roboto" br="10px">
                                 {/* Requête pour récupérer le joueur recherché */}
                                 <For each={challengeToRemove()}>
                                     {(element:any) => (
@@ -279,12 +278,12 @@ const DashboardChallenge: Component = () => {
                                     </Box>
                                 </Flex>
                                 <Flex w="35%" jc="space-evenly" ai="center">
-                                    <ButtonCustom text="Add" onclick={addToResourceToRemove}/>
+                                    <ButtonCustom ff="Roboto" text="Add" onclick={addToResourceToRemove}/>
                                 </Flex>
                             </Flex>
                             <Flex direction="column" ai="center" w="80%" h="60%" ff="Roboto" mt="5%">
                                 <label>Resources to remove</label>
-                                <Box w="80%" h="30%" b="2px solid #FFFFFF" br="10px">
+                                <Box w="80%" h="30%" b="2px solid #FFFFFF" ff="Roboto" br="10px">
                                     {/* Requête pour récupérer le joueur recherché */}
                                     <For each={resourceToRemove()}>
                                         {(element:any) => (
@@ -293,11 +292,13 @@ const DashboardChallenge: Component = () => {
                                     </For>
                                 </Box>
                                 <ButtonCustom class="form-submit" type="submit" value="submit" text="REMOVE" ff="Roboto black" fsz="16px" w="230px" h="60px" br="16px" bgc="#E36464" mt="4%"/>
-                                <Show when={confirmed()} >
-                                    <p>Resource removed</p>
-                                </Show>
                             </Flex>
                     </form>
+                    <Flex jc="center" ai="center" ff="Roboto" c="#FFFFFF">    
+                        <Show when={confirmed()} >
+                            <p>Resource removed</p>
+                        </Show>
+                    </Flex>
                 </Flex>
             </Show>
 

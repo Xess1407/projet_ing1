@@ -2,6 +2,7 @@ import { Component, For, createSignal, onMount } from "solid-js"
 import Flex from "../components/layouts/Flex"
 import { useNavigate, useParams } from "@solidjs/router"
 import "./css/DataProjects.css"
+import Box from "../components/layouts/Box"
 
 const DataProjects: Component = () => {
     const nav = useNavigate()
@@ -67,15 +68,19 @@ const DataProjects: Component = () => {
             <Flex h="20%" w="100%" fsz="56px" c="#FFFFFF" ai="center">
                 <h1 class="text">Data Projects</h1>
             </Flex>
-            <Flex fw="wrap" jc="space-evenly" w="100%" h="77%" direction="row">
+            <Flex fw="wrap" jc="space-evenly" w="100%" h="82%" direction="row" mt="1%">
                 <For each={projects()}>
                     {(element: any) => (
                         <div class="data-projects">
                             <Flex fw="wrap" direction="row" w="100%" h="100%" onclick={() => {nav(`/data-project/teams/${element.id}`,{replace: true})}}>
                                 <Flex h="100%" w="100%" br="10px" bgc="#3E3E3E" direction="column">
-                                    <img src={"http://localhost:8080/api/file/"+element.image} alt="Image data project" />
-                                    <Flex c="white" jc="center" ai="center" ff="Roboto">
-                                        <h3>{element.name}</h3>
+                                    <Flex direction="row" w="100%" h="20%" m="2% 0 1% 2%">
+                                        <Box w="20%" h="90%">
+                                            <img class="img-data-project" src={"http://localhost:8080/api/file/"+element.image} alt="Image data project" />
+                                        </Box>
+                                        <Flex w="60%" c="white" jc="center" ai="center" ff="Roboto">
+                                            <h3>{element.name}</h3>
+                                        </Flex>
                                     </Flex>
                                     <Flex c="white" ovy="scroll" w="90%" ml="5%">
                                         <Flex c="white" w="100%" pl="5%" bgc="#4f4f4f" br="10px" direction="column" ff="Roboto">

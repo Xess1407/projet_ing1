@@ -128,16 +128,18 @@ const DashboardCorrection: Component = () => {
                 <For each={questionnaires()}>
                     {(questionnaire: any) => (
                         <Show when={questionnaire.questions != undefined && questionnaire.questions.length > 0}>
-                            <Flex jc="center" fw="wrap" w="35%" h="90%" pt="1%" pb="1%" bgc="#222222" ovy="scroll" br="10px" c="#FFFFFF" ta="center" ff="Roboto">
+                            <Flex direction="column" w="35%" h="90%" pt="1%" pb="1%" bgc="#222222" ovy="scroll" br="10px" c="#FFFFFF" ta="center" ff="Roboto">
                                 <h3>Questionnaire {questionnaire.id}</h3>
                                 <For each={questionnaire.questions}>
                                     {(question: any, index: () => number) => (
-                                        <Flex ff="Roboto" jc="center">
+                                        <Flex ff="Roboto" w="90%" ml="10%">
                                             <div>
                                                 <h4>Question n°{index() + 1} : {question.name}</h4>
-                                                <Show when={question.answers != undefined && question.answers.length == 0}>
-                                                    No answers yet!
-                                                </Show>
+                                                <Flex w="90%" ff="Roboto">
+                                                    <Show when={question.answers != undefined && question.answers.length == 0}>
+                                                        No answers yet!
+                                                    </Show>
+                                                </Flex>
                                                 <Show when={question.answers != undefined && question.answers.length > 0}>
                                                         <For each={question.answers}>
                                                             {(answer: any) => (
