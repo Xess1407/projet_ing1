@@ -217,19 +217,17 @@ const Analyse: Component = () => {
                                 {(analytic:any) => (
                                     <Flex direction="column" w="65%" h="94%" ovy="scroll" c="#FFFFFF" ff="Roboto" bgc="#666666" br="10px" jc="center" ai="center">
                                         <Show when={(analytic.data_project_id == project.id)}>
-                                            <Flex w="100%" h="100%" direction="column">
+                                            <Flex w="100%" h="100%" direction="column" ff="Roboto">
                                                 <Flex ml="5%" direction="column" ff="Roboto">
                                                     <p>Name student : {getFullName(analytic.user_id)}</p>
                                                     <p>Name file : {analytic.file_name}</p>
-                                                    <Flex ff="Roboto" jc="space-evenly">
-                                                        <p>Number of lines</p>
-                                                        <p>Number of functions</p>
-                                                    </Flex>
+                                                    <p>Number of lines</p>
                                                 </Flex>
                                                 <Flex jc="center">
                                                     <button class="button-stats" onclick={() => {get_chart(analytic)}}>PRESS</button>
                                                 </Flex>
                                                 <canvas id={analytic.id+"linesStats"} width="400px" height="100px" role="img"></canvas>
+                                                <p class="title-dougnuts">Number of functions</p>
                                                 <Flex direction="row" w="100%" h="100%" jc="space-evenly" ai="center">
                                                     <canvas class="dougnuts" id={analytic.id+"functionCount"} role="img"></canvas>
                                                     <canvas class="dougnuts" id={analytic.id+"lineCount"} role="img"></canvas>
