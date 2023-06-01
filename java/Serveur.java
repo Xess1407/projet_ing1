@@ -1,6 +1,7 @@
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import com.sun.net.httpserver.Headers;
 import org.json.JSONObject;
 
 import java.io.*;
@@ -44,10 +45,25 @@ public class Serveur {
         }
     }
 
-    private static class MyHttpHandler implements HttpHandler {
+   private static class MyHttpHandler implements HttpHandler {
         // Interface method to be implemented
         @Override
         public void handle(HttpExchange httpExchange) throws IOException {
+            // Ajouter le code pour autoriser les requêtes CORS
+            Headers headers = httpExchange.getResponseHeaders();
+            headers.set("Access-Control-Allow-Origin", "http://localhost:3000");
+            List<String> allowedMethods = Arrays.asList("GET", "POST", "OPTIONS");
+            headers.set("Access-Control-Allow-Methods", String.join(",", allowedMethods));
+            List<String> allowedHeaders = Arrays.asList("Content-Type");
+            headers.set("Access-Control-Allow-Headers", String.join(",", allowedHeaders));
+            headers.set("Access-Control-Max-Age", "3600");
+
+            if (httpExchange.getRequestMethod().equalsIgnoreCase("OPTIONS")) {
+
+                httpExchange.sendResponseHeaders(200, -1);
+                return;
+            }
+
             String requestPath = httpExchange.getRequestURI().getPath();
 
             LOGGER.log(Level.INFO, "[{0}] Call on \"{1}\"", new Object[] { httpExchange.getRequestMethod(), httpExchange.getRequestURI() });
@@ -58,6 +74,7 @@ public class Serveur {
                 handleOccurrencesRequest(httpExchange);
             }
         }
+
 
         private void handleAnalysisRequest(HttpExchange httpExchange) throws IOException {
             Integer data_project_id = null;
