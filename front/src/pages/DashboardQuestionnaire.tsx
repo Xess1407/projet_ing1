@@ -275,7 +275,7 @@ const DashboardQuestionnaire: Component = () => {
                         <Flex direction="column" w="90%" h="80%" jc="space-evenly" ai="center">
                         <form class="form-add-ressource" onSubmit={ handle_submit_question }>
                             <Flex w="95%" jc="space-evenly" ai="center" h="20%" mt="5%">
-                                <InputCustom w="100%" id="question" label="Question" type="text" update={setQuestionForm}/>
+                                <InputCustom w="100%" id="name" label="Question" type="text" update={setQuestionForm}/>
                             </Flex>
                             <Flex w="35%" jc="space-evenly" ai="center">
                                 <select name="data_project" id="data_project" onChange={handle_change_questionnaire}>

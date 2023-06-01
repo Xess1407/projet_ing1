@@ -9,5 +9,5 @@ $ npm install
 In the project directory, you can run:
 
 ```bash
-$ npm run dev
+$ npm run start
 ```
