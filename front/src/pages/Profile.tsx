@@ -52,7 +52,17 @@ const Profile = ()=> {
         }
         let res = await res_student_profile.json()
         setForm({
-            id: res.id, school: res.school, school_level: res.school_level, city: res.city
+            id: res.id, 
+            user_id: getSessionUser()?.user_id,
+            name: getSessionUser()?.name,
+            family_name: getSessionUser()?.family_name,
+            password: "",
+            email: getSessionUser()?.email,
+            telephone_number: getSessionUser()?.telephone_number,
+            role: getSessionUser()?.role,
+            school: res.school,
+            school_level: res.school_level, 
+            city: res.city
         })
         return form
     }
