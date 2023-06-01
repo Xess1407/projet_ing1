@@ -1,5 +1,6 @@
 import {createStore} from "solid-js/store";
 import { getSessionUser } from "../Session";
+import { setConfirmed } from "../../pages/Drop";
 
 type DropFormField = {
     data_project_id: number
@@ -28,7 +29,9 @@ export const submit_drop = async (form: DropFormField) => {
             console.log("[ERROR] Couldn't analyze the file! Status:" + status)
             return status
         }
+
     }
+    setConfirmed(true)
 }
 
 export const [dropForm, setDropForm] = createStore<DropFormField>({

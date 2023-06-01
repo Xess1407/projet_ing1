@@ -1,4 +1,4 @@
-import {Component, createSignal, For, onMount} from "solid-js";
+import {Component, createSignal, For, onMount, Show} from "solid-js";
 import Flex from "../components/layouts/Flex";
 import ButtonCustom from "../components/generals/ButtonCustom";
 import InputCustom from "../components/generals/InputCustom";
@@ -6,6 +6,8 @@ import {dropForm, setDropForm, submit_drop} from "../components/forms/DropForm";
 import {form} from "../components/forms/ProfileForm";
 import {getSessionUser} from "../components/Session";
 import "./css/Drop.css";
+
+export const [confirmed, setConfirmed] = createSignal(false)
 
 const Drop: Component = () => {
 
@@ -78,11 +80,11 @@ const Drop: Component = () => {
 
     return (
         <Flex w="80%" jc="space-evenly">
-            <Flex bgc="#444444" p="20px 0" br="10px" w="40%" h="50%" direction="row" jc="space-evenly" ai="center">
-                <form onSubmit={handle_submit_drop}>
-                    <Flex direction="column" jc="space-around" w="100%" h="70%">
+            <Flex bgc="#444444" p="20px 0" br="10px" w="40%" h="50%" direction="column" jc="space-evenly" ai="center">
+                <form class="form-drop" onSubmit={handle_submit_drop}>
+                    <Flex direction="column" jc="space-around" ai="center" w="100%" h="100%">
                         <p id="title-drop">Drop your project</p>
-                        <Flex direction="column" w="100%" jc="space-evenly" ai="center">
+                        <Flex direction="column" w="80%" jc="space-evenly" ai="center">
                             <Flex direction="column" mt="2%" w="100%">
                                 <Flex direction="row" jc="space-evenly" ai="center" mb="25px">
                                     <Flex direction="column" w="100%">
@@ -102,6 +104,11 @@ const Drop: Component = () => {
                         </Flex>
                     </Flex>
                 </form>
+                <Flex w="80%" h="5%" ff="Roboto" jc="center" ai="center" c="#FFFFFF">
+                    <Show when={confirmed()} >
+                        <p>Challenge added</p>
+                    </Show>
+                </Flex>
             </Flex>
         </Flex>
     )

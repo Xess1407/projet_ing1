@@ -4,7 +4,7 @@
 curl -X POST -H "Content-Type: application/json" -d '{"name":"John","family_name":"Smith","email":"smith@gmail.com","password":"1234","telephone_number":"0615234523","role":"student"}' localhost:8080/api/user
 curl -X POST -H "Content-Type: application/json" -d '{"user_id": 1,"school_level": "L1","school": "University","city": "San Jose","password": "1234"}' localhost:8080/api/student
 
-curl -X POST -H "Content-Type: application/json" -d '{"name":"Joe","family_name":"Dulton","email":"dulton@gmail.com","password":"1234","telephone_number":"0912351232","role":"student"}' localhost:8080/api/user
+curl -X POST -H "Content-Type: application/json" -d '{"name":"Jaquie","family_name":"Blue","email":"bluejaquie@gmail.com","password":"jaquie-blue64","telephone_number":"0912351232","role":"student"}' localhost:8080/api/user
 curl -X POST -H "Content-Type: application/json" -d '{"user_id": 2,"school_level": "M2","school": "CY TECH","city": "Paris","password": "1234"}' localhost:8080/api/student
 
 curl -X POST -H "Content-Type: application/json" -d '{"name":"Clara","family_name":"Pink","email":"pink@gmail.com","password":"1234","telephone_number":"0912321232","role":"student"}' localhost:8080/api/user
