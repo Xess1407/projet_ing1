@@ -82,20 +82,6 @@ $ chmod +x run.sh
 
 The API should be running in localhost:8001
 
-#### Try the calls
-
-```bash
-$ cd java
-$ ./call.sh
-```
-Same then for the API scripts you'll need the permission
-
-```bash
-$ chmod +x call.sh
-```
-
-The API should send you JSON responses
-
 ## Authors
 
 - ARRESSEGUET Yan
