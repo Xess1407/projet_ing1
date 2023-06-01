@@ -12,7 +12,7 @@ curl -X POST -H "Content-Type: application/json" -d '{"name":"admin","family_nam
 
 # Insert User & Manager
 curl -X POST -H "Content-Type: application/json" -d '{"name":"man","family_name":"man","email":"man@man","password":"man","telephone_number":2987391,"role":"manager"}' localhost:8080/api/user
-curl -X POST -H "Content-Type: application/json" -d '{"user_id":4, "company":"renault", "activation_date":"2023-05-17", "deactivation_date":"2023-05-18", "password": "man"}' localhost:8080/api/manager
+curl -X POST -H "Content-Type: application/json" -d '{"user_id":4, "company":"renault", "activation_date":"2023-05-17", "deactivation_date":"2023-09-20", "password": "man"}' localhost:8080/api/manager
 
 # Insert DataChallenge
 curl -X POST -H "Content-Type: application/json" -d '{"name": "MegaChallengeDeLaMortQuiTue", "date_time_start":"2023-05-17", "date_time_end":"2023-06-12", "password": "admin"}' localhost:8080/api/challenge
