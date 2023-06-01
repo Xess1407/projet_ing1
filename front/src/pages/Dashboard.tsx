@@ -80,66 +80,66 @@ const DashManager: Component = () => {
         <img class="icons" src="/src/img/analytics.png" alt="icon" />
         <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Analytics" onclick={() => {setCurrentPath("/dashboard/analyse"); nav("/dashboard/analyse", {replace:true})}}/>
     </Flex>
-</Show>
-<Show when={!getBackground("/analyse")}>
-    <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center">
-        <img class="icons" src="/src/img/analytics.png" alt="icon" />
-        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Analytics" onclick={() => {setCurrentPath("/dashboard/analyse"); nav("/dashboard/analyse", {replace:true})}}/>
-    </Flex>
-</Show>
+    </Show>
+    <Show when={!getBackground("/analyse")}>
+        <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center">
+            <img class="icons" src="/src/img/analytics.png" alt="icon" />
+            <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Analytics" onclick={() => {setCurrentPath("/dashboard/analyse"); nav("/dashboard/analyse", {replace:true})}}/>
+        </Flex>
+    </Show>
 
-<Show when={getBackground("/questionnaire")}>
-    <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center" bgc="#666666" br="10px">
-        <img class="icons" src="/src/img/user.png" alt="icon" />
-        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Create questionnaire" onclick={() => {setCurrentPath("/dashboard/questionnaire"); nav("/dashboard/questionnaire", {replace:true})}}/>
-    </Flex>
-</Show>
-<Show when={!getBackground("/questionnaire")}>
-    <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center">
-        <img class="icons" src="/src/img/user.png" alt="icon" />
-        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Create questionnaire" onclick={() => {setCurrentPath("/dashboard/questionnaire"); nav("/dashboard/questionnaire", {replace:true})}}/>
-    </Flex>
-</Show>
+    <Show when={getBackground("/questionnaire")}>
+        <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center" bgc="#666666" br="10px">
+            <img class="icons" src="/src/img/user.png" alt="icon" />
+            <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Create questionnaire" onclick={() => {setCurrentPath("/dashboard/questionnaire"); nav("/dashboard/questionnaire", {replace:true})}}/>
+        </Flex>
+    </Show>
+    <Show when={!getBackground("/questionnaire")}>
+        <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center">
+            <img class="icons" src="/src/img/user.png" alt="icon" />
+            <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Create questionnaire" onclick={() => {setCurrentPath("/dashboard/questionnaire"); nav("/dashboard/questionnaire", {replace:true})}}/>
+        </Flex>
+    </Show>
 
-<Show when={getBackground("/rank")}>
-    <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center" bgc="#666666" br="10px">
-        <img class="icons" src="/src/img/team.png" alt="icon" />
-        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Teams" onclick={() => {setCurrentPath("/dashboard/rank");nav("/dashboard/rank", {replace:true})}}/>
-    </Flex>
-</Show>
-<Show when={!getBackground("/rank")}>
-    <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center">
-        <img class="icons" src="/src/img/team.png" alt="icon" />
-        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Teams" onclick={() => {setCurrentPath("/dashboard/rank");nav("/dashboard/rank", {replace:true})}}/>
-    </Flex>
-</Show>
+    <Show when={getBackground("/rank")}>
+        <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center" bgc="#666666" br="10px">
+            <img class="icons" src="/src/img/team.png" alt="icon" />
+            <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Teams" onclick={() => {setCurrentPath("/dashboard/rank");nav("/dashboard/rank", {replace:true})}}/>
+        </Flex>
+    </Show>
+    <Show when={!getBackground("/rank")}>
+        <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center">
+            <img class="icons" src="/src/img/team.png" alt="icon" />
+            <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Teams" onclick={() => {setCurrentPath("/dashboard/rank");nav("/dashboard/rank", {replace:true})}}/>
+        </Flex>
+    </Show>
 
-<Show when={getBackground("/correction")}>
-    <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center" bgc="#666666" br="10px">
-        <img class="icons" src="/src/img/challenge.png" alt="icon" />
-        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Correction" onclick={() => {setCurrentPath("/dashboard/correction");nav("/dashboard/correction", {replace:true})}}/>
-    </Flex>
-</Show>
-<Show when={!getBackground("/correction")}>
-    <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center">
-        <img class="icons" src="/src/img/challenge.png" alt="icon" />
-        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Correction" onclick={() => {setCurrentPath("/dashboard/correction");nav("/dashboard/correction", {replace:true})}}/>
-    </Flex>
-</Show>
+    <Show when={getBackground("/correction")}>
+        <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center" bgc="#666666" br="10px">
+            <img class="icons" src="/src/img/challenge.png" alt="icon" />
+            <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Correction" onclick={() => {setCurrentPath("/dashboard/correction");nav("/dashboard/correction", {replace:true})}}/>
+        </Flex>
+    </Show>
+    <Show when={!getBackground("/correction")}>
+        <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center">
+            <img class="icons" src="/src/img/challenge.png" alt="icon" />
+            <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Correction" onclick={() => {setCurrentPath("/dashboard/correction");nav("/dashboard/correction", {replace:true})}}/>
+        </Flex>
+    </Show>
 
-<Show when={getBackground("/contact")}>
-    <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center" bgc="#666666" br="10px">
-        <img class="icons" src="/src/img/challenge.png" alt="icon" />
-        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Contact" onclick={() => {setCurrentPath("/dashboard/contact");nav("/dashboard/contact", {replace:true})}}/>
+    <Show when={getBackground("/contact")}>
+        <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center" bgc="#666666" br="10px">
+            <img class="icons" src="/src/img/challenge.png" alt="icon" />
+            <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Contact" onclick={() => {setCurrentPath("/dashboard/contact");nav("/dashboard/contact", {replace:true})}}/>
+        </Flex>
+    </Show>
+    <Show when={!getBackground("/contact")}>
+        <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center">
+            <img class="icons" src="/src/img/challenge.png" alt="icon" />
+            <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Contact" onclick={() => {setCurrentPath("/dashboard/contact");nav("/dashboard/contact", {replace:true})}}/>
+        </Flex>
+    </Show>
     </Flex>
-</Show>
-<Show when={!getBackground("/contact")}>
-    <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center">
-        <img class="icons" src="/src/img/challenge.png" alt="icon" />
-        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Contact" onclick={() => {setCurrentPath("/dashboard/contact");nav("/dashboard/contact", {replace:true})}}/>
-    </Flex>
-</Show>
-</Flex>
 }
 
 const DashStudent: Component = () => {
@@ -163,54 +163,54 @@ const DashStudent: Component = () => {
         <img class="icons" src="/src/img/analytics.png" alt="icon" />
         <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Analytics" onclick={() => {setCurrentPath("/dashboard/analyse"); nav("/dashboard/analyse", {replace:true})}}/>
     </Flex>
-</Show>
-<Show when={!getBackground("/analyse")}>
-    <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center">
-        <img class="icons" src="/src/img/analytics.png" alt="icon" />
-        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Analytics" onclick={() => {setCurrentPath("/dashboard/analyse"); nav("/dashboard/analyse", {replace:true})}}/>
-    </Flex>
-</Show>
+    </Show>
+    <Show when={!getBackground("/analyse")}>
+        <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center">
+            <img class="icons" src="/src/img/analytics.png" alt="icon" />
+            <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Analytics" onclick={() => {setCurrentPath("/dashboard/analyse"); nav("/dashboard/analyse", {replace:true})}}/>
+        </Flex>
+    </Show>
 
-<Show when={getBackground("/rank")}>
-    <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center" bgc="#666666" br="10px">
-        <img class="icons" src="/src/img/team.png" alt="icon" />
-        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Rank" onclick={() => {setCurrentPath("/dashboard/rank");nav("/dashboard/rank", {replace:true})}}/>
-    </Flex>
-</Show>
-<Show when={!getBackground("/rank")}>
-    <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center">
-        <img class="icons" src="/src/img/team.png" alt="icon" />
-        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Rank" onclick={() => {setCurrentPath("/dashboard/rank");nav("/dashboard/rank", {replace:true})}}/>
-    </Flex>
-</Show>
+    <Show when={getBackground("/rank")}>
+        <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center" bgc="#666666" br="10px">
+            <img class="icons" src="/src/img/team.png" alt="icon" />
+            <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Rank" onclick={() => {setCurrentPath("/dashboard/rank");nav("/dashboard/rank", {replace:true})}}/>
+        </Flex>
+    </Show>
+    <Show when={!getBackground("/rank")}>
+        <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center">
+            <img class="icons" src="/src/img/team.png" alt="icon" />
+            <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Rank" onclick={() => {setCurrentPath("/dashboard/rank");nav("/dashboard/rank", {replace:true})}}/>
+        </Flex>
+    </Show>
 
-<Show when={getBackground("/profile")}>
-    <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center" bgc="#666666" br="10px">
-        <img class="icons" src="/src/img/team.png" alt="icon" />
-        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Profile" onclick={() => {setCurrentPath("/dashboard/profile");nav("/dashboard/profile", {replace:true})}}/>
-    </Flex>
-</Show>
-<Show when={!getBackground("/profile")}>
-    <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center">
-        <img class="icons" src="/src/img/team.png" alt="icon" />
-        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Profile" onclick={() => {setCurrentPath("/dashboard/profile");nav("/dashboard/profile", {replace:true})}}/>
-    </Flex>
-</Show>
+    <Show when={getBackground("/profile")}>
+        <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center" bgc="#666666" br="10px">
+            <img class="icons" src="/src/img/team.png" alt="icon" />
+            <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Profile" onclick={() => {setCurrentPath("/dashboard/profile");nav("/dashboard/profile", {replace:true})}}/>
+        </Flex>
+    </Show>
+    <Show when={!getBackground("/profile")}>
+        <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center">
+            <img class="icons" src="/src/img/team.png" alt="icon" />
+            <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Profile" onclick={() => {setCurrentPath("/dashboard/profile");nav("/dashboard/profile", {replace:true})}}/>
+        </Flex>
+    </Show>
 
-<Show when={getBackground("/team")}>
-    <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center" bgc="#666666" br="10px">
-        <img class="icons" src="/src/img/team.png" alt="icon" />
-        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Team" onclick={() => {setCurrentPath("/dashboard/team");nav("/dashboard/team", {replace:true})}}/>
-    </Flex>
-</Show>
-<Show when={!getBackground("/team")}>
-    <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center">
-        <img class="icons" src="/src/img/team.png" alt="icon" />
-        <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Team" onclick={() => {setCurrentPath("/dashboard/team");nav("/dashboard/team", {replace:true})}}/>
-    </Flex>
-</Show>
+    <Show when={getBackground("/team")}>
+        <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center" bgc="#666666" br="10px">
+            <img class="icons" src="/src/img/team.png" alt="icon" />
+            <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Team" onclick={() => {setCurrentPath("/dashboard/team");nav("/dashboard/team", {replace:true})}}/>
+        </Flex>
+    </Show>
+    <Show when={!getBackground("/team")}>
+        <Flex direction="row" w="100%" h="20%" jc="space-evenly" ai="center">
+            <img class="icons" src="/src/img/team.png" alt="icon" />
+            <ButtonCustom w="60%" h="50%" br="10px" fs="1.5em" ff="Roboto" fc="#ffffff" fw="bold" text="Team" onclick={() => {setCurrentPath("/dashboard/team");nav("/dashboard/team", {replace:true})}}/>
+        </Flex>
+    </Show>
 
-</Flex>
+    </Flex>
 }
 
 
