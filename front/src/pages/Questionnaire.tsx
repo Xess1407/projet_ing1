@@ -1,9 +1,11 @@
-import { Component, For, createSignal, onMount } from "solid-js";
+import { Component, For, Show, createSignal, onMount } from "solid-js";
 import Flex from "../components/layouts/Flex";
 import { useNavigate, useParams } from "@solidjs/router";
 import ButtonCustom from "../components/generals/ButtonCustom";
 import { getSessionUser } from "../components/Session";
 import "./css/Questionnaire.css"
+
+export const [confirmed, setConfirmed] = createSignal(false)
 
 const Questionnaire: Component = () => {
     const nav = useNavigate()
@@ -88,6 +90,7 @@ const Questionnaire: Component = () => {
                 return status
             }
         });
+        setConfirmed(true)
         
     }
 
@@ -107,6 +110,11 @@ const Questionnaire: Component = () => {
                 <ButtonCustom class="form-submit" type="submit" value="submit" h="71px" w="373px" mt="3%" ff="Roboto" text="Validate" />
             </Flex>
         </form>
+        <Flex ff="Roboto" c="#FFFFFF">
+            <Show when={confirmed()} >
+                <p>Answer sended</p>
+            </Show>
+        </Flex>
     </Flex>
 }
 

@@ -183,7 +183,7 @@ const DashboardChallenge: Component = () => {
                         </Flex>
                     </form>
                     </Flex>
-                    <Flex ff="Roboto">
+                    <Flex ff="Roboto" c="#FFFFFF">
                         <Show when={confirmed()} >
                             <p>Challenge added</p>
                         </Show>
