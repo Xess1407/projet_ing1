@@ -1,13 +1,43 @@
 import {Component, createSignal, For, onMount, Show} from "solid-js";
 import Flex from "../components/layouts/Flex";
-import {getSessionUser} from "../components/Session";
+import {getSessionUser, isManager} from "../components/Session";
 import {Chart} from "chart.js/auto";
 const Analyse: Component = () => {
     const [teams, setTeams] = createSignal<any>([])
 
     const [projects, setProjects] = createSignal<any>([])
+    const [students, setStudent] = createSignal<any>([])
+    const [analytics, setAnalytics] = createSignal<any>([], {equals: false})
 
-    const [analytics, setAnalytics] = createSignal<any>([])
+    const getStudents = async () => {
+        // Fetch the Student
+        const res_students = await fetch(`http://localhost:8080/api/student/full`, {
+            method: "GET"
+        });
+
+        let status = await res_students.status
+        if (status != 200) {
+            console.log("[ERROR] Couldn't register the student! Status:" + status)
+            return
+        }
+        let res = await res_students.json()
+        
+        res.forEach((element: any) => {
+            let s_all:any[] = students()
+            s_all.push({name: element.name, family_name: element.family_name, user_id: element.user_id})
+            setStudent(s_all)
+        });
+    }
+
+    const getFullName = (user_id: number) => {
+        let v = ""
+        students().forEach((element: any) => {
+            if(element.user_id == user_id) {
+                v = element.name + " " + element.family_name
+            }
+        });
+        return v
+    }
 
     const get_chart_LinesStats = (analytic: any) => {
 
@@ -119,19 +149,23 @@ const Analyse: Component = () => {
 
         let p: any[] = projects()
         setProjects([])
-        proj.forEach((element: any) => {
-            teams().forEach((team: any) => {
-                if (element.id == team.data_project_id) {
-                    p.push(element)
-                }
-            })
-        });
+        if (!isManager()) {
+            proj.forEach((element: any) => {
+                teams().forEach((team: any) => {
+                    if (element.id == team.data_project_id) {
+                        p.push(element)
+                    }
+                })
+            });
+        } else {
+            p = proj
+        }
         setProjects(p)
     }
 
     const getAnalyse = async () => {
         let user = getSessionUser()
-        const res_analyse = await fetch(`http://localhost:8080/api/analytics/${user?.user_id}`, {
+        const res_analyse = await fetch(`http://localhost:8080/api/analytics`, {
             method: "GET",
         });
 
@@ -144,18 +178,26 @@ const Analyse: Component = () => {
 
         let a: any[] = analytics()
         setAnalytics([])
+        if (!isManager()){
         anal.forEach((element: any) => {
             teams().forEach((team: any) => {
-                if(element.data_project_id == team.data_project_id) {
+                if(element.data_project_id == team.data_project_id && element.user_id == user?.user_id) {
                     element.json_data = JSON.parse(element.json_data)
                     a.push(element);
                 }
             })
-        });
+        });} else {
+            anal.forEach((element: any) => {
+                element.json_data = JSON.parse(element.json_data)
+                a.push(element);
+            })
+        }
         setAnalytics(a);
     }
+    
     /*linesStats.(maxLines,avgLines,minLines) functionCount lineCount*/
     onMount(async () => {
+        await getStudents()
         await get_teams()
         await getDataProject()
         await getAnalyse()
@@ -174,11 +216,13 @@ const Analyse: Component = () => {
 
                                     <Show when={(analytic.data_project_id == project.id)}>
                                         <div id={"plot"+analytic.id}></div>
-                                        <p>Nombre de lignes : {analytic.json_data.lineCount}</p>
-                                        <p>Nombre de fonctions : {analytic.json_data.functionCount}</p>
-                                        <p>Nombre moyen de lignes par fonction : {Math.round(analytic.json_data.linesStats.avgLines)}</p>
-                                        <p>Nombre maximum de lignes par fonction : {analytic.json_data.linesStats.maxLines}</p>
-                                        <p>Nombre minimum de lignes par fonction : {analytic.json_data.linesStats.minLines}</p>
+                                        <p>Name student : {getFullName(analytic.user_id)}</p>
+                                        <p>Name file : {analytic.file_name}</p>
+                                        <p>Number of lines : {analytic.json_data.lineCount}</p>
+                                        <p>Number of functions : {analytic.json_data.functionCount}</p>
+                                        <p>Average number of lines by functions : {Math.round(analytic.json_data.linesStats.avgLines)}</p>
+                                        <p>Maximum number of lines by functions : {analytic.json_data.linesStats.maxLines}</p>
+                                        <p>Minimum number of lines by functions : {analytic.json_data.linesStats.minLines}</p>
                                         <button onclick={() => {get_chart(analytic)}}></button>
                                         <canvas id={analytic.id+"linesStats"} width="400" height="100" role="img"></canvas>
                                         <canvas id={analytic.id+"functionCount"} width="400" height="100" role="img"></canvas>
