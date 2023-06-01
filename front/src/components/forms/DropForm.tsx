@@ -7,6 +7,7 @@ type DropFormField = {
 export const submit_drop = async (form: DropFormField) => {
     let file = (document.getElementById("python_file") as HTMLInputElement).files
     if(file === null) return
+    console.log(`submitting ${JSON.stringify({data_project_id: form.data_project_id, user_id: getSessionUser()?.user_id, file: file[0]})}`);
 
     let file_name = file[0].name;
 

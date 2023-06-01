@@ -39,9 +39,9 @@ const Home: Component = () => {
                 </h1>
                 <Flex h="20%" ml="17%" mt="5%" w="20%" jc="space-evenly" direction="column" ff="Roboto" c="#FFFFFF">
                     <h2>Top Ranking</h2>
-                    <Show when={ranks().at(0) != undefined}><Box c="#FFFFFF" w="100%" mt="2%" fsz="19px" ff="Roboto"> 1 Place : Team {ranks().at(0).team_id} score : {ranks().at(0).score}</Box></Show>
-                    <Show when={ranks().at(1) != undefined}><Box c="#FFFFFF" w="100%" mt="2%" fsz="19px" ff="Roboto"> 2 Place : Team {ranks().at(1).team_id} score : {ranks().at(1).score}</Box></Show>
-                    <Show when={ranks().at(2) != undefined}><Box c="#FFFFFF" w="100%" mt="2%" fsz="19px" ff="Roboto"> 3 Place : Team {ranks().at(2).team_id} score : {ranks().at(2).score}</Box></Show>
+                    <Show when={ranks().at(0) != undefined}><Box c="#FFFFFF" w="100%" mt="2%" fsz="19px" ff="Roboto"> 1st place : Team {ranks().at(0).team_id} (score : {ranks().at(0).score})</Box></Show>
+                    <Show when={ranks().at(1) != undefined}><Box c="#FFFFFF" w="100%" mt="2%" fsz="19px" ff="Roboto"> 2nd place : Team {ranks().at(1).team_id} (score : {ranks().at(1).score})</Box></Show>
+                    <Show when={ranks().at(2) != undefined}><Box c="#FFFFFF" w="100%" mt="2%" fsz="19px" ff="Roboto"> 3rd place : Team {ranks().at(2).team_id} (score : {ranks().at(2).score})</Box></Show>
                 </Flex>
             </Flex>
             <Flex direction="row">
@@ -52,10 +52,9 @@ const Home: Component = () => {
                     </Show>
                 </Flex>
                 <Box c="#FFFFFF" w="37%" ml="30%" mt="2%" fsz="19px" ff="Roboto">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Arcu ac tortor dignissim convallis aenean et. 
-                    Enim lobortis scelerisque fermentum dui faucibus in ornare. Suspendisse in est ante in nibh mauris cursus. Sodales neque sodales ut etiam. Nibh venenatis cras sed felis eget. 
-                    Senectus et netus et malesuada fames ac turpis. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant. Pharetra convallis posuere morbi leo. 
-                    Pellentesque diam volutpat commodo sed egestas egestas fringilla phasellus.
+                    Maggle is the new IA Pau association's website dedicated to Data Challenges!
+                    We offer you a unique opportunity to put your Data Science skills to the test. Whether you're a curious beginner or a seasoned expert, our platform is designed to offer you an exciting and stimulating experience.
+                    Take part in our Data Challenges and immerse yourself in the fascinating world of data exploration and analysis. Put your analytical skills to the test by solving complex problems in teams of 3 to 8 students.
                 </Box>
             </Flex>
         </Box>

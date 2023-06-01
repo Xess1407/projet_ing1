@@ -34,7 +34,7 @@ const MessageDashboard: Component = () => {
         <Box w="80%" h="80vh" m="0" p="0" br="10px" pos="relative">
             <Flex>
                 <h1 class="text">
-                    <span>Welcome on your DashBoard</span>
+                    <span>Welcome on your Dashboard</span>
                 </h1>
             </Flex>
             <img class="background2" src="/src/img/fond.jpg" alt="" />
