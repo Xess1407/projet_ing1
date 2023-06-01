@@ -68,7 +68,7 @@ const Drop: Component = () => {
         const target = event.target as HTMLInputElement;
         setDropForm((prevForm) => ({
             ...prevForm,
-            data_project: target.value,
+            data_project_id: parseInt(target.value),
         }));
     }
     const handle_submit_drop = async (event: Event): Promise<void> => {
@@ -96,11 +96,9 @@ const Drop: Component = () => {
                                         </select>
                                     </Flex>
                                 </Flex>
-                            <InputCustom id="file_url" label="URL of the project" type="file" placeholder="URL of the project" update={setDropForm}/>
+                                <input class="input-add-file" type="file" id="python_file" name="python_file" required accept=".py" />
                             </Flex>
                             <ButtonCustom class="form-submit" type="submit" value="submit" m="10px 0" h="65px" w="250px" ff="Roboto black" text="DROP" />
-
-
                         </Flex>
                     </Flex>
                 </form>
