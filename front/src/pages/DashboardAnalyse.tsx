@@ -221,8 +221,10 @@ const Analyse: Component = () => {
                                                 <Flex ml="5%" direction="column" ff="Roboto">
                                                     <p>Name student : {getFullName(analytic.user_id)}</p>
                                                     <p>Name file : {analytic.file_name}</p>
-                                                    <p>Number of lines</p>
-                                                    <p>Number of functions</p>
+                                                    <Flex ff="Roboto" jc="space-evenly">
+                                                        <p>Number of lines</p>
+                                                        <p>Number of functions</p>
+                                                    </Flex>
                                                 </Flex>
                                                 <Flex jc="center">
                                                     <button class="button-stats" onclick={() => {get_chart(analytic)}}>PRESS</button>
