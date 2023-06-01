@@ -3,7 +3,9 @@
 ## Start API
 
 ```bash
+$ sudo apt install sqlite3
 $ chmod +x run.sh setup.sh
+$ npm i
 $ ./run.sh 
 ```
 
