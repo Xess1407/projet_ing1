@@ -1,12 +1,88 @@
 import {Component, createSignal, For, onMount, Show} from "solid-js";
 import Flex from "../components/layouts/Flex";
 import {getSessionUser} from "../components/Session";
+import {Chart} from "chart.js/auto";
 const Analyse: Component = () => {
     const [teams, setTeams] = createSignal<any>([])
 
     const [projects, setProjects] = createSignal<any>([])
 
     const [analytics, setAnalytics] = createSignal<any>([])
+
+    const get_chart_LinesStats = (analytic: any) => {
+
+        //var barColors = ["#0DC9C1", "#e36464","#0ac2b9"];
+        const data = [
+            { name: "Maximum", count: analytic.json_data.linesStats.maxLines},
+            { name: "Average", count: analytic.json_data.linesStats.avgLines},
+            { name: "Minimum", count: analytic.json_data.linesStats.minLines},
+        ]
+
+        new Chart(
+            document.getElementById(analytic.id+"linesStats") as any,
+            {
+                type: 'bar',
+                data: {
+                    labels: data.map(row => row.name),
+                    datasets: [
+                        {
+                            label: 'Number of lines by function',
+                            data: data.map(row => row.count)
+                        }
+                    ]
+                }
+            }
+        );
+    }
+
+    const get_chart_functionCount = (analytic: any) => {
+        const data = {
+            datasets: [{
+                label: 'Number of functions',
+                data: [analytic.json_data.functionCount/4, analytic.json_data.functionCount],
+                backgroundColor: [
+                    '#666666',
+                    '#0ac2b9'
+                ],
+                hoverOffset: 4
+            }]
+        }
+        new Chart(
+            document.getElementById(analytic.id+"functionCount") as any,
+            {
+                type: 'doughnut',
+                data: data,
+            }
+        )
+
+    }
+
+    const get_chart_LineCount = (analytic: any) => {
+        const data = {
+            datasets: [{
+                label: 'Number of Lines',
+                data: [analytic.json_data.lineCount/2, analytic.json_data.lineCount],
+                backgroundColor: [
+                    '#666666',
+                    '#0ac2b9'
+                ],
+                hoverOffset: 4
+            }]
+        }
+        new Chart(
+            document.getElementById(analytic.id+"lineCount") as any,
+            {
+                type: 'doughnut',
+                data: data,
+            }
+        )
+    }
+
+    const get_chart = (analytic: any) => {
+        get_chart_LinesStats(analytic);
+        get_chart_functionCount(analytic);
+        get_chart_LineCount(analytic)
+    }
 
     const get_teams = async () => {
         let user = getSessionUser()
@@ -94,6 +170,8 @@ const Analyse: Component = () => {
                         <Flex direction="column" c="#FFFFFF" ff="Roboto" w="60%" ml="5%">
                             <For each={analytics()}>
                                 {(analytic:any) => (
+                                    <Flex direction="row" w="95%" h="45%" mt="2%" ovy="scroll" c="#FFFFFF" ff="Roboto" bgc="#666666" br="10px">
+
                                     <Show when={(analytic.data_project_id == project.id)}>
                                         <div id={"plot"+analytic.id}></div>
                                         <p>Nombre de lignes : {analytic.json_data.lineCount}</p>
@@ -101,7 +179,12 @@ const Analyse: Component = () => {
                                         <p>Nombre moyen de lignes par fonction : {Math.round(analytic.json_data.linesStats.avgLines)}</p>
                                         <p>Nombre maximum de lignes par fonction : {analytic.json_data.linesStats.maxLines}</p>
                                         <p>Nombre minimum de lignes par fonction : {analytic.json_data.linesStats.minLines}</p>
+                                        <button onclick={() => {get_chart(analytic)}}></button>
+                                        <canvas id={analytic.id+"linesStats"} width="400" height="100" role="img"></canvas>
+                                        <canvas id={analytic.id+"functionCount"} width="400" height="100" role="img"></canvas>
+                                        <canvas id={analytic.id+"lineCount"} width="400" height="100" role="img"></canvas>
                                     </Show>
+                                    </Flex>
                                 )}
                             </For>
                         </Flex>

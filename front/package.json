@@ -19,6 +19,7 @@
   "dependencies": {
     "@kobalte/core": "^0.9.6",
     "@solidjs/router": "^0.8.2",
+    "chart.js": "^4.3.0",
     "nodeplotlib": "^1.1.2",
     "plotly.js-dist": "^2.23.2",
     "scss": "^0.2.4",
