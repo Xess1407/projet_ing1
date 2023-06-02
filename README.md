@@ -81,6 +81,18 @@ $ chmod +x run.sh
 
 The API should be running in localhost:8001
 
+## Identifiers
+
+### Admin
+
+- email: admin@admin
+- password: admin
+
+### Manager
+
+- email: man@man
+- password: man
+
 ## Authors
 
 - ARRESSEGUET Yan
